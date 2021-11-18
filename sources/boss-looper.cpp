@@ -5,7 +5,11 @@
 
 #include <iostream>
 
+#ifdef LINUX
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
+#else
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
+#endif
 
 // --------------------------------------------------------------------------
 int

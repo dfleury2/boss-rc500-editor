@@ -22,6 +22,8 @@ target_link_libraries(xml-reader PUBLIC rapidxml::rapidxml pantor::inja)
 # Make this a GUI application on Windows
 if(WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
+else()
+    add_definitions(-DLINUX)
 endif()
 
 add_executable(boss-looper
