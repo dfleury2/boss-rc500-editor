@@ -1,10 +1,8 @@
 #include <nlohmann/json.hpp>
-#include <rapidxml_print.hpp>
-#include <fmt/format.h>
 #include <inja/inja.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
 
 #include <iostream>
-#include <fstream>
 #include <string>
 
 // --------------------------------------------------------------------------
@@ -23,28 +21,8 @@ ReadXml(rapidxml::xml_document<>& doc, std::string& buffer, const std::string& f
 }
 
 // --------------------------------------------------------------------------
-template<typename T = std::string>
-T
-GetAttribute(rapidxml::xml_node<>* node, const char* name)
-{
-    T t{};
-
-    auto attr = node->first_attribute(name);
-    if (!attr) throw std::runtime_error("Attribute [" + std::string(name) + "]");
-
-    if constexpr(std::is_integral_v<T>) {
-        t = std::atoi(attr->value());
-    }
-    else {
-        t = attr->value();
-    }
-
-    return t;
-}
-
-// --------------------------------------------------------------------------
 nlohmann::json
-ExtractFlatStruct(rapidxml::xml_node<>* node)
+ExtractFlatXmlStruct(rapidxml::xml_node<>* node)
 {
     nlohmann::json track;
 
@@ -53,6 +31,15 @@ ExtractFlatStruct(rapidxml::xml_node<>* node)
     }
 
     return track;
+}
+
+// --------------------------------------------------------------------------
+void
+AppendStruct(nlohmann::json& json, rapidxml::xml_node<>* node, const char* name)
+{
+    if (auto elem = node->first_node(name); elem) {
+        json[name] = ExtractFlatXmlStruct(elem);
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -69,36 +56,24 @@ ExtractMemory(rapidxml::xml_node<>* node)
 
     memory["TRACK"] = nlohmann::json::array();
     int track_number = 0;
-    auto track_name = [&track_number] { return fmt::format("TRACK{}", track_number + 1); };
+    auto track_name = [&track_number] { return "TRACK" + std::to_string(track_number + 1); };
 
     for (auto track = node->first_node(track_name().c_str()); track; track = track->next_sibling(track_name().c_str())) {
-        memory["TRACK"].push_back(ExtractFlatStruct(track));
-        (*memory["TRACK"].rbegin())["id"] = track_number;
+        memory["TRACK"].push_back(ExtractFlatXmlStruct(track));
         ++track_number;
     }
 
-    if (auto master = node->first_node("MASTER"); master) {
-        memory["MASTER"] = ExtractFlatStruct(master);
-    }
-
-    if (auto loopFx = node->first_node("LOOPFX"); loopFx) {
-        memory["LOOPFX"] = ExtractFlatStruct(loopFx);
-    }
-
-    if (auto rhythm = node->first_node("RHYTHM"); rhythm) {
-        memory["RHYTHM"] = ExtractFlatStruct(rhythm);
-    }
-
-    if (auto ctl = node->first_node("CTL"); ctl) {
-        memory["CTL"] = ExtractFlatStruct(ctl);
-    }
+    AppendStruct(memory, node, "MASTER");
+    AppendStruct(memory, node, "LOOPFX");
+    AppendStruct(memory, node, "RHYTHM");
+    AppendStruct(memory, node, "CTL");
 
     memory["ASSIGN"] = nlohmann::json::array();
     int assign_number = 0;
-    auto assign_name = [&assign_number] { return fmt::format("ASSIGN{}", assign_number + 1); };
+    auto assign_name = [&assign_number] { return "ASSIGN" + std::to_string(assign_number + 1); };
 
     for (auto track = node->first_node(assign_name().c_str()); track; track = track->next_sibling(assign_name().c_str())) {
-        memory["ASSIGN"].push_back(ExtractFlatStruct(track));
+        memory["ASSIGN"].push_back(ExtractFlatXmlStruct(track));
         (*memory["ASSIGN"].rbegin())["id"] = assign_number;
         ++assign_number;
     }
@@ -116,8 +91,8 @@ ExtractDatabase(rapidxml::xml_document<>& doc)
     auto root = doc.first_node("database");
     if (!root) throw std::runtime_error("No root tag database found");
 
-    database["name"] = GetAttribute<std::string>(root, "name");
-    database["revision"] = GetAttribute(root, "revision");
+    database["name"] = root->first_attribute("name")->value();
+    database["revision"] = root->first_attribute("revision")->value();
 
     // mem
     int mem_index = 0;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="RC-500" revision="0">
+<database name="{{ name }}" revision="{{ revision }}">
 ## for m in mem
 <mem id="{{ m.id }}">
 <NAME>
@@ -8,7 +8,7 @@
 ## endfor
 </NAME>
 ## for track in m.TRACK
-<TRACK{{ track.id + 1 }}>
+<TRACK{{ loop.index1 }}>
 	<Rev>{{ track.Rev }}</Rev>
 	<PlyLvl>{{ track.PlyLvl }}</PlyLvl>
 	<Pan>{{ track.Pan }}</Pan>
@@ -27,7 +27,7 @@
 	<RecTmp>{{ track.RecTmp }}</RecTmp>
 	<WavStat>{{ track.WavStat }}</WavStat>
 	<WavLen>{{ track.WavLen }}</WavLen>
-</TRACK{{ track.id + 1 }}>
+</TRACK{{ loop.index1 }}>
 ## endfor
 <MASTER>
 	<Tempo>{{ m.MASTER.Tempo }}</Tempo>
