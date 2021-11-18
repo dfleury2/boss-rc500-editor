@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="RC-500" revision="0">
+<sys>
+<SETUP>
+	<MemoryNumber>0</MemoryNumber>
+	<DisplayMode>6</DisplayMode>
+	<Contrast>4</Contrast>
+	<UndoRedo>0</UndoRedo>
+	<ExtentCh>0</ExtentCh>
+	<Extent1Min>0</Extent1Min>
+	<Extent1Max>98</Extent1Max>
+	<Extent2Min>0</Extent2Min>
+	<Extent2Max>98</Extent2Max>
+	<Extent3Min>0</Extent3Min>
+	<Extent3Max>98</Extent3Max>
+	<Extent4Min>0</Extent4Min>
+	<Extent4Max>98</Extent4Max>
+	<Extent5Min>0</Extent5Min>
+	<Extent5Max>98</Extent5Max>
+</SETUP>
+<MIDI>
+	<RxCtlCh>0</RxCtlCh>
+	<Omni>1</Omni>
+	<RxNoteCh>9</RxNoteCh>
+	<TxCh>16</TxCh>
+	<Sync>0</Sync>
+	<ClkOut>1</ClkOut>
+	<SyncStart>1</SyncStart>
+	<PcOut>1</PcOut>
+	<MidiThru>0</MidiThru>
+	<UsbThru>0</UsbThru>
+</MIDI>
+<INPUT>
+	<Phantom>0</Phantom>
+	<MicOut>0</MicOut>
+	<InstOut>0</InstOut>
+	<RhythmOut>0</RhythmOut>
+	<MicNs>50</MicNs>
+	<InstNs>50</InstNs>
+	<Indicator>0</Indicator>
+</INPUT>
+<CTL>
+	<Pedal1>28</Pedal1>
+	<Pedal2>36</Pedal2>
+	<Pedal3>27</Pedal3>
+	<Ctl1>44</Ctl1>
+	<Ctl2>53</Ctl2>
+	<Exp>13</Exp>
+</CTL>
+<PREF>
+	<Pdl1>1</Pdl1>
+	<Pdl2>1</Pdl2>
+	<Pdl3>1</Pdl3>
+	<Ctl1>1</Ctl1>
+	<Ctl2>1</Ctl2>
+	<Exp>1</Exp>
+</PREF>
+</sys>
+</database>

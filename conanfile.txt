@@ -1,0 +1,8 @@
+[requires]
+inja/3.3.0
+rapidxml/1.13
+doctest/2.4.6
+fmt/8.0.1
+
+[generators]
+cmake_find_package

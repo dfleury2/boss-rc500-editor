@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="RC-500" revision="0">
+## for m in mem
+<mem id="{{ m.id }}">
+<NAME>
+## for key, value in m.NAME
+	<{{ key }}>{{ value }}</{{ key }}>
+## endfor
+</NAME>
+## for track in m.TRACK
+<TRACK{{ track.id + 1 }}>
+	<Rev>{{ track.Rev }}</Rev>
+	<PlyLvl>{{ track.PlyLvl }}</PlyLvl>
+	<Pan>{{ track.Pan }}</Pan>
+	<One>{{ track.One }}</One>
+	<LoopFx>{{ track.LoopFx }}</LoopFx>
+	<StrtMod>{{ track.StrtMod }}</StrtMod>
+	<StpMod>{{ track.StpMod }}</StpMod>
+	<Measure>{{ track.Measure }}</Measure>
+	<LoopSync>{{ track.LoopSync }}</LoopSync>
+	<TempoSync>{{ track.TempoSync }}</TempoSync>
+	<Input>{{ track.Input }}</Input>
+	<Output>{{ track.Output }}</Output>
+	<MeasMod>{{ track.MeasMod }}</MeasMod>
+	<MeasLen>{{ track.MeasLen }}</MeasLen>
+	<MeasBtLp>{{ track.MeasBtLp }}</MeasBtLp>
+	<RecTmp>{{ track.RecTmp }}</RecTmp>
+	<WavStat>{{ track.WavStat }}</WavStat>
+	<WavLen>{{ track.WavLen }}</WavLen>
+</TRACK{{ track.id + 1 }}>
+## endfor
+<MASTER>
+	<Tempo>{{ m.MASTER.Tempo }}</Tempo>
+	<DubMode>{{ m.MASTER.DubMode }}</DubMode>
+	<RecAction>{{ m.MASTER.RecAction }}</RecAction>
+	<RecQuantize>{{ m.MASTER.RecQuantize }}</RecQuantize>
+	<AutoRec>{{ m.MASTER.AutoRec }}</AutoRec>
+	<AutoRecSens>{{ m.MASTER.AutoRecSens }}</AutoRecSens>
+	<AutoRecSrc>{{ m.MASTER.AutoRecSrc }}</AutoRecSrc>
+	<PlayMode>{{ m.MASTER.PlayMode }}</PlayMode>
+	<SinglPlayeChange>{{ m.MASTER.SinglPlayeChange }}</SinglPlayeChange>
+	<FadeTime>{{ m.MASTER.FadeTime }}</FadeTime>
+	<AllStart>{{ m.MASTER.AllStart }}</AllStart>
+	<TrackChain>{{ m.MASTER.TrackChain }}</TrackChain>
+	<CurrentTrack>{{ m.MASTER.CurrentTrack }}</CurrentTrack>
+	<AllTrackSel>{{ m.MASTER.AllTrackSel }}</AllTrackSel>
+	<Level>{{ m.MASTER.Level }}</Level>
+	<LpMod>{{ m.MASTER.LpMod }}</LpMod>
+	<LpLen>{{ m.MASTER.LpLen }}</LpLen>
+	<TrkMod>{{ m.MASTER.TrkMod }}</TrkMod>
+	<Sync>{{ m.MASTER.Sync }}</Sync>
+</MASTER>
+<LOOPFX>
+	<Sw>{{ m.LOOPFX.Sw }}</Sw>
+	<FxType>{{ m.LOOPFX.FxType }}</FxType>
+	<RepeatLength>{{ m.LOOPFX.RepeatLength }}</RepeatLength>
+	<ShiftShift>{{ m.LOOPFX.ShiftShift }}</ShiftShift>
+	<ScatterLength>{{ m.LOOPFX.ScatterLength }}</ScatterLength>
+	<VinylFlickFlick>{{ m.LOOPFX.VinylFlickFlick }}</VinylFlickFlick>
+</LOOPFX>
+<RHYTHM>
+	<Level>{{ m.RHYTHM.Level }}</Level>
+	<Reverb>{{ m.RHYTHM.Reverb }}</Reverb>
+	<Pattern>{{ m.RHYTHM.Pattern }}</Pattern>
+	<Variation>{{ m.RHYTHM.Variation }}</Variation>
+	<VariationChange>{{ m.RHYTHM.VariationChange }}</VariationChange>
+	<Kit>{{ m.RHYTHM.Kit }}</Kit>
+	<Beat>{{ m.RHYTHM.Beat }}</Beat>
+	<Fill>{{ m.RHYTHM.Fill }}</Fill>
+	<Part1>{{ m.RHYTHM.Part1 }}</Part1>
+	<Part2>{{ m.RHYTHM.Part2 }}</Part2>
+	<Part3>{{ m.RHYTHM.Part3 }}</Part3>
+	<Part4>{{ m.RHYTHM.Part4 }}</Part4>
+	<RecCount>{{ m.RHYTHM.RecCount }}</RecCount>
+	<PlayCount>{{ m.RHYTHM.PlayCount }}</PlayCount>
+	<Start>{{ m.RHYTHM.Start }}</Start>
+	<Stop>{{ m.RHYTHM.Stop }}</Stop>
+	<ToneLow>{{ m.RHYTHM.ToneLow }}</ToneLow>
+	<ToneHigh>{{ m.RHYTHM.ToneHigh }}</ToneHigh>
+	<State>{{ m.RHYTHM.State }}</State>
+</RHYTHM>
+<CTL>
+	<Pedal1>{{ m.CTL.Pedal1 }}</Pedal1>
+	<Pedal2>{{ m.CTL.Pedal2 }}</Pedal2>
+	<Pedal3>{{ m.CTL.Pedal3 }}</Pedal3>
+	<Ctl1>{{ m.CTL.Ctl1 }}</Ctl1>
+	<Ctl2>{{ m.CTL.Ctl2 }}</Ctl2>
+	<Exp>{{ m.CTL.Exp }}</Exp>
+</CTL>
+## for assign in m.ASSIGN
+<ASSIGN{{ assign.id + 1 }}>
+	<Sw>{{ assign.Sw }}</Sw>
+	<Source>{{ assign.Source }}</Source>
+	<SourceMode>{{ assign.SourceMode }}</SourceMode>
+	<Target>{{ assign.Target }}</Target>
+	<TargetMin>{{ assign.TargetMin }}</TargetMin>
+	<TargetMax>{{ assign.TargetMax }}</TargetMax>
+</ASSIGN{{ assign.id + 1 }}>
+## endfor
+</mem>
+## endfor
+</database>
