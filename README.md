@@ -30,4 +30,3 @@ This is just a prototype for read testing and Inja rendering with a Nlohmann Jso
 The real tool will come with an IHM (provided by someone else maybe)
 
 Happy guitar playing :)
-

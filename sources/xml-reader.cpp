@@ -128,7 +128,6 @@ main(int argc, char* argv[])
 
         // Write the output
         std::cout << output << std::endl;
-
     }
     catch (const std::exception& ex) {
         std::cout << ex.what() << std::endl;
