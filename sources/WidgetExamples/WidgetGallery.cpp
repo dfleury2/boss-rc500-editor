@@ -8,6 +8,7 @@
 #include <QDial>
 #include <QDialogButtonBox>
 #include <QFileSystemModel>
+#include <QFormLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QMenu>
@@ -345,33 +346,47 @@ QGroupBox* WidgetGallery::createSimpleInputWidgetsGroupBox()
     lineEdit->setClearButtonEnabled(true);
     lineEdit->setEchoMode(QLineEdit::Password);
 
-    auto spinBox = createWidget<QSpinBox>("spinBox", result);
+    auto spinBox = createWidget<QSpinBox>("spinBox");
     spinBox->setValue(50);
 
-    auto dateTimeEdit = createWidget<QDateTimeEdit>("dateTimeEdit", result);
+    auto dateTimeEdit = createWidget<QDateTimeEdit>("dateTimeEdit");
     dateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
-    auto slider = createWidget<QSlider>("slider", result);
+    auto slider = createWidget<QSlider>("slider");
     slider->setOrientation(Qt::Horizontal);
-    slider->setValue(40);
+    slider->setMinimum(0);
+    slider->setMaximum(99);
+    slider->setValue(50);
+    slider->setTickInterval(5);
+    slider->setTickPosition(QSlider::TicksBothSides);
 
-    auto scrollBar = createWidget<QScrollBar>("scrollBar", result);
+    auto scrollBar = createWidget<QScrollBar>("scrollBar");
     scrollBar->setOrientation(Qt::Horizontal);
     setClassNameToolTip(scrollBar);
     scrollBar->setValue(60);
 
-    auto dial = createWidget<QDial>("dial", result);
+    auto dial = createWidget<QDial>("dial");
     dial->setValue(30);
     dial->setNotchesVisible(true);
 
-    auto layout = new QGridLayout(result);
-    layout->addWidget(lineEdit, 0, 0, 1, 2);
-    layout->addWidget(spinBox, 1, 0, 1, 2);
-    layout->addWidget(dateTimeEdit, 2, 0, 1, 2);
-    layout->addWidget(slider, 3, 0);
-    layout->addWidget(scrollBar, 4, 0);
-    layout->addWidget(dial, 3, 1, 2, 1);
-    layout->setRowStretch(5, 1);
+//    auto layout = new QGridLayout(result);
+//    layout->addWidget(lineEdit, 0, 0, 1, 2);
+//    layout->addWidget(spinBox, 1, 0, 1, 2);
+//    layout->addWidget(dateTimeEdit, 2, 0, 1, 2);
+//    layout->addWidget(slider, 3, 0);
+//    layout->addWidget(scrollBar, 4, 0);
+//    layout->addWidget(dial, 3, 1, 2, 1);
+//    layout->setRowStretch(5, 1);
+
+    auto layout = new QFormLayout;
+    layout->addRow(new QLabel(tr("Edit Line:")), lineEdit);
+    layout->addRow(new QLabel(tr("Spin Box:")), spinBox);
+    layout->addRow(new QLabel(tr("Date Time:")), dateTimeEdit);
+    layout->addRow(new QLabel(tr("Slider:")), slider);
+    layout->addRow(new QLabel(tr("Scroll bar:")), scrollBar);
+    layout->addRow(new QLabel(tr("Dial:")), dial);
+    result->setLayout(layout);
+
     return result;
 }
 

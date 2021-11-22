@@ -30,3 +30,16 @@ This is just a prototype for read testing and Inja rendering with a Nlohmann Jso
 The real tool will come with an IHM (provided by someone else maybe)
 
 Happy guitar playing :)
+
+## Tips
+
+Under Linux (Debian), if `Fontconfig error: Cannot load default config file: No such file: (null)` appears
+
+You can add `export FONTCONFIG_PATH=/etc/fonts` before launching the tools
+
+If `Could not create collator: 4`, 
+you can set ICU_DATA to the location of icu dat file.
+
+```
+export ICU_DATA=~/.conan/data/icu/69.1/_/_/package/3d01f378bd85430e39906eeeaec39c5b63de106c/res/icudt69l.dat
+```
