@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1039</width>
-    <height>753</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="palette">
@@ -84,22 +84,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>870</x>
-     <y>720</y>
-     <width>161</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_Boss">
    <property name="geometry">
     <rect>
@@ -139,7 +123,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
+     <y>110</y>
      <width>301</width>
      <height>391</height>
     </rect>
@@ -152,7 +136,7 @@
      <rect>
       <x>170</x>
       <y>240</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -203,7 +187,7 @@
      <rect>
       <x>170</x>
       <y>180</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -228,9 +212,12 @@
      <rect>
       <x>200</x>
       <y>70</y>
-      <width>81</width>
+      <width>91</width>
       <height>25</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Specifies the stereo position (pan) of the track.</string>
     </property>
     <item>
      <property name="text">
@@ -314,7 +301,7 @@
      <rect>
       <x>170</x>
       <y>350</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -382,6 +369,9 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/images/images/tooltip_Reverse.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="layoutDirection">
      <enum>Qt::RightToLeft</enum>
     </property>
@@ -394,7 +384,7 @@
      <rect>
       <x>170</x>
       <y>150</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -414,7 +404,7 @@
      <rect>
       <x>170</x>
       <y>320</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -457,6 +447,12 @@
       <width>81</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>Specifies whether to apply LOOP FX (ON) or not (OFF).</string>
+    </property>
+    <property name="whatsThis">
+     <string/>
     </property>
     <property name="layoutDirection">
      <enum>Qt::RightToLeft</enum>
@@ -563,7 +559,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>130</y>
+     <y>110</y>
      <width>301</width>
      <height>391</height>
     </rect>
@@ -576,7 +572,7 @@
      <rect>
       <x>170</x>
       <y>240</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -627,7 +623,7 @@
      <rect>
       <x>170</x>
       <y>180</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -652,7 +648,7 @@
      <rect>
       <x>200</x>
       <y>70</y>
-      <width>81</width>
+      <width>91</width>
       <height>25</height>
      </rect>
     </property>
@@ -738,7 +734,7 @@
      <rect>
       <x>170</x>
       <y>350</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -784,19 +780,6 @@
      <string>Input</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track2_Pan">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>70</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pan</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="track2_Reverse">
     <property name="geometry">
      <rect>
@@ -818,7 +801,7 @@
      <rect>
       <x>170</x>
       <y>150</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -838,7 +821,7 @@
      <rect>
       <x>170</x>
       <y>320</y>
-      <width>111</width>
+      <width>121</width>
       <height>25</height>
      </rect>
     </property>
@@ -982,12 +965,25 @@
      </property>
     </item>
    </widget>
+   <widget class="QLabel" name="label_track2_Pa">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>70</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pan</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="gb_LoopFx">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>520</y>
+     <y>500</y>
      <width>201</width>
      <height>191</height>
     </rect>
@@ -1204,7 +1200,7 @@
    <property name="geometry">
     <rect>
      <x>640</x>
-     <y>130</y>
+     <y>110</y>
      <width>391</width>
      <height>391</height>
     </rect>
@@ -1802,7 +1798,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>520</y>
+     <y>500</y>
      <width>811</width>
      <height>191</height>
     </rect>
@@ -1811,51 +1807,224 @@
     <string>Master</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_File">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>File</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_Open">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>50</y>
+     <width>51</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Filename">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>1021</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;filename&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Memory">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>50</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Memory</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_Memory">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>50</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>22</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>...m - 1...</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>100</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_CopyTo">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>50</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Copy to</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_CopyFrom">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>50</y>
+     <width>51</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>22</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>...m - 1...</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>100</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_To">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>50</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>To</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_CopyTo">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>50</y>
+     <width>51</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>22</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>...m - 1...</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>100</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="button_Save">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>50</y>
+     <width>51</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_Quit">
+   <property name="geometry">
+    <rect>
+     <x>970</x>
+     <y>50</y>
+     <width>51</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </widget>
   <zorder>gp_Track1</zorder>
-  <zorder>buttonBox</zorder>
   <zorder>label_Boss</zorder>
   <zorder>label_LoopStation</zorder>
   <zorder>gp_Track2</zorder>
   <zorder>gb_LoopFx</zorder>
   <zorder>groupBox</zorder>
   <zorder>gb_Master</zorder>
+  <zorder>label_File</zorder>
+  <zorder>button_Open</zorder>
+  <zorder>label_Filename</zorder>
+  <zorder>label_Memory</zorder>
+  <zorder>cb_Memory</zorder>
+  <zorder>label_CopyTo</zorder>
+  <zorder>cb_CopyFrom</zorder>
+  <zorder>label_To</zorder>
+  <zorder>cb_CopyTo</zorder>
+  <zorder>button_Save</zorder>
+  <zorder>button_Quit</zorder>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
- <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources>
+  <include location="resources/resources.qrc"/>
+ </resources>
+ <connections/>
  <designerdata>
   <property name="gridDeltaX">
    <number>10</number>
@@ -1870,7 +2039,7 @@
    <bool>true</bool>
   </property>
   <property name="gridVisible">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
  </designerdata>
 </ui>

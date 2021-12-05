@@ -24,4 +24,5 @@ find_package(rapidxml REQUIRED)
 find_package(Qt6 REQUIRED)
 
 add_subdirectory(sources/xml-reader)
+add_subdirectory(sources/BossRc500-MemoryCopy)
 add_subdirectory(sources/WidgetExamples)
