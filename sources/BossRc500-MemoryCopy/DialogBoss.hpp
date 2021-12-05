@@ -2,6 +2,8 @@
 
 #include "Dialog.hpp"
 
+#include <nlohmann/json.hpp>
+
 // --------------------------------------------------------------------------
 class BossCopierDialog : public Ui_BossCopierDialog, public QObject
 {
@@ -17,4 +19,6 @@ private:
 
 private:
     QDialog& _parent;
+
+    nlohmann::json _database;
 };

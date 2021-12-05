@@ -1,16 +1,15 @@
 #include "DialogBoss.hpp"
+#include "BossReaderWriter.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <iostream>
-#include <fstream>
 
 // --------------------------------------------------------------------------
 BossCopierDialog::BossCopierDialog(QDialog& dialog) :
         _parent(dialog)
 {
-        setup();
+    setup();
 }
 
 // --------------------------------------------------------------------------
@@ -46,7 +45,12 @@ BossCopierDialog::on_open()
 
     label_Filename->setText(filename);
     if (!filename.isEmpty()) {
-        std::cout << "Open a file [" << filename.toStdString() << "]" << std::endl;
+        try {
+            _database = ReadMemoryDatabase(filename.toStdString());
+        }
+        catch (const std::exception& ex) {
+            QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        }
     }
 }
 
@@ -56,12 +60,11 @@ BossCopierDialog::on_save()
 {
     auto filename = label_Filename->text().toStdString();
     if (filename.empty()) {
-        QMessageBox msgBox(QMessageBox::Warning, "", "No filename selected");
-        msgBox.exec();
+        QMessageBox(QMessageBox::Warning, "", "No filename selected").exec();
         return;
     }
 
-    std::cout << "save to file [" << filename << "]" << std::endl;
+    // std::cout << "save file [" << filename << "]" << std::endl;
 }
 
 // --------------------------------------------------------------------------

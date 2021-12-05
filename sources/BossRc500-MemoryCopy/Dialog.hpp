@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-copylnYJvm.ui'
+** Form generated from reading UI file 'Boss-rc500-copyfyDEfO.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_COPYLNYJVM_H
-#define BOSS_2D_RC500_2D_COPYLNYJVM_H
+#ifndef BOSS_2D_RC500_2D_COPYFYDEFO_H
+#define BOSS_2D_RC500_2D_COPYFYDEFO_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -39,7 +39,7 @@ public:
     {
         if (BossCopierDialog->objectName().isEmpty())
             BossCopierDialog->setObjectName(QString::fromUtf8("BossCopierDialog"));
-        BossCopierDialog->resize(1039, 109);
+        BossCopierDialog->resize(721, 109);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -63,7 +63,7 @@ public:
         label_Boss->setPixmap(QPixmap(QString::fromUtf8("resources/images/boss.png")));
         label_LoopStation = new QLabel(BossCopierDialog);
         label_LoopStation->setObjectName(QString::fromUtf8("label_LoopStation"));
-        label_LoopStation->setGeometry(QRect(700, 0, 341, 31));
+        label_LoopStation->setGeometry(QRect(380, 0, 341, 31));
         label_LoopStation->setPixmap(QPixmap(QString::fromUtf8("resources/images/loop station.png")));
         label_LoopStation->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label_File = new QLabel(BossCopierDialog);
@@ -77,30 +77,31 @@ public:
         label_Filename->setGeometry(QRect(10, 80, 1021, 21));
         label_Memory = new QLabel(BossCopierDialog);
         label_Memory->setObjectName(QString::fromUtf8("label_Memory"));
-        label_Memory->setGeometry(QRect(210, 50, 81, 21));
+        label_Memory->setGeometry(QRect(120, 50, 71, 21));
         cb_Memory = new QComboBox(BossCopierDialog);
         cb_Memory->setObjectName(QString::fromUtf8("cb_Memory"));
-        cb_Memory->setGeometry(QRect(290, 50, 91, 25));
+        cb_Memory->setGeometry(QRect(200, 50, 91, 25));
         label_CopyTo = new QLabel(BossCopierDialog);
         label_CopyTo->setObjectName(QString::fromUtf8("label_CopyTo"));
-        label_CopyTo->setGeometry(QRect(420, 50, 81, 21));
+        label_CopyTo->setGeometry(QRect(320, 50, 81, 21));
         cb_CopyFrom = new QComboBox(BossCopierDialog);
         cb_CopyFrom->setObjectName(QString::fromUtf8("cb_CopyFrom"));
-        cb_CopyFrom->setGeometry(QRect(520, 50, 51, 25));
+        cb_CopyFrom->setGeometry(QRect(410, 50, 51, 25));
         label_To = new QLabel(BossCopierDialog);
         label_To->setObjectName(QString::fromUtf8("label_To"));
-        label_To->setGeometry(QRect(590, 50, 21, 21));
+        label_To->setGeometry(QRect(470, 50, 21, 21));
         cb_CopyTo = new QComboBox(BossCopierDialog);
         cb_CopyTo->setObjectName(QString::fromUtf8("cb_CopyTo"));
-        cb_CopyTo->setGeometry(QRect(620, 50, 51, 25));
+        cb_CopyTo->setGeometry(QRect(500, 50, 51, 25));
         button_Save = new QPushButton(BossCopierDialog);
         button_Save->setObjectName(QString::fromUtf8("button_Save"));
-        button_Save->setGeometry(QRect(690, 50, 51, 24));
+        button_Save->setGeometry(QRect(570, 50, 51, 24));
         button_Quit = new QPushButton(BossCopierDialog);
         button_Quit->setObjectName(QString::fromUtf8("button_Quit"));
-        button_Quit->setGeometry(QRect(970, 50, 51, 24));
+        button_Quit->setGeometry(QRect(660, 50, 51, 24));
 
         retranslateUi(BossCopierDialog);
+        QObject::connect(button_Open, SIGNAL(clicked()), BossCopierDialog, SLOT(close()));
 
         QMetaObject::connectSlotsByName(BossCopierDialog);
     } // setupUi
@@ -114,7 +115,7 @@ public:
         button_Open->setText(QCoreApplication::translate("BossCopierDialog", "Open", nullptr));
         label_Filename->setText(QCoreApplication::translate("BossCopierDialog", "<filename>", nullptr));
         label_Memory->setText(QCoreApplication::translate("BossCopierDialog", "Memory", nullptr));
-        label_CopyTo->setText(QCoreApplication::translate("BossCopierDialog", "Copy to", nullptr));
+        label_CopyTo->setText(QCoreApplication::translate("BossCopierDialog", "Copy From", nullptr));
         label_To->setText(QCoreApplication::translate("BossCopierDialog", "To", nullptr));
         button_Save->setText(QCoreApplication::translate("BossCopierDialog", "Save", nullptr));
         button_Quit->setText(QCoreApplication::translate("BossCopierDialog", "Quit", nullptr));
@@ -122,10 +123,6 @@ public:
 
 };
 
-namespace Ui {
-    class BossCopierDialog: public Ui_BossCopierDialog {};
-} // namespace Ui
-
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_COPYLNYJVM_H
+#endif // BOSS_2D_RC500_2D_COPYFYDEFO_H
