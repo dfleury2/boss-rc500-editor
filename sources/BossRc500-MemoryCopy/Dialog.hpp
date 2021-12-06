@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-copyfyDEfO.ui'
+** Form generated from reading UI file 'Boss-rc500-copyJCntLX.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_COPYFYDEFO_H
-#define BOSS_2D_RC500_2D_COPYFYDEFO_H
+#ifndef BOSS_2D_RC500_2D_COPYJCNTLX_H
+#define BOSS_2D_RC500_2D_COPYJCNTLX_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -101,7 +101,6 @@ public:
         button_Quit->setGeometry(QRect(660, 50, 51, 24));
 
         retranslateUi(BossCopierDialog);
-        QObject::connect(button_Open, SIGNAL(clicked()), BossCopierDialog, SLOT(close()));
 
         QMetaObject::connectSlotsByName(BossCopierDialog);
     } // setupUi
@@ -125,4 +124,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_COPYFYDEFO_H
+#endif // BOSS_2D_RC500_2D_COPYJCNTLX_H
