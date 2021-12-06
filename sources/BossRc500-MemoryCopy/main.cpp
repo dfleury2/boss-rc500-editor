@@ -22,6 +22,9 @@ main(int argc, char* argv[])
 
         QDialog dialog;
         BossCopierDialog bossUi(dialog);
+
+        dialog.setWindowTitle("BOSS RC-500 Memory Copier");
+
         dialog.show();
 
         return QCoreApplication::exec();
