@@ -84,6 +84,8 @@ BossCopierDialog::on_save()
 
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
             _database["mem"][i - 1] = slot;
+            // Restore the memory id of the copied slot
+            _database["mem"][i - 1]["id"] = i - 1;
         }
 
         WriteMemoryDatabase(_database, filename);
