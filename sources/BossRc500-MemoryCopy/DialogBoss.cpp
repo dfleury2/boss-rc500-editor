@@ -80,8 +80,10 @@ BossCopierDialog::on_save()
         }
 
         // Update database and write it to disk
+        const auto& slot = _database["mem"][memory_slot - 1];
+
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
-            _database["mem"][i] = _database["mem"][memory_slot];
+            _database["mem"][i - 1] = slot;
         }
 
         WriteMemoryDatabase(_database, filename);
