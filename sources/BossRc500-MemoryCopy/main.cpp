@@ -24,6 +24,7 @@ main(int argc, char* argv[])
         BossCopierDialog bossUi(dialog);
 
         dialog.setWindowTitle("BOSS RC-500 Memory Copier");
+        //dialog.setWindowIcon(QIcon("resources/images/boss.ico"));
 
         dialog.show();
 
