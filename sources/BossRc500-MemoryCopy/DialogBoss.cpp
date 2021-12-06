@@ -4,7 +4,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-
 // --------------------------------------------------------------------------
 BossCopierDialog::BossCopierDialog(QDialog& dialog) :
         _parent(dialog)
@@ -40,17 +39,17 @@ BossCopierDialog::setup()
 void
 BossCopierDialog::on_open()
 {
-    auto filename = QFileDialog::getOpenFileName(&_parent,
-            tr("Open a MEMORY file"), "", tr("Memory Files (*.RC0)"));
+    try {
+        auto filename = QFileDialog::getOpenFileName(&_parent,
+                tr("Open a MEMORY file"), "", tr("Memory Files (*.RC0)"));
 
-    label_Filename->setText(filename);
-    if (!filename.isEmpty()) {
-        try {
+        label_Filename->setText(filename);
+        if (!filename.isEmpty()) {
             _database = ReadMemoryDatabase(filename.toStdString());
         }
-        catch (const std::exception& ex) {
-            QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
 }
 
@@ -58,13 +57,38 @@ BossCopierDialog::on_open()
 void
 BossCopierDialog::on_save()
 {
-    auto filename = label_Filename->text().toStdString();
-    if (filename.empty()) {
-        QMessageBox(QMessageBox::Warning, "", "No filename selected").exec();
-        return;
-    }
+    try {
+        auto filename = label_Filename->text().toStdString();
+        if (filename.empty()) {
+            throw std::runtime_error("No filename selected");
+        }
 
-    // std::cout << "save file [" << filename << "]" << std::endl;
+        int memory_slot = std::stoi(cb_Memory->currentText().toStdString());
+        int copy_from_slot = std::stoi(cb_CopyFrom->currentText().toStdString());
+        int copy_to_slot = std::stoi(cb_CopyTo->currentText().toStdString());
+
+        if (copy_from_slot > copy_to_slot) {
+            throw std::runtime_error("Copy From slot must be less than copy to slot");
+        }
+
+        if (auto response = QMessageBox().question(nullptr,
+                "Copy memories ?",
+                QString::fromStdString("Do you want to copy memory slot " + std::to_string(memory_slot) +
+                "\ninto slots from " + std::to_string(copy_from_slot) + " to " +
+                std::to_string(copy_to_slot))); response != QMessageBox::Yes) {
+            throw std::runtime_error("Operation canceled");
+        }
+
+        // Update database and write it to disk
+        for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
+            _database["mem"][i] = _database["mem"][memory_slot];
+        }
+
+        WriteMemoryDatabase(_database, filename);
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
 }
 
 // --------------------------------------------------------------------------
