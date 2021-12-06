@@ -258,24 +258,7 @@
  <resources>
   <include location="resources/resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>button_Open</sender>
-   <signal>clicked()</signal>
-   <receiver>BossCopierDialog</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>75</x>
-     <y>61</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>519</x>
-     <y>54</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <designerdata>
   <property name="gridDeltaX">
    <number>10</number>
