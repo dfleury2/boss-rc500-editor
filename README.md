@@ -19,6 +19,8 @@ make
 ./xml-reader ../templates/MEMORY1.RC0 ../templates/MEMORY.txt > MEMORY1.RC0.NEW
 ```
 
+Personal note: Remove os.version from settings and user default-gcc10 as profile
+`CC=gcc-10 CXX=g++-10 conan install .. -pr default-gcc10 -r conan-center`
 
 ## xml-reader
 
