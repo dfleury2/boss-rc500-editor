@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>BossRc500Dialog</class>
+ <widget class="QDialog" name="BossRc500Dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -259,247 +259,18 @@
      <x>10</x>
      <y>100</y>
      <width>301</width>
-     <height>391</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="title">
     <string>TRACK 1</string>
    </property>
-   <widget class="QComboBox" name="track1_Measure">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>240</y>
-      <width>121</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>AUTO</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>FREE</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>1MEAS-</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label_track1_Stop">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>180</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stop</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_Output">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>350</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Output</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="track1_Stop">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>180</y>
-      <width>121</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>IMMEDIATE</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>FADE OUT</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>LOOP END</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="track1_Pan">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>70</y>
-      <width>91</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Specifies the stereo position (pan) of the track.</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>L50</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>CENTER</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>R50</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QCheckBox" name="track1_OneShot">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>100</y>
-      <width>91</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="text">
-     <string>One Shot</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="track1_TempoSync">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>290</y>
-      <width>111</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="text">
-     <string>Tempo  Sync</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="track1_LoopSync">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>270</y>
-      <width>101</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="text">
-     <string>Loop Sync</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_Measure">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>240</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Measure</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="track1_Output">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>350</y>
-      <width>121</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>ALL</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>OUT-A</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>OUT-B</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label_track1_Start">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>150</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_Input">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>320</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Input</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_Pan">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>70</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pan</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="track1_Reverse">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>40</y>
-      <width>81</width>
+      <x>80</x>
+      <y>30</y>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
@@ -513,71 +284,43 @@
      <string>Reverse</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start">
+   <widget class="QSlider" name="track1_Level">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>150</y>
-      <width>121</width>
-      <height>25</height>
+      <x>10</x>
+      <y>30</y>
+      <width>41</width>
+      <height>261</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>IMMEDIATE</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>FADE IN</string>
-     </property>
-    </item>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBothSides</enum>
+    </property>
    </widget>
-   <widget class="QComboBox" name="track1_Input">
+   <widget class="QLabel" name="label_track1_Level">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>320</y>
-      <width>121</width>
-      <height>25</height>
+      <x>10</x>
+      <y>300</y>
+      <width>41</width>
+      <height>21</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>ALL</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>MIC IN</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>INST IN</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>INST IN-A</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>INST IN-B</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>MIC/INST</string>
-     </property>
-    </item>
+    <property name="text">
+     <string>Level</string>
+    </property>
    </widget>
    <widget class="QCheckBox" name="track1_LoopFx">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>120</y>
+      <x>90</x>
+      <y>50</y>
       <width>81</width>
       <height>23</height>
      </rect>
@@ -598,96 +341,218 @@
      <string>Loop Fx</string>
     </property>
    </widget>
-   <widget class="QSlider" name="track1_Level">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>41</width>
-      <height>191</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>200</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_Level">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>230</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Level</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_track1_FadeTime">
+   <widget class="QCheckBox" name="track1_OneShot">
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>210</y>
-      <width>81</width>
+      <y>70</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>One Shot</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track1_Pan">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>61</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Fade Time</string>
+     <string>Pan</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_FadeTime">
+   <widget class="QComboBox" name="track1_Pan">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>210</y>
+      <x>160</x>
+      <y>100</y>
+      <width>91</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Specifies the stereo position (pan) of the track.</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Stop">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>160</y>
       <width>121</width>
       <height>25</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>SEMIQUAVER</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>QUAVER</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>QUARTER NOTE</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>HALF NOTE</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>1MEAS-</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>2MEAS-</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>64MEAS-</string>
-     </property>
-    </item>
    </widget>
+   <widget class="QLabel" name="label_track1_Stop">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>160</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Start">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>130</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track1_Start">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>130</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Measure">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>190</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track1_Measure">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>190</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Measure</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track1_LoopSync">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>220</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Loop Sync</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track1_TempoSync">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>240</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Tempo  Sync</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track1_Output">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>300</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Output</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Input">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>270</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Output">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>300</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track1_Input">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>270</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Input</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QComboBox" name="track1_FadeTime">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>270</y>
+     <width>121</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_track1_FadeTime">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>270</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fade Time</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>

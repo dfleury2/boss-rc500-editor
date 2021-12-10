@@ -1,8 +1,11 @@
 #include "DialogBoss.hpp"
 #include "BossReaderWriter.hpp"
 
+#include <yaml-cpp/yaml.h>
 #include <QFileDialog>
 #include <QMessageBox>
+
+#include <iostream>
 
 // --------------------------------------------------------------------------
 BossCopierDialog::BossCopierDialog(QDialog& dialog) :
@@ -33,6 +36,42 @@ BossCopierDialog::setup()
     QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
     QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
     QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+
+    // Read combo list
+    try {
+        YAML::Node lookup = YAML::LoadFile("./resources/lookup.yaml");
+
+        if (lookup["track"]) {
+            if (auto pan = lookup["track"]["pan"]) {
+                for (auto it = pan.begin(); it != pan.end(); ++it) {
+                    track1_Pan->addItem(it->as<std::string>().c_str());
+                }
+            }
+            if (auto start = lookup["track"]["start"]) {
+                for (auto it = start.begin(); it != start.end(); ++it) {
+                    track1_Start->addItem(it->as<std::string>().c_str());
+                }
+            }
+            if (auto stop = lookup["track"]["stop"]) {
+                for (auto it = stop.begin(); it != stop.end(); ++it) {
+                    track1_Stop->addItem(it->as<std::string>().c_str());
+                }
+            }
+            if (auto input = lookup["track"]["input"]) {
+                for (auto it = input.begin(); it != input.end(); ++it) {
+                    track1_Input->addItem(it->as<std::string>().c_str());
+                }
+            }
+            if (auto output = lookup["track"]["output"]) {
+                for (auto it = output.begin(); it != output.end(); ++it) {
+                    track1_Output->addItem(it->as<std::string>().c_str());
+                }
+            }
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
 }
 
 // --------------------------------------------------------------------------

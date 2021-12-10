@@ -1,0 +1,23 @@
+track:
+  pan:
+    - L50
+    - CENTER
+    - R50
+  start:
+    - IMMEDIATE
+    - FADE IN
+  stop:
+    - IMMEDIATE
+    - FADE OUT
+    - LOOP END
+  input:
+    - ALL
+    - MIC IN
+    - INST IN
+    - INST IN-A
+    - INST IN-B
+    - MIC/INST
+  output:
+    - ALL
+    - OUT-A
+    - OUT-B

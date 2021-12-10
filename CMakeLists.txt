@@ -22,6 +22,7 @@ find_package(inja REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(rapidxml REQUIRED)
 find_package(Qt6 REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 add_subdirectory(sources/xml-reader)
 add_subdirectory(sources/BossRc500)

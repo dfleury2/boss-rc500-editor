@@ -7,4 +7,10 @@ add_executable(BossRc500
     DialogBoss.cpp
 )
 
-target_link_libraries(BossRc500 PUBLIC Qt6::Qt6 rapidxml::rapidxml pantor::inja)
+target_link_libraries(BossRc500
+    PUBLIC
+        Qt6::Qt6
+        rapidxml::rapidxml
+        pantor::inja
+        yaml-cpp::yaml-cpp
+)
