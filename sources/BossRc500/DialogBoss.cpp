@@ -45,26 +45,31 @@ BossCopierDialog::setup()
             if (auto pan = lookup["track"]["pan"]) {
                 for (auto it = pan.begin(); it != pan.end(); ++it) {
                     track1_Pan->addItem(it->as<std::string>().c_str());
+                    track2_Pan->addItem(it->as<std::string>().c_str());
                 }
             }
             if (auto start = lookup["track"]["start"]) {
                 for (auto it = start.begin(); it != start.end(); ++it) {
                     track1_Start->addItem(it->as<std::string>().c_str());
+                    track2_Start->addItem(it->as<std::string>().c_str());
                 }
             }
             if (auto stop = lookup["track"]["stop"]) {
                 for (auto it = stop.begin(); it != stop.end(); ++it) {
                     track1_Stop->addItem(it->as<std::string>().c_str());
+                    track2_Stop->addItem(it->as<std::string>().c_str());
                 }
             }
             if (auto input = lookup["track"]["input"]) {
                 for (auto it = input.begin(); it != input.end(); ++it) {
                     track1_Input->addItem(it->as<std::string>().c_str());
+                    track2_Input->addItem(it->as<std::string>().c_str());
                 }
             }
             if (auto output = lookup["track"]["output"]) {
                 for (auto it = output.begin(); it != output.end(); ++it) {
                     track1_Output->addItem(it->as<std::string>().c_str());
+                    track2_Output->addItem(it->as<std::string>().c_str());
                 }
             }
         }

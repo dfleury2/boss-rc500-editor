@@ -534,8 +534,8 @@
   <widget class="QComboBox" name="track1_FadeTime">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>270</y>
+     <x>160</x>
+     <y>480</y>
      <width>121</width>
      <height>25</height>
     </rect>
@@ -544,14 +544,303 @@
   <widget class="QLabel" name="label_track1_FadeTime">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>270</y>
+     <x>70</x>
+     <y>480</y>
      <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>Fade Time</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="gp_Track2">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>100</y>
+     <width>301</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>TRACK 2</string>
+   </property>
+   <widget class="QComboBox" name="track2_Measure">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>190</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Stop">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>160</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Output">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>300</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Output</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track2_Stop">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>160</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track2_Pan">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>100</y>
+      <width>91</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track2_OneShot">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>70</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>One Shot</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track2_TempoSync">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>240</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Tempo  Sync</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track2_LoopSync">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>220</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Loop Sync</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Measure">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>190</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Measure</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track2_Output">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>300</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Start">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>130</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Input">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>270</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Input</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track2_Reverse">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Reverse</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track2_Start">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>130</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track2_Input">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>270</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="track2_LoopFx">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>50</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Loop Fx</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="track2_Level">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>41</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBothSides</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Level">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>300</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Level</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_track2_Pan">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pan</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_track2_FadeTime">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>520</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fade Time</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="track2_FadeTime">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>520</y>
+     <width>121</width>
+     <height>25</height>
+    </rect>
    </property>
   </widget>
  </widget>
