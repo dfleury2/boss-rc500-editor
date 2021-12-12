@@ -326,9 +326,10 @@ BossCopierDialog::on_Level_changed(QSlider* slider)
               << ", Level: " << value << std::endl;
 
     auto value_str = std::to_string(value);
+    _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"] = value;
+
     slider->setToolTip(value_str.c_str());
     (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
-    _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"] = value;
 }
 
 // --------------------------------------------------------------------------
