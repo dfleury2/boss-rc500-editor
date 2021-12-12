@@ -1,7 +1,6 @@
 #include "DialogBoss.hpp"
 #include <BossReaderWriter/BossReaderWriter.hpp>
 
-#include <yaml-cpp/yaml.h>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -22,25 +21,18 @@ BossCopierDialog::setup()
 
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
-
-    // Add MEMORY
-    for (int i = 1; i <= 100; ++i) {
-        cb_Memory->addItem(QString(std::to_string(i).c_str()));
-        cb_CopyFrom->addItem(QString(std::to_string(i).c_str()));
-        cb_CopyTo->addItem(QString(std::to_string(i).c_str()));
-    }
-
-    // Clear Filename
     label_Filename->setText(QString());
 
-    // Add callbacks
-    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
-    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
-    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+    add_tooltips();
+    add_callbacks();
+    add_combo_items();
+}
 
-    QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
-
-    // Add tooltips
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::add_tooltips()
+{
+// Add tooltips
 #if QT_CONFIG(tooltip)
     track1_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_reverse.png\"/></p></body></html>", nullptr));
     track1_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
@@ -66,10 +58,35 @@ BossCopierDialog::setup()
     track2_Input->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_input.png\"/></p></body></html>", nullptr));
     track2_Output->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_output.png\"/></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)
+}
 
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::add_callbacks()
+{
+    // Add callbacks
+    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
+    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
+    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+
+    QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
+}
+
+// --------------------------------------------------------------------------
+// Some combobox items can be computed and nor hard coded
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::add_combo_items()
+{
+    // MEMORY
+    for (int i = 1; i <= 100; ++i) {
+        cb_Memory->addItem(QString(std::to_string(i).c_str()));
+        cb_CopyFrom->addItem(QString(std::to_string(i).c_str()));
+        cb_CopyTo->addItem(QString(std::to_string(i).c_str()));
+    }
 
     // PAN
-    auto pan_labels = [](QComboBox* cb) {
+    auto pan_items = [](QComboBox* cb) {
         for (int i = 0; i <= 100; ++i) {
             std::string pan_label = "CENTER";
             if (i < 50) pan_label = "L" + std::to_string(50 - i);
@@ -78,11 +95,28 @@ BossCopierDialog::setup()
             cb->addItem(pan_label.c_str());
         }
     };
-    pan_labels(track1_Pan);
-    pan_labels(track2_Pan);
+    pan_items(track1_Pan);
+    pan_items(track2_Pan);
+
+    // START
+    auto start_items = [](QComboBox* cb) {
+        cb->addItem("IMMEDIATE");
+        cb->addItem("FADE IN");
+    };
+    start_items(track1_Start);
+    start_items(track2_Start);
+
+    // STOP
+    auto stop_items = [](QComboBox* cb) {
+        cb->addItem("IMMEDIATE");
+        cb->addItem("FADE OUT");
+        cb->addItem("LOOP END");
+    };
+    stop_items(track1_Stop);
+    stop_items(track2_Stop);
 
     // MEASURE
-    auto measure_labels = [](QComboBox* cb) {
+    auto measure_items = [](QComboBox* cb) {
         cb->addItem("AUTO");
         cb->addItem("FREE");
         cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
@@ -93,43 +127,29 @@ BossCopierDialog::setup()
             cb->addItem(std::to_string(i).c_str());
         }
     };
-    measure_labels(track1_Measure);
-    measure_labels(track2_Measure);
+    measure_items(track1_Measure);
+    measure_items(track2_Measure);
 
-    // Read combo list
-    try {
-        YAML::Node lookup = YAML::LoadFile("./resources/lookup.yaml");
+    // INPUT
+    auto input_items = [](QComboBox* cb) {
+        cb->addItem("ALL");
+        cb->addItem("MIC IN");
+        cb->addItem("INST IN");
+        cb->addItem("INST IN-A");
+        cb->addItem("INST IN-B");
+        cb->addItem("MIC/INST");
+    };
+    input_items(track1_Input);
+    input_items(track2_Input);
 
-        if (lookup["track"]) {
-            if (auto start = lookup["track"]["start"]) {
-                for (auto it = start.begin(); it != start.end(); ++it) {
-                    track1_Start->addItem(it->as<std::string>().c_str());
-                    track2_Start->addItem(it->as<std::string>().c_str());
-                }
-            }
-            if (auto stop = lookup["track"]["stop"]) {
-                for (auto it = stop.begin(); it != stop.end(); ++it) {
-                    track1_Stop->addItem(it->as<std::string>().c_str());
-                    track2_Stop->addItem(it->as<std::string>().c_str());
-                }
-            }
-            if (auto input = lookup["track"]["input"]) {
-                for (auto it = input.begin(); it != input.end(); ++it) {
-                    track1_Input->addItem(it->as<std::string>().c_str());
-                    track2_Input->addItem(it->as<std::string>().c_str());
-                }
-            }
-            if (auto output = lookup["track"]["output"]) {
-                for (auto it = output.begin(); it != output.end(); ++it) {
-                    track1_Output->addItem(it->as<std::string>().c_str());
-                    track2_Output->addItem(it->as<std::string>().c_str());
-                }
-            }
-        }
-    }
-    catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-    }
+    // OUTPUT
+    auto output_items = [](QComboBox* cb) {
+        cb->addItem("ALL");
+        cb->addItem("OUT-A");
+        cb->addItem("OUT-B");
+    };
+    output_items(track1_Output);
+    output_items(track2_Output);
 }
 
 // --------------------------------------------------------------------------
@@ -172,7 +192,7 @@ BossCopierDialog::on_save()
             throw std::runtime_error("Copy From slot must be less than copy to slot");
         }
 
-        if (auto response = QMessageBox().question(nullptr,
+        if (auto response = QMessageBox::question(nullptr,
                 "Copy memories ?",
                 QString::fromStdString("Do you want to copy memory slot " + std::to_string(memory_slot) +
                 "\ninto slots from " + std::to_string(copy_from_slot) + " to " +
@@ -218,33 +238,37 @@ BossCopierDialog::load_memory()
 {
     int memory_index = cb_Memory->currentIndex();
 
-    auto& track1 = _database["mem"][memory_index]["TRACK"][0];
+    { // TRACK 1
+        auto& track1 = _database["mem"][memory_index]["TRACK"][0];
 
-    track1_Reverse->setChecked(track1["Rev"].get<int>());
-    track1_Level->setValue(track1["PlyLvl"].get<int>());
-    track1_Pan->setCurrentIndex(track1["Pan"].get<int>());
-    track1_OneShot->setChecked(track1["One"].get<int>());
-    track1_LoopFx->setChecked(track1["LoopFx"].get<int>());
-    track1_Start->setCurrentIndex(track1["StrtMod"].get<int>());
-    track1_Stop->setCurrentIndex(track1["StpMod"].get<int>());
-    //track1_Measure->...
-    track1_LoopSync->setChecked(track1["LoopSync"].get<int>());
-    track1_TempoSync->setChecked(track1["TempoSync"].get<int>());
-    track1_Input->setCurrentIndex(track1["Input"].get<int>());
-    track1_Output->setCurrentIndex(track1["Output"].get<int>());
+        track1_Reverse->setChecked(track1["Rev"].get<int>());
+        track1_Level->setValue(track1["PlyLvl"].get<int>());
+        track1_Pan->setCurrentIndex(track1["Pan"].get<int>());
+        track1_OneShot->setChecked(track1["One"].get<int>());
+        track1_LoopFx->setChecked(track1["LoopFx"].get<int>());
+        track1_Start->setCurrentIndex(track1["StrtMod"].get<int>());
+        track1_Stop->setCurrentIndex(track1["StpMod"].get<int>());
+        track1_Measure->setCurrentIndex(track1["Measure"].get<int>());
+        track1_LoopSync->setChecked(track1["LoopSync"].get<int>());
+        track1_TempoSync->setChecked(track1["TempoSync"].get<int>());
+        track1_Input->setCurrentIndex(track1["Input"].get<int>());
+        track1_Output->setCurrentIndex(track1["Output"].get<int>());
+    }
 
-    auto& track2 = _database["mem"][memory_index]["TRACK"][1];
+    { // TRACK 2
+        auto& track2 = _database["mem"][memory_index]["TRACK"][1];
 
-    track2_Reverse->setChecked(track1["Rev"].get<int>());
-    track2_Level->setValue(track1["PlyLvl"].get<int>());
-    track2_Pan->setCurrentIndex(track1["Pan"].get<int>());
-    track2_OneShot->setChecked(track1["One"].get<int>());
-    track2_LoopFx->setChecked(track1["LoopFx"].get<int>());
-    track2_Start->setCurrentIndex(track1["StrtMod"].get<int>());
-    track2_Stop->setCurrentIndex(track1["StpMod"].get<int>());
-    //track2_Measure->...
-    track2_LoopSync->setChecked(track1["LoopSync"].get<int>());
-    track2_TempoSync->setChecked(track1["TempoSync"].get<int>());
-    track2_Input->setCurrentIndex(track1["Input"].get<int>());
-    track2_Output->setCurrentIndex(track1["Output"].get<int>());
+        track2_Reverse->setChecked(track2["Rev"].get<int>());
+        track2_Level->setValue(track2["PlyLvl"].get<int>());
+        track2_Pan->setCurrentIndex(track2["Pan"].get<int>());
+        track2_OneShot->setChecked(track2["One"].get<int>());
+        track2_LoopFx->setChecked(track2["LoopFx"].get<int>());
+        track2_Start->setCurrentIndex(track2["StrtMod"].get<int>());
+        track2_Stop->setCurrentIndex(track2["StpMod"].get<int>());
+        track2_Measure->setCurrentIndex(track2["Measure"].get<int>());
+        track2_LoopSync->setChecked(track2["LoopSync"].get<int>());
+        track2_TempoSync->setChecked(track2["TempoSync"].get<int>());
+        track2_Input->setCurrentIndex(track2["Input"].get<int>());
+        track2_Output->setCurrentIndex(track2["Output"].get<int>());
+    }
 }

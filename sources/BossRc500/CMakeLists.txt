@@ -13,6 +13,5 @@ add_executable(BossRc500
 target_link_libraries(BossRc500
     PUBLIC
         Qt6::Qt6
-        yaml-cpp::yaml-cpp
         BossReaderWriter::BossReaderWriter
 )

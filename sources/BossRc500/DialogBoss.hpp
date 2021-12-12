@@ -12,6 +12,9 @@ public:
 
 private:
     void setup();
+    void add_tooltips();
+    void add_callbacks();
+    void add_combo_items();
 
     void on_open();
     void on_save();
