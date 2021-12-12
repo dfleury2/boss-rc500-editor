@@ -87,11 +87,30 @@ BossCopierDialog::add_callbacks()
     QObject::connect(track1_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
     QObject::connect(track2_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
 
+    QObject::connect(track1_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track1_Pan); });
+    QObject::connect(track2_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track2_Pan); });
+
+    QObject::connect(track1_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track1_Start); });
+    QObject::connect(track2_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track2_Start); });
+
+    QObject::connect(track1_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track1_Stop); });
+    QObject::connect(track2_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track2_Stop); });
+
+    QObject::connect(track1_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track1_Measure); });
+    QObject::connect(track2_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track2_Measure); });
+
     QObject::connect(track1_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
     QObject::connect(track2_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
 
     QObject::connect(track1_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
     QObject::connect(track2_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
+
+    QObject::connect(track1_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track1_Input); });
+    QObject::connect(track2_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track2_Input); });
+
+    QObject::connect(track1_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track1_Output); });
+    QObject::connect(track2_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track2_Output); });
+
 }
 
 // --------------------------------------------------------------------------
@@ -309,7 +328,63 @@ BossCopierDialog::on_Level_changed(QSlider* slider)
     auto value_str = std::to_string(value);
     slider->setToolTip(value_str.c_str());
     (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
-    _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"]  = value;
+    _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Pan_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Pan ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Pan: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["Pan"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Start_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Start ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Start: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["StrtMod"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Stop_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Stop ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Stop: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["StpMod"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Measure_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Measure ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Measure: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["Measure"] = value;
 }
 
 // --------------------------------------------------------------------------
@@ -323,7 +398,7 @@ BossCopierDialog::on_Reverse_changed(QCheckBox* cb)
             << ", Track: " << (track_index + 1 )
             << ", Rev: " << is_checked << std::endl;
 
-    _database["mem"][memory_index]["TRACK"][track_index]["Rev"]  = is_checked;
+    _database["mem"][memory_index]["TRACK"][track_index]["Rev"] = is_checked;
 }
 
 // --------------------------------------------------------------------------
@@ -337,7 +412,7 @@ BossCopierDialog::on_LoopFx_changed(QCheckBox* cb)
             << ", Track: " << (track_index + 1 )
             << ", LoopFx: " << is_checked << std::endl;
 
-    _database["mem"][memory_index]["TRACK"][track_index]["LoopFx"]  = is_checked;
+    _database["mem"][memory_index]["TRACK"][track_index]["LoopFx"] = is_checked;
 }
 
 // --------------------------------------------------------------------------
@@ -351,7 +426,7 @@ BossCopierDialog::on_OneShot_changed(QCheckBox* cb)
             << ", Track: " << (track_index + 1 )
             << ", OneShot: " << is_checked << std::endl;
 
-    _database["mem"][memory_index]["TRACK"][track_index]["One"]  = is_checked;
+    _database["mem"][memory_index]["TRACK"][track_index]["One"] = is_checked;
 }
 
 // --------------------------------------------------------------------------
@@ -365,7 +440,7 @@ BossCopierDialog::on_LoopSync_changed(QCheckBox* cb)
             << ", Track: " << (track_index + 1 )
             << ", LoopSync: " << is_checked << std::endl;
 
-    _database["mem"][memory_index]["TRACK"][track_index]["LoopSync"]  = is_checked;
+    _database["mem"][memory_index]["TRACK"][track_index]["LoopSync"] = is_checked;
 }
 
 // --------------------------------------------------------------------------
@@ -379,5 +454,33 @@ BossCopierDialog::on_TempoSync_changed(QCheckBox* cb)
             << ", Track: " << (track_index + 1 )
             << ", TempoSync: " << is_checked << std::endl;
 
-    _database["mem"][memory_index]["TRACK"][track_index]["TempoSync"]  = is_checked;
+    _database["mem"][memory_index]["TRACK"][track_index]["TempoSync"] = is_checked;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Input_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Input ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Input: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["Input"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Output_changed(QComboBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Output ? 0 : 1);
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Output: " << value << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["Output"] = value;
 }
