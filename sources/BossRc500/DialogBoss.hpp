@@ -23,6 +23,8 @@ private:
     void on_memory_changed();
     void load_memory();
 
+    // Track callbacks
+    void on_reverse_changed(QCheckBox* cb);
 
 private:
     QDialog& _parent;

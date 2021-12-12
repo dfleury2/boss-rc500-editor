@@ -70,6 +70,10 @@ BossCopierDialog::add_callbacks()
     QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
+
+    // Track callbacks
+    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_reverse_changed(track1_Reverse); });
+    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_reverse_changed(track2_Reverse); });
 }
 
 // --------------------------------------------------------------------------
@@ -271,4 +275,18 @@ BossCopierDialog::load_memory()
         track2_Input->setCurrentIndex(track2["Input"].get<int>());
         track2_Output->setCurrentIndex(track2["Output"].get<int>());
     }
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_reverse_changed(QCheckBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_Reverse ? 0 : 1);
+    int is_checked = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1)
+            << ", Track: " << (track_index + 1 )
+            << ", Rev: " << is_checked << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["Rev"]  = is_checked;
 }
