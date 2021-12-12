@@ -11,10 +11,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# Make this a GUI application on Windows
-if(WIN32)
-    set(CMAKE_WIN32_EXECUTABLE ON)
-else()
+if(NOT WIN32)
     add_definitions(-DLINUX)
 endif()
 
@@ -24,7 +21,12 @@ find_package(rapidxml REQUIRED)
 find_package(Qt6 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
-add_subdirectory(sources/xml-reader)
+add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/BossRc500)
 add_subdirectory(sources/BossRc500-MemoryCopy)
-add_subdirectory(sources/WidgetExamples)
+
+# Some widget examples to learn Qt
+#add_subdirectory(sources/WidgetExamples)
+
+# Not used, only for first prototyping
+#add_subdirectory(sources/xml-reader)

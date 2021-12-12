@@ -1,5 +1,5 @@
 #include "DialogBoss.hpp"
-#include "BossReaderWriter.hpp"
+#include <BossReaderWriter/BossReaderWriter.hpp>
 
 #include <QFileDialog>
 #include <QMessageBox>

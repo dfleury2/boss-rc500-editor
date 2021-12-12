@@ -1,8 +1,7 @@
+#
+# BOSS RC 500 - Lookups
+#
 track:
-  pan:
-    - L50
-    - CENTER
-    - R50
   start:
     - IMMEDIATE
     - FADE IN

@@ -1,10 +1,17 @@
+# Make this a GUI application on Windows
+if(WIN32)
+    set(CMAKE_WIN32_EXECUTABLE ON)
+endif()
+
 add_executable(BossRc500MemoryCopier
-    main.cpp
-    BossReaderWriter.hpp
-    BossReaderWriter.cpp
-    Dialog.hpp
-    DialogBoss.hpp
-    DialogBoss.cpp
+        main.cpp
+        Dialog.hpp
+        DialogBoss.hpp
+        DialogBoss.cpp
 )
 
-target_link_libraries(BossRc500MemoryCopier PUBLIC Qt6::Qt6 rapidxml::rapidxml pantor::inja)
+target_link_libraries(BossRc500MemoryCopier
+    PUBLIC
+        Qt6::Qt6
+        BossReaderWriter::BossReaderWriter
+)

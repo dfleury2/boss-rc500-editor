@@ -1,5 +1,5 @@
 #include "DialogBoss.hpp"
-#include "BossReaderWriter.hpp"
+#include <BossReaderWriter/BossReaderWriter.hpp>
 
 #include <yaml-cpp/yaml.h>
 #include <QFileDialog>
@@ -37,17 +37,21 @@ BossCopierDialog::setup()
     QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
     QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
 
+    // pan
+    for (int i = 0; i <= 100; ++i)  {
+        std::string pan_label = "CENTER";
+        if (i < 50) pan_label = "L" + std::to_string(50 - i);
+        else if (i > 50)  pan_label = "R" + std::to_string(i - 50);
+
+        track1_Pan->addItem(pan_label.c_str());
+        track2_Pan->addItem(pan_label.c_str());
+    }
+
     // Read combo list
     try {
         YAML::Node lookup = YAML::LoadFile("./resources/lookup.yaml");
 
         if (lookup["track"]) {
-            if (auto pan = lookup["track"]["pan"]) {
-                for (auto it = pan.begin(); it != pan.end(); ++it) {
-                    track1_Pan->addItem(it->as<std::string>().c_str());
-                    track2_Pan->addItem(it->as<std::string>().c_str());
-                }
-            }
             if (auto start = lookup["track"]["start"]) {
                 for (auto it = start.begin(); it != start.end(); ++it) {
                     track1_Start->addItem(it->as<std::string>().c_str());
