@@ -25,6 +25,8 @@ private:
 
     // Track callbacks
     void on_reverse_changed(QCheckBox* cb);
+    void on_loopfx_changed(QCheckBox* cb);
+    void on_oneshot_changed(QCheckBox* cb);
 
 private:
     QDialog& _parent;
