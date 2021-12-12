@@ -69,6 +69,7 @@ BossCopierDialog::add_callbacks()
 {
     // Add callbacks
     QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
+    QObject::connect(button_Copy, &QPushButton::pressed, this, &BossCopierDialog::on_copy);
     QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
     QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
 
@@ -217,7 +218,7 @@ BossCopierDialog::on_open()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_save()
+BossCopierDialog::on_copy()
 {
     try {
         auto filename = label_Filename->text().toStdString();
@@ -249,8 +250,32 @@ BossCopierDialog::on_save()
             // Restore the memory id of the copied slot
             _database["mem"][i - 1]["id"] = i - 1;
         }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_save()
+{
+    try {
+        auto filename = label_Filename->text().toStdString();
+        if (filename.empty()) {
+            throw std::runtime_error("No filename selected");
+        }
+
+        if (auto response = QMessageBox::question(nullptr,
+                "Write changes to file ?",
+                QString::fromStdString("Do you want to write to file " + filename));
+                response != QMessageBox::Yes) {
+            throw std::runtime_error("Operation canceled");
+        }
 
         WriteMemoryDatabase(_database, filename);
+
+        QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();

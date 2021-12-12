@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500mPlnQM.ui'
+** Form generated from reading UI file 'Boss-rc500TTOvns.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500MPLNQM_H
-#define BOSS_2D_RC500MPLNQM_H
+#ifndef BOSS_2D_RC500TTOVNS_H
+#define BOSS_2D_RC500TTOVNS_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -79,6 +79,7 @@ public:
     QLabel *label_track2_Level;
     QLabel *label_track2_Pan;
     QLabel *label_track2_PlyLevel;
+    QPushButton *button_Copy;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
@@ -115,16 +116,16 @@ public:
         label_LoopStation->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         button_Save = new QPushButton(BossRc500Dialog);
         button_Save->setObjectName(QString::fromUtf8("button_Save"));
-        button_Save->setGeometry(QRect(570, 50, 51, 24));
+        button_Save->setGeometry(QRect(600, 50, 51, 24));
         label_To = new QLabel(BossRc500Dialog);
         label_To->setObjectName(QString::fromUtf8("label_To"));
-        label_To->setGeometry(QRect(470, 50, 21, 21));
+        label_To->setGeometry(QRect(480, 50, 21, 21));
         button_Quit = new QPushButton(BossRc500Dialog);
         button_Quit->setObjectName(QString::fromUtf8("button_Quit"));
         button_Quit->setGeometry(QRect(660, 50, 51, 24));
         cb_CopyFrom = new QComboBox(BossRc500Dialog);
         cb_CopyFrom->setObjectName(QString::fromUtf8("cb_CopyFrom"));
-        cb_CopyFrom->setGeometry(QRect(410, 50, 51, 25));
+        cb_CopyFrom->setGeometry(QRect(420, 50, 51, 25));
         label_Memory = new QLabel(BossRc500Dialog);
         label_Memory->setObjectName(QString::fromUtf8("label_Memory"));
         label_Memory->setGeometry(QRect(120, 50, 71, 21));
@@ -133,7 +134,7 @@ public:
         cb_Memory->setGeometry(QRect(200, 50, 91, 25));
         label_CopyTo = new QLabel(BossRc500Dialog);
         label_CopyTo->setObjectName(QString::fromUtf8("label_CopyTo"));
-        label_CopyTo->setGeometry(QRect(320, 50, 81, 21));
+        label_CopyTo->setGeometry(QRect(370, 50, 41, 21));
         label_Filename = new QLabel(BossRc500Dialog);
         label_Filename->setObjectName(QString::fromUtf8("label_Filename"));
         label_Filename->setGeometry(QRect(10, 80, 1021, 21));
@@ -143,7 +144,7 @@ public:
         label_Boss->setPixmap(QPixmap(QString::fromUtf8("resources/images/boss.png")));
         cb_CopyTo = new QComboBox(BossRc500Dialog);
         cb_CopyTo->setObjectName(QString::fromUtf8("cb_CopyTo"));
-        cb_CopyTo->setGeometry(QRect(500, 50, 51, 25));
+        cb_CopyTo->setGeometry(QRect(510, 50, 51, 25));
         gp_Track1 = new QGroupBox(BossRc500Dialog);
         gp_Track1->setObjectName(QString::fromUtf8("gp_Track1"));
         gp_Track1->setGeometry(QRect(10, 100, 301, 341));
@@ -290,6 +291,9 @@ public:
         label_track2_PlyLevel->setObjectName(QString::fromUtf8("label_track2_PlyLevel"));
         label_track2_PlyLevel->setGeometry(QRect(10, 310, 41, 21));
         label_track2_PlyLevel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        button_Copy = new QPushButton(BossRc500Dialog);
+        button_Copy->setObjectName(QString::fromUtf8("button_Copy"));
+        button_Copy->setGeometry(QRect(310, 50, 51, 24));
 
         retranslateUi(BossRc500Dialog);
 
@@ -306,7 +310,7 @@ public:
         label_To->setText(QCoreApplication::translate("BossRc500Dialog", "To", nullptr));
         button_Quit->setText(QCoreApplication::translate("BossRc500Dialog", "Quit", nullptr));
         label_Memory->setText(QCoreApplication::translate("BossRc500Dialog", "Memory", nullptr));
-        label_CopyTo->setText(QCoreApplication::translate("BossRc500Dialog", "Copy From", nullptr));
+        label_CopyTo->setText(QCoreApplication::translate("BossRc500Dialog", "From", nullptr));
         label_Filename->setText(QCoreApplication::translate("BossRc500Dialog", "<filename>", nullptr));
         label_Boss->setText(QString());
         gp_Track1->setTitle(QCoreApplication::translate("BossRc500Dialog", "TRACK 1", nullptr));
@@ -337,10 +341,11 @@ public:
         label_track2_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
         label_track2_Pan->setText(QCoreApplication::translate("BossRc500Dialog", "Pan", nullptr));
         label_track2_PlyLevel->setText(QCoreApplication::translate("BossRc500Dialog", "0", nullptr));
+        button_Copy->setText(QCoreApplication::translate("BossRc500Dialog", "Copy", nullptr));
     } // retranslateUi
 
 };
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500MPLNQM_H
+#endif // BOSS_2D_RC500TTOVNS_H

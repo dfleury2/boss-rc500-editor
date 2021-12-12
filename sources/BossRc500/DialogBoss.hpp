@@ -17,6 +17,7 @@ private:
     void add_combo_items();
 
     void on_open();
+    void on_copy();
     void on_save();
     void on_quit();
 
