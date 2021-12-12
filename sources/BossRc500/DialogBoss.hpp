@@ -24,9 +24,12 @@ private:
     void load_memory();
 
     // Track callbacks
-    void on_reverse_changed(QCheckBox* cb);
-    void on_loopfx_changed(QCheckBox* cb);
-    void on_oneshot_changed(QCheckBox* cb);
+    void on_Level_changed(QSlider* slider);
+    void on_Reverse_changed(QCheckBox* cb);
+    void on_LoopFx_changed(QCheckBox* cb);
+    void on_OneShot_changed(QCheckBox* cb);
+    void on_LoopSync_changed(QCheckBox* cb);
+    void on_TempoSync_changed(QCheckBox* cb);
 
 private:
     QDialog& _parent;

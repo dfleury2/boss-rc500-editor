@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500BFGPlS.ui'
+** Form generated from reading UI file 'Boss-rc500mPlnQM.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500BFGPLS_H
-#define BOSS_2D_RC500BFGPLS_H
+#ifndef BOSS_2D_RC500MPLNQM_H
+#define BOSS_2D_RC500MPLNQM_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -57,6 +57,7 @@ public:
     QComboBox *track1_Input;
     QComboBox *track1_Output;
     QLabel *label_track1_Input;
+    QLabel *label_track1_PlyLevel;
     QGroupBox *gp_Track2;
     QComboBox *track2_Measure;
     QLabel *label_track2_Stop;
@@ -77,6 +78,7 @@ public:
     QSlider *track2_Level;
     QLabel *label_track2_Level;
     QLabel *label_track2_Pan;
+    QLabel *label_track2_PlyLevel;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
@@ -151,13 +153,13 @@ public:
         track1_Reverse->setLayoutDirection(Qt::RightToLeft);
         track1_Level = new QSlider(gp_Track1);
         track1_Level->setObjectName(QString::fromUtf8("track1_Level"));
-        track1_Level->setGeometry(QRect(10, 30, 41, 261));
+        track1_Level->setGeometry(QRect(10, 30, 41, 251));
         track1_Level->setMaximum(200);
         track1_Level->setOrientation(Qt::Vertical);
         track1_Level->setTickPosition(QSlider::TicksBothSides);
         label_track1_Level = new QLabel(gp_Track1);
         label_track1_Level->setObjectName(QString::fromUtf8("label_track1_Level"));
-        label_track1_Level->setGeometry(QRect(10, 300, 41, 21));
+        label_track1_Level->setGeometry(QRect(10, 290, 41, 21));
         track1_LoopFx = new QCheckBox(gp_Track1);
         track1_LoopFx->setObjectName(QString::fromUtf8("track1_LoopFx"));
         track1_LoopFx->setGeometry(QRect(90, 50, 81, 23));
@@ -211,6 +213,10 @@ public:
         label_track1_Input = new QLabel(gp_Track1);
         label_track1_Input->setObjectName(QString::fromUtf8("label_track1_Input"));
         label_track1_Input->setGeometry(QRect(80, 270, 71, 21));
+        label_track1_PlyLevel = new QLabel(gp_Track1);
+        label_track1_PlyLevel->setObjectName(QString::fromUtf8("label_track1_PlyLevel"));
+        label_track1_PlyLevel->setGeometry(QRect(10, 310, 41, 21));
+        label_track1_PlyLevel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         gp_Track2 = new QGroupBox(BossRc500Dialog);
         gp_Track2->setObjectName(QString::fromUtf8("gp_Track2"));
         gp_Track2->setGeometry(QRect(320, 100, 301, 341));
@@ -276,10 +282,14 @@ public:
         track2_Level->setTickPosition(QSlider::TicksBothSides);
         label_track2_Level = new QLabel(gp_Track2);
         label_track2_Level->setObjectName(QString::fromUtf8("label_track2_Level"));
-        label_track2_Level->setGeometry(QRect(10, 300, 41, 21));
+        label_track2_Level->setGeometry(QRect(10, 290, 41, 21));
         label_track2_Pan = new QLabel(gp_Track2);
         label_track2_Pan->setObjectName(QString::fromUtf8("label_track2_Pan"));
         label_track2_Pan->setGeometry(QRect(90, 100, 71, 21));
+        label_track2_PlyLevel = new QLabel(gp_Track2);
+        label_track2_PlyLevel->setObjectName(QString::fromUtf8("label_track2_PlyLevel"));
+        label_track2_PlyLevel->setGeometry(QRect(10, 310, 41, 21));
+        label_track2_PlyLevel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         retranslateUi(BossRc500Dialog);
 
@@ -312,6 +322,7 @@ public:
         track1_TempoSync->setText(QCoreApplication::translate("BossRc500Dialog", "Tempo  Sync", nullptr));
         label_track1_Output->setText(QCoreApplication::translate("BossRc500Dialog", "Output", nullptr));
         label_track1_Input->setText(QCoreApplication::translate("BossRc500Dialog", "Input", nullptr));
+        label_track1_PlyLevel->setText(QCoreApplication::translate("BossRc500Dialog", "0", nullptr));
         gp_Track2->setTitle(QCoreApplication::translate("BossRc500Dialog", "TRACK 2", nullptr));
         label_track2_Stop->setText(QCoreApplication::translate("BossRc500Dialog", "Stop", nullptr));
         label_track2_Output->setText(QCoreApplication::translate("BossRc500Dialog", "Output", nullptr));
@@ -325,11 +336,11 @@ public:
         track2_LoopFx->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
         label_track2_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
         label_track2_Pan->setText(QCoreApplication::translate("BossRc500Dialog", "Pan", nullptr));
+        label_track2_PlyLevel->setText(QCoreApplication::translate("BossRc500Dialog", "0", nullptr));
     } // retranslateUi
 
 };
 
-
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500BFGPLS_H
+#endif // BOSS_2D_RC500MPLNQM_H

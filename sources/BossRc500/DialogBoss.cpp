@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStyleFactory>
 
 #include <iostream>
 
@@ -20,6 +21,7 @@ BossCopierDialog::setup()
     setupUi(&_parent);
 
     // Add some tweaks...
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     _parent.setFixedSize(_parent.width(), _parent.height());
     label_Filename->setText(QString());
 
@@ -46,6 +48,7 @@ BossCopierDialog::add_tooltips()
     track1_Input->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_input.png\"/></p></body></html>", nullptr));
     track1_Output->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_output.png\"/></p></body></html>", nullptr));
 
+    track2_Level->setToolTip(std::to_string(track2_Level->value()).c_str());
     track2_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_reverse.png\"/></p></body></html>", nullptr));
     track2_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
     track2_OneShot->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_oneshot.png\"/></p></body></html>", nullptr));
@@ -72,8 +75,23 @@ BossCopierDialog::add_callbacks()
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
 
     // Track callbacks
-    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_reverse_changed(track1_Reverse); });
-    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_reverse_changed(track2_Reverse); });
+    QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
+    QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
+
+    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track1_Reverse); });
+    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track2_Reverse); });
+
+    QObject::connect(track1_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track1_LoopFx); });
+    QObject::connect(track2_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track2_LoopFx); });
+
+    QObject::connect(track1_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
+    QObject::connect(track2_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
+
+    QObject::connect(track1_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
+    QObject::connect(track2_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
+
+    QObject::connect(track1_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
+    QObject::connect(track2_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
 }
 
 // --------------------------------------------------------------------------
@@ -279,7 +297,24 @@ BossCopierDialog::load_memory()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_reverse_changed(QCheckBox* cb)
+BossCopierDialog::on_Level_changed(QSlider* slider)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (slider == track1_Level ? 0 : 1);
+    int value = slider->value();
+    std::cout << "Memory: " << (memory_index + 1)
+              << ", Track: " << (track_index + 1 )
+              << ", Level: " << value << std::endl;
+
+    auto value_str = std::to_string(value);
+    slider->setToolTip(value_str.c_str());
+    (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
+    _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"]  = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Reverse_changed(QCheckBox* cb)
 {
     int memory_index = cb_Memory->currentIndex();
     int track_index = (cb == track1_Reverse ? 0 : 1);
@@ -289,4 +324,60 @@ BossCopierDialog::on_reverse_changed(QCheckBox* cb)
             << ", Rev: " << is_checked << std::endl;
 
     _database["mem"][memory_index]["TRACK"][track_index]["Rev"]  = is_checked;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_LoopFx_changed(QCheckBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_LoopFx ? 0 : 1);
+    int is_checked = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1)
+            << ", Track: " << (track_index + 1 )
+            << ", LoopFx: " << is_checked << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["LoopFx"]  = is_checked;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_OneShot_changed(QCheckBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_OneShot ? 0 : 1);
+    int is_checked = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1)
+            << ", Track: " << (track_index + 1 )
+            << ", OneShot: " << is_checked << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["One"]  = is_checked;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_LoopSync_changed(QCheckBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_LoopSync ? 0 : 1);
+    int is_checked = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1)
+            << ", Track: " << (track_index + 1 )
+            << ", LoopSync: " << is_checked << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["LoopSync"]  = is_checked;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_TempoSync_changed(QCheckBox* cb)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int track_index = (cb == track1_TempoSync ? 0 : 1);
+    int is_checked = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1)
+            << ", Track: " << (track_index + 1 )
+            << ", TempoSync: " << is_checked << std::endl;
+
+    _database["mem"][memory_index]["TRACK"][track_index]["TempoSync"]  = is_checked;
 }
