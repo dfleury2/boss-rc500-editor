@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500FjlOmn.ui'
+** Form generated from reading UI file 'Boss-rc500BFGPlS.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500FJLOMN_H
-#define BOSS_2D_RC500FJLOMN_H
+#ifndef BOSS_2D_RC500BFGPLS_H
+#define BOSS_2D_RC500BFGPLS_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -57,8 +57,6 @@ public:
     QComboBox *track1_Input;
     QComboBox *track1_Output;
     QLabel *label_track1_Input;
-    QComboBox *track1_FadeTime;
-    QLabel *label_track1_FadeTime;
     QGroupBox *gp_Track2;
     QComboBox *track2_Measure;
     QLabel *label_track2_Stop;
@@ -79,14 +77,12 @@ public:
     QSlider *track2_Level;
     QLabel *label_track2_Level;
     QLabel *label_track2_Pan;
-    QLabel *label_track2_FadeTime;
-    QComboBox *track2_FadeTime;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
         if (BossRc500Dialog->objectName().isEmpty())
             BossRc500Dialog->setObjectName(QString::fromUtf8("BossRc500Dialog"));
-        BossRc500Dialog->resize(1039, 700);
+        BossRc500Dialog->resize(721, 443);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -102,7 +98,7 @@ public:
         QFont font;
         font.setFamily(QString::fromUtf8("Bitstream Vera Sans"));
         font.setBold(true);
-        font.setWeight(QFont::Bold);
+        font.setWeight(QFont::DemiBold);
         BossRc500Dialog->setFont(font);
         label_File = new QLabel(BossRc500Dialog);
         label_File->setObjectName(QString::fromUtf8("label_File"));
@@ -215,12 +211,6 @@ public:
         label_track1_Input = new QLabel(gp_Track1);
         label_track1_Input->setObjectName(QString::fromUtf8("label_track1_Input"));
         label_track1_Input->setGeometry(QRect(80, 270, 71, 21));
-        track1_FadeTime = new QComboBox(BossRc500Dialog);
-        track1_FadeTime->setObjectName(QString::fromUtf8("track1_FadeTime"));
-        track1_FadeTime->setGeometry(QRect(160, 480, 121, 25));
-        label_track1_FadeTime = new QLabel(BossRc500Dialog);
-        label_track1_FadeTime->setObjectName(QString::fromUtf8("label_track1_FadeTime"));
-        label_track1_FadeTime->setGeometry(QRect(70, 480, 81, 21));
         gp_Track2 = new QGroupBox(BossRc500Dialog);
         gp_Track2->setObjectName(QString::fromUtf8("gp_Track2"));
         gp_Track2->setGeometry(QRect(320, 100, 301, 341));
@@ -290,12 +280,6 @@ public:
         label_track2_Pan = new QLabel(gp_Track2);
         label_track2_Pan->setObjectName(QString::fromUtf8("label_track2_Pan"));
         label_track2_Pan->setGeometry(QRect(90, 100, 71, 21));
-        label_track2_FadeTime = new QLabel(BossRc500Dialog);
-        label_track2_FadeTime->setObjectName(QString::fromUtf8("label_track2_FadeTime"));
-        label_track2_FadeTime->setGeometry(QRect(390, 520, 81, 21));
-        track2_FadeTime = new QComboBox(BossRc500Dialog);
-        track2_FadeTime->setObjectName(QString::fromUtf8("track2_FadeTime"));
-        track2_FadeTime->setGeometry(QRect(490, 520, 121, 25));
 
         retranslateUi(BossRc500Dialog);
 
@@ -316,23 +300,11 @@ public:
         label_Filename->setText(QCoreApplication::translate("BossRc500Dialog", "<filename>", nullptr));
         label_Boss->setText(QString());
         gp_Track1->setTitle(QCoreApplication::translate("BossRc500Dialog", "TRACK 1", nullptr));
-#if QT_CONFIG(tooltip)
-        track1_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\":/images/images/tooltip_Reverse.png\"/></p></body></html>", nullptr));
-#endif // QT_CONFIG(tooltip)
         track1_Reverse->setText(QCoreApplication::translate("BossRc500Dialog", "Reverse", nullptr));
         label_track1_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
-#if QT_CONFIG(tooltip)
-        track1_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "Specifies whether to apply LOOP FX (ON) or not (OFF).", nullptr));
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        track1_LoopFx->setWhatsThis(QString());
-#endif // QT_CONFIG(whatsthis)
         track1_LoopFx->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
         track1_OneShot->setText(QCoreApplication::translate("BossRc500Dialog", "One Shot", nullptr));
         label_track1_Pan->setText(QCoreApplication::translate("BossRc500Dialog", "Pan", nullptr));
-#if QT_CONFIG(tooltip)
-        track1_Pan->setToolTip(QCoreApplication::translate("BossRc500Dialog", "Specifies the stereo position (pan) of the track.", nullptr));
-#endif // QT_CONFIG(tooltip)
         label_track1_Stop->setText(QCoreApplication::translate("BossRc500Dialog", "Stop", nullptr));
         label_track1_Start->setText(QCoreApplication::translate("BossRc500Dialog", "Start", nullptr));
         label_track1_Measure->setText(QCoreApplication::translate("BossRc500Dialog", "Measure", nullptr));
@@ -340,7 +312,6 @@ public:
         track1_TempoSync->setText(QCoreApplication::translate("BossRc500Dialog", "Tempo  Sync", nullptr));
         label_track1_Output->setText(QCoreApplication::translate("BossRc500Dialog", "Output", nullptr));
         label_track1_Input->setText(QCoreApplication::translate("BossRc500Dialog", "Input", nullptr));
-        label_track1_FadeTime->setText(QCoreApplication::translate("BossRc500Dialog", "Fade Time", nullptr));
         gp_Track2->setTitle(QCoreApplication::translate("BossRc500Dialog", "TRACK 2", nullptr));
         label_track2_Stop->setText(QCoreApplication::translate("BossRc500Dialog", "Stop", nullptr));
         label_track2_Output->setText(QCoreApplication::translate("BossRc500Dialog", "Output", nullptr));
@@ -354,11 +325,11 @@ public:
         track2_LoopFx->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
         label_track2_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
         label_track2_Pan->setText(QCoreApplication::translate("BossRc500Dialog", "Pan", nullptr));
-        label_track2_FadeTime->setText(QCoreApplication::translate("BossRc500Dialog", "Fade Time", nullptr));
     } // retranslateUi
 
 };
 
+
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500FJLOMN_H
+#endif // BOSS_2D_RC500BFGPLS_H

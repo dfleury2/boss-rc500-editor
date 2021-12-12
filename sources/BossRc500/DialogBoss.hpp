@@ -17,6 +17,10 @@ private:
     void on_save();
     void on_quit();
 
+    void on_memory_changed();
+    void load_memory();
+
+
 private:
     QDialog& _parent;
 

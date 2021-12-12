@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1039</width>
-    <height>700</height>
+    <width>721</width>
+    <height>443</height>
    </rect>
   </property>
   <property name="palette">
@@ -274,9 +274,6 @@
       <height>23</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/images/images/tooltip_Reverse.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="layoutDirection">
      <enum>Qt::RightToLeft</enum>
     </property>
@@ -325,12 +322,6 @@
       <height>23</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>Specifies whether to apply LOOP FX (ON) or not (OFF).</string>
-    </property>
-    <property name="whatsThis">
-     <string/>
-    </property>
     <property name="layoutDirection">
      <enum>Qt::RightToLeft</enum>
     </property>
@@ -378,9 +369,6 @@
       <width>91</width>
       <height>25</height>
      </rect>
-    </property>
-    <property name="toolTip">
-     <string>Specifies the stereo position (pan) of the track.</string>
     </property>
    </widget>
    <widget class="QComboBox" name="track1_Stop">
@@ -530,29 +518,6 @@
      <string>Input</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QComboBox" name="track1_FadeTime">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>480</y>
-     <width>121</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_track1_FadeTime">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>480</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Fade Time</string>
-   </property>
   </widget>
   <widget class="QGroupBox" name="gp_Track2">
    <property name="geometry">
@@ -820,34 +785,9 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="label_track2_FadeTime">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>520</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Fade Time</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="track2_FadeTime">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>520</y>
-     <width>121</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
  <designerdata>
   <property name="gridDeltaX">
