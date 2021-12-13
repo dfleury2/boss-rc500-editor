@@ -52,7 +52,6 @@ private:
     // Rhythm
     void on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name);
     void on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name);
-    void on_Rhythm_SpinBox_changed(QSpinBox* sb, const char* name);
     void on_Rhythm_Slider_changed(QSlider* s, const char* name);
 
 private:

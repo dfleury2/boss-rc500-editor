@@ -410,16 +410,16 @@ BossCopierDialog::add_callbacks()
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_PlayCount, "PlayCount"); });
 
     QObject::connect(rhythm_Fill, &QCheckBox::stateChanged, this,
-            [this] { on_LoopFx_CheckBox_changed(rhythm_Fill, "Fill"); });
+            [this] { on_Rhythm_CheckBox_changed(rhythm_Fill, "Fill"); });
 
     QObject::connect(rhythm_Part1, &QCheckBox::stateChanged, this,
-            [this] { on_LoopFx_CheckBox_changed(rhythm_Part1, "Part1"); });
+            [this] { on_Rhythm_CheckBox_changed(rhythm_Part1, "Part1"); });
     QObject::connect(rhythm_Part2, &QCheckBox::stateChanged, this,
-            [this] { on_LoopFx_CheckBox_changed(rhythm_Part2, "Part2"); });
+            [this] { on_Rhythm_CheckBox_changed(rhythm_Part2, "Part2"); });
     QObject::connect(rhythm_Part3, &QCheckBox::stateChanged, this,
-            [this] { on_LoopFx_CheckBox_changed(rhythm_Part3, "Part3"); });
+            [this] { on_Rhythm_CheckBox_changed(rhythm_Part3, "Part3"); });
     QObject::connect(rhythm_Part4, &QCheckBox::stateChanged, this,
-            [this] { on_LoopFx_CheckBox_changed(rhythm_Part4, "Part4"); });
+            [this] { on_Rhythm_CheckBox_changed(rhythm_Part4, "Part4"); });
 
     QObject::connect(rhythm_ToneLow, &QSlider::valueChanged,
             this, [this] { on_Rhythm_Slider_changed(rhythm_ToneLow, "ToneLow"); });
@@ -917,16 +917,6 @@ BossCopierDialog::on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name)
 {
     int memory_index = cb_Memory->currentIndex();
     int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database["mem"][memory_index]["RHYTHM"][name] = value;
-}
-
-// --------------------------------------------------------------------------
-void
-BossCopierDialog::on_Rhythm_SpinBox_changed(QSpinBox* sb, const char* name)
-{
-    int memory_index = cb_Memory->currentIndex();
-    int value = sb->value();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["RHYTHM"][name] = value;
 }
