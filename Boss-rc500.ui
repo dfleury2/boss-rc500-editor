@@ -1012,7 +1012,7 @@
      <x>320</x>
      <y>450</y>
      <width>291</width>
-     <height>211</height>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -1022,7 +1022,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>60</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -1035,7 +1035,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>30</y>
+      <y>60</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -1045,7 +1045,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>120</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -1058,7 +1058,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>60</y>
+      <y>90</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -1068,7 +1068,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>90</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -1081,7 +1081,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>180</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -1094,7 +1094,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>120</y>
+      <y>150</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -1104,7 +1104,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>150</y>
+      <y>180</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -1114,7 +1114,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
+      <y>150</y>
       <width>131</width>
       <height>21</height>
      </rect>
@@ -1127,7 +1127,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>210</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -1140,7 +1140,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>180</y>
+      <y>210</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -1150,7 +1150,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>90</y>
+      <y>120</y>
       <width>71</width>
       <height>24</height>
      </rect>
@@ -1160,6 +1160,41 @@
     </property>
     <property name="maximum">
      <number>100</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_Tempo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tempo</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="play_Tempo">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>91</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="decimals">
+     <number>1</number>
+    </property>
+    <property name="minimum">
+     <double>40.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>240.000000000000000</double>
     </property>
    </widget>
   </widget>
@@ -1175,7 +1210,7 @@
    <property name="title">
     <string>Rhythm</string>
    </property>
-   <widget class="QSlider" name="rhythm_level">
+   <widget class="QSlider" name="rhythm_Level">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -1194,7 +1229,7 @@
      <enum>QSlider::TicksBothSides</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Level_2">
+   <widget class="QLabel" name="label_rhythm_Level">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -1207,7 +1242,7 @@
      <string>Level</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Level_3">
+   <widget class="QLabel" name="label_rhythm_Reverb">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -1220,7 +1255,7 @@
      <string>Reverb</string>
     </property>
    </widget>
-   <widget class="QSlider" name="rhythm_reverb">
+   <widget class="QSlider" name="rhythm_Reverb">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -1239,7 +1274,7 @@
      <enum>QSlider::TicksBothSides</enum>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_2">
+   <widget class="QComboBox" name="rhythm_Pattern">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1249,7 +1284,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_2">
+   <widget class="QLabel" name="label_rhythm_Pattern">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1262,7 +1297,7 @@
      <string>Pattern</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_3">
+   <widget class="QComboBox" name="rhythm_Variation">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1272,7 +1307,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_3">
+   <widget class="QLabel" name="label_rhythm_Variation">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1285,7 +1320,7 @@
      <string>Variation</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_4">
+   <widget class="QComboBox" name="rhythm_VarChange">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1295,7 +1330,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_4">
+   <widget class="QLabel" name="label_rhythm_VarChange">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1308,7 +1343,7 @@
      <string>Var. Change</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_5">
+   <widget class="QLabel" name="label_rhythm_Kit">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1321,7 +1356,7 @@
      <string>Kit</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_5">
+   <widget class="QComboBox" name="rhythm_Kit">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1331,7 +1366,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_6">
+   <widget class="QLabel" name="label_rhythm_Beat">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1344,7 +1379,7 @@
      <string>Beat</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_6">
+   <widget class="QComboBox" name="rhythm_Beat">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1354,7 +1389,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_7">
+   <widget class="QLabel" name="label_rhythm_Start">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1367,7 +1402,7 @@
      <string>Start</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_7">
+   <widget class="QComboBox" name="rhythm_Start">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1377,7 +1412,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_8">
+   <widget class="QLabel" name="label_rhythm_Stop">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1390,7 +1425,7 @@
      <string>Stop</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_8">
+   <widget class="QComboBox" name="rhythm_Stop">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1400,7 +1435,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_9">
+   <widget class="QComboBox" name="rhythm_RecCount">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1410,7 +1445,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_9">
+   <widget class="QLabel" name="label_rhythm_RecCount">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1423,7 +1458,7 @@
      <string>Rec Count</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_10">
+   <widget class="QLabel" name="label_rhythm_PlayCount">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1436,7 +1471,7 @@
      <string>Play Count</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Start_10">
+   <widget class="QComboBox" name="rhythm_PlayCount">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1446,7 +1481,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="track2_Reverse_2">
+   <widget class="QCheckBox" name="rhythm_Fill">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1462,7 +1497,7 @@
      <string>Fill</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="track2_Reverse_3">
+   <widget class="QCheckBox" name="rhythm_Part1">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -1478,7 +1513,7 @@
      <string>1</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="track2_Reverse_4">
+   <widget class="QCheckBox" name="rhythm_Part2">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -1494,7 +1529,7 @@
      <string>2</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="track2_Reverse_5">
+   <widget class="QCheckBox" name="rhythm_Part3">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -1510,7 +1545,7 @@
      <string>3</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="track2_Reverse_6">
+   <widget class="QCheckBox" name="rhythm_Part4">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -1526,7 +1561,7 @@
      <string>4</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_11">
+   <widget class="QLabel" name="label_rhythm_Part">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -1539,7 +1574,7 @@
      <string>Part</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_track1_Start_12">
+   <widget class="QLabel" name="label_rhythm_Tone">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -1552,7 +1587,7 @@
      <string>Low Tone High</string>
     </property>
    </widget>
-   <widget class="QSlider" name="track1_Level_4">
+   <widget class="QSlider" name="rhythm_ToneLow">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -1577,7 +1612,7 @@
      <enum>QSlider::TicksBothSides</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="track1_Level_5">
+   <widget class="QSlider" name="rhythm_ToneHigh">
     <property name="geometry">
      <rect>
       <x>70</x>
