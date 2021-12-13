@@ -145,7 +145,7 @@
   <widget class="QLabel" name="label_To">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>580</x>
      <y>50</y>
      <width>21</width>
      <height>21</height>
@@ -171,7 +171,7 @@
   <widget class="QComboBox" name="cb_CopyFrom">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>520</x>
      <y>50</y>
      <width>51</width>
      <height>25</height>
@@ -181,7 +181,7 @@
   <widget class="QLabel" name="label_Memory">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>130</x>
      <y>50</y>
      <width>61</width>
      <height>21</height>
@@ -194,9 +194,9 @@
   <widget class="QComboBox" name="cb_Memory">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>200</x>
      <y>50</y>
-     <width>91</width>
+     <width>191</width>
      <height>25</height>
     </rect>
    </property>
@@ -204,7 +204,7 @@
   <widget class="QLabel" name="label_CopyTo">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>470</x>
      <y>50</y>
      <width>41</width>
      <height>21</height>
@@ -246,7 +246,7 @@
   <widget class="QComboBox" name="cb_CopyTo">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>610</x>
      <y>50</y>
      <width>51</width>
      <height>25</height>
@@ -820,7 +820,7 @@
   <widget class="QPushButton" name="button_Copy">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>690</x>
      <y>50</y>
      <width>51</width>
      <height>24</height>
@@ -1791,8 +1791,93 @@
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="button_Edit">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>50</y>
+     <width>51</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
+ <tabstops>
+  <tabstop>button_Open</tabstop>
+  <tabstop>cb_Memory</tabstop>
+  <tabstop>button_Edit</tabstop>
+  <tabstop>cb_CopyFrom</tabstop>
+  <tabstop>cb_CopyTo</tabstop>
+  <tabstop>button_Copy</tabstop>
+  <tabstop>button_Save</tabstop>
+  <tabstop>button_Quit</tabstop>
+  <tabstop>track1_Level</tabstop>
+  <tabstop>track1_Reverse</tabstop>
+  <tabstop>track1_LoopFx</tabstop>
+  <tabstop>track1_OneShot</tabstop>
+  <tabstop>track1_Pan</tabstop>
+  <tabstop>track1_Start</tabstop>
+  <tabstop>track1_Stop</tabstop>
+  <tabstop>track1_Measure</tabstop>
+  <tabstop>track1_LoopSync</tabstop>
+  <tabstop>track1_TempoSync</tabstop>
+  <tabstop>track1_Input</tabstop>
+  <tabstop>track1_Output</tabstop>
+  <tabstop>track2_Level</tabstop>
+  <tabstop>track2_Reverse</tabstop>
+  <tabstop>track2_LoopFx</tabstop>
+  <tabstop>track2_OneShot</tabstop>
+  <tabstop>track2_Pan</tabstop>
+  <tabstop>track2_Start</tabstop>
+  <tabstop>track2_Stop</tabstop>
+  <tabstop>track2_Measure</tabstop>
+  <tabstop>track2_LoopSync</tabstop>
+  <tabstop>track2_TempoSync</tabstop>
+  <tabstop>track2_Input</tabstop>
+  <tabstop>track2_Output</tabstop>
+  <tabstop>rhythm_Level</tabstop>
+  <tabstop>rhythm_Reverb</tabstop>
+  <tabstop>rhythm_Pattern</tabstop>
+  <tabstop>rhythm_Variation</tabstop>
+  <tabstop>rhythm_VarChange</tabstop>
+  <tabstop>rhythm_Kit</tabstop>
+  <tabstop>rhythm_Beat</tabstop>
+  <tabstop>rhythm_Start</tabstop>
+  <tabstop>rhythm_Stop</tabstop>
+  <tabstop>rhythm_RecCount</tabstop>
+  <tabstop>rhythm_PlayCount</tabstop>
+  <tabstop>rhythm_Fill</tabstop>
+  <tabstop>rhythm_Part1</tabstop>
+  <tabstop>rhythm_Part2</tabstop>
+  <tabstop>rhythm_Part3</tabstop>
+  <tabstop>rhythm_Part4</tabstop>
+  <tabstop>rhythm_ToneLow</tabstop>
+  <tabstop>rhythm_ToneHigh</tabstop>
+  <tabstop>record_DubMode</tabstop>
+  <tabstop>record_RecordAction</tabstop>
+  <tabstop>record_Quantize</tabstop>
+  <tabstop>record_AutoRecord</tabstop>
+  <tabstop>record_AutoRecordSensitivity</tabstop>
+  <tabstop>record_AutoRecordSource</tabstop>
+  <tabstop>record_LoopLength</tabstop>
+  <tabstop>play_Tempo</tabstop>
+  <tabstop>play_PlayMode</tabstop>
+  <tabstop>play_SingleChange</tabstop>
+  <tabstop>play_Level</tabstop>
+  <tabstop>play_FadeTime</tabstop>
+  <tabstop>play_AllStart</tabstop>
+  <tabstop>play_TrackChain</tabstop>
+  <tabstop>loopFx_Sw</tabstop>
+  <tabstop>loopFx_Type</tabstop>
+  <tabstop>loopFx_ScatLen</tabstop>
+  <tabstop>loopFx_ReptLen</tabstop>
+  <tabstop>loopFx_Shift</tabstop>
+  <tabstop>loopFx_Flick</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <designerdata>
