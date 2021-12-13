@@ -100,6 +100,9 @@ ExtractDatabase(rapidxml::xml_document<>& doc)
     for (auto mem = root->first_node("mem"); mem; mem = mem->next_sibling("mem")) {
         database["mem"].push_back(ExtractMemory(mem));
         (*database["mem"].rbegin())["id"] = mem_index;
+
+        auto mem_name = mem->first_attribute("name");
+        (*database["mem"].rbegin())["name"] = (mem_name ? mem_name->value() : "");
         ++mem_index;
     }
 
