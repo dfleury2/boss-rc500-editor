@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500AlREKH.ui'
+** Form generated from reading UI file 'Boss-rc500jCZMTf.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500ALREKH_H
-#define BOSS_2D_RC500ALREKH_H
+#ifndef BOSS_2D_RC500JCZMTF_H
+#define BOSS_2D_RC500JCZMTF_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -155,6 +155,7 @@ public:
     QLabel *label_loopFx_Flick;
     QSpinBox *loopFx_Flick;
     QCheckBox *loopFx_Sw;
+    QPushButton *button_Edit;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
@@ -194,22 +195,22 @@ public:
         button_Save->setGeometry(QRect(900, 50, 51, 24));
         label_To = new QLabel(BossRc500Dialog);
         label_To->setObjectName(QString::fromUtf8("label_To"));
-        label_To->setGeometry(QRect(530, 50, 21, 21));
+        label_To->setGeometry(QRect(580, 50, 21, 21));
         button_Quit = new QPushButton(BossRc500Dialog);
         button_Quit->setObjectName(QString::fromUtf8("button_Quit"));
         button_Quit->setGeometry(QRect(970, 50, 51, 24));
         cb_CopyFrom = new QComboBox(BossRc500Dialog);
         cb_CopyFrom->setObjectName(QString::fromUtf8("cb_CopyFrom"));
-        cb_CopyFrom->setGeometry(QRect(470, 50, 51, 25));
+        cb_CopyFrom->setGeometry(QRect(520, 50, 51, 25));
         label_Memory = new QLabel(BossRc500Dialog);
         label_Memory->setObjectName(QString::fromUtf8("label_Memory"));
-        label_Memory->setGeometry(QRect(180, 50, 61, 21));
+        label_Memory->setGeometry(QRect(130, 50, 61, 21));
         cb_Memory = new QComboBox(BossRc500Dialog);
         cb_Memory->setObjectName(QString::fromUtf8("cb_Memory"));
-        cb_Memory->setGeometry(QRect(250, 50, 91, 25));
+        cb_Memory->setGeometry(QRect(200, 50, 191, 25));
         label_CopyTo = new QLabel(BossRc500Dialog);
         label_CopyTo->setObjectName(QString::fromUtf8("label_CopyTo"));
-        label_CopyTo->setGeometry(QRect(420, 50, 41, 21));
+        label_CopyTo->setGeometry(QRect(470, 50, 41, 21));
         label_Filename = new QLabel(BossRc500Dialog);
         label_Filename->setObjectName(QString::fromUtf8("label_Filename"));
         label_Filename->setGeometry(QRect(10, 80, 1021, 21));
@@ -219,7 +220,7 @@ public:
         label_Boss->setPixmap(QPixmap(QString::fromUtf8("resources/images/boss.png")));
         cb_CopyTo = new QComboBox(BossRc500Dialog);
         cb_CopyTo->setObjectName(QString::fromUtf8("cb_CopyTo"));
-        cb_CopyTo->setGeometry(QRect(560, 50, 51, 25));
+        cb_CopyTo->setGeometry(QRect(610, 50, 51, 25));
         gp_Track1 = new QGroupBox(BossRc500Dialog);
         gp_Track1->setObjectName(QString::fromUtf8("gp_Track1"));
         gp_Track1->setGeometry(QRect(10, 100, 301, 341));
@@ -368,7 +369,7 @@ public:
         label_track2_PlyLevel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         button_Copy = new QPushButton(BossRc500Dialog);
         button_Copy->setObjectName(QString::fromUtf8("button_Copy"));
-        button_Copy->setGeometry(QRect(640, 50, 51, 24));
+        button_Copy->setGeometry(QRect(690, 50, 51, 24));
         gp_Record = new QGroupBox(BossRc500Dialog);
         gp_Record->setObjectName(QString::fromUtf8("gp_Record"));
         gp_Record->setGeometry(QRect(10, 450, 301, 241));
@@ -623,6 +624,78 @@ public:
         loopFx_Sw->setObjectName(QString::fromUtf8("loopFx_Sw"));
         loopFx_Sw->setGeometry(QRect(10, 30, 81, 21));
         loopFx_Sw->setLayoutDirection(Qt::RightToLeft);
+        button_Edit = new QPushButton(BossRc500Dialog);
+        button_Edit->setObjectName(QString::fromUtf8("button_Edit"));
+        button_Edit->setGeometry(QRect(400, 50, 51, 24));
+        QWidget::setTabOrder(button_Open, cb_Memory);
+        QWidget::setTabOrder(cb_Memory, button_Edit);
+        QWidget::setTabOrder(button_Edit, cb_CopyFrom);
+        QWidget::setTabOrder(cb_CopyFrom, cb_CopyTo);
+        QWidget::setTabOrder(cb_CopyTo, button_Copy);
+        QWidget::setTabOrder(button_Copy, button_Save);
+        QWidget::setTabOrder(button_Save, button_Quit);
+        QWidget::setTabOrder(button_Quit, track1_Level);
+        QWidget::setTabOrder(track1_Level, track1_Reverse);
+        QWidget::setTabOrder(track1_Reverse, track1_LoopFx);
+        QWidget::setTabOrder(track1_LoopFx, track1_OneShot);
+        QWidget::setTabOrder(track1_OneShot, track1_Pan);
+        QWidget::setTabOrder(track1_Pan, track1_Start);
+        QWidget::setTabOrder(track1_Start, track1_Stop);
+        QWidget::setTabOrder(track1_Stop, track1_Measure);
+        QWidget::setTabOrder(track1_Measure, track1_LoopSync);
+        QWidget::setTabOrder(track1_LoopSync, track1_TempoSync);
+        QWidget::setTabOrder(track1_TempoSync, track1_Input);
+        QWidget::setTabOrder(track1_Input, track1_Output);
+        QWidget::setTabOrder(track1_Output, track2_Level);
+        QWidget::setTabOrder(track2_Level, track2_Reverse);
+        QWidget::setTabOrder(track2_Reverse, track2_LoopFx);
+        QWidget::setTabOrder(track2_LoopFx, track2_OneShot);
+        QWidget::setTabOrder(track2_OneShot, track2_Pan);
+        QWidget::setTabOrder(track2_Pan, track2_Start);
+        QWidget::setTabOrder(track2_Start, track2_Stop);
+        QWidget::setTabOrder(track2_Stop, track2_Measure);
+        QWidget::setTabOrder(track2_Measure, track2_LoopSync);
+        QWidget::setTabOrder(track2_LoopSync, track2_TempoSync);
+        QWidget::setTabOrder(track2_TempoSync, track2_Input);
+        QWidget::setTabOrder(track2_Input, track2_Output);
+        QWidget::setTabOrder(track2_Output, rhythm_Level);
+        QWidget::setTabOrder(rhythm_Level, rhythm_Reverb);
+        QWidget::setTabOrder(rhythm_Reverb, rhythm_Pattern);
+        QWidget::setTabOrder(rhythm_Pattern, rhythm_Variation);
+        QWidget::setTabOrder(rhythm_Variation, rhythm_VarChange);
+        QWidget::setTabOrder(rhythm_VarChange, rhythm_Kit);
+        QWidget::setTabOrder(rhythm_Kit, rhythm_Beat);
+        QWidget::setTabOrder(rhythm_Beat, rhythm_Start);
+        QWidget::setTabOrder(rhythm_Start, rhythm_Stop);
+        QWidget::setTabOrder(rhythm_Stop, rhythm_RecCount);
+        QWidget::setTabOrder(rhythm_RecCount, rhythm_PlayCount);
+        QWidget::setTabOrder(rhythm_PlayCount, rhythm_Fill);
+        QWidget::setTabOrder(rhythm_Fill, rhythm_Part1);
+        QWidget::setTabOrder(rhythm_Part1, rhythm_Part2);
+        QWidget::setTabOrder(rhythm_Part2, rhythm_Part3);
+        QWidget::setTabOrder(rhythm_Part3, rhythm_Part4);
+        QWidget::setTabOrder(rhythm_Part4, rhythm_ToneLow);
+        QWidget::setTabOrder(rhythm_ToneLow, rhythm_ToneHigh);
+        QWidget::setTabOrder(rhythm_ToneHigh, record_DubMode);
+        QWidget::setTabOrder(record_DubMode, record_RecordAction);
+        QWidget::setTabOrder(record_RecordAction, record_Quantize);
+        QWidget::setTabOrder(record_Quantize, record_AutoRecord);
+        QWidget::setTabOrder(record_AutoRecord, record_AutoRecordSensitivity);
+        QWidget::setTabOrder(record_AutoRecordSensitivity, record_AutoRecordSource);
+        QWidget::setTabOrder(record_AutoRecordSource, record_LoopLength);
+        QWidget::setTabOrder(record_LoopLength, play_Tempo);
+        QWidget::setTabOrder(play_Tempo, play_PlayMode);
+        QWidget::setTabOrder(play_PlayMode, play_SingleChange);
+        QWidget::setTabOrder(play_SingleChange, play_Level);
+        QWidget::setTabOrder(play_Level, play_FadeTime);
+        QWidget::setTabOrder(play_FadeTime, play_AllStart);
+        QWidget::setTabOrder(play_AllStart, play_TrackChain);
+        QWidget::setTabOrder(play_TrackChain, loopFx_Sw);
+        QWidget::setTabOrder(loopFx_Sw, loopFx_Type);
+        QWidget::setTabOrder(loopFx_Type, loopFx_ScatLen);
+        QWidget::setTabOrder(loopFx_ScatLen, loopFx_ReptLen);
+        QWidget::setTabOrder(loopFx_ReptLen, loopFx_Shift);
+        QWidget::setTabOrder(loopFx_Shift, loopFx_Flick);
 
         retranslateUi(BossRc500Dialog);
 
@@ -713,10 +786,11 @@ public:
         label_loopFx_Shift->setText(QCoreApplication::translate("BossRc500Dialog", "Shift", nullptr));
         label_loopFx_Flick->setText(QCoreApplication::translate("BossRc500Dialog", "Flick", nullptr));
         loopFx_Sw->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
+        button_Edit->setText(QCoreApplication::translate("BossRc500Dialog", "Edit", nullptr));
     } // retranslateUi
 
 };
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500ALREKH_H
+#endif // BOSS_2D_RC500JCZMTF_H
