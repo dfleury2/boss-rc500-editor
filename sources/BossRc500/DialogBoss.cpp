@@ -91,97 +91,6 @@ BossCopierDialog::add_tooltips()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::add_callbacks()
-{
-    // Add callbacks
-    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
-    QObject::connect(button_Copy, &QPushButton::pressed, this, &BossCopierDialog::on_copy);
-    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
-    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
-
-    QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
-
-    // Track 1/2 callbacks
-    QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
-    QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
-
-    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track1_Reverse); });
-    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track2_Reverse); });
-
-    QObject::connect(track1_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track1_LoopFx); });
-    QObject::connect(track2_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track2_LoopFx); });
-
-    QObject::connect(track1_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
-    QObject::connect(track2_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
-
-    QObject::connect(track1_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track1_Pan); });
-    QObject::connect(track2_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track2_Pan); });
-
-    QObject::connect(track1_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track1_Start); });
-    QObject::connect(track2_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track2_Start); });
-
-    QObject::connect(track1_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track1_Stop); });
-    QObject::connect(track2_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track2_Stop); });
-
-    QObject::connect(track1_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track1_Measure); });
-    QObject::connect(track2_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track2_Measure); });
-
-    QObject::connect(track1_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
-    QObject::connect(track2_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
-
-    QObject::connect(track1_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
-    QObject::connect(track2_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
-
-    QObject::connect(track1_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track1_Input); });
-    QObject::connect(track2_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track2_Input); });
-
-    QObject::connect(track1_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track1_Output); });
-    QObject::connect(track2_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track2_Output); });
-
-    // Master Record callbacks
-    QObject::connect(record_DubMode, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(record_DubMode, "DubMode"); });
-
-    QObject::connect(record_RecordAction, &QComboBox::currentIndexChanged, this,
-            [this] { on_Master_ComboBox_changed(record_RecordAction, "RecAction"); });
-
-    QObject::connect(record_Quantize, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(record_Quantize, "RecQuantize"); });
-
-    QObject::connect(record_AutoRecord, &QCheckBox::stateChanged, this,
-            [this] { on_Master_CheckBox_changed(record_AutoRecord, "AutoRec"); });
-
-    QObject::connect(record_AutoRecordSensitivity, &QSpinBox::valueChanged,
-            this, [this] { on_Master_SpinBox_changed(record_AutoRecordSensitivity, "AutoRecSens"); });
-
-    QObject::connect(record_AutoRecordSource, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(record_AutoRecordSource, "AutoRecSrc"); });
-
-    QObject::connect(record_LoopLength, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(record_LoopLength, "LpLen"); });
-
-    // Master Play callbacks
-    QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(play_PlayMode, "PlayMode"); });
-
-    QObject::connect(play_SingleChange, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(play_SingleChange, "SinglPlayeChange"); });
-
-    QObject::connect(play_Level, &QSpinBox::valueChanged,
-            this, [this] { on_Master_SpinBox_changed(play_Level, "Level"); });
-
-    QObject::connect(play_FadeTime, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(play_FadeTime, "FadeTime"); });
-
-    QObject::connect(play_AllStart, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(play_AllStart, "AllStart"); });
-
-    QObject::connect(play_TrackChain, &QComboBox::currentIndexChanged,
-            this, [this] { on_Master_ComboBox_changed(play_TrackChain, "TrackChain"); });
-}
-
-// --------------------------------------------------------------------------
-void
 BossCopierDialog::add_combo_items()
 {
     // MEMORY
@@ -272,6 +181,141 @@ BossCopierDialog::add_combo_items()
 
     AddItemsToComboBox(play_AllStart, {"ALL", "TRACK1", "TRACK2"});
     AddItemsToComboBox(play_TrackChain, {"PARALLEL", "SERIES"});
+
+    // ----- LOOP FX -----
+    AddItemsToComboBox(loopFx_Type, {"SCATTER-1", "SCATTER-2","SCATTER-3", "SCATTER-4",
+                                     "REPEAT-1", "REPEAT-2","REPEAT-3", "SHIFT-1", "SHIFT-2", "VINYL FLICK"});
+
+    loopFx_ScatLen->addItem("THRU");
+    loopFx_ScatLen->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    loopFx_ScatLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
+    loopFx_ScatLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
+    loopFx_ScatLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
+
+    loopFx_ReptLen->addItem("THRU");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
+    loopFx_ReptLen->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver");
+
+    loopFx_Shift->addItem("THRU");
+    loopFx_Shift->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
+    loopFx_Shift->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
+    loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
+    loopFx_Shift->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    loopFx_Shift->addItem(QIcon("./resources/images/whole note.png"), "Whole Note");
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::add_callbacks()
+{
+    // Add callbacks
+    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
+    QObject::connect(button_Copy, &QPushButton::pressed, this, &BossCopierDialog::on_copy);
+    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
+    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+
+    QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
+
+    // Track 1/2 callbacks
+    QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
+    QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
+
+    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track1_Reverse); });
+    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track2_Reverse); });
+
+    QObject::connect(track1_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track1_LoopFx); });
+    QObject::connect(track2_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track2_LoopFx); });
+
+    QObject::connect(track1_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
+    QObject::connect(track2_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
+
+    QObject::connect(track1_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track1_Pan); });
+    QObject::connect(track2_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track2_Pan); });
+
+    QObject::connect(track1_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track1_Start); });
+    QObject::connect(track2_Start, &QComboBox::currentIndexChanged, this, [this] { on_Start_changed(track2_Start); });
+
+    QObject::connect(track1_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track1_Stop); });
+    QObject::connect(track2_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Stop_changed(track2_Stop); });
+
+    QObject::connect(track1_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track1_Measure); });
+    QObject::connect(track2_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track2_Measure); });
+
+    QObject::connect(track1_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
+    QObject::connect(track2_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
+
+    QObject::connect(track1_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
+    QObject::connect(track2_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
+
+    QObject::connect(track1_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track1_Input); });
+    QObject::connect(track2_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track2_Input); });
+
+    QObject::connect(track1_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track1_Output); });
+    QObject::connect(track2_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track2_Output); });
+
+    // Master Record callbacks
+    QObject::connect(record_DubMode, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_DubMode, "DubMode"); });
+
+    QObject::connect(record_RecordAction, &QComboBox::currentIndexChanged, this,
+            [this] { on_Master_ComboBox_changed(record_RecordAction, "RecAction"); });
+
+    QObject::connect(record_Quantize, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_Quantize, "RecQuantize"); });
+
+    QObject::connect(record_AutoRecord, &QCheckBox::stateChanged, this,
+            [this] { on_Master_CheckBox_changed(record_AutoRecord, "AutoRec"); });
+
+    QObject::connect(record_AutoRecordSensitivity, &QSpinBox::valueChanged,
+            this, [this] { on_Master_SpinBox_changed(record_AutoRecordSensitivity, "AutoRecSens"); });
+
+    QObject::connect(record_AutoRecordSource, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_AutoRecordSource, "AutoRecSrc"); });
+
+    QObject::connect(record_LoopLength, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_LoopLength, "LpLen"); });
+
+    // Master Play callbacks
+    QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_PlayMode, "PlayMode"); });
+
+    QObject::connect(play_SingleChange, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_SingleChange, "SinglPlayeChange"); });
+
+    QObject::connect(play_Level, &QSpinBox::valueChanged,
+            this, [this] { on_Master_SpinBox_changed(play_Level, "Level"); });
+
+    QObject::connect(play_FadeTime, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_FadeTime, "FadeTime"); });
+
+    QObject::connect(play_AllStart, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_AllStart, "AllStart"); });
+
+    QObject::connect(play_TrackChain, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_TrackChain, "TrackChain"); });
+
+    // LoopFX callbacks
+    QObject::connect(loopFx_Sw, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(loopFx_Sw, "Sw"); });
+
+    QObject::connect(loopFx_Type, &QComboBox::currentIndexChanged,
+            this, [this] { on_LoopFx_ComboBox_changed(loopFx_Type, "FxType"); });
+
+    QObject::connect(loopFx_ScatLen, &QComboBox::currentIndexChanged,
+            this, [this] { on_LoopFx_ComboBox_changed(loopFx_ScatLen, "ScatterLength"); });
+
+    QObject::connect(loopFx_ReptLen, &QComboBox::currentIndexChanged,
+            this, [this] { on_LoopFx_ComboBox_changed(loopFx_ReptLen, "RepeatLength"); });
+
+    QObject::connect(loopFx_Shift, &QComboBox::currentIndexChanged,
+            this, [this] { on_LoopFx_ComboBox_changed(loopFx_Shift, "ShiftShift"); });
+
+    QObject::connect(loopFx_Flick, &QSpinBox::valueChanged,
+            this, [this] { on_LoopFx_SpinBox_changed(loopFx_Flick, "VinylFlickFlick"); });
 }
 
 // --------------------------------------------------------------------------
@@ -437,6 +481,17 @@ BossCopierDialog::load_memory()
         play_FadeTime->setCurrentIndex(master["FadeTime"].get<int>());
         play_AllStart->setCurrentIndex(master["AllStart"].get<int>());
         play_TrackChain->setCurrentIndex(master["TrackChain"].get<int>());
+    }
+
+    // LOOPFX
+    {
+        auto& loopfx = _database["mem"][memory_index]["LOOPFX"];
+        loopFx_Sw->setChecked(loopfx["Sw"].get<int>());
+        loopFx_Type->setCurrentIndex(loopfx["FxType"].get<int>());
+        loopFx_ScatLen->setCurrentIndex(loopfx["ScatterLength"].get<int>());
+        loopFx_ReptLen->setCurrentIndex(loopfx["RepeatLength"].get<int>());
+        loopFx_Shift->setCurrentIndex(loopfx["ShiftShift"].get<int>());
+        loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
     }
 }
 
@@ -614,16 +669,6 @@ BossCopierDialog::on_Output_changed(QComboBox* cb)
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
-{
-    int memory_index = cb_Memory->currentIndex();
-    int value = sb->value();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database["mem"][memory_index]["MASTER"][name] = value;
-}
-
-// --------------------------------------------------------------------------
-void
 BossCopierDialog::on_Master_ComboBox_changed(QComboBox* cb, const char* name)
 {
     int memory_index = cb_Memory->currentIndex();
@@ -640,4 +685,44 @@ BossCopierDialog::on_Master_CheckBox_changed(QCheckBox* cb, const char* name)
     int value = (cb->isChecked() ? 1 : 0);
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = sb->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_LoopFx_ComboBox_changed(QComboBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_LoopFx_CheckBox_changed(QCheckBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["LOOPFX"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_LoopFx_SpinBox_changed(QSpinBox* sb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = sb->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["LOOPFX"][name] = value;
 }
