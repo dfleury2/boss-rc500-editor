@@ -372,6 +372,57 @@ BossCopierDialog::add_callbacks()
 
     QObject::connect(loopFx_Flick, &QSpinBox::valueChanged,
             this, [this] { on_LoopFx_SpinBox_changed(loopFx_Flick, "VinylFlickFlick"); });
+
+    // Rhythm callback
+    QObject::connect(rhythm_Level, &QSlider::valueChanged,
+            this, [this] { on_Rhythm_Slider_changed(rhythm_Level, "Level"); });
+
+    QObject::connect(rhythm_Reverb, &QSlider::valueChanged,
+            this, [this] { on_Rhythm_Slider_changed(rhythm_Reverb, "Reverb"); });
+
+    QObject::connect(rhythm_Pattern, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Pattern, "Pattern"); });
+
+    QObject::connect(rhythm_Variation, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Variation, "Variation"); });
+
+    QObject::connect(rhythm_VarChange, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_VarChange, "VariationChange"); });
+
+    QObject::connect(rhythm_Kit, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Kit, "Kit"); });
+
+    QObject::connect(rhythm_Beat, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Beat, "Beat"); });
+
+    QObject::connect(rhythm_Start, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Start, "Start"); });
+
+    QObject::connect(rhythm_Stop, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_Stop, "Stop"); });
+
+    QObject::connect(rhythm_RecCount, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_RecCount, "RecCount"); });
+
+    QObject::connect(rhythm_PlayCount, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_PlayCount, "PlayCount"); });
+
+    QObject::connect(rhythm_Fill, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(rhythm_Fill, "Fill"); });
+
+    QObject::connect(rhythm_Part1, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(rhythm_Part1, "Part1"); });
+    QObject::connect(rhythm_Part2, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(rhythm_Part2, "Part2"); });
+    QObject::connect(rhythm_Part3, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(rhythm_Part3, "Part3"); });
+    QObject::connect(rhythm_Part4, &QCheckBox::stateChanged, this,
+            [this] { on_LoopFx_CheckBox_changed(rhythm_Part4, "Part4"); });
+
+    QObject::connect(rhythm_ToneLow, &QSlider::valueChanged,
+            this, [this] { on_Rhythm_Slider_changed(rhythm_ToneLow, "ToneLow"); });
+    QObject::connect(rhythm_ToneHigh, &QSlider::valueChanged,
+            this, [this] { on_Rhythm_Slider_changed(rhythm_ToneHigh, "ToneHigh"); });
 }
 
 // --------------------------------------------------------------------------
@@ -781,4 +832,44 @@ BossCopierDialog::on_LoopFx_SpinBox_changed(QSpinBox* sb, const char* name)
     int value = sb->value();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["LOOPFX"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["RHYTHM"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["RHYTHM"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Rhythm_SpinBox_changed(QSpinBox* sb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = sb->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["RHYTHM"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Rhythm_Slider_changed(QSlider* s, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = s->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["RHYTHM"][name] = value;
 }
