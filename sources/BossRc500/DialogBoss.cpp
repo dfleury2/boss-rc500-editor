@@ -600,6 +600,29 @@ BossCopierDialog::load_memory()
         loopFx_Shift->setCurrentIndex(loopfx["ShiftShift"].get<int>());
         loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
     }
+
+    // RHYTHM
+    {
+        auto& rhythm = _database["mem"][memory_index]["RHYTHM"];
+        rhythm_Level->setValue(rhythm["Level"].get<int>());
+        rhythm_Reverb->setValue(rhythm["Reverb"].get<int>());
+        rhythm_Pattern->setCurrentIndex(rhythm["Pattern"].get<int>());
+        rhythm_Variation->setCurrentIndex(rhythm["Variation"].get<int>());
+        rhythm_VarChange->setCurrentIndex(rhythm["VariationChange"].get<int>());
+        rhythm_Kit->setCurrentIndex(rhythm["Kit"].get<int>());
+        rhythm_Beat->setCurrentIndex(rhythm["Beat"].get<int>());
+        rhythm_Start->setCurrentIndex(rhythm["Start"].get<int>());
+        rhythm_Stop->setCurrentIndex(rhythm["Stop"].get<int>());
+        rhythm_RecCount->setCurrentIndex(rhythm["RecCount"].get<int>());
+        rhythm_PlayCount->setCurrentIndex(rhythm["PlayCount"].get<int>());
+        rhythm_Fill->setChecked(rhythm["Fill"].get<int>());
+        rhythm_Part1->setChecked(rhythm["Part1"].get<int>());
+        rhythm_Part2->setChecked(rhythm["Part2"].get<int>());
+        rhythm_Part3->setChecked(rhythm["Part3"].get<int>());
+        rhythm_Part4->setChecked(rhythm["Part4"].get<int>());
+        rhythm_ToneLow->setValue(rhythm["ToneLow"].get<int>());
+        rhythm_ToneHigh->setValue(rhythm["ToneHigh"].get<int>());
+    }
 }
 
 // --------------------------------------------------------------------------
