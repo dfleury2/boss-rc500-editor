@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyleFactory>
+#include <QInputDialog>
 
 #include <iostream>
 #include <initializer_list>
@@ -121,9 +122,9 @@ BossCopierDialog::add_combo_items()
 {
     // MEMORY
     for (int i = 1; i <= 99; ++i) {
-        cb_Memory->addItem(QString(std::to_string(i).c_str()));
-        cb_CopyFrom->addItem(QString(std::to_string(i).c_str()));
-        cb_CopyTo->addItem(QString(std::to_string(i).c_str()));
+        cb_Memory->addItem(std::to_string(i).c_str());
+        cb_CopyFrom->addItem(std::to_string(i).c_str());
+        cb_CopyTo->addItem(std::to_string(i).c_str());
     }
 
     // ----- TRACK 1/2 -----
@@ -275,6 +276,7 @@ BossCopierDialog::add_callbacks()
     QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
+    QObject::connect(button_Edit, &QPushButton::pressed, this, &BossCopierDialog::on_edit);
 
     // Track 1/2 callbacks
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
@@ -437,6 +439,17 @@ BossCopierDialog::on_open()
         if (!filename.isEmpty()) {
             _database = ReadMemoryDatabase(filename.toStdString());
 
+            // Add name to memory index
+            for (int i = 1; i <= 99; ++i) {
+                auto index = std::to_string(i);
+                if (auto found_name = _database["mem"][i - 1].find("name");
+                    found_name != _database["mem"][i - 1].end()) {
+                    index += " - " + found_name->get<std::string>();
+                }
+                std::cout << "index: " << index << std::endl;
+                cb_Memory->setItemText(i - 1, index.c_str());
+            }
+
             cb_Memory->setCurrentIndex(0);
             load_memory();
         }
@@ -480,6 +493,37 @@ BossCopierDialog::on_copy()
             _database["mem"][i - 1] = slot;
             // Restore the memory id of the copied slot
             _database["mem"][i - 1]["id"] = i - 1;
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+
+// --------------------------------------------------------------------------
+void BossCopierDialog::on_edit()
+{
+    try {
+        auto filename = label_Filename->text().toStdString();
+        if (filename.empty()) {
+            throw std::runtime_error("No filename selected");
+        }
+
+        int memory_index = cb_Memory->currentIndex();
+
+        bool ok = false;
+        auto text = QInputDialog::getText(nullptr, "Memory Name",
+                "Memory Name", QLineEdit::Normal,
+                _database["mem"][memory_index]["name"].get<std::string>().c_str(), &ok).toStdString();
+        if (ok) {
+            _database["mem"][memory_index]["name"] = text;
+
+            auto name = std::to_string(memory_index + 1);
+            if (!text.empty()) {
+                name += " - " + text;
+            }
+            cb_Memory->setItemText(memory_index, name.c_str());
         }
     }
     catch (const std::exception& ex) {

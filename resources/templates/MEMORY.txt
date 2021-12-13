@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="{{ name }}" revision="{{ revision }}">
 ## for m in mem
-<mem id="{{ m.id }}">
+<mem id="{{ m.id }}"{% if m.name != "" %} name="{{ m.name }}"{% endif %}>
 <NAME>
 ## for key, value in m.NAME
 	<{{ key }}>{{ value }}</{{ key }}>

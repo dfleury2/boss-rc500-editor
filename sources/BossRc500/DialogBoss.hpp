@@ -18,6 +18,7 @@ private:
 
     void on_open();
     void on_copy();
+    void on_edit();
     void on_save();
     void on_quit();
 
