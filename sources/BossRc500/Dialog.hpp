@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500CMjMxG.ui'
+** Form generated from reading UI file 'Boss-rc500mQzTcL.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500CMJMXG_H
-#define BOSS_2D_RC500CMJMXG_H
+#ifndef BOSS_2D_RC500MQZTCL_H
+#define BOSS_2D_RC500MQZTCL_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -106,7 +106,7 @@ public:
     QComboBox *play_AllStart;
     QLabel *label_play_FadeTime;
     QLabel *label_play_TrackChain;
-    QComboBox *track1_Output_6;
+    QComboBox *play_TrackChain;
     QSpinBox *play_Level;
 
     void setupUi(QDialog *BossRc500Dialog)
@@ -365,6 +365,7 @@ public:
         record_AutoRecordSensitivity = new QSpinBox(gp_Record);
         record_AutoRecordSensitivity->setObjectName(QString::fromUtf8("record_AutoRecordSensitivity"));
         record_AutoRecordSensitivity->setGeometry(QRect(170, 150, 71, 24));
+        record_AutoRecordSensitivity->setLayoutDirection(Qt::LeftToRight);
         record_AutoRecordSensitivity->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         record_AutoRecordSensitivity->setMaximum(100);
         gp_Record_2 = new QGroupBox(BossRc500Dialog);
@@ -400,9 +401,9 @@ public:
         label_play_TrackChain = new QLabel(gp_Record_2);
         label_play_TrackChain->setObjectName(QString::fromUtf8("label_play_TrackChain"));
         label_play_TrackChain->setGeometry(QRect(10, 180, 141, 21));
-        track1_Output_6 = new QComboBox(gp_Record_2);
-        track1_Output_6->setObjectName(QString::fromUtf8("track1_Output_6"));
-        track1_Output_6->setGeometry(QRect(160, 180, 121, 25));
+        play_TrackChain = new QComboBox(gp_Record_2);
+        play_TrackChain->setObjectName(QString::fromUtf8("play_TrackChain"));
+        play_TrackChain->setGeometry(QRect(160, 180, 121, 25));
         play_Level = new QSpinBox(gp_Record_2);
         play_Level->setObjectName(QString::fromUtf8("play_Level"));
         play_Level->setGeometry(QRect(160, 90, 71, 24));
@@ -477,4 +478,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500CMJMXG_H
+#endif // BOSS_2D_RC500MQZTCL_H

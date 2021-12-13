@@ -24,7 +24,7 @@ private:
     void on_memory_changed();
     void load_memory();
 
-    // Track callbacks
+    // Track 1/2 callbacks
     void on_Level_changed(QSlider* slider);
     void on_Pan_changed(QComboBox* cb);
     void on_Start_changed(QComboBox* cb);
@@ -37,6 +37,11 @@ private:
     void on_TempoSync_changed(QCheckBox* cb);
     void on_Input_changed(QComboBox* cb);
     void on_Output_changed(QComboBox* cb);
+
+    // Master Record/Play callbacks
+    void on_Master_ComboBox_changed(QComboBox* cb, const char* name);
+    void on_Master_CheckBox_changed(QCheckBox* cb, const char* name);
+    void on_Master_SpinBox_changed(QSpinBox* sb, const char* name);
 
 private:
     QDialog& _parent;

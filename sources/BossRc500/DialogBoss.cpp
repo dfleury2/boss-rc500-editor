@@ -9,6 +9,7 @@
 #include <initializer_list>
 
 namespace {
+// --------------------------------------------------------------------------
 void AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list) {
     for (auto& item : list) {
         cb->addItem(item);
@@ -36,8 +37,8 @@ BossCopierDialog::setup()
     label_Filename->setText(QString());
 
     add_tooltips();
-    add_callbacks();
     add_combo_items();
+    add_callbacks();
 }
 
 // --------------------------------------------------------------------------
@@ -85,7 +86,7 @@ BossCopierDialog::add_callbacks()
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
 
-    // Track callbacks
+    // Track 1/2 callbacks
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
     QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
 
@@ -122,6 +123,46 @@ BossCopierDialog::add_callbacks()
     QObject::connect(track1_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track1_Output); });
     QObject::connect(track2_Output, &QComboBox::currentIndexChanged, this, [this] { on_Output_changed(track2_Output); });
 
+    // Master Record callbacks
+    QObject::connect(record_DubMode, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_DubMode, "DubMode"); });
+
+    QObject::connect(record_RecordAction, &QComboBox::currentIndexChanged, this,
+            [this] { on_Master_ComboBox_changed(record_RecordAction, "RecAction"); });
+
+    QObject::connect(record_Quantize, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_Quantize, "RecQuantize"); });
+
+    QObject::connect(record_AutoRecord, &QCheckBox::stateChanged, this,
+            [this] { on_Master_CheckBox_changed(record_AutoRecord, "AutoRec"); });
+
+    QObject::connect(record_AutoRecordSensitivity, &QSpinBox::valueChanged,
+            this, [this] { on_Master_SpinBox_changed(record_AutoRecordSensitivity, "AutoRecSens"); });
+
+    QObject::connect(record_AutoRecordSource, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_AutoRecordSource, "AutoRecSrc"); });
+
+    QObject::connect(record_LoopLength, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(record_LoopLength, "LpLen"); });
+
+    // Master Play callbacks
+    QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_PlayMode, "PlayMode"); });
+
+    QObject::connect(play_SingleChange, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_SingleChange, "SinglPlayeChange"); });
+
+    QObject::connect(play_Level, &QSpinBox::valueChanged,
+            this, [this] { on_Master_SpinBox_changed(play_Level, "Level"); });
+
+    QObject::connect(play_FadeTime, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_FadeTime, "FadeTime"); });
+
+    QObject::connect(play_AllStart, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_AllStart, "AllStart"); });
+
+    QObject::connect(play_TrackChain, &QComboBox::currentIndexChanged,
+            this, [this] { on_Master_ComboBox_changed(play_TrackChain, "TrackChain"); });
 }
 
 // --------------------------------------------------------------------------
@@ -203,6 +244,19 @@ BossCopierDialog::add_combo_items()
         record_LoopLength->addItem(std::to_string(i).c_str());
 
     // ----- PLAY -----
+    AddItemsToComboBox(play_PlayMode, {"MULTI", "SINGLE"});
+    AddItemsToComboBox(play_SingleChange, {"IMMEDIATE", "LOOP END"});
+
+    play_FadeTime->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
+    play_FadeTime->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
+    play_FadeTime->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
+    play_FadeTime->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    for (int i = 1; i <= 32; ++i) {
+        play_FadeTime->addItem(std::to_string(i).c_str());
+    }
+
+    AddItemsToComboBox(play_AllStart, {"ALL", "TRACK1", "TRACK2"});
+    AddItemsToComboBox(play_TrackChain, {"PARALLEL", "SERIES"});
 }
 
 // --------------------------------------------------------------------------
@@ -347,6 +401,27 @@ BossCopierDialog::load_memory()
         track2_TempoSync->setChecked(track2["TempoSync"].get<int>());
         track2_Input->setCurrentIndex(track2["Input"].get<int>());
         track2_Output->setCurrentIndex(track2["Output"].get<int>());
+    }
+
+    // MASTER (REC/PLAY)
+    {
+        auto& master = _database["mem"][memory_index]["MASTER"];
+        // RECORD
+        record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
+        record_RecordAction->setCurrentIndex(master["RecAction"].get<int>());
+        record_Quantize->setCurrentIndex(master["RecQuantize"].get<int>());
+        record_AutoRecord->setChecked(master["AutoRec"].get<int>());
+        record_AutoRecordSensitivity->setValue(master["AutoRecSens"].get<int>());
+        record_AutoRecordSource->setCurrentIndex(master["AutoRecSrc"].get<int>());
+        record_LoopLength->setCurrentIndex(master["LpLen"].get<int>());
+
+        // PLAY
+        play_PlayMode->setCurrentIndex(master["PlayMode"].get<int>());
+        play_SingleChange->setCurrentIndex(master["SinglPlayeChange"].get<int>());
+        play_Level->setValue(master["Level"].get<int>());
+        play_FadeTime->setCurrentIndex(master["FadeTime"].get<int>());
+        play_AllStart->setCurrentIndex(master["AllStart"].get<int>());
+        play_TrackChain->setCurrentIndex(master["TrackChain"].get<int>());
     }
 }
 
@@ -520,4 +595,34 @@ BossCopierDialog::on_Output_changed(QComboBox* cb)
               << ", Output: " << value << std::endl;
 
     _database["mem"][memory_index]["TRACK"][track_index]["Output"] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = sb->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Master_ComboBox_changed(QComboBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Master_CheckBox_changed(QCheckBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = (cb->isChecked() ? 1 : 0);
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = value;
 }

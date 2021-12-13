@@ -940,16 +940,6 @@
      <string>Auto Record Source</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="record_AutoRecordSensitivity">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>150</y>
-      <width>121</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QComboBox" name="record_AutoRecordSource">
     <property name="geometry">
      <rect>
@@ -994,6 +984,25 @@
       <width>121</width>
       <height>25</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="record_AutoRecordSensitivity">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>150</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="maximum">
+     <number>100</number>
     </property>
    </widget>
   </widget>
@@ -1127,7 +1136,7 @@
      <string>Track Chain</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="track1_Output_6">
+   <widget class="QComboBox" name="play_TrackChain">
     <property name="geometry">
      <rect>
       <x>160</x>
