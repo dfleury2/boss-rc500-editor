@@ -2021,9 +2021,7 @@
   <zorder>button_Quit</zorder>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
  <designerdata>
   <property name="gridDeltaX">
