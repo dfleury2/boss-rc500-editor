@@ -120,7 +120,7 @@ void
 BossCopierDialog::add_combo_items()
 {
     // MEMORY
-    for (int i = 1; i <= 100; ++i) {
+    for (int i = 1; i <= 99; ++i) {
         cb_Memory->addItem(QString(std::to_string(i).c_str()));
         cb_CopyFrom->addItem(QString(std::to_string(i).c_str()));
         cb_CopyTo->addItem(QString(std::to_string(i).c_str()));
