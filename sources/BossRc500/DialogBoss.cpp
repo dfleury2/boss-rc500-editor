@@ -232,6 +232,36 @@ BossCopierDialog::add_combo_items()
     loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
     loopFx_Shift->addItem(QIcon("./resources/images/half note.png"), "Half Note");
     loopFx_Shift->addItem(QIcon("./resources/images/whole note.png"), "Whole Note");
+
+    // ----- RHYTHM ----
+    AddItemsToComboBox(rhythm_Pattern, {
+        "SimpleBeat1", "SimpleBeat2", "SimpleBeat3", "SimpleBeat4",
+        "GrooveBeat1", "GrooveBeat2", "GrooveBeat3", "GrooveBeat4", "GrooveBeat5", "GrooveBeat6", "GrooveBeat7",
+        "Rock1", "Rock2", "Rock3", "Rock4",
+        "Funk1", "Funk2", "Funk3", "Funk4",
+        "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
+        "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
+        "Sidekick1", "Sidekick2", "Sidekick3", "Sidekick4", "Sidekick5",
+        "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
+        "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
+        "Conga1", "Conga2", "Conga3",
+        "Bossa1", "Bossa2",
+        "Samba1", "Samba2",
+        "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
+        "Metronome1", "Metronome2", "Metronome3", "Metronome4",
+        "Blank"
+    });
+    AddItemsToComboBox(rhythm_Variation, {"A", "B"});
+    AddItemsToComboBox(rhythm_VarChange, {"MEASURE", "LOOP END"});
+    AddItemsToComboBox(rhythm_Kit, {"Studio", "Live", "Light", "Heavy", "Rock", "Metal", "Jazz",
+                                    "Brush", "Cajon", "Drum & Bass", "Dance", "Techno", "Dance Beats",
+                                    "HipHop", "808+909"});
+    AddItemsToComboBox(rhythm_Beat, {"2/4", "3/4", "4/4", "5/4", "6/4", "7/4",
+                                     "5/8", "6/8", "7/8", "8/8", "9/8", "10/8", "11/8", "12/8", "13/8", "14/8", "15/8"});
+    AddItemsToComboBox(rhythm_Start, {"LOOP START", "REC END", "BEFORE LOOP"});
+    AddItemsToComboBox(rhythm_Stop, {"OFF", "LOOP STOP", "REC END"});
+    AddItemsToComboBox(rhythm_RecCount, {"OFF", "1-MEASURE"});
+    AddItemsToComboBox(rhythm_PlayCount, {"OFF", "1-MEASURE"});
 }
 
 // --------------------------------------------------------------------------
