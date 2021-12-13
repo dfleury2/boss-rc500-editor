@@ -128,5 +128,5 @@ WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename)
 
     // Write the output
     std::ofstream file(filename);
-    file << env.render(tpl, database) << std::endl;
+    file << env.render(tpl, database);
 }
