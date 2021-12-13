@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500TTOvns.ui'
+** Form generated from reading UI file 'Boss-rc500CMjMxG.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500TTOVNS_H
-#define BOSS_2D_RC500TTOVNS_H
+#ifndef BOSS_2D_RC500CMJMXG_H
+#define BOSS_2D_RC500CMJMXG_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
+#include <QtWidgets/QSpinBox>
 
 QT_BEGIN_NAMESPACE
 
@@ -80,12 +81,39 @@ public:
     QLabel *label_track2_Pan;
     QLabel *label_track2_PlyLevel;
     QPushButton *button_Copy;
+    QGroupBox *gp_Record;
+    QLabel *label_record_DubMode;
+    QComboBox *record_DubMode;
+    QComboBox *record_Quantize;
+    QLabel *label_record_Quantize;
+    QComboBox *record_RecordAction;
+    QLabel *label_record_RecordAction;
+    QCheckBox *record_AutoRecord;
+    QLabel *label_record_AutoRecordSource;
+    QComboBox *record_AutoRecordSource;
+    QLabel *label_record_Input_3;
+    QLabel *label_record_LoopLength;
+    QComboBox *record_LoopLength;
+    QSpinBox *record_AutoRecordSensitivity;
+    QGroupBox *gp_Record_2;
+    QLabel *label_play_PlayMode;
+    QComboBox *play_PlayMode;
+    QLabel *label_play_Level;
+    QComboBox *play_SingleChange;
+    QLabel *label_play_SingleChange;
+    QLabel *label_play_AllStart;
+    QComboBox *play_FadeTime;
+    QComboBox *play_AllStart;
+    QLabel *label_play_FadeTime;
+    QLabel *label_play_TrackChain;
+    QComboBox *track1_Output_6;
+    QSpinBox *play_Level;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
         if (BossRc500Dialog->objectName().isEmpty())
             BossRc500Dialog->setObjectName(QString::fromUtf8("BossRc500Dialog"));
-        BossRc500Dialog->resize(721, 443);
+        BossRc500Dialog->resize(1006, 702);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -294,6 +322,92 @@ public:
         button_Copy = new QPushButton(BossRc500Dialog);
         button_Copy->setObjectName(QString::fromUtf8("button_Copy"));
         button_Copy->setGeometry(QRect(310, 50, 51, 24));
+        gp_Record = new QGroupBox(BossRc500Dialog);
+        gp_Record->setObjectName(QString::fromUtf8("gp_Record"));
+        gp_Record->setGeometry(QRect(10, 450, 301, 241));
+        label_record_DubMode = new QLabel(gp_Record);
+        label_record_DubMode->setObjectName(QString::fromUtf8("label_record_DubMode"));
+        label_record_DubMode->setGeometry(QRect(10, 30, 121, 21));
+        record_DubMode = new QComboBox(gp_Record);
+        record_DubMode->setObjectName(QString::fromUtf8("record_DubMode"));
+        record_DubMode->setGeometry(QRect(170, 30, 121, 25));
+        record_Quantize = new QComboBox(gp_Record);
+        record_Quantize->setObjectName(QString::fromUtf8("record_Quantize"));
+        record_Quantize->setGeometry(QRect(170, 90, 121, 25));
+        label_record_Quantize = new QLabel(gp_Record);
+        label_record_Quantize->setObjectName(QString::fromUtf8("label_record_Quantize"));
+        label_record_Quantize->setGeometry(QRect(10, 90, 121, 21));
+        record_RecordAction = new QComboBox(gp_Record);
+        record_RecordAction->setObjectName(QString::fromUtf8("record_RecordAction"));
+        record_RecordAction->setGeometry(QRect(170, 60, 121, 25));
+        label_record_RecordAction = new QLabel(gp_Record);
+        label_record_RecordAction->setObjectName(QString::fromUtf8("label_record_RecordAction"));
+        label_record_RecordAction->setGeometry(QRect(10, 60, 121, 21));
+        record_AutoRecord = new QCheckBox(gp_Record);
+        record_AutoRecord->setObjectName(QString::fromUtf8("record_AutoRecord"));
+        record_AutoRecord->setGeometry(QRect(60, 120, 121, 21));
+        record_AutoRecord->setLayoutDirection(Qt::RightToLeft);
+        label_record_AutoRecordSource = new QLabel(gp_Record);
+        label_record_AutoRecordSource->setObjectName(QString::fromUtf8("label_record_AutoRecordSource"));
+        label_record_AutoRecordSource->setGeometry(QRect(10, 180, 151, 21));
+        record_AutoRecordSource = new QComboBox(gp_Record);
+        record_AutoRecordSource->setObjectName(QString::fromUtf8("record_AutoRecordSource"));
+        record_AutoRecordSource->setGeometry(QRect(170, 180, 121, 25));
+        label_record_Input_3 = new QLabel(gp_Record);
+        label_record_Input_3->setObjectName(QString::fromUtf8("label_record_Input_3"));
+        label_record_Input_3->setGeometry(QRect(10, 150, 161, 21));
+        label_record_LoopLength = new QLabel(gp_Record);
+        label_record_LoopLength->setObjectName(QString::fromUtf8("label_record_LoopLength"));
+        label_record_LoopLength->setGeometry(QRect(10, 210, 141, 21));
+        record_LoopLength = new QComboBox(gp_Record);
+        record_LoopLength->setObjectName(QString::fromUtf8("record_LoopLength"));
+        record_LoopLength->setGeometry(QRect(170, 210, 121, 25));
+        record_AutoRecordSensitivity = new QSpinBox(gp_Record);
+        record_AutoRecordSensitivity->setObjectName(QString::fromUtf8("record_AutoRecordSensitivity"));
+        record_AutoRecordSensitivity->setGeometry(QRect(170, 150, 71, 24));
+        record_AutoRecordSensitivity->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        record_AutoRecordSensitivity->setMaximum(100);
+        gp_Record_2 = new QGroupBox(BossRc500Dialog);
+        gp_Record_2->setObjectName(QString::fromUtf8("gp_Record_2"));
+        gp_Record_2->setGeometry(QRect(320, 450, 291, 211));
+        label_play_PlayMode = new QLabel(gp_Record_2);
+        label_play_PlayMode->setObjectName(QString::fromUtf8("label_play_PlayMode"));
+        label_play_PlayMode->setGeometry(QRect(10, 30, 121, 21));
+        play_PlayMode = new QComboBox(gp_Record_2);
+        play_PlayMode->setObjectName(QString::fromUtf8("play_PlayMode"));
+        play_PlayMode->setGeometry(QRect(160, 30, 121, 25));
+        label_play_Level = new QLabel(gp_Record_2);
+        label_play_Level->setObjectName(QString::fromUtf8("label_play_Level"));
+        label_play_Level->setGeometry(QRect(10, 90, 141, 21));
+        play_SingleChange = new QComboBox(gp_Record_2);
+        play_SingleChange->setObjectName(QString::fromUtf8("play_SingleChange"));
+        play_SingleChange->setGeometry(QRect(160, 60, 121, 25));
+        label_play_SingleChange = new QLabel(gp_Record_2);
+        label_play_SingleChange->setObjectName(QString::fromUtf8("label_play_SingleChange"));
+        label_play_SingleChange->setGeometry(QRect(10, 60, 121, 21));
+        label_play_AllStart = new QLabel(gp_Record_2);
+        label_play_AllStart->setObjectName(QString::fromUtf8("label_play_AllStart"));
+        label_play_AllStart->setGeometry(QRect(10, 150, 141, 21));
+        play_FadeTime = new QComboBox(gp_Record_2);
+        play_FadeTime->setObjectName(QString::fromUtf8("play_FadeTime"));
+        play_FadeTime->setGeometry(QRect(160, 120, 121, 25));
+        play_AllStart = new QComboBox(gp_Record_2);
+        play_AllStart->setObjectName(QString::fromUtf8("play_AllStart"));
+        play_AllStart->setGeometry(QRect(160, 150, 121, 25));
+        label_play_FadeTime = new QLabel(gp_Record_2);
+        label_play_FadeTime->setObjectName(QString::fromUtf8("label_play_FadeTime"));
+        label_play_FadeTime->setGeometry(QRect(10, 120, 131, 21));
+        label_play_TrackChain = new QLabel(gp_Record_2);
+        label_play_TrackChain->setObjectName(QString::fromUtf8("label_play_TrackChain"));
+        label_play_TrackChain->setGeometry(QRect(10, 180, 141, 21));
+        track1_Output_6 = new QComboBox(gp_Record_2);
+        track1_Output_6->setObjectName(QString::fromUtf8("track1_Output_6"));
+        track1_Output_6->setGeometry(QRect(160, 180, 121, 25));
+        play_Level = new QSpinBox(gp_Record_2);
+        play_Level->setObjectName(QString::fromUtf8("play_Level"));
+        play_Level->setGeometry(QRect(160, 90, 71, 24));
+        play_Level->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        play_Level->setMaximum(100);
 
         retranslateUi(BossRc500Dialog);
 
@@ -342,10 +456,25 @@ public:
         label_track2_Pan->setText(QCoreApplication::translate("BossRc500Dialog", "Pan", nullptr));
         label_track2_PlyLevel->setText(QCoreApplication::translate("BossRc500Dialog", "0", nullptr));
         button_Copy->setText(QCoreApplication::translate("BossRc500Dialog", "Copy", nullptr));
+        gp_Record->setTitle(QCoreApplication::translate("BossRc500Dialog", "RECORD", nullptr));
+        label_record_DubMode->setText(QCoreApplication::translate("BossRc500Dialog", "Dub Mode", nullptr));
+        label_record_Quantize->setText(QCoreApplication::translate("BossRc500Dialog", "Quantize", nullptr));
+        label_record_RecordAction->setText(QCoreApplication::translate("BossRc500Dialog", "Record Action", nullptr));
+        record_AutoRecord->setText(QCoreApplication::translate("BossRc500Dialog", "Auto Record", nullptr));
+        label_record_AutoRecordSource->setText(QCoreApplication::translate("BossRc500Dialog", "Auto Record Source", nullptr));
+        label_record_Input_3->setText(QCoreApplication::translate("BossRc500Dialog", "Auto Rec. Sensitivity", nullptr));
+        label_record_LoopLength->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Length", nullptr));
+        gp_Record_2->setTitle(QCoreApplication::translate("BossRc500Dialog", "PLAY", nullptr));
+        label_play_PlayMode->setText(QCoreApplication::translate("BossRc500Dialog", "Play Mode", nullptr));
+        label_play_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
+        label_play_SingleChange->setText(QCoreApplication::translate("BossRc500Dialog", "Single Change", nullptr));
+        label_play_AllStart->setText(QCoreApplication::translate("BossRc500Dialog", "All Start", nullptr));
+        label_play_FadeTime->setText(QCoreApplication::translate("BossRc500Dialog", "Fade Time", nullptr));
+        label_play_TrackChain->setText(QCoreApplication::translate("BossRc500Dialog", "Track Chain", nullptr));
     } // retranslateUi
 
 };
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500TTOVNS_H
+#endif // BOSS_2D_RC500CMJMXG_H

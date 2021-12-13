@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>721</width>
-    <height>443</height>
+    <width>1006</width>
+    <height>702</height>
    </rect>
   </property>
   <property name="palette">
@@ -830,6 +830,330 @@
     <string>Copy</string>
    </property>
   </widget>
+  <widget class="QGroupBox" name="gp_Record">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>450</y>
+     <width>301</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>RECORD</string>
+   </property>
+   <widget class="QLabel" name="label_record_DubMode">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dub Mode</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_DubMode">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_Quantize">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>90</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_record_Quantize">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Quantize</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_RecordAction">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>60</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_record_RecordAction">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Record Action</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="record_AutoRecord">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Auto Record</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_record_AutoRecordSource">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Auto Record Source</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_AutoRecordSensitivity">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>150</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_AutoRecordSource">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>180</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_record_Input_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Auto Rec. Sensitivity</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_record_LoopLength">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>210</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Loop Length</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="record_LoopLength">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>210</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="gp_Record_2">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>450</y>
+     <width>291</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PLAY</string>
+   </property>
+   <widget class="QLabel" name="label_play_PlayMode">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Play Mode</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="play_PlayMode">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_Level">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Level</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="play_SingleChange">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>60</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_SingleChange">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Single Change</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_AllStart">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>All Start</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="play_FadeTime">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>120</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="play_AllStart">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>150</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_FadeTime">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fade Time</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_play_TrackChain">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Track Chain</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="track1_Output_6">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>180</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="play_Level">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>90</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
  <resources/>
@@ -848,7 +1172,7 @@
    <bool>true</bool>
   </property>
   <property name="gridVisible">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
  </designerdata>
 </ui>

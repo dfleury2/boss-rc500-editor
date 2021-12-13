@@ -6,6 +6,16 @@
 #include <QStyleFactory>
 
 #include <iostream>
+#include <initializer_list>
+
+namespace {
+void AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list) {
+    for (auto& item : list) {
+        cb->addItem(item);
+    }
+}
+
+}
 
 // --------------------------------------------------------------------------
 BossCopierDialog::BossCopierDialog(QDialog& dialog) :
@@ -115,8 +125,6 @@ BossCopierDialog::add_callbacks()
 }
 
 // --------------------------------------------------------------------------
-// Some combobox items can be computed and nor hard coded
-// --------------------------------------------------------------------------
 void
 BossCopierDialog::add_combo_items()
 {
@@ -127,6 +135,7 @@ BossCopierDialog::add_combo_items()
         cb_CopyTo->addItem(QString(std::to_string(i).c_str()));
     }
 
+    // ----- TRACK 1/2 -----
     // PAN
     auto pan_items = [](QComboBox* cb) {
         for (int i = 0; i <= 100; ++i) {
@@ -142,17 +151,14 @@ BossCopierDialog::add_combo_items()
 
     // START
     auto start_items = [](QComboBox* cb) {
-        cb->addItem("IMMEDIATE");
-        cb->addItem("FADE IN");
+        AddItemsToComboBox(cb, {"IMMEDIATE", "FADE IN"});
     };
     start_items(track1_Start);
     start_items(track2_Start);
 
     // STOP
     auto stop_items = [](QComboBox* cb) {
-        cb->addItem("IMMEDIATE");
-        cb->addItem("FADE OUT");
-        cb->addItem("LOOP END");
+        AddItemsToComboBox(cb, {"IMMEDIATE", "FADE OUT", "LOOP END"});
     };
     stop_items(track1_Stop);
     stop_items(track2_Stop);
@@ -174,24 +180,29 @@ BossCopierDialog::add_combo_items()
 
     // INPUT
     auto input_items = [](QComboBox* cb) {
-        cb->addItem("ALL");
-        cb->addItem("MIC IN");
-        cb->addItem("INST IN");
-        cb->addItem("INST IN-A");
-        cb->addItem("INST IN-B");
-        cb->addItem("MIC/INST");
+        AddItemsToComboBox(cb, {"ALL", "MIC IN", "INST IN", "INST IN-A", "INST IN-B", "MIC/INST"});
     };
     input_items(track1_Input);
     input_items(track2_Input);
 
     // OUTPUT
     auto output_items = [](QComboBox* cb) {
-        cb->addItem("ALL");
-        cb->addItem("OUT-A");
-        cb->addItem("OUT-B");
+        AddItemsToComboBox(cb, {"ALL", "OUT-A", "OUT-B"});
     };
     output_items(track1_Output);
     output_items(track2_Output);
+
+    // ----- RECORD -----
+    AddItemsToComboBox(record_DubMode, {"OVERDUB", "REPLACE"});
+    AddItemsToComboBox(record_RecordAction, {"REC -> DUB", "REC -> PLAY"});
+    AddItemsToComboBox(record_Quantize, {"OFF", "MEASURE"});
+    AddItemsToComboBox(record_AutoRecordSource, {"ALL", "MIC IN", "INST", "INST-A", "INST-B"});
+
+    record_LoopLength->addItem("AUTO");
+    for (int i = 1; i <= 32; ++i)
+        record_LoopLength->addItem(std::to_string(i).c_str());
+
+    // ----- PLAY -----
 }
 
 // --------------------------------------------------------------------------
