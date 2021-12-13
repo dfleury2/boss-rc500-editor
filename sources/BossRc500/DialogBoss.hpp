@@ -8,7 +8,7 @@
 class BossCopierDialog : public Ui_BossRc500Dialog, public QObject
 {
 public:
-    BossCopierDialog(QDialog& dialog);
+    explicit BossCopierDialog(QDialog& dialog);
 
 private:
     void setup();
