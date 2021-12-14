@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500znNXhI.ui'
+** Form generated from reading UI file 'Boss-rc500MLNrwd.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500ZNNXHI_H
-#define BOSS_2D_RC500ZNNXHI_H
+#ifndef BOSS_2D_RC500MLNRWD_H
+#define BOSS_2D_RC500MLNRWD_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -205,13 +205,13 @@ public:
         label_LoopStation->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         button_Save = new QPushButton(BossRc500Dialog);
         button_Save->setObjectName(QString::fromUtf8("button_Save"));
-        button_Save->setGeometry(QRect(900, 50, 51, 24));
+        button_Save->setGeometry(QRect(1000, 50, 51, 24));
         label_To = new QLabel(BossRc500Dialog);
         label_To->setObjectName(QString::fromUtf8("label_To"));
         label_To->setGeometry(QRect(580, 50, 21, 21));
         button_Quit = new QPushButton(BossRc500Dialog);
         button_Quit->setObjectName(QString::fromUtf8("button_Quit"));
-        button_Quit->setGeometry(QRect(970, 50, 51, 24));
+        button_Quit->setGeometry(QRect(1070, 50, 51, 24));
         cb_CopyFrom = new QComboBox(BossRc500Dialog);
         cb_CopyFrom->setObjectName(QString::fromUtf8("cb_CopyFrom"));
         cb_CopyFrom->setGeometry(QRect(520, 50, 51, 25));
@@ -852,4 +852,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500ZNNXHI_H
+#endif // BOSS_2D_RC500MLNRWD_H
