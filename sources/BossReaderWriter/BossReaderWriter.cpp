@@ -64,6 +64,8 @@ ExtractMemory(rapidxml::xml_node<>* node)
     }
 
     AppendStruct(memory, node, "MASTER");
+    memory["MASTER"]["Tempo"] = memory["MASTER"]["Tempo"].get<int>() / 10.0;
+
     AppendStruct(memory, node, "LOOPFX");
     AppendStruct(memory, node, "RHYTHM");
     AppendStruct(memory, node, "CTL");
