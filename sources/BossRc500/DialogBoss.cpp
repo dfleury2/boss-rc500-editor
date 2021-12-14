@@ -263,6 +263,30 @@ BossCopierDialog::add_combo_items()
     AddItemsToComboBox(rhythm_Stop, {"OFF", "LOOP STOP", "REC END"});
     AddItemsToComboBox(rhythm_RecCount, {"OFF", "1-MEASURE"});
     AddItemsToComboBox(rhythm_PlayCount, {"OFF", "1-MEASURE"});
+
+    // ----- CONTROL -----
+    auto ctl_items = {"OFF",
+        "T1 REC/PLY", "T1 R/P/S", "T1 R/P/S(CLR)", "T1 MON R/P", "T1 PLY/STP", "T1 P/S(CLR)", "T1 STOP", "T1 STOP(TAP)", "T1 STOP(CLR)", "T1 STOP(T/C)", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE",
+        "T2 REC/PLY", "T2 R/P/S", "T2 R/P/S(CLR)", "T2 MON R/P", "T2 PLY/STP", "T2 P/S(CLR)", "T2 STOP", "T2 STOP(TAP)", "T2 STOP(CLR)", "T2 STOP(T/C)", "T2 CLEAR", "T2 UND/RED", "T2 REVERSE",
+        "TRK SELECT", "CUR REC/PLY", "CUR R/P/S", "CUR R/P/S(CLR)", "CUR MON R/P", "CUR PLY/STP", "CUR P/S(CLR)", "CUR STOP", "CUR STP(TAP)", "CUR STP(CLR)",
+        "CUR STP(T/C)", "CUR CLEAR", "CUR UND/RED", "CUR REVERSE", "UNDO/REDO", "ALL START", "TAP TEMPO", "LOOP FX", "TR1 FX", "TR2 FX", "CUR TR FX",
+        "FX INC", "FX DEC", "RHYTHM P/S", "RHYTHM PLAY", "RHYTHM STOP", "MEMORY INC", "MEMORY DEC", "MIC MUTE", "EXTENT INC", "EXTENT DEC"
+        };
+    AddItemsToComboBox(control_Pedal1, ctl_items);
+    AddItemsToComboBox(control_Pedal2, ctl_items);
+    AddItemsToComboBox(control_Pedal3, ctl_items);
+    AddItemsToComboBox(control_Control1, ctl_items);
+    AddItemsToComboBox(control_Control2, ctl_items);
+
+    AddItemsToComboBox(control_Expression,
+            {"OFF",
+             "T1 LEVEL1", "T1 LEVEL2",
+             "T2 LEVEL1", "T2 LEVEL2",
+             "CUR LEVEL1", "CUR LEVEL2",
+             "TEMPO UP", "TEMPO DOWN",
+             "FX CONTROL",
+             "RHYTHM LEV1", "RHYTHM LEV2",
+             "MEMORY LEV1", "MEMORY LEV2", });
 }
 
 // --------------------------------------------------------------------------
@@ -425,6 +449,22 @@ BossCopierDialog::add_callbacks()
             this, [this] { on_Rhythm_Slider_changed(rhythm_ToneLow, "ToneLow"); });
     QObject::connect(rhythm_ToneHigh, &QSlider::valueChanged,
             this, [this] { on_Rhythm_Slider_changed(rhythm_ToneHigh, "ToneHigh"); });
+
+    // Control callbacks
+    QObject::connect(control_Pedal1, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Pedal1, "Pedal1"); });
+    QObject::connect(control_Pedal2, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Pedal2, "Pedal2"); });
+    QObject::connect(control_Pedal3, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Pedal3, "Pedal3"); });
+
+    QObject::connect(control_Control1, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Control1, "Ctl1"); });
+    QObject::connect(control_Control2, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Control2, "Ctl2"); });
+
+    QObject::connect(control_Expression, &QComboBox::currentIndexChanged,
+            this, [this] { on_Control_ComboBox_changed(control_Expression, "Exp"); });
 }
 
 // --------------------------------------------------------------------------
@@ -666,6 +706,17 @@ BossCopierDialog::load_memory()
         rhythm_Part4->setChecked(rhythm["Part4"].get<int>());
         rhythm_ToneLow->setValue(rhythm["ToneLow"].get<int>());
         rhythm_ToneHigh->setValue(rhythm["ToneHigh"].get<int>());
+    }
+
+    // CONTROL
+    {
+        auto& ctl = _database["mem"][memory_index]["CTL"];
+        control_Pedal1->setCurrentIndex(ctl["Pedal1"].get<int>());
+        control_Pedal2->setCurrentIndex(ctl["Pedal2"].get<int>());
+        control_Pedal3->setCurrentIndex(ctl["Pedal3"].get<int>());
+        control_Control1->setCurrentIndex(ctl["Ctl1"].get<int>());
+        control_Control2->setCurrentIndex(ctl["Ctl2"].get<int>());
+        control_Expression->setCurrentIndex(ctl["Exp"].get<int>());
     }
 }
 
@@ -929,4 +980,14 @@ BossCopierDialog::on_Rhythm_Slider_changed(QSlider* s, const char* name)
     int value = s->value();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["RHYTHM"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Control_ComboBox_changed(QComboBox* cb, const char* name)
+{
+    int memory_index = cb_Memory->currentIndex();
+    int value = cb->currentIndex();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["CTL"][name] = value;
 }

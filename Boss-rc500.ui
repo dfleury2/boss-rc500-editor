@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1033</width>
-    <height>711</height>
+    <width>1135</width>
+    <height>725</height>
    </rect>
   </property>
   <property name="palette">
@@ -1208,7 +1208,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Rhythm</string>
+    <string>RHYTHM</string>
    </property>
    <widget class="QSlider" name="rhythm_Level">
     <property name="geometry">
@@ -1645,13 +1645,13 @@
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>490</y>
+     <y>500</y>
      <width>231</width>
      <height>211</height>
     </rect>
    </property>
    <property name="title">
-    <string>Loop Fx</string>
+    <string>LOOP FX</string>
    </property>
    <widget class="QLabel" name="label_loopFx_Type">
     <property name="geometry">
@@ -1803,6 +1803,157 @@
    <property name="text">
     <string>Edit</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="gb_Control">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>500</y>
+     <width>251</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>CONTROL</string>
+   </property>
+   <widget class="QLabel" name="label_control_Pedal1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pedal 1</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Pedal1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_control_Pedal2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pedal 2</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Pedal2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Pedal3">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>90</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_control_Pedal3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pedal 3</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_control_Control1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Control 1</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Control1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>120</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_control_Control2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Control 2</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Control2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>150</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_control_Expression">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Expression</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="control_Expression">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>

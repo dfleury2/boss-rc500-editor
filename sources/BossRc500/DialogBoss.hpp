@@ -54,6 +54,9 @@ private:
     void on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name);
     void on_Rhythm_Slider_changed(QSlider* s, const char* name);
 
+    // Control
+    void on_Control_ComboBox_changed(QComboBox* cb, const char* name);
+
 private:
     QDialog& _parent;
 

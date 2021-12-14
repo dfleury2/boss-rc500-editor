@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500jCZMTf.ui'
+** Form generated from reading UI file 'Boss-rc500znNXhI.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500JCZMTF_H
-#define BOSS_2D_RC500JCZMTF_H
+#ifndef BOSS_2D_RC500ZNNXHI_H
+#define BOSS_2D_RC500ZNNXHI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -156,12 +156,25 @@ public:
     QSpinBox *loopFx_Flick;
     QCheckBox *loopFx_Sw;
     QPushButton *button_Edit;
+    QGroupBox *gb_Control;
+    QLabel *label_control_Pedal1;
+    QComboBox *control_Pedal1;
+    QLabel *label_control_Pedal2;
+    QComboBox *control_Pedal2;
+    QComboBox *control_Pedal3;
+    QLabel *label_control_Pedal3;
+    QLabel *label_control_Control1;
+    QComboBox *control_Control1;
+    QLabel *label_control_Control2;
+    QComboBox *control_Control2;
+    QLabel *label_control_Expression;
+    QComboBox *control_Expression;
 
     void setupUi(QDialog *BossRc500Dialog)
     {
         if (BossRc500Dialog->objectName().isEmpty())
             BossRc500Dialog->setObjectName(QString::fromUtf8("BossRc500Dialog"));
-        BossRc500Dialog->resize(1033, 711);
+        BossRc500Dialog->resize(1135, 725);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -587,7 +600,7 @@ public:
         rhythm_ToneHigh->setTickPosition(QSlider::TicksBothSides);
         gb_LoopFx = new QGroupBox(BossRc500Dialog);
         gb_LoopFx->setObjectName(QString::fromUtf8("gb_LoopFx"));
-        gb_LoopFx->setGeometry(QRect(630, 490, 231, 211));
+        gb_LoopFx->setGeometry(QRect(630, 500, 231, 211));
         label_loopFx_Type = new QLabel(gb_LoopFx);
         label_loopFx_Type->setObjectName(QString::fromUtf8("label_loopFx_Type"));
         label_loopFx_Type->setGeometry(QRect(10, 60, 71, 21));
@@ -627,6 +640,45 @@ public:
         button_Edit = new QPushButton(BossRc500Dialog);
         button_Edit->setObjectName(QString::fromUtf8("button_Edit"));
         button_Edit->setGeometry(QRect(400, 50, 51, 24));
+        gb_Control = new QGroupBox(BossRc500Dialog);
+        gb_Control->setObjectName(QString::fromUtf8("gb_Control"));
+        gb_Control->setGeometry(QRect(870, 500, 251, 211));
+        label_control_Pedal1 = new QLabel(gb_Control);
+        label_control_Pedal1->setObjectName(QString::fromUtf8("label_control_Pedal1"));
+        label_control_Pedal1->setGeometry(QRect(10, 30, 81, 21));
+        control_Pedal1 = new QComboBox(gb_Control);
+        control_Pedal1->setObjectName(QString::fromUtf8("control_Pedal1"));
+        control_Pedal1->setGeometry(QRect(100, 30, 141, 25));
+        label_control_Pedal2 = new QLabel(gb_Control);
+        label_control_Pedal2->setObjectName(QString::fromUtf8("label_control_Pedal2"));
+        label_control_Pedal2->setGeometry(QRect(10, 60, 81, 21));
+        control_Pedal2 = new QComboBox(gb_Control);
+        control_Pedal2->setObjectName(QString::fromUtf8("control_Pedal2"));
+        control_Pedal2->setGeometry(QRect(100, 60, 141, 25));
+        control_Pedal3 = new QComboBox(gb_Control);
+        control_Pedal3->setObjectName(QString::fromUtf8("control_Pedal3"));
+        control_Pedal3->setGeometry(QRect(100, 90, 141, 25));
+        label_control_Pedal3 = new QLabel(gb_Control);
+        label_control_Pedal3->setObjectName(QString::fromUtf8("label_control_Pedal3"));
+        label_control_Pedal3->setGeometry(QRect(10, 90, 81, 21));
+        label_control_Control1 = new QLabel(gb_Control);
+        label_control_Control1->setObjectName(QString::fromUtf8("label_control_Control1"));
+        label_control_Control1->setGeometry(QRect(10, 120, 81, 21));
+        control_Control1 = new QComboBox(gb_Control);
+        control_Control1->setObjectName(QString::fromUtf8("control_Control1"));
+        control_Control1->setGeometry(QRect(100, 120, 141, 25));
+        label_control_Control2 = new QLabel(gb_Control);
+        label_control_Control2->setObjectName(QString::fromUtf8("label_control_Control2"));
+        label_control_Control2->setGeometry(QRect(10, 150, 81, 21));
+        control_Control2 = new QComboBox(gb_Control);
+        control_Control2->setObjectName(QString::fromUtf8("control_Control2"));
+        control_Control2->setGeometry(QRect(100, 150, 141, 25));
+        label_control_Expression = new QLabel(gb_Control);
+        label_control_Expression->setObjectName(QString::fromUtf8("label_control_Expression"));
+        label_control_Expression->setGeometry(QRect(10, 180, 81, 21));
+        control_Expression = new QComboBox(gb_Control);
+        control_Expression->setObjectName(QString::fromUtf8("control_Expression"));
+        control_Expression->setGeometry(QRect(100, 180, 141, 25));
         QWidget::setTabOrder(button_Open, cb_Memory);
         QWidget::setTabOrder(cb_Memory, button_Edit);
         QWidget::setTabOrder(button_Edit, cb_CopyFrom);
@@ -760,7 +812,7 @@ public:
         label_play_FadeTime->setText(QCoreApplication::translate("BossRc500Dialog", "Fade Time", nullptr));
         label_play_TrackChain->setText(QCoreApplication::translate("BossRc500Dialog", "Track Chain", nullptr));
         label_play_Tempo->setText(QCoreApplication::translate("BossRc500Dialog", "Tempo", nullptr));
-        gp_Rhythm->setTitle(QCoreApplication::translate("BossRc500Dialog", "Rhythm", nullptr));
+        gp_Rhythm->setTitle(QCoreApplication::translate("BossRc500Dialog", "RHYTHM", nullptr));
         label_rhythm_Level->setText(QCoreApplication::translate("BossRc500Dialog", "Level", nullptr));
         label_rhythm_Reverb->setText(QCoreApplication::translate("BossRc500Dialog", "Reverb", nullptr));
         label_rhythm_Pattern->setText(QCoreApplication::translate("BossRc500Dialog", "Pattern", nullptr));
@@ -779,7 +831,7 @@ public:
         rhythm_Part4->setText(QCoreApplication::translate("BossRc500Dialog", "4", nullptr));
         label_rhythm_Part->setText(QCoreApplication::translate("BossRc500Dialog", "Part", nullptr));
         label_rhythm_Tone->setText(QCoreApplication::translate("BossRc500Dialog", "Low Tone High", nullptr));
-        gb_LoopFx->setTitle(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
+        gb_LoopFx->setTitle(QCoreApplication::translate("BossRc500Dialog", "LOOP FX", nullptr));
         label_loopFx_Type->setText(QCoreApplication::translate("BossRc500Dialog", "Type", nullptr));
         label_loopFx_ScatLen->setText(QCoreApplication::translate("BossRc500Dialog", "Scat Len", nullptr));
         label_loopFx_ReptLen->setText(QCoreApplication::translate("BossRc500Dialog", "Rept Len", nullptr));
@@ -787,10 +839,17 @@ public:
         label_loopFx_Flick->setText(QCoreApplication::translate("BossRc500Dialog", "Flick", nullptr));
         loopFx_Sw->setText(QCoreApplication::translate("BossRc500Dialog", "Loop Fx", nullptr));
         button_Edit->setText(QCoreApplication::translate("BossRc500Dialog", "Edit", nullptr));
+        gb_Control->setTitle(QCoreApplication::translate("BossRc500Dialog", "CONTROL", nullptr));
+        label_control_Pedal1->setText(QCoreApplication::translate("BossRc500Dialog", "Pedal 1", nullptr));
+        label_control_Pedal2->setText(QCoreApplication::translate("BossRc500Dialog", "Pedal 2", nullptr));
+        label_control_Pedal3->setText(QCoreApplication::translate("BossRc500Dialog", "Pedal 3", nullptr));
+        label_control_Control1->setText(QCoreApplication::translate("BossRc500Dialog", "Control 1", nullptr));
+        label_control_Control2->setText(QCoreApplication::translate("BossRc500Dialog", "Control 2", nullptr));
+        label_control_Expression->setText(QCoreApplication::translate("BossRc500Dialog", "Expression", nullptr));
     } // retranslateUi
 
 };
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500JCZMTF_H
+#endif // BOSS_2D_RC500ZNNXHI_H
