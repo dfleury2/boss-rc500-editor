@@ -43,6 +43,7 @@ private:
     void on_Master_ComboBox_changed(QComboBox* cb, const char* name);
     void on_Master_CheckBox_changed(QCheckBox* cb, const char* name);
     void on_Master_SpinBox_changed(QSpinBox* sb, const char* name);
+    void on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, const char* name, int factor);
 
     // LoopFx
     void on_LoopFx_ComboBox_changed(QComboBox* cb, const char* name);

@@ -30,7 +30,7 @@
 </TRACK{{ loop.index1 }}>
 ## endfor
 <MASTER>
-	<Tempo>{{ m.MASTER.Tempo * 10 }}</Tempo>
+	<Tempo>{{ m.MASTER.Tempo }}</Tempo>
 	<DubMode>{{ m.MASTER.DubMode }}</DubMode>
 	<RecAction>{{ m.MASTER.RecAction }}</RecAction>
 	<RecQuantize>{{ m.MASTER.RecQuantize }}</RecQuantize>

@@ -362,6 +362,9 @@ BossCopierDialog::add_callbacks()
             this, [this] { on_Master_ComboBox_changed(record_LoopLength, "LpLen"); });
 
     // Master Play callbacks
+    QObject::connect(play_Tempo, &QDoubleSpinBox::valueChanged,
+            this, [this] { on_Master_DoubleSpinBox_changed(play_Tempo, "Tempo", 10); });
+
     QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged,
             this, [this] { on_Master_ComboBox_changed(play_PlayMode, "PlayMode"); });
 
@@ -656,6 +659,8 @@ BossCopierDialog::load_memory()
     // MASTER (REC/PLAY)
     {
         auto& master = _database["mem"][memory_index]["MASTER"];
+        record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
+
         // RECORD
         record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
         record_RecordAction->setCurrentIndex(master["RecAction"].get<int>());
@@ -666,6 +671,7 @@ BossCopierDialog::load_memory()
         record_LoopLength->setCurrentIndex(master["LpLen"].get<int>());
 
         // PLAY
+        play_Tempo->setValue(master["Tempo"].get<int>() / 10.0);
         play_PlayMode->setCurrentIndex(master["PlayMode"].get<int>());
         play_SingleChange->setCurrentIndex(master["SinglPlayeChange"].get<int>());
         play_Level->setValue(master["Level"].get<int>());
@@ -920,6 +926,16 @@ BossCopierDialog::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
     int value = sb->value();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["MASTER"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, const char* name, int factor)
+{
+    int memory_index = cb_Memory->currentIndex();
+    auto value = sb->value();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+    _database["mem"][memory_index]["MASTER"][name] = static_cast<int>(value * factor);
 }
 
 // --------------------------------------------------------------------------
