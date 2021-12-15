@@ -1,4 +1,4 @@
-#include "DialogBoss.hpp"
+#include "BossRc500MainDialog.hpp"
 
 #include <QApplication>
 #include <QtPlugin>
@@ -21,7 +21,7 @@ main(int argc, char* argv[])
         QApplication app(argc, argv);
 
         QDialog dialog;
-        BossCopierDialog bossUi(dialog);
+        BossRc500MainDialog bossUi(dialog);
 
         dialog.setWindowTitle("BOSS RC-500");
         //dialog.setWindowIcon(QIcon("resources/images/boss.ico"));

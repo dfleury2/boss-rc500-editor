@@ -5,10 +5,10 @@
 #include <nlohmann/json.hpp>
 
 // --------------------------------------------------------------------------
-class BossCopierDialog : public Ui_BossCopierDialog, public QObject
+class BossRc500MainDialog : public Ui_BossCopierDialog, public QObject
 {
 public:
-    BossCopierDialog(QDialog& dialog);
+    BossRc500MainDialog(QDialog& dialog);
 
 private:
     void setup();

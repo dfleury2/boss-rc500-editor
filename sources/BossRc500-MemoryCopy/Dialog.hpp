@@ -38,7 +38,7 @@ public:
     void setupUi(QDialog *BossCopierDialog)
     {
         if (BossCopierDialog->objectName().isEmpty())
-            BossCopierDialog->setObjectName(QString::fromUtf8("BossCopierDialog"));
+            BossCopierDialog->setObjectName(QString::fromUtf8("BossRc500MainDialog"));
         BossCopierDialog->resize(721, 109);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
@@ -107,17 +107,17 @@ public:
 
     void retranslateUi(QDialog *BossCopierDialog)
     {
-        BossCopierDialog->setWindowTitle(QCoreApplication::translate("BossCopierDialog", "Dialog", nullptr));
+        BossCopierDialog->setWindowTitle(QCoreApplication::translate("BossRc500MainDialog", "Dialog", nullptr));
         label_Boss->setText(QString());
         label_LoopStation->setText(QString());
-        label_File->setText(QCoreApplication::translate("BossCopierDialog", "File", nullptr));
-        button_Open->setText(QCoreApplication::translate("BossCopierDialog", "Open", nullptr));
-        label_Filename->setText(QCoreApplication::translate("BossCopierDialog", "<filename>", nullptr));
-        label_Memory->setText(QCoreApplication::translate("BossCopierDialog", "Memory", nullptr));
-        label_CopyTo->setText(QCoreApplication::translate("BossCopierDialog", "Copy From", nullptr));
-        label_To->setText(QCoreApplication::translate("BossCopierDialog", "To", nullptr));
-        button_Save->setText(QCoreApplication::translate("BossCopierDialog", "Save", nullptr));
-        button_Quit->setText(QCoreApplication::translate("BossCopierDialog", "Quit", nullptr));
+        label_File->setText(QCoreApplication::translate("BossRc500MainDialog", "File", nullptr));
+        button_Open->setText(QCoreApplication::translate("BossRc500MainDialog", "Open", nullptr));
+        label_Filename->setText(QCoreApplication::translate("BossRc500MainDialog", "<filename>", nullptr));
+        label_Memory->setText(QCoreApplication::translate("BossRc500MainDialog", "Memory", nullptr));
+        label_CopyTo->setText(QCoreApplication::translate("BossRc500MainDialog", "Copy From", nullptr));
+        label_To->setText(QCoreApplication::translate("BossRc500MainDialog", "To", nullptr));
+        button_Save->setText(QCoreApplication::translate("BossRc500MainDialog", "Save", nullptr));
+        button_Quit->setText(QCoreApplication::translate("BossRc500MainDialog", "Quit", nullptr));
     } // retranslateUi
 
 };

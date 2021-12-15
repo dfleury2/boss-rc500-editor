@@ -5,7 +5,7 @@
 #include <QMessageBox>
 
 // --------------------------------------------------------------------------
-BossCopierDialog::BossCopierDialog(QDialog& dialog) :
+BossRc500MainDialog::BossRc500MainDialog(QDialog& dialog) :
         _parent(dialog)
 {
     setup();
@@ -13,7 +13,7 @@ BossCopierDialog::BossCopierDialog(QDialog& dialog) :
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::setup()
+BossRc500MainDialog::setup()
 {
     setupUi(&_parent);
 
@@ -30,14 +30,14 @@ BossCopierDialog::setup()
     // Clear Filename
     label_Filename->setText(QString());
 
-    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Open);
-    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Save);
-    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Quit);
+    QObject::connect(button_Open, &QPushButton::pressed, this, &BossRc500MainDialog::on_ToolMenu_Open);
+    QObject::connect(button_Save, &QPushButton::pressed, this, &BossRc500MainDialog::on_ToolMenu_Save);
+    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossRc500MainDialog::on_ToolMenu_Quit);
 }
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_ToolMenu_Open()
+BossRc500MainDialog::on_ToolMenu_Open()
 {
     try {
         auto filename = QFileDialog::getOpenFileName(&_parent,
@@ -55,7 +55,7 @@ BossCopierDialog::on_ToolMenu_Open()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_ToolMenu_Save()
+BossRc500MainDialog::on_ToolMenu_Save()
 {
     try {
         auto filename = label_Filename->text().toStdString();
@@ -97,7 +97,7 @@ BossCopierDialog::on_ToolMenu_Save()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_ToolMenu_Quit()
+BossRc500MainDialog::on_ToolMenu_Quit()
 {
     QApplication::exit();
 }

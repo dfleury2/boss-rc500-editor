@@ -4,10 +4,13 @@ if(WIN32)
 endif()
 
 add_executable(BossRc500
-    main.cpp
-    Dialog.hpp
-    DialogBoss.hpp
-    DialogBoss.cpp
+        main.cpp
+        Designer/Dialog.hpp
+        Designer/DialogAssign.hpp
+        BossRc500AssignDialog.hpp
+        BossRc500AssignDialog.cpp
+        BossRc500MainDialog.hpp
+        BossRc500MainDialog.cpp
 )
 
 target_link_libraries(BossRc500

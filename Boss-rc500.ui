@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BossRc500Dialog</class>
- <widget class="QDialog" name="BossRc500Dialog">
+ <class>BossRc500MainDialog</class>
+ <widget class="QDialog" name="BossRc500MainDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1129</width>
+    <width>1128</width>
     <height>712</height>
    </rect>
   </property>
@@ -193,7 +193,7 @@
     <rect>
      <x>10</x>
      <y>90</y>
-     <width>301</width>
+     <width>321</width>
      <height>341</height>
     </rect>
    </property>
@@ -203,7 +203,7 @@
    <widget class="QCheckBox" name="track1_Reverse">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>110</x>
       <y>30</y>
       <width>91</width>
       <height>23</height>
@@ -251,7 +251,7 @@
    <widget class="QCheckBox" name="track1_LoopFx">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>120</x>
       <y>50</y>
       <width>81</width>
       <height>23</height>
@@ -270,7 +270,7 @@
    <widget class="QCheckBox" name="track1_OneShot">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>110</x>
       <y>70</y>
       <width>91</width>
       <height>23</height>
@@ -288,7 +288,7 @@
      <rect>
       <x>90</x>
       <y>100</y>
-      <width>61</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -299,7 +299,7 @@
    <widget class="QComboBox" name="track1_Pan">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>100</y>
       <width>91</width>
       <height>25</height>
@@ -309,7 +309,7 @@
    <widget class="QComboBox" name="track1_Stop">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>160</y>
       <width>121</width>
       <height>25</height>
@@ -321,7 +321,7 @@
      <rect>
       <x>90</x>
       <y>160</y>
-      <width>61</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -332,7 +332,7 @@
    <widget class="QComboBox" name="track1_Start">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>130</y>
       <width>121</width>
       <height>25</height>
@@ -344,7 +344,7 @@
      <rect>
       <x>90</x>
       <y>130</y>
-      <width>61</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -355,7 +355,7 @@
    <widget class="QComboBox" name="track1_Measure">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>190</y>
       <width>121</width>
       <height>25</height>
@@ -367,7 +367,7 @@
      <rect>
       <x>90</x>
       <y>190</y>
-      <width>61</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -378,9 +378,9 @@
    <widget class="QCheckBox" name="track1_LoopSync">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>80</x>
       <y>220</y>
-      <width>101</width>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
@@ -394,9 +394,9 @@
    <widget class="QCheckBox" name="track1_TempoSync">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>70</x>
       <y>240</y>
-      <width>111</width>
+      <width>131</width>
       <height>23</height>
      </rect>
     </property>
@@ -410,7 +410,7 @@
    <widget class="QLabel" name="label_track1_Output">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>300</y>
       <width>71</width>
       <height>21</height>
@@ -423,7 +423,7 @@
    <widget class="QComboBox" name="track1_Input">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>270</y>
       <width>121</width>
       <height>25</height>
@@ -433,7 +433,7 @@
    <widget class="QComboBox" name="track1_Output">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>300</y>
       <width>121</width>
       <height>25</height>
@@ -443,7 +443,7 @@
    <widget class="QLabel" name="label_track1_Input">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>270</y>
       <width>71</width>
       <height>21</height>
@@ -473,9 +473,9 @@
   <widget class="QGroupBox" name="gp_Track2">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>340</x>
      <y>90</y>
-     <width>301</width>
+     <width>321</width>
      <height>341</height>
     </rect>
    </property>
@@ -485,7 +485,7 @@
    <widget class="QComboBox" name="track2_Measure">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>190</y>
       <width>121</width>
       <height>25</height>
@@ -497,7 +497,7 @@
      <rect>
       <x>90</x>
       <y>160</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -508,9 +508,9 @@
    <widget class="QLabel" name="label_track2_Output">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>90</x>
       <y>300</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -521,7 +521,7 @@
    <widget class="QComboBox" name="track2_Stop">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>160</y>
       <width>121</width>
       <height>25</height>
@@ -531,7 +531,7 @@
    <widget class="QComboBox" name="track2_Pan">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>100</y>
       <width>91</width>
       <height>25</height>
@@ -541,7 +541,7 @@
    <widget class="QCheckBox" name="track2_OneShot">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>110</x>
       <y>70</y>
       <width>91</width>
       <height>23</height>
@@ -557,9 +557,9 @@
    <widget class="QCheckBox" name="track2_TempoSync">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>80</x>
       <y>240</y>
-      <width>111</width>
+      <width>121</width>
       <height>23</height>
      </rect>
     </property>
@@ -575,7 +575,7 @@
      <rect>
       <x>80</x>
       <y>220</y>
-      <width>101</width>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
@@ -591,7 +591,7 @@
      <rect>
       <x>90</x>
       <y>190</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -602,7 +602,7 @@
    <widget class="QComboBox" name="track2_Output">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>300</y>
       <width>121</width>
       <height>25</height>
@@ -614,7 +614,7 @@
      <rect>
       <x>90</x>
       <y>130</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -627,7 +627,7 @@
      <rect>
       <x>90</x>
       <y>270</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -638,7 +638,7 @@
    <widget class="QCheckBox" name="track2_Reverse">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>30</y>
       <width>81</width>
       <height>23</height>
@@ -654,7 +654,7 @@
    <widget class="QComboBox" name="track2_Start">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>130</y>
       <width>121</width>
       <height>25</height>
@@ -664,7 +664,7 @@
    <widget class="QComboBox" name="track2_Input">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>270</y>
       <width>121</width>
       <height>25</height>
@@ -674,7 +674,7 @@
    <widget class="QCheckBox" name="track2_LoopFx">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>50</y>
       <width>81</width>
       <height>23</height>
@@ -727,7 +727,7 @@
      <rect>
       <x>90</x>
       <y>100</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -1136,7 +1136,7 @@
   <widget class="QGroupBox" name="gp_Rhythm">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>670</x>
      <y>90</y>
      <width>391</width>
      <height>391</height>
