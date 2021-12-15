@@ -25,7 +25,7 @@ add_subdirectory(sources/BossRc500)
 add_subdirectory(sources/BossRc500-MemoryCopy)
 
 # Some widget examples to learn Qt
-#add_subdirectory(sources/WidgetExamples)
+add_subdirectory(sources/WidgetExamples)
 
 # Not used, only for first prototyping
 #add_subdirectory(sources/xml-reader)

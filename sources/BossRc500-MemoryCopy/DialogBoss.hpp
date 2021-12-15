@@ -13,9 +13,9 @@ public:
 private:
     void setup();
 
-    void on_open();
-    void on_save();
-    void on_quit();
+    void on_ToolMenu_Open();
+    void on_ToolMenu_Save();
+    void on_ToolMenu_Quit();
 
 private:
     QDialog& _parent;

@@ -16,14 +16,17 @@ private:
     void add_combo_items();
     void add_callbacks();
 
-    void on_open();
-    void on_copy();
+    void on_ToolMenu_New();
+    void on_ToolMenu_Open();
+    void on_ToolMenu_Save();
+    void on_ToolMenu_SaveAs();
+
     void on_edit();
-    void on_save();
-    void on_quit();
+    void on_copy();
 
     void on_memory_changed();
-    void load_memory();
+    void load_database(const std::string& filename);
+    void load_memory(int memory_index);
 
     // Track 1/2 callbacks
     void on_Level_changed(QSlider* slider);
@@ -59,7 +62,8 @@ private:
     void on_Control_ComboBox_changed(QComboBox* cb, const char* name);
 
 private:
-    QDialog& _parent;
+    QDialog&        _parent;
 
-    nlohmann::json _database;
+    nlohmann::json  _database;
+    std::string     _filename;
 };

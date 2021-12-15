@@ -30,14 +30,14 @@ BossCopierDialog::setup()
     // Clear Filename
     label_Filename->setText(QString());
 
-    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
-    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
-    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Open);
+    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Save);
+    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_ToolMenu_Quit);
 }
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_open()
+BossCopierDialog::on_ToolMenu_Open()
 {
     try {
         auto filename = QFileDialog::getOpenFileName(&_parent,
@@ -55,7 +55,7 @@ BossCopierDialog::on_open()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_save()
+BossCopierDialog::on_ToolMenu_Save()
 {
     try {
         auto filename = label_Filename->text().toStdString();
@@ -97,7 +97,7 @@ BossCopierDialog::on_save()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_quit()
+BossCopierDialog::on_ToolMenu_Quit()
 {
     QApplication::exit();
 }

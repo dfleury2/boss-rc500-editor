@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 #include <QInputDialog>
+#include <QMenu>
 
 #include <iostream>
 #include <initializer_list>
@@ -35,7 +36,16 @@ BossCopierDialog::setup()
     // Add some tweaks...
     QApplication::setStyle(QStyleFactory::create("Fusion"));
     _parent.setFixedSize(_parent.width(), _parent.height());
-    label_Filename->setText(QString());
+
+    auto toolMenu = new QMenu(toolButton);
+    toolMenu->addAction("New",          this, &BossCopierDialog::on_ToolMenu_New);
+    toolMenu->addAction("Open...",      this, &BossCopierDialog::on_ToolMenu_Open);
+    toolMenu->addSeparator();
+    toolMenu->addAction("Save",         this, &BossCopierDialog::on_ToolMenu_Save);
+    toolMenu->addAction("Save as...",   this, &BossCopierDialog::on_ToolMenu_SaveAs);
+    toolMenu->addSeparator();
+    toolMenu->addAction("Quit",         [] { QApplication::exit(); });
+    toolButton->setMenu(toolMenu);
 
     add_tooltips();
     add_combo_items();
@@ -302,10 +312,10 @@ void
 BossCopierDialog::add_callbacks()
 {
     // Add callbacks
-    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
+//    QObject::connect(button_Open, &QPushButton::pressed, this, &BossCopierDialog::on_open);
     QObject::connect(button_Copy, &QPushButton::pressed, this, &BossCopierDialog::on_copy);
-    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
-    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
+//    QObject::connect(button_Save, &QPushButton::pressed, this, &BossCopierDialog::on_save);
+//    QObject::connect(button_Quit, &QPushButton::pressed, this, &BossCopierDialog::on_quit);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossCopierDialog::on_memory_changed);
     QObject::connect(button_Edit, &QPushButton::pressed, this, &BossCopierDialog::on_edit);
@@ -480,34 +490,84 @@ BossCopierDialog::add_callbacks()
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::on_open()
+BossCopierDialog::on_ToolMenu_New()
+{
+    try {
+        _filename = "";
+        load_database("./resources/templates/MEMORY_DEFAULT.RC0");
+
+        cb_Memory->setCurrentIndex(0);
+        load_memory(cb_Memory->currentIndex());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_ToolMenu_Open()
 {
     try {
         auto filename = QFileDialog::getOpenFileName(&_parent,
-                tr("Open a MEMORY file"), "", tr("Memory Files (*.RC0)"));
-
-        label_Filename->setText(filename);
-        if (!filename.isEmpty()) {
-            _database = ReadMemoryDatabase(filename.toStdString());
-
-            // Add name to memory index
-            for (int i = 1; i <= 99; ++i) {
-                auto index = std::to_string(i);
-                if (auto found_name = _database["mem"][i - 1].find("name");
-                    found_name != _database["mem"][i - 1].end()) {
-                    index += " - " + found_name->get<std::string>();
-                }
-                std::cout << "index: " << index << std::endl;
-                cb_Memory->setItemText(i - 1, index.c_str());
-            }
+                tr("Open a MEMORY file"), "", tr("Memory Files (*.RC0)")).toStdString();
+        if (!filename.empty()) {
+            _filename = filename;
+            load_database(_filename);
 
             cb_Memory->setCurrentIndex(0);
-            load_memory();
+            load_memory(cb_Memory->currentIndex());
         }
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-        label_Filename->clear();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_ToolMenu_Save()
+{
+    try {
+        if (_filename.empty()) {
+            on_ToolMenu_SaveAs();
+        }
+        else {
+            if (auto response = QMessageBox::question(nullptr,
+                        "Write changes to file ?",
+                        QString::fromStdString("Do you want to write to file " + _filename));
+                    response != QMessageBox::Yes) {
+                throw std::runtime_error("Operation canceled");
+            }
+
+            WriteMemoryDatabase(_database, _filename);
+
+            QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::on_ToolMenu_SaveAs()
+{
+    try {
+        auto filename = QFileDialog::getOpenFileName(&_parent,
+                tr("Save to MEMORY file"), "", tr("Memory Files (*.RC0)")).toStdString();
+        if (filename.empty()) {
+            throw std::runtime_error("Operation canceled");
+        }
+
+        _filename = filename;
+        WriteMemoryDatabase(_database, _filename);
+
+        QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
 }
 
@@ -516,11 +576,6 @@ void
 BossCopierDialog::on_copy()
 {
     try {
-        auto filename = label_Filename->text().toStdString();
-        if (filename.empty()) {
-            throw std::runtime_error("No filename selected");
-        }
-
         int memory_slot = std::stoi(cb_Memory->currentText().toStdString());
         int copy_from_slot = std::stoi(cb_CopyFrom->currentText().toStdString());
         int copy_to_slot = std::stoi(cb_CopyTo->currentText().toStdString());
@@ -556,11 +611,6 @@ BossCopierDialog::on_copy()
 void BossCopierDialog::on_edit()
 {
     try {
-        auto filename = label_Filename->text().toStdString();
-        if (filename.empty()) {
-            throw std::runtime_error("No filename selected");
-        }
-
         int memory_index = cb_Memory->currentIndex();
 
         bool ok = false;
@@ -583,53 +633,33 @@ void BossCopierDialog::on_edit()
 }
 
 // --------------------------------------------------------------------------
-void
-BossCopierDialog::on_save()
-{
-    try {
-        auto filename = label_Filename->text().toStdString();
-        if (filename.empty()) {
-            throw std::runtime_error("No filename selected");
-        }
-
-        if (auto response = QMessageBox::question(nullptr,
-                "Write changes to file ?",
-                QString::fromStdString("Do you want to write to file " + filename));
-                response != QMessageBox::Yes) {
-            throw std::runtime_error("Operation canceled");
-        }
-
-        WriteMemoryDatabase(_database, filename);
-
-        QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
-    }
-    catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-    }
-}
-
-// --------------------------------------------------------------------------
-void
-BossCopierDialog::on_quit()
-{
-    QApplication::exit();
-}
-
-// --------------------------------------------------------------------------
 void BossCopierDialog::on_memory_changed()
 {
-    auto filename = label_Filename->text().toStdString();
-    if (!filename.empty()) {
-        load_memory();
+    load_memory(cb_Memory->currentIndex());
+}
+
+// --------------------------------------------------------------------------
+void
+BossCopierDialog::load_database(const std::string& filename)
+{
+    _database = ReadMemoryDatabase(filename);
+
+    // Add name to memory index
+    for (int i = 1; i <= 99; ++i) {
+        auto index = std::to_string(i);
+        if (auto found_name = _database["mem"][i - 1].find("name");
+                found_name != _database["mem"][i - 1].end()) {
+            index += " - " + found_name->get<std::string>();
+        }
+        std::cout << "index: " << index << std::endl;
+        cb_Memory->setItemText(i - 1, index.c_str());
     }
 }
 
 // --------------------------------------------------------------------------
 void
-BossCopierDialog::load_memory()
+BossCopierDialog::load_memory(int memory_index)
 {
-    int memory_index = cb_Memory->currentIndex();
-
     { // TRACK 1
         auto& track1 = _database["mem"][memory_index]["TRACK"][0];
 
