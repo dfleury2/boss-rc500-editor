@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="GUI Screenshot" src="https://github.com/dfleury2/boss-rc500-editor/raw/master/doc/screenshot.png" height="250" />
+  <img alt="GUI Screenshot" src="https://github.com/dfleury2/boss-rc500-editor/raw/master/doc/screenshot.png" height="500" />
 </div>
 <br>
 
@@ -9,24 +9,49 @@ Boss rc-500 tool to play with the XML configuration... until Boss make our life 
 
 Using Inja, RapidXml and Nlohmann Json under Conan.
 
-These are some prototypes to learn new things (Inja), and see what can I use later.
+These are some prototypes to learn new things (Inja and Qt), and see what can I use later.
+
 
 ## Compilation
 
-CMake + Conan
+You need to install : CMake (https://cmake.org/) + Conan (https://conan.io/)
+and a compiler for your system (gcc, ...)
+
+### Linux
 
 ```
-git clone https://github.com/dfleury2/rc500-reader.git
-cd rc500-reader
+git clone https://github.com/dfleury2/boss-rc500-editor.git
+cd boss-rc500-editor
 mkdir build && cd build
 conan install ..
 cmake ..
 make
-./xml-reader ../templates/MEMORY1.RC0 ../templates/MEMORY.txt > MEMORY1.RC0.NEW
 ```
 
 Personal note: Remove os.version from settings and user default-gcc10 as profile
 `CC=gcc-10 CXX=g++-10 conan install .. -pr default-gcc10 -r conan-center`
+
+### Windows
+
+You need to launch a Developper command prompt to have your compiler environment accessible by CMake and Conan.
+
+```
+git clone https://github.com/dfleury2/boss-rc500-editor.git
+cd boss-rc500-editor
+md build
+cd build
+conan install ..
+cmake ..
+cmake --build . --config Release
+cd ..
+.\build\sources\BossRc500\Release\BossRc500.exe
+```
+
+or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
+I do not use Visual Studio anymore, but to run the program, you must change the working directory to the project root, where the resources directory is,
+else the program could not find the images and others files needed.
+
+If you use CLion, after the conan install command, you can open the project root directory in it.
 
 ## xml-reader
 
@@ -35,7 +60,7 @@ with an IHM. This in-memory object will be saved using a Inja template.
 
 This is just a prototype for read testing and Inja rendering with a Nlohmann Json object.
 
-The real tool will come with an IHM (provided by someone else maybe)
+The real tool will come with an GUI (provided by someone else maybe)
 
 Happy guitar playing :)
 
