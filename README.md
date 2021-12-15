@@ -1,3 +1,9 @@
+<div align="center">
+  <img alt="GUI Screenshot" src="https://github.com/dfleury2/boss-rc500-editor/raw/master/doc/screenshot.png" height="250" />
+</div>
+<br>
+
+
 # Boss RC-500 Tools
 Boss rc-500 tool to play with the XML configuration... until Boss make our life easier
 
