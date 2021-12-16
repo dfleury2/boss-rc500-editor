@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boss RC-500 Editor</title>
+</head>
+<body>
+
+<h1 align="center">Boss RC-500 Editor</h1>
+<div align="center">
+    <img alt="GUI Screenshot" src="screenshot.png" height="500" />
+</div>
+
+This tool allows creating, updating and saving a configuration file for the Boss RC-500 looper.
+
+WARNING: This is an alpha-stage tool, under development, and with probably a lot of issues. So, before
+using it on your configuration files, make a backup.
+
+<h2>Basic usage</h2>
+
+When the tool starts, it loads a default configuration file, MEMORY_DEFAULT.RC0, in the resource directory.
+So you can start creating a configuration file without your RC-500 connected to your PC.
+
+If your looper is connected, you can directly open the MEMORY1.RC0 file from the connected disk, in ROLAND/DATA
+directory.
+
+The window title will show you the filename you are currently editing.
+
+<h2>Menu</h2>
+
+<div align="center">
+    <img alt="GUI Screenshot" src="menu.png" />
+</div>
+
+<h3>New</h3>
+Create a new database by reading the default one provided (in resources/templates/MEMORY_DEFAULT.RC0).
+A new database has no name, you will need to provide one when you will save it to disk.
+
+<h3>Open...</h3>
+
+Open an existing memory file.
+
+<h3>Save</h3>
+
+Save the current database into a file.
+For a new database, you will be prompted for a filename on your disk (or directly in your looper).
+
+If the name of the filename is "MEMORY1.RC0", the tool will automatically create a "MEMORY2.RC0" in
+the same directory. It allows the looper to ake in account the new files else it tries to load one that
+contains the checksum (no computed by the tool)
+
+<h4>Memory</h4>
+
+<div align="center">
+    <img alt="Memory Screenshot" src="memory.png" />
+</div>
+
+This list allows to change the current memory you are working on.
+The list displays an extended version of the memory name. By default only the first 12 chars are displayed
+on the looper screen. Here, you can write a longer description, only the first 12 will be seen on the looper screen,
+but you can still see the longer form here.
+
+Edit allows to change the current memory name.
+
+<h4>Copy</h4>
+
+This option allow you to copy the current memory slot to range of memory slots.
+So you can easily duplicate your setting from a slot to some other quickly.
+
+<div align="center">
+    <img alt="Copy Screenshot" src="copy.png" />
+</div>
+
+
+<h4>Assigns</h4>
+
+<div align="center">
+    <img alt="Assign Screenshot" src="assign.png" height="300"/>
+</div>
+
+This window allows you to edit the ASSIGN part of the looper.
+
+<h5>Cancel</h5>
+Cancel will revert any changes you have made.
+
+<h5>Apply</h5>
+Appy will apply the changes to the current memory selected in the main window.
+
+</body>
+</html>
