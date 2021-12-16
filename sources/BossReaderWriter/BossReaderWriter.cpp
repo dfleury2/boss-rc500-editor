@@ -98,11 +98,27 @@ ExtractDatabase(rapidxml::xml_document<>& doc)
     int mem_index = 0;
     database["mem"] = nlohmann::json::array();
     for (auto mem = root->first_node("mem"); mem; mem = mem->next_sibling("mem")) {
-        database["mem"].push_back(ExtractMemory(mem));
-        (*database["mem"].rbegin())["id"] = mem_index;
+        auto current_memory = ExtractMemory(mem);
+        current_memory["id"] = mem_index;
 
-        auto mem_name = mem->first_attribute("name");
-        (*database["mem"].rbegin())["name"] = (mem_name ? mem_name->value() : "");
+        std::string name;
+        if (auto mem_name = mem->first_attribute("name"); mem_name) { // Use if name from mem attribute if available (extension)
+            name = mem_name->value();
+        }
+        else { // Use the NAME tags C01...C12 to create a name
+            for (int i = 1; i <= 12; ++i) {
+                std::string cxx = "C";
+                cxx += (i < 10 ? "0" : "") + std::to_string(i);
+
+                auto value = current_memory["NAME"][cxx].get<int>();
+                name += char(value >= 32 && value <= 127 ? value : '_');
+                while (!name.empty() && (*name.rbegin()) == ' ') name.erase(name.size() - 1); // Ugly trim right
+            }
+        }
+        current_memory["name"] = name;
+
+        database["mem"].push_back(std::move(current_memory));
+
         ++mem_index;
     }
 
