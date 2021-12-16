@@ -46,8 +46,54 @@ BossRc500AssignDialog::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-    // track1_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_reverse.png\"/></p></body></html>", nullptr));
+    assign1_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign2_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign3_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign4_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign5_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign6_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign7_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
+    assign8_Assign->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
 
+    assign1_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign2_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign4_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign5_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign6_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign7_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+    assign8_Source->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
+
+    assign1_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign2_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign4_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign5_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign6_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign7_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+    assign8_SourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
+
+    assign1_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign2_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign4_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign5_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign6_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign7_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+    assign8_Target->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
+
+    assign1_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign2_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign4_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign5_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign6_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign7_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign8_TargetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+
+    assign1_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign2_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign4_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign5_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign6_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign7_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    assign8_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)
 }
 
@@ -138,14 +184,14 @@ BossRc500AssignDialog::add_callbacks()
     QObject::connect(button_Cancel, &QPushButton::clicked, [this] { apply = false; _parent.close(); });
 
     // Assign1-8 Sw
-    QObject::connect(assign1_Assign1, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign1_Assign1, 0, "Sw"); });
-    QObject::connect(assign2_Assign2, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign2_Assign2, 1, "Sw"); });
-    QObject::connect(assign3_Assign3, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign3_Assign3, 2, "Sw"); });
-    QObject::connect(assign4_Assign4, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign4_Assign4, 3, "Sw"); });
-    QObject::connect(assign5_Assign5, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign5_Assign5, 4, "Sw"); });
-    QObject::connect(assign6_Assign6, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign6_Assign6, 5, "Sw"); });
-    QObject::connect(assign7_Assign7, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign7_Assign7, 6, "Sw"); });
-    QObject::connect(assign8_Assign8, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign8_Assign8, 7, "Sw"); });
+    QObject::connect(assign1_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign1_Assign, 0, "Sw"); });
+    QObject::connect(assign2_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign2_Assign, 1, "Sw"); });
+    QObject::connect(assign3_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign3_Assign, 2, "Sw"); });
+    QObject::connect(assign4_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign4_Assign, 3, "Sw"); });
+    QObject::connect(assign5_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign5_Assign, 4, "Sw"); });
+    QObject::connect(assign6_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign6_Assign, 5, "Sw"); });
+    QObject::connect(assign7_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign7_Assign, 6, "Sw"); });
+    QObject::connect(assign8_Assign, &QCheckBox::stateChanged, this, [this] { on_Assign_CheckBox_changed(assign8_Assign, 7, "Sw"); });
 
     // Assign1-8 Source
     QObject::connect(assign1_Source, &QComboBox::currentIndexChanged, this, [this] { on_Assign_ComboBox_changed(assign1_Source, 0, "Source"); });
@@ -187,7 +233,7 @@ void
 BossRc500AssignDialog::load_assign()
 {
     auto& assign1 = database["mem"][_memory_index]["ASSIGN"][0];
-    assign1_Assign1->setChecked(assign1["Sw"].get<int>());
+    assign1_Assign->setChecked(assign1["Sw"].get<int>());
     assign1_Source->setCurrentIndex(assign1["Source"].get<int>());
     assign1_SourceMode->setCurrentIndex(assign1["SourceMode"].get<int>());
     assign1_Target->setCurrentIndex(assign1["Target"].get<int>());
@@ -195,7 +241,7 @@ BossRc500AssignDialog::load_assign()
     assign1_TargetMax->setValue(assign1["TargetMax"].get<int>());
 
     auto& assign2 = database["mem"][_memory_index]["ASSIGN"][1];
-    assign2_Assign2->setChecked(assign2["Sw"].get<int>());
+    assign2_Assign->setChecked(assign2["Sw"].get<int>());
     assign2_Source->setCurrentIndex(assign2["Source"].get<int>());
     assign2_SourceMode->setCurrentIndex(assign2["SourceMode"].get<int>());
     assign2_Target->setCurrentIndex(assign2["Target"].get<int>());
@@ -203,7 +249,7 @@ BossRc500AssignDialog::load_assign()
     assign2_TargetMax->setValue(assign2["TargetMax"].get<int>());
 
     auto& assign3 = database["mem"][_memory_index]["ASSIGN"][2];
-    assign3_Assign3->setChecked(assign3["Sw"].get<int>());
+    assign3_Assign->setChecked(assign3["Sw"].get<int>());
     assign3_Source->setCurrentIndex(assign3["Source"].get<int>());
     assign3_SourceMode->setCurrentIndex(assign3["SourceMode"].get<int>());
     assign3_Target->setCurrentIndex(assign3["Target"].get<int>());
@@ -211,7 +257,7 @@ BossRc500AssignDialog::load_assign()
     assign3_TargetMax->setValue(assign3["TargetMax"].get<int>());
 
     auto& assign4 = database["mem"][_memory_index]["ASSIGN"][3];
-    assign4_Assign4->setChecked(assign4["Sw"].get<int>());
+    assign4_Assign->setChecked(assign4["Sw"].get<int>());
     assign4_Source->setCurrentIndex(assign4["Source"].get<int>());
     assign4_SourceMode->setCurrentIndex(assign4["SourceMode"].get<int>());
     assign4_Target->setCurrentIndex(assign4["Target"].get<int>());
@@ -219,7 +265,7 @@ BossRc500AssignDialog::load_assign()
     assign4_TargetMax->setValue(assign4["TargetMax"].get<int>());
 
     auto& assign5 = database["mem"][_memory_index]["ASSIGN"][4];
-    assign5_Assign5->setChecked(assign5["Sw"].get<int>());
+    assign5_Assign->setChecked(assign5["Sw"].get<int>());
     assign5_Source->setCurrentIndex(assign5["Source"].get<int>());
     assign5_SourceMode->setCurrentIndex(assign5["SourceMode"].get<int>());
     assign5_Target->setCurrentIndex(assign5["Target"].get<int>());
@@ -227,7 +273,7 @@ BossRc500AssignDialog::load_assign()
     assign5_TargetMax->setValue(assign5["TargetMax"].get<int>());
 
     auto& assign6 = database["mem"][_memory_index]["ASSIGN"][5];
-    assign6_Assign6->setChecked(assign6["Sw"].get<int>());
+    assign6_Assign->setChecked(assign6["Sw"].get<int>());
     assign6_Source->setCurrentIndex(assign6["Source"].get<int>());
     assign6_SourceMode->setCurrentIndex(assign6["SourceMode"].get<int>());
     assign6_Target->setCurrentIndex(assign6["Target"].get<int>());
@@ -235,7 +281,7 @@ BossRc500AssignDialog::load_assign()
     assign6_TargetMax->setValue(assign6["TargetMax"].get<int>());
 
     auto& assign7 = database["mem"][_memory_index]["ASSIGN"][6];
-    assign7_Assign7->setChecked(assign7["Sw"].get<int>());
+    assign7_Assign->setChecked(assign7["Sw"].get<int>());
     assign7_Source->setCurrentIndex(assign7["Source"].get<int>());
     assign7_SourceMode->setCurrentIndex(assign7["SourceMode"].get<int>());
     assign7_Target->setCurrentIndex(assign7["Target"].get<int>());
@@ -243,7 +289,7 @@ BossRc500AssignDialog::load_assign()
     assign7_TargetMax->setValue(assign7["TargetMax"].get<int>());
 
     auto& assign8 = database["mem"][_memory_index]["ASSIGN"][7];
-    assign8_Assign8->setChecked(assign8["Sw"].get<int>());
+    assign8_Assign->setChecked(assign8["Sw"].get<int>());
     assign8_Source->setCurrentIndex(assign8["Source"].get<int>());
     assign8_SourceMode->setCurrentIndex(assign8["SourceMode"].get<int>());
     assign8_Target->setCurrentIndex(assign8["Target"].get<int>());
