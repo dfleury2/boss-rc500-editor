@@ -148,7 +148,7 @@ BossRc500AssignDialog::add_combo_items()
             "UNDO/REDO", "ALL START", "TAP TEMPO", "TEMPO UP", "TEMPO DOWN", "TEMPO", "DUB MOD", "REC ACTION",
             "QUANTIZE", "AUTO REC", "A. REC SENS", "A. REC SRC", "LOOP LENGTH", "PLAY MODE", "SINGL CHNGE", "FADE TIME",
             "ALL ST TRK", "TRK CHAIN", "LOOP FX", "TR1 FX", "TR2 FX", "CUR TR FX", "FX TYPE", "FX INC", "FX DEC",
-            "FX CONTROL", // TODO check sub values ?
+            "FX CONTROL",
             "RHYTHM P/S", "RHYTHM PLAY", "RHYTHM STOP", "RHYTHM LEV1", "RHYTHM LEV2", "RHY REVERB",
             "RHY PATTERN", "VARIATION", "VAR. CHANGE", "KIT", "RHY START", "RHY STOP", "REC COUNT",
             "PLAY COUNT", "RHY FILL",
@@ -225,7 +225,23 @@ BossRc500AssignDialog::add_callbacks()
 
     // Assign1-8 TargetMin
     QObject::connect(assign1_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign1_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign2_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign2_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign3_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign3_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign4_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign4_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign5_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign5_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign6_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign6_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign7_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign7_TargetMin, 0, "TargetMin"); });
+    QObject::connect(assign8_TargetMin, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign8_TargetMin, 0, "TargetMin"); });
 
+    // Assign1-8 TargetMax
+    QObject::connect(assign1_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign1_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign2_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign2_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign3_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign3_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign4_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign4_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign5_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign5_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign6_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign6_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign7_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign7_TargetMax, 0, "TargetMax"); });
+    QObject::connect(assign8_TargetMax, &QSpinBox::valueChanged, this, [this] { on_Assign_SpinBox_changed(assign8_TargetMax, 0, "TargetMax"); });
 }
 
 // --------------------------------------------------------------------------
