@@ -641,6 +641,15 @@ void BossRc500MainDialog::on_edit()
         if (ok) {
             _database["mem"][memory_index]["name"] = text;
 
+            // Update NAME.C01 to NAME.C12
+            for (int i = 0; i < 12; ++i) {
+                std::string cxx = "C";
+                cxx += (i + 1 < 10 ? "0" : "") + std::to_string(i + 1);
+
+                int value = (i < text.size() ? text[i] : 32);
+                _database["mem"][memory_index]["NAME"][cxx] = (value >= 32 && value <= 127 ? value : '_');
+            }
+
             auto name = std::to_string(memory_index + 1);
             if (!text.empty()) {
                 name += " - " + text;
