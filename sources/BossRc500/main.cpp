@@ -22,10 +22,6 @@ main(int argc, char* argv[])
 
         QDialog dialog;
         BossRc500MainDialog bossUi(dialog);
-
-        dialog.setWindowTitle("BOSS RC-500");
-        //dialog.setWindowIcon(QIcon("resources/images/boss.ico"));
-
         dialog.show();
 
         return QCoreApplication::exec();

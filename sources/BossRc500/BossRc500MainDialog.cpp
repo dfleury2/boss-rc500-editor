@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <initializer_list>
+#include <filesystem>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -44,7 +45,7 @@ BossRc500MainDialog::setup()
     toolMenu->addAction("Open...",      this, &BossRc500MainDialog::on_ToolMenu_Open);
     toolMenu->addSeparator();
     toolMenu->addAction("Save",         this, &BossRc500MainDialog::on_ToolMenu_Save);
-    toolMenu->addAction("Save as...",   this, &BossRc500MainDialog::on_ToolMenu_SaveAs);
+    toolMenu->addAction("Save as...",   this, [this] { on_ToolMenu_Save(true); });
     toolMenu->addSeparator();
     toolMenu->addAction("Assign...",   this, &BossRc500MainDialog::on_ToolMenu_Assign);
     toolMenu->addSeparator();
@@ -497,7 +498,7 @@ void
 BossRc500MainDialog::on_ToolMenu_New()
 {
     try {
-        _filename = "";
+        setFilename("");
         load_database("./resources/templates/MEMORY_DEFAULT.RC0");
 
         cb_Memory->setCurrentIndex(0);
@@ -516,7 +517,7 @@ BossRc500MainDialog::on_ToolMenu_Open()
         auto filename = QFileDialog::getOpenFileName(&_parent,
                 tr("Open a MEMORY file"), "", tr("Memory Files (*.RC0)")).toStdString();
         if (!filename.empty()) {
-            _filename = filename;
+            setFilename(filename);
             load_database(_filename);
 
             cb_Memory->setCurrentIndex(0);
@@ -525,55 +526,52 @@ BossRc500MainDialog::on_ToolMenu_Open()
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        setFilename("");
     }
 }
 
 // --------------------------------------------------------------------------
 void
-BossRc500MainDialog::on_ToolMenu_Save()
+BossRc500MainDialog::on_ToolMenu_Save(bool askFilename)
 {
     try {
-        if (_filename.empty()) {
-            on_ToolMenu_SaveAs();
-        }
-        else {
-            if (auto response = QMessageBox::question(nullptr,
-                        "Write changes to file ?",
-                        QString::fromStdString("Do you want to write to file " + _filename));
-                    response != QMessageBox::Yes) {
-                throw std::runtime_error("Operation canceled");
+        if (_filename.empty() || askFilename) {
+            auto filename = QFileDialog::getOpenFileName(&_parent,
+                    tr("Save to MEMORY file"), "", tr("Memory Files (*.RC0)")).toStdString();
+            if (filename.empty()) {
+                return;
             }
 
-            WriteMemoryDatabase(_database, _filename);
-
-            QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
+            setFilename(filename);
         }
-    }
-    catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-    }
-}
 
-// --------------------------------------------------------------------------
-void
-BossRc500MainDialog::on_ToolMenu_SaveAs()
-{
-    try {
-        auto filename = QFileDialog::getOpenFileName(&_parent,
-                tr("Save to MEMORY file"), "", tr("Memory Files (*.RC0)")).toStdString();
-        if (filename.empty()) {
+        if (auto response = QMessageBox::question(nullptr,
+                    "Write changes to file ?",
+                    QString::fromStdString("Do you want to write to file:\n" + _filename));
+                response != QMessageBox::Yes) {
             throw std::runtime_error("Operation canceled");
         }
 
-        _filename = filename;
         WriteMemoryDatabase(_database, _filename);
 
-        QMessageBox(QMessageBox::Information, "Information", "Database successfully written to file.").exec();
+        std::filesystem::path path = _filename;
+        bool memory1_detected = (path.filename() == "MEMORY1.RC0");
+        if (memory1_detected) {
+            path.replace_filename("MEMORY2.RC0");
+            WriteMemoryDatabase(_database, path.string());
+        }
+
+        std::string message = "Database successfully written to file.";
+        if (memory1_detected) {
+            message += "\nNote: MEMORY2.RC0 file has been written too.";
+        }
+        QMessageBox(QMessageBox::Information, "Information", message.c_str()).exec();
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
 }
+
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_ToolMenu_Assign()
@@ -1067,4 +1065,14 @@ BossRc500MainDialog::on_Control_ComboBox_changed(QComboBox* cb, const char* name
     int value = cb->currentIndex();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["CTL"][name] = value;
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::setFilename(const std::string& filename)
+{
+    _filename = filename;
+
+    std::string title = "BOSS RC-500 - " + (_filename.empty() ? "[Untitled]" : _filename);
+    _parent.setWindowTitle(title.c_str());
 }

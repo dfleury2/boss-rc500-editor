@@ -18,8 +18,7 @@ private:
 
     void on_ToolMenu_New();
     void on_ToolMenu_Open();
-    void on_ToolMenu_Save();
-    void on_ToolMenu_SaveAs();
+    void on_ToolMenu_Save(bool askFilename = false);
     void on_ToolMenu_Assign();
 
     void on_edit();
@@ -61,6 +60,8 @@ private:
 
     // Control
     void on_Control_ComboBox_changed(QComboBox* cb, const char* name);
+
+    void setFilename(const std::string& filename);
 
 private:
     QDialog&        _parent;
