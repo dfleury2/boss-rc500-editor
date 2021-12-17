@@ -420,7 +420,7 @@ BossRc500MainDialog::add_callbacks()
             [this] { on_LoopFx_CheckBox_changed(loopFx_Sw, "Sw"); });
 
     QObject::connect(loopFx_Type, &QComboBox::currentIndexChanged,
-            this, [this] { on_LoopFx_ComboBox_changed(loopFx_Type, "FxType"); });
+            this, [this] { on_LoopFx_FxType_changed(); });
 
     QObject::connect(loopFx_ScatLen, &QComboBox::currentIndexChanged,
             this, [this] { on_LoopFx_ComboBox_changed(loopFx_ScatLen, "ScatterLength"); });
@@ -1063,6 +1063,20 @@ BossRc500MainDialog::on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, const c
     auto value = sb->value();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["MASTER"][name] = static_cast<int>(value * factor);
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_LoopFx_FxType_changed()
+{
+    on_LoopFx_ComboBox_changed(loopFx_Type, "FxType");
+
+    // Discard some combobox
+    std::string fxType = loopFx_Type->currentText().toStdString();
+    loopFx_ScatLen->setEnabled(fxType.find("SCATTER") != std::string::npos);
+    loopFx_ReptLen->setEnabled(fxType.find("REPEAT") != std::string::npos);
+    loopFx_Shift->setEnabled(fxType.find("SHIFT") != std::string::npos);
+    loopFx_Flick->setEnabled(fxType.find("VINYL") != std::string::npos);
 }
 
 // --------------------------------------------------------------------------
