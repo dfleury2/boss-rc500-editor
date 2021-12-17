@@ -902,7 +902,29 @@ BossRc500MainDialog::on_Measure_changed(QComboBox* cb)
               << ", Track: " << (track_index + 1 )
               << ", Measure: " << value << std::endl;
 
+    int measMod = 0, measLen = 0, measBtLp = 0;
+    if (value == 0) { // AUTO
+        measMod = measLen = measBtLp = 0;
+    }
+    else if (value == 1) { // FREE
+        measMod = 1;
+        measLen = measBtLp = 0;
+    }
+    else if (value >= 2 && value <= 7) { // NOTE mode
+        measMod = 2;
+        measLen = 1;
+        measBtLp = value - 1;
+    }
+    else { // MEASURE mode
+        measMod = 2;
+        measLen = value - 7;
+        measBtLp = 0;
+    }
+
     _database["mem"][memory_index]["TRACK"][track_index]["Measure"] = value;
+    _database["mem"][memory_index]["TRACK"][track_index]["MeasMod"] = measMod;
+    _database["mem"][memory_index]["TRACK"][track_index]["MeasLen"] = measLen;
+    _database["mem"][memory_index]["TRACK"][track_index]["MeasBtLp"] = measBtLp;
 }
 
 // --------------------------------------------------------------------------
