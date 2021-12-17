@@ -770,7 +770,11 @@ BossRc500MainDialog::load_memory(int memory_index)
         // RECORD
         record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
         record_RecordAction->setCurrentIndex(master["RecAction"].get<int>());
-        record_Quantize->setCurrentIndex(master["RecQuantize"].get<int>());
+
+        int recQuantize = master["RecQuantize"].get<int>();
+        if (recQuantize == 2) recQuantize = 1;
+        record_Quantize->setCurrentIndex(recQuantize);
+
         record_AutoRecord->setChecked(master["AutoRec"].get<int>());
         record_AutoRecordSensitivity->setValue(master["AutoRecSens"].get<int>());
         record_AutoRecordSource->setCurrentIndex(master["AutoRecSrc"].get<int>());
@@ -1031,6 +1035,15 @@ BossRc500MainDialog::on_Master_ComboBox_changed(QComboBox* cb, const char* name)
 {
     int memory_index = cb_Memory->currentIndex();
     int value = cb->currentIndex();
+
+    // Some ugly ack for Quantize
+    // NOTE: may be a usage for userData and QVariant here, but too long to refactor
+    if (cb == record_Quantize) {
+        if (value == 1) { // MEASURE
+            value = 2;
+        }
+    }
+
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database["mem"][memory_index]["MASTER"][name] = value;
 }
