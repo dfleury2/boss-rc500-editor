@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1128</width>
-    <height>712</height>
+    <height>701</height>
    </rect>
   </property>
   <property name="palette">
@@ -1139,7 +1139,7 @@
      <x>710</x>
      <y>90</y>
      <width>391</width>
-     <height>391</height>
+     <height>381</height>
     </rect>
    </property>
    <property name="title">
@@ -1151,7 +1151,7 @@
       <x>10</x>
       <y>30</y>
       <width>41</width>
-      <height>181</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="maximum">
@@ -1168,7 +1168,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
+      <y>270</y>
       <width>41</width>
       <height>21</height>
      </rect>
@@ -1181,7 +1181,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>220</y>
+      <y>270</y>
       <width>51</width>
       <height>21</height>
      </rect>
@@ -1196,11 +1196,11 @@
       <x>70</x>
       <y>30</y>
       <width>41</width>
-      <height>181</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="maximum">
-     <number>200</number>
+     <number>100</number>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
@@ -1512,67 +1512,92 @@
    <widget class="QLabel" name="label_rhythm_Tone">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>360</y>
-      <width>111</width>
+      <x>70</x>
+      <y>350</y>
+      <width>51</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Low Tone High</string>
+     <string>Tone</string>
     </property>
    </widget>
-   <widget class="QSlider" name="rhythm_ToneLow">
+   <widget class="QComboBox" name="rhythm_ToneHigh">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>350</y>
+      <width>71</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rhythm_ToneHigh">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>350</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>High</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rhythm_ToneLow">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>350</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Low</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="rhythm_ToneLow">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>350</y>
+      <width>71</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rhythm_LevelValue">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>250</y>
-      <width>51</width>
-      <height>111</height>
+      <y>290</y>
+      <width>41</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>-10</number>
+    <property name="text">
+     <string>0</string>
     </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-    <property name="pageStep">
-     <number>2</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="rhythm_ToneHigh">
+   <widget class="QLabel" name="label_rhythm_ReverbValue">
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>250</y>
-      <width>51</width>
-      <height>111</height>
+      <y>290</y>
+      <width>41</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>-10</number>
+    <property name="text">
+     <string>0</string>
     </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-    <property name="pageStep">
-     <number>2</number>
-    </property>
-    <property name="tracking">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -1580,7 +1605,7 @@
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>490</y>
+     <y>480</y>
      <width>231</width>
      <height>211</height>
     </rect>
@@ -1743,7 +1768,7 @@
    <property name="geometry">
     <rect>
      <x>870</x>
-     <y>490</y>
+     <y>480</y>
      <width>251</width>
      <height>211</height>
     </rect>
@@ -1906,6 +1931,32 @@
     <enum>QToolButton::InstantPopup</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="button_MemoryPrevious">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>50</y>
+     <width>31</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_MemoryNext">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>50</y>
+     <width>31</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&gt;</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
  <tabstops>
@@ -1954,8 +2005,6 @@
   <tabstop>rhythm_Part2</tabstop>
   <tabstop>rhythm_Part3</tabstop>
   <tabstop>rhythm_Part4</tabstop>
-  <tabstop>rhythm_ToneLow</tabstop>
-  <tabstop>rhythm_ToneHigh</tabstop>
   <tabstop>record_DubMode</tabstop>
   <tabstop>record_RecordAction</tabstop>
   <tabstop>record_Quantize</tabstop>

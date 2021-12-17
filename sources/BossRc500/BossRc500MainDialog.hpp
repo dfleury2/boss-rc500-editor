@@ -24,6 +24,8 @@ private:
     void on_edit();
     void on_copy();
 
+    void on_memory_previous();
+    void on_memory_next();
     void on_memory_changed();
     void load_database(const std::string& filename);
     void load_memory(int memory_index);

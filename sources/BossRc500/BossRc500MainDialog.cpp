@@ -188,7 +188,9 @@ BossRc500MainDialog::add_combo_items()
         cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
         cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
         cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
+        cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Dot. Quarter Note");
         cb->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+        cb->addItem(QIcon("./resources/images/half note dotted.png"), "Dot. Half Note");
         for (int i = 1; i <= 16; ++i) {
             cb->addItem(std::to_string(i).c_str());
         }
@@ -290,6 +292,11 @@ BossRc500MainDialog::add_combo_items()
     AddItemsToComboBox(rhythm_RecCount, {"OFF", "1-MEASURE"});
     AddItemsToComboBox(rhythm_PlayCount, {"OFF", "1-MEASURE"});
 
+    for (int i = -10; i <= 10; ++i) { // May be easier to understand if reversed here ?
+        rhythm_ToneLow->addItem(((i > 0 ? "+" : "") + std::to_string(i)).c_str());
+        rhythm_ToneHigh->addItem(((i > 0 ? "+" : "") + std::to_string(i)).c_str());
+    }
+
     // ----- CONTROL -----
     auto ctl_items = {"OFF",
         "T1 REC/PLY", "T1 R/P/S", "T1 R/P/S(CLR)", "T1 MON R/P", "T1 PLY/STP", "T1 P/S(CLR)", "T1 STOP", "T1 STOP(TAP)", "T1 STOP(CLR)", "T1 STOP(T/C)", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE",
@@ -320,6 +327,8 @@ void
 BossRc500MainDialog::add_callbacks()
 {
     // Add callbacks
+    QObject::connect(button_MemoryPrevious, &QPushButton::pressed, this, &BossRc500MainDialog::on_memory_previous);
+    QObject::connect(button_MemoryNext, &QPushButton::pressed, this, &BossRc500MainDialog::on_memory_next);
     QObject::connect(button_Copy, &QPushButton::pressed, this, &BossRc500MainDialog::on_copy);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossRc500MainDialog::on_memory_changed);
@@ -427,10 +436,18 @@ BossRc500MainDialog::add_callbacks()
 
     // Rhythm callback
     QObject::connect(rhythm_Level, &QSlider::valueChanged,
-            this, [this] { on_Rhythm_Slider_changed(rhythm_Level, "Level"); });
+            this,
+            [this] {
+                on_Rhythm_Slider_changed(rhythm_Level, "Level");
+                label_rhythm_LevelValue->setText(std::to_string(rhythm_Level->value()).c_str());
+            });
 
     QObject::connect(rhythm_Reverb, &QSlider::valueChanged,
-            this, [this] { on_Rhythm_Slider_changed(rhythm_Reverb, "Reverb"); });
+            this,
+            [this] {
+                on_Rhythm_Slider_changed(rhythm_Reverb, "Reverb");
+                label_rhythm_ReverbValue->setText(std::to_string(rhythm_Reverb->value()).c_str());
+            });
 
     QObject::connect(rhythm_Pattern, &QComboBox::currentIndexChanged,
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_Pattern, "Pattern"); });
@@ -471,10 +488,10 @@ BossRc500MainDialog::add_callbacks()
     QObject::connect(rhythm_Part4, &QCheckBox::stateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Part4, "Part4"); });
 
-    QObject::connect(rhythm_ToneLow, &QSlider::valueChanged,
-            this, [this] { on_Rhythm_Slider_changed(rhythm_ToneLow, "ToneLow"); });
-    QObject::connect(rhythm_ToneHigh, &QSlider::valueChanged,
-            this, [this] { on_Rhythm_Slider_changed(rhythm_ToneHigh, "ToneHigh"); });
+    QObject::connect(rhythm_ToneLow, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_ToneLow, "ToneLow"); });
+    QObject::connect(rhythm_ToneHigh, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_ToneHigh, "ToneHigh"); });
 
     // Control callbacks
     QObject::connect(control_Pedal1, &QComboBox::currentIndexChanged,
@@ -663,7 +680,28 @@ void BossRc500MainDialog::on_edit()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainDialog::on_memory_changed()
+void
+BossRc500MainDialog::on_memory_previous()
+{
+    int memory_index = cb_Memory->currentIndex();
+    if (memory_index > 0) {
+        cb_Memory->setCurrentIndex(memory_index - 1);
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_memory_next()
+{
+    int memory_index = cb_Memory->currentIndex();
+    if (memory_index < 98) {
+        cb_Memory->setCurrentIndex(memory_index + 1);
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_memory_changed()
 {
     load_memory(cb_Memory->currentIndex());
 }
@@ -778,8 +816,8 @@ BossRc500MainDialog::load_memory(int memory_index)
         rhythm_Part2->setChecked(rhythm["Part2"].get<int>());
         rhythm_Part3->setChecked(rhythm["Part3"].get<int>());
         rhythm_Part4->setChecked(rhythm["Part4"].get<int>());
-        rhythm_ToneLow->setValue(rhythm["ToneLow"].get<int>());
-        rhythm_ToneHigh->setValue(rhythm["ToneHigh"].get<int>());
+        rhythm_ToneLow->setCurrentIndex(rhythm["ToneLow"].get<int>());
+        rhythm_ToneHigh->setCurrentIndex(rhythm["ToneHigh"].get<int>());
     }
 
     // CONTROL
@@ -808,7 +846,6 @@ BossRc500MainDialog::on_Level_changed(QSlider* slider)
     auto value_str = std::to_string(value);
     _database["mem"][memory_index]["TRACK"][track_index]["PlyLvl"] = value;
 
-    slider->setToolTip(value_str.c_str());
     (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
 }
 
