@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 
 // --------------------------------------------------------------------------
-class BossRc500MainDialog : public Ui_BossRc500Dialog, public QObject
+class BossRc500MainDialog : public Ui_BossRc500MainDialog, public QObject
 {
 public:
     explicit BossRc500MainDialog(QDialog& dialog);
