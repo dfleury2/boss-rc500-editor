@@ -737,7 +737,6 @@ BossRc500MainDialog::load_database(const std::string& filename)
                 found_name != _database["mem"][i - 1].end()) {
             index += " - " + found_name->get<std::string>();
         }
-        std::cout << "index: " << index << std::endl;
         cb_Memory->setItemText(i - 1, index.c_str());
     }
 }
