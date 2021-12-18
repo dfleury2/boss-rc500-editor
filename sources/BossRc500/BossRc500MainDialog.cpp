@@ -12,6 +12,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <filesystem>
+#include <algorithm>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -330,6 +331,7 @@ BossRc500MainDialog::add_callbacks()
     QObject::connect(button_MemoryPrevious, &QPushButton::pressed, this, &BossRc500MainDialog::on_memory_previous);
     QObject::connect(button_MemoryNext, &QPushButton::pressed, this, &BossRc500MainDialog::on_memory_next);
     QObject::connect(button_Copy, &QPushButton::pressed, this, &BossRc500MainDialog::on_copy);
+    QObject::connect(button_rhythm_Play, &QPushButton::pressed, this, &BossRc500MainDialog::on_rhythm_play);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossRc500MainDialog::on_memory_changed);
     QObject::connect(button_Edit, &QPushButton::pressed, this, &BossRc500MainDialog::on_edit);
@@ -704,6 +706,22 @@ void
 BossRc500MainDialog::on_memory_changed()
 {
     load_memory(cb_Memory->currentIndex());
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_rhythm_play()
+{
+    std::string drumkit_filename = "./resources/drumkits/";
+    drumkit_filename += rhythm_Pattern->currentText().toStdString() + "_";
+    drumkit_filename += rhythm_Variation->currentText().toStdString() + "_";
+
+    auto beat = rhythm_Beat->currentText().toStdString();
+    beat.erase(std::remove(begin(beat), end(beat), '/'), end(beat));
+
+    drumkit_filename += beat + ".wav";
+
+    QMessageBox(QMessageBox::Information, "Information", drumkit_filename.c_str()).exec();
 }
 
 // --------------------------------------------------------------------------

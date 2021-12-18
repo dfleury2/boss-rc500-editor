@@ -27,6 +27,7 @@ private:
     void on_memory_previous();
     void on_memory_next();
     void on_memory_changed();
+    void on_rhythm_play();
     void load_database(const std::string& filename);
     void load_memory(int memory_index);
 

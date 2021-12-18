@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500hkODzm.ui'
+** Form generated from reading UI file 'Boss-rc500DmDXwe.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500HKODZM_H
-#define BOSS_2D_RC500HKODZM_H
+#ifndef BOSS_2D_RC500DMDXWE_H
+#define BOSS_2D_RC500DMDXWE_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -143,6 +143,7 @@ public:
     QComboBox *rhythm_ToneLow;
     QLabel *label_rhythm_LevelValue;
     QLabel *label_rhythm_ReverbValue;
+    QPushButton *button_rhythm_Play;
     QGroupBox *gb_LoopFx;
     QLabel *label_loopFx_Type;
     QComboBox *loopFx_Type;
@@ -589,6 +590,10 @@ public:
         label_rhythm_ReverbValue->setObjectName(QString::fromUtf8("label_rhythm_ReverbValue"));
         label_rhythm_ReverbValue->setGeometry(QRect(70, 290, 41, 21));
         label_rhythm_ReverbValue->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        button_rhythm_Play = new QPushButton(gp_Rhythm);
+        button_rhythm_Play->setObjectName(QString::fromUtf8("button_rhythm_Play"));
+        button_rhythm_Play->setEnabled(false);
+        button_rhythm_Play->setGeometry(QRect(320, 60, 61, 24));
         gb_LoopFx = new QGroupBox(BossRc500MainDialog);
         gb_LoopFx->setObjectName(QString::fromUtf8("gb_LoopFx"));
         gb_LoopFx->setGeometry(QRect(630, 480, 231, 211));
@@ -826,6 +831,7 @@ public:
         label_rhythm_ToneLow->setText(QCoreApplication::translate("BossRc500MainDialog", "Low", nullptr));
         label_rhythm_LevelValue->setText(QCoreApplication::translate("BossRc500MainDialog", "0", nullptr));
         label_rhythm_ReverbValue->setText(QCoreApplication::translate("BossRc500MainDialog", "0", nullptr));
+        button_rhythm_Play->setText(QCoreApplication::translate("BossRc500MainDialog", "Play", nullptr));
         gb_LoopFx->setTitle(QCoreApplication::translate("BossRc500MainDialog", "LOOP FX", nullptr));
         label_loopFx_Type->setText(QCoreApplication::translate("BossRc500MainDialog", "Type", nullptr));
         label_loopFx_ScatLen->setText(QCoreApplication::translate("BossRc500MainDialog", "Scat Len", nullptr));
@@ -850,4 +856,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500HKODZM_H
+#endif // BOSS_2D_RC500DMDXWE_H
