@@ -32,7 +32,7 @@ AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list)
 void
 data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
-    ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
+    auto* pDecoder = (ma_decoder*)pDevice->pUserData;
     if (pDecoder == nullptr) {
         return;
     }
@@ -305,7 +305,7 @@ BossRc500MainDialog::add_combo_items()
         "Funk1", "Funk2", "Funk3", "Funk4",
         "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
         "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
-        "Sidekick1", "Sidekick2", "Sidekick3", "Sidekick4", "Sidekick5",
+        "SideStick1", "SideStick2", "SideStick3", "SideStick4", "SideStick5",
         "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
         "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
         "Conga1", "Conga2", "Conga3",
@@ -776,7 +776,7 @@ BossRc500MainDialog::on_rhythm_play()
     auto beat = rhythm_Beat->currentText().toStdString();
     beat.erase(std::remove(begin(beat), end(beat), '/'), end(beat));
 
-    drumkit_filename += beat + ".wav";
+    drumkit_filename += beat + ".mp3";
 
     ma_decoder decoder;
     ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder);
