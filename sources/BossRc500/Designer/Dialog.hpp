@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500DmDXwe.ui'
+** Form generated from reading UI file 'Boss-rc500ENkiKe.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500DMDXWE_H
-#define BOSS_2D_RC500DMDXWE_H
+#ifndef BOSS_2D_RC500ENKIKE_H
+#define BOSS_2D_RC500ENKIKE_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -855,4 +855,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500DMDXWE_H
+#endif // BOSS_2D_RC500ENKIKE_H

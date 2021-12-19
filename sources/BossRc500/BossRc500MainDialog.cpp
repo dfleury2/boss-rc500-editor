@@ -9,6 +9,7 @@
 #include <QStyleFactory>
 #include <QInputDialog>
 #include <QMenu>
+#include <QStandardItemModel>
 
 #include <miniaudio/miniaudio.h>
 
@@ -19,13 +20,17 @@
 
 namespace {
 // --------------------------------------------------------------------------
-void AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list) {
+void
+AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list)
+{
     for (auto& item : list) {
         cb->addItem(item);
     }
 }
 
-void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+// --------------------------------------------------------------------------
+void
+data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
     ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
     if (pDecoder == nullptr) {
@@ -35,6 +40,18 @@ void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uin
     ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
 
     (void)pInput;
+}
+
+// --------------------------------------------------------------------------
+void
+SetComboBoxItemEnabled(QComboBox * comboBox, int index, bool enabled)
+{
+    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
+    if(!model) return;
+
+    auto * item = model->item(index);
+    if(!item) return;
+    item->setEnabled(enabled);
 }
 
 }
