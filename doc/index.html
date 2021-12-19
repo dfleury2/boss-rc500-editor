@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Boss RC-500 Editor</title>
+    <style type="text/css">
+    </style>
 </head>
 <body>
 
 <h1 align="center">Boss RC-500 Editor</h1>
 <div align="center">
-    <img alt="GUI Screenshot" src="screenshot.png" height="500" />
+    <img alt="GUI Screenshot" src="screenshot.png" height="500"/>
 </div>
 
 This tool allows creating, updating and saving a configuration file for the Boss RC-500 looper.
@@ -38,30 +40,33 @@ The window title will show you the filename you are currently editing.
 <h2>Menu</h2>
 
 <div align="center">
-    <img alt="GUI Screenshot" src="menu.png" />
+    <img alt="GUI Screenshot" src="menu.png"/>
 </div>
 
 <h3>New</h3>
-Create a new database by reading the default one provided (in resources/templates/MEMORY_DEFAULT.RC0).
+Create a new database by reading the default ones provided in resources/templates/MEMORY_DEFAULT.RC0 and
+resources/templates/SYSTEM_DEFAULT.RC0
 A new database has no name, you will need to provide one when you will save it to disk.
 
 <h3>Open...</h3>
 
-Open an existing memory file.
+Open an existing directory which contains the memory and system files (ROLAND/DATA for example).
 
 <h3>Save</h3>
 
-Save the current database into a file.
-For a new database, you will be prompted for a filename on your disk (or directly in your looper).
+Save the current databases into files.
+For a new database, you will be prompted for a directory name on your disk (or directly in your looper).
 
-If the name of the filename is "MEMORY1.RC0", the tool will automatically create a "MEMORY2.RC0" in
-the same directory. It allows the looper to ake in account the new files else it tries to load one that
+All files needed by the Boss RC500 looper will we writtent to disk MEMORO1.RC0, MEMORY2.RC0, SYSTEM1.RC0 and
+SYSTEM2.RC0.
+
+It allows the looper to take in account the new files else it tries to load one that
 contains the checksum (no computed by the tool)
 
 <h4>Memory</h4>
 
 <div align="center">
-    <img alt="Memory Screenshot" src="memory.png" />
+    <img alt="Memory Screenshot" src="memory.png"/>
 </div>
 
 This list allows to change the current memory you are working on.
@@ -77,9 +82,8 @@ This option allow you to copy the current memory slot to range of memory slots.
 So you can easily duplicate your setting from a slot to some other quickly.
 
 <div align="center">
-    <img alt="Copy Screenshot" src="copy.png" />
+    <img alt="Copy Screenshot" src="copy.png"/>
 </div>
-
 
 <h4>Assigns</h4>
 
@@ -94,6 +98,21 @@ Cancel will revert any changes you have made.
 
 <h5>Apply</h5>
 Appy will apply the changes to the current memory selected in the main window.
+
+
+<h4>System</h4>
+
+<div align="center">
+    <img alt="System Screenshot" src="system.png" height="300"/>
+</div>
+
+This window allows you to edit the SYSTEM part of the looper.
+
+<h5>Cancel</h5>
+Cancel will revert any changes you have made.
+
+<h5>Apply</h5>
+Appy will apply the changes to global system database.
 
 </body>
 </html>
