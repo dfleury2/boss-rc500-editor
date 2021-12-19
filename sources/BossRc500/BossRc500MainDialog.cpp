@@ -32,14 +32,14 @@ AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list)
 void
 data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
-    auto* pDecoder = (ma_decoder*)pDevice->pUserData;
-    if (pDecoder == nullptr) {
-        return;
+    ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
+    if (pDecoder) {
+
+        /* Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping(). */
+        ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, NULL);
+
+        (void)pInput;
     }
-
-    ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
-
-    (void)pInput;
 }
 
 // --------------------------------------------------------------------------
@@ -776,7 +776,7 @@ BossRc500MainDialog::on_rhythm_play()
     auto beat = rhythm_Beat->currentText().toStdString();
     beat.erase(std::remove(begin(beat), end(beat), '/'), end(beat));
 
-    drumkit_filename += beat + ".mp3";
+    drumkit_filename += beat + ".wav";
 
     ma_decoder decoder;
     ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder);
@@ -784,6 +784,12 @@ BossRc500MainDialog::on_rhythm_play()
         std::cout << "Failed to open file: " << drumkit_filename << std::endl;
         return;
     }
+
+    /*
+    A decoder is a data source which means we just use ma_data_source_set_looping() to set the
+    looping state. We will read data using ma_data_source_read_pcm_frames() in the data callback.
+    */
+    ma_data_source_set_looping(&decoder, MA_TRUE);
 
     ma_device_config deviceConfig = ma_device_config_init(ma_device_type_playback);
     deviceConfig.playback.format   = decoder.outputFormat;
