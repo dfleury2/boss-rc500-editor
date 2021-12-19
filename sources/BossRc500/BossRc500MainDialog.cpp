@@ -10,8 +10,7 @@
 #include <QInputDialog>
 #include <QMenu>
 
-#define MINIAUDIO_IMPLEMENTATION
-#include <miniaudio.h>
+#include <miniaudio/miniaudio.h>
 
 #include <iostream>
 #include <initializer_list>
@@ -33,7 +32,7 @@ void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uin
         return;
     }
 
-    ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount);
+    ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
 
     (void)pInput;
 }
