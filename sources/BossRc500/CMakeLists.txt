@@ -10,6 +10,8 @@ add_executable(BossRc500
         Designer/DialogSystem.hpp
         BossRc500AssignDialog.hpp
         BossRc500AssignDialog.cpp
+        BossRc500SystemDialog.hpp
+        BossRc500SystemDialog.cpp
         BossRc500MainDialog.hpp
         BossRc500MainDialog.cpp
 )

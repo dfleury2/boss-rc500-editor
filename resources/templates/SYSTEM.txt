@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="RC-500" revision="0">
+<database name="{{ name }}" revision="{{ revision }}">
 <sys>
 <SETUP>
-	<MemoryNumber>0</MemoryNumber>
-	<DisplayMode>6</DisplayMode>
-	<Contrast>4</Contrast>
-	<UndoRedo>0</UndoRedo>
-	<ExtentCh>0</ExtentCh>
-	<Extent1Min>0</Extent1Min>
-	<Extent1Max>98</Extent1Max>
-	<Extent2Min>0</Extent2Min>
-	<Extent2Max>98</Extent2Max>
-	<Extent3Min>0</Extent3Min>
-	<Extent3Max>98</Extent3Max>
-	<Extent4Min>0</Extent4Min>
-	<Extent4Max>98</Extent4Max>
-	<Extent5Min>0</Extent5Min>
-	<Extent5Max>98</Extent5Max>
+	<MemoryNumber>{{ sys.SETUP.MemoryNumber }}</MemoryNumber>
+	<DisplayMode>{{ sys.SETUP.DisplayMode }}</DisplayMode>
+	<Contrast>{{ sys.SETUP.Contrast }}</Contrast>
+	<UndoRedo>{{ sys.SETUP.UndoRedo }}</UndoRedo>
+	<ExtentCh>{{ sys.SETUP.ExtentCh }}</ExtentCh>
+	<Extent1Min>{{ sys.SETUP.Extent1Min }}</Extent1Min>
+	<Extent1Max>{{ sys.SETUP.Extent1Max }}</Extent1Max>
+	<Extent2Min>{{ sys.SETUP.Extent2Min }}</Extent2Min>
+	<Extent2Max>{{ sys.SETUP.Extent2Max }}</Extent2Max>
+	<Extent3Min>{{ sys.SETUP.Extent3Min }}</Extent3Min>
+	<Extent3Max>{{ sys.SETUP.Extent3Max }}</Extent3Max>
+	<Extent4Min>{{ sys.SETUP.Extent4Min }}</Extent4Min>
+	<Extent4Max>{{ sys.SETUP.Extent4Max }}</Extent4Max>
+	<Extent5Min>{{ sys.SETUP.Extent5Min }}</Extent5Min>
+	<Extent5Max>{{ sys.SETUP.Extent5Max }}</Extent5Max>
 </SETUP>
 <MIDI>
-	<RxCtlCh>0</RxCtlCh>
-	<Omni>1</Omni>
-	<RxNoteCh>9</RxNoteCh>
-	<TxCh>16</TxCh>
-	<Sync>0</Sync>
-	<ClkOut>1</ClkOut>
-	<SyncStart>1</SyncStart>
-	<PcOut>1</PcOut>
-	<MidiThru>0</MidiThru>
-	<UsbThru>0</UsbThru>
+	<RxCtlCh>{{ sys.MIDI.RxCtlCh }}</RxCtlCh>
+	<Omni>{{ sys.MIDI.Omni }}</Omni>
+	<RxNoteCh>{{ sys.MIDI.RxNoteCh }}</RxNoteCh>
+	<TxCh>{{ sys.MIDI.TxCh }}</TxCh>
+	<Sync>{{ sys.MIDI.Sync }}</Sync>
+	<ClkOut>{{ sys.MIDI.ClkOut }}</ClkOut>
+	<SyncStart>{{ sys.MIDI.SyncStart }}</SyncStart>
+	<PcOut>{{ sys.MIDI.PcOut }}</PcOut>
+	<MidiThru>{{ sys.MIDI.MidiThru }}</MidiThru>
+	<UsbThru>{{ sys.MIDI.UsbThru }}</UsbThru>
 </MIDI>
 <INPUT>
-	<Phantom>0</Phantom>
-	<MicOut>0</MicOut>
-	<InstOut>0</InstOut>
-	<RhythmOut>0</RhythmOut>
-	<MicNs>50</MicNs>
-	<InstNs>50</InstNs>
-	<Indicator>0</Indicator>
+	<Phantom>{{ sys.INPUT.Phantom }}</Phantom>
+	<MicOut>{{ sys.INPUT.MicOut }}</MicOut>
+	<InstOut>{{ sys.INPUT.InstOut }}</InstOut>
+	<RhythmOut>{{ sys.INPUT.RhythmOut }}</RhythmOut>
+	<MicNs>{{ sys.INPUT.MicNs }}</MicNs>
+	<InstNs>{{ sys.INPUT.InstNs }}</InstNs>
+	<Indicator>{{ sys.INPUT.Indicator }}</Indicator>
 </INPUT>
 <CTL>
-	<Pedal1>28</Pedal1>
-	<Pedal2>36</Pedal2>
-	<Pedal3>27</Pedal3>
-	<Ctl1>44</Ctl1>
-	<Ctl2>53</Ctl2>
-	<Exp>13</Exp>
+	<Pedal1>{{ sys.CTL.Pedal1 }}</Pedal1>
+	<Pedal2>{{ sys.CTL.Pedal2 }}</Pedal2>
+	<Pedal3>{{ sys.CTL.Pedal3 }}</Pedal3>
+	<Ctl1>{{ sys.CTL.Ctl1 }}</Ctl1>
+	<Ctl2>{{ sys.CTL.Ctl2 }}</Ctl2>
+	<Exp>{{ sys.CTL.Exp }}</Exp>
 </CTL>
 <PREF>
-	<Pdl1>1</Pdl1>
-	<Pdl2>1</Pdl2>
-	<Pdl3>1</Pdl3>
-	<Ctl1>1</Ctl1>
-	<Ctl2>1</Ctl2>
-	<Exp>1</Exp>
+	<Pdl1>{{ sys.PREF.Pdl1 }}</Pdl1>
+	<Pdl2>{{ sys.PREF.Pdl2 }}</Pdl2>
+	<Pdl3>{{ sys.PREF.Pdl3 }}</Pdl3>
+	<Ctl1>{{ sys.PREF.Ctl1 }}</Ctl1>
+	<Ctl2>{{ sys.PREF.Ctl2 }}</Ctl2>
+	<Exp>{{ sys.PREF.Exp }}</Exp>
 </PREF>
 </sys>
 </database>

@@ -18,8 +18,9 @@ private:
 
     void on_ToolMenu_New();
     void on_ToolMenu_Open();
-    void on_ToolMenu_Save(bool askFilename = false);
+    void on_ToolMenu_Save(bool askDirname = false);
     void on_ToolMenu_Assign();
+    void on_ToolMenu_System();
 
     void on_edit();
     void on_copy();
@@ -28,7 +29,8 @@ private:
     void on_memory_next();
     void on_memory_changed();
     void on_rhythm_play();
-    void load_database(const std::string& filename);
+    void load_database_mem(const std::string& filename);
+    void load_database_sys(const std::string& filename);
     void load_memory(int memory_index);
 
     // Track 1/2 callbacks
@@ -65,11 +67,13 @@ private:
     // Control
     void on_Control_ComboBox_changed(QComboBox* cb, const char* name);
 
-    void setFilename(const std::string& filename);
+    void setDirname(const std::string& dirname);
 
 private:
     QDialog&        _parent;
 
-    nlohmann::json  _database;
-    std::string     _filename;
+    nlohmann::json  _database_mem;
+    nlohmann::json  _database_sys;
+
+    std::string     _dirname;
 };

@@ -45,7 +45,7 @@ BossRc500MainDialog::on_ToolMenu_Open()
 
         label_Filename->setText(filename);
         if (!filename.isEmpty()) {
-            _database = ReadMemoryDatabase(filename.toStdString());
+            _database_mem = ReadMemoryDatabase(filename.toStdString());
         }
     }
     catch (const std::exception& ex) {
@@ -80,15 +80,15 @@ BossRc500MainDialog::on_ToolMenu_Save()
         }
 
         // Update database and write it to disk
-        const auto& slot = _database["mem"][memory_slot - 1];
+        const auto& slot = _database_mem["mem"][memory_slot - 1];
 
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
-            _database["mem"][i - 1] = slot;
+            _database_mem["mem"][i - 1] = slot;
             // Restore the memory id of the copied slot
-            _database["mem"][i - 1]["id"] = i - 1;
+            _database_mem["mem"][i - 1]["id"] = i - 1;
         }
 
-        WriteMemoryDatabase(_database, filename);
+        WriteMemoryDatabase(_database_mem, filename);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();

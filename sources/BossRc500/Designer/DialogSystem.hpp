@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-systemlaohvg.ui'
+** Form generated from reading UI file 'Boss-rc500-systemXQWjfB.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_SYSTEMLAOHVG_H
-#define BOSS_2D_RC500_2D_SYSTEMLAOHVG_H
+#ifndef BOSS_2D_RC500_2D_SYSTEMXQWJFB_H
+#define BOSS_2D_RC500_2D_SYSTEMXQWJFB_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -30,7 +30,7 @@ public:
     QLabel *label_general_DisplayMode;
     QLabel *label_general_UndoREdo;
     QComboBox *general_UndoRedo;
-    QSpinBox *general_DisplayContrast;
+    QComboBox *general_DisplayContrast;
     QGroupBox *gp_Preference;
     QLabel *label_Pref_Pedal1Pref;
     QComboBox *pref_Pedal1Pref;
@@ -51,37 +51,37 @@ public:
     QComboBox *midi_TxChannel;
     QLabel *label_midi_SyncClock;
     QLabel *label_midi_RxCtlChannel;
-    QSpinBox *midi_RxCtlChannel;
     QComboBox *midi_SyncClock;
     QCheckBox *midi_ClockOut;
-    QComboBox *midi_SyncClock_2;
-    QLabel *label_midi_SyncClock_2;
+    QComboBox *midi_SyncStart;
+    QLabel *label_midi_SyncStart;
     QCheckBox *midi_PcOut;
     QLabel *label_midi_MidiThru;
     QComboBox *midi_MidiThru;
     QLabel *label_midi_UsbThru;
     QComboBox *midi_UsbThru;
     QCheckBox *midi_Omni;
+    QComboBox *midi_RxCtlChannel;
     QGroupBox *gp_Extent;
     QLabel *label_extent_Extent1;
     QLabel *label_extent_Extent2;
     QLabel *label_extent_Extent3;
     QLabel *label_extent_Extent4;
     QLabel *label_extent_Extent5;
-    QSpinBox *extent_Extent1Min;
     QLabel *label_extent_Extent;
     QComboBox *extent_Extent;
     QLabel *label_extent_ExtentMax;
-    QSpinBox *extent_Extent1Max;
-    QSpinBox *extent_Extent2Max;
     QLabel *label_extent_ExtentMin;
-    QSpinBox *extent_Extent2Min;
-    QSpinBox *extent_Extent3Max;
-    QSpinBox *extent_Extent3Min;
-    QSpinBox *extent_Extent4Max;
-    QSpinBox *extent_Extent4Min;
-    QSpinBox *extent_Extent5Max;
-    QSpinBox *extent_Extent5Min;
+    QComboBox *extent_Extent1Min;
+    QComboBox *extent_Extent1Max;
+    QComboBox *extent_Extent2Min;
+    QComboBox *extent_Extent2Max;
+    QComboBox *extent_Extent3Min;
+    QComboBox *extent_Extent3Max;
+    QComboBox *extent_Extent4Max;
+    QComboBox *extent_Extent4Min;
+    QComboBox *extent_Extent5Min;
+    QComboBox *extent_Extent5Max;
     QGroupBox *gp_Input;
     QCheckBox *input_Phantom;
     QLabel *label_input_MicroIn;
@@ -92,18 +92,31 @@ public:
     QComboBox *input_Rhythm;
     QLabel *label_input_MicroInNs;
     QLabel *label_input_PeakSource;
-    QSpinBox *input_PeakSource;
     QSpinBox *input_MicroInNs;
     QLabel *label_input_InstrInNs;
     QSpinBox *input_InstrInNs;
+    QComboBox *input_PeakSource;
     QPushButton *button_Apply;
     QPushButton *button_Cancel;
+    QGroupBox *gb_Control;
+    QLabel *label_control_Pedal1;
+    QComboBox *control_Pedal1;
+    QLabel *label_control_Pedal2;
+    QComboBox *control_Pedal2;
+    QComboBox *control_Pedal3;
+    QLabel *label_control_Pedal3;
+    QLabel *label_control_Control1;
+    QComboBox *control_Control1;
+    QLabel *label_control_Control2;
+    QComboBox *control_Control2;
+    QLabel *label_control_Expression;
+    QComboBox *control_Expression;
 
     void setupUi(QDialog *BossRc500SystemDialog)
     {
         if (BossRc500SystemDialog->objectName().isEmpty())
             BossRc500SystemDialog->setObjectName(QString::fromUtf8("BossRc500SystemDialog"));
-        BossRc500SystemDialog->resize(885, 496);
+        BossRc500SystemDialog->resize(884, 526);
         QPalette palette;
         QBrush brush(QColor(255, 255, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -139,12 +152,9 @@ public:
         general_UndoRedo = new QComboBox(gp_General);
         general_UndoRedo->setObjectName(QString::fromUtf8("general_UndoRedo"));
         general_UndoRedo->setGeometry(QRect(140, 90, 131, 25));
-        general_DisplayContrast = new QSpinBox(gp_General);
+        general_DisplayContrast = new QComboBox(gp_General);
         general_DisplayContrast->setObjectName(QString::fromUtf8("general_DisplayContrast"));
-        general_DisplayContrast->setGeometry(QRect(140, 30, 61, 24));
-        general_DisplayContrast->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        general_DisplayContrast->setMinimum(1);
-        general_DisplayContrast->setMaximum(10);
+        general_DisplayContrast->setGeometry(QRect(140, 30, 61, 25));
         gp_Preference = new QGroupBox(BossRc500SystemDialog);
         gp_Preference->setObjectName(QString::fromUtf8("gp_Preference"));
         gp_Preference->setGeometry(QRect(300, 10, 281, 221));
@@ -186,7 +196,7 @@ public:
         pref_ExpPref->setGeometry(QRect(120, 180, 141, 25));
         gp_Midi = new QGroupBox(BossRc500SystemDialog);
         gp_Midi->setObjectName(QString::fromUtf8("gp_Midi"));
-        gp_Midi->setGeometry(QRect(590, 10, 281, 331));
+        gp_Midi->setGeometry(QRect(10, 140, 281, 331));
         midi_RxNoteCh = new QComboBox(gp_Midi);
         midi_RxNoteCh->setObjectName(QString::fromUtf8("midi_RxNoteCh"));
         midi_RxNoteCh->setGeometry(QRect(130, 90, 141, 25));
@@ -205,11 +215,6 @@ public:
         label_midi_RxCtlChannel = new QLabel(gp_Midi);
         label_midi_RxCtlChannel->setObjectName(QString::fromUtf8("label_midi_RxCtlChannel"));
         label_midi_RxCtlChannel->setGeometry(QRect(10, 30, 111, 21));
-        midi_RxCtlChannel = new QSpinBox(gp_Midi);
-        midi_RxCtlChannel->setObjectName(QString::fromUtf8("midi_RxCtlChannel"));
-        midi_RxCtlChannel->setGeometry(QRect(130, 30, 61, 24));
-        midi_RxCtlChannel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        midi_RxCtlChannel->setMaximum(100);
         midi_SyncClock = new QComboBox(gp_Midi);
         midi_SyncClock->setObjectName(QString::fromUtf8("midi_SyncClock"));
         midi_SyncClock->setGeometry(QRect(130, 150, 141, 25));
@@ -217,12 +222,12 @@ public:
         midi_ClockOut->setObjectName(QString::fromUtf8("midi_ClockOut"));
         midi_ClockOut->setGeometry(QRect(10, 180, 131, 23));
         midi_ClockOut->setLayoutDirection(Qt::RightToLeft);
-        midi_SyncClock_2 = new QComboBox(gp_Midi);
-        midi_SyncClock_2->setObjectName(QString::fromUtf8("midi_SyncClock_2"));
-        midi_SyncClock_2->setGeometry(QRect(130, 210, 141, 25));
-        label_midi_SyncClock_2 = new QLabel(gp_Midi);
-        label_midi_SyncClock_2->setObjectName(QString::fromUtf8("label_midi_SyncClock_2"));
-        label_midi_SyncClock_2->setGeometry(QRect(10, 210, 101, 21));
+        midi_SyncStart = new QComboBox(gp_Midi);
+        midi_SyncStart->setObjectName(QString::fromUtf8("midi_SyncStart"));
+        midi_SyncStart->setGeometry(QRect(130, 210, 141, 25));
+        label_midi_SyncStart = new QLabel(gp_Midi);
+        label_midi_SyncStart->setObjectName(QString::fromUtf8("label_midi_SyncStart"));
+        label_midi_SyncStart->setGeometry(QRect(10, 210, 101, 21));
         midi_PcOut = new QCheckBox(gp_Midi);
         midi_PcOut->setObjectName(QString::fromUtf8("midi_PcOut"));
         midi_PcOut->setGeometry(QRect(10, 240, 131, 23));
@@ -243,9 +248,12 @@ public:
         midi_Omni->setObjectName(QString::fromUtf8("midi_Omni"));
         midi_Omni->setGeometry(QRect(10, 60, 131, 23));
         midi_Omni->setLayoutDirection(Qt::RightToLeft);
+        midi_RxCtlChannel = new QComboBox(gp_Midi);
+        midi_RxCtlChannel->setObjectName(QString::fromUtf8("midi_RxCtlChannel"));
+        midi_RxCtlChannel->setGeometry(QRect(130, 30, 61, 25));
         gp_Extent = new QGroupBox(BossRc500SystemDialog);
         gp_Extent->setObjectName(QString::fromUtf8("gp_Extent"));
-        gp_Extent->setGeometry(QRect(10, 240, 281, 241));
+        gp_Extent->setGeometry(QRect(300, 240, 281, 241));
         label_extent_Extent1 = new QLabel(gp_Extent);
         label_extent_Extent1->setObjectName(QString::fromUtf8("label_extent_Extent1"));
         label_extent_Extent1->setGeometry(QRect(20, 80, 101, 21));
@@ -261,10 +269,6 @@ public:
         label_extent_Extent5 = new QLabel(gp_Extent);
         label_extent_Extent5->setObjectName(QString::fromUtf8("label_extent_Extent5"));
         label_extent_Extent5->setGeometry(QRect(20, 200, 101, 21));
-        extent_Extent1Min = new QSpinBox(gp_Extent);
-        extent_Extent1Min->setObjectName(QString::fromUtf8("extent_Extent1Min"));
-        extent_Extent1Min->setGeometry(QRect(130, 80, 51, 26));
-        extent_Extent1Min->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         label_extent_Extent = new QLabel(gp_Extent);
         label_extent_Extent->setObjectName(QString::fromUtf8("label_extent_Extent"));
         label_extent_Extent->setGeometry(QRect(20, 30, 101, 21));
@@ -274,48 +278,42 @@ public:
         label_extent_ExtentMax = new QLabel(gp_Extent);
         label_extent_ExtentMax->setObjectName(QString::fromUtf8("label_extent_ExtentMax"));
         label_extent_ExtentMax->setGeometry(QRect(200, 60, 31, 21));
-        extent_Extent1Max = new QSpinBox(gp_Extent);
-        extent_Extent1Max->setObjectName(QString::fromUtf8("extent_Extent1Max"));
-        extent_Extent1Max->setGeometry(QRect(190, 80, 51, 26));
-        extent_Extent1Max->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent2Max = new QSpinBox(gp_Extent);
-        extent_Extent2Max->setObjectName(QString::fromUtf8("extent_Extent2Max"));
-        extent_Extent2Max->setGeometry(QRect(190, 110, 51, 26));
-        extent_Extent2Max->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         label_extent_ExtentMin = new QLabel(gp_Extent);
         label_extent_ExtentMin->setObjectName(QString::fromUtf8("label_extent_ExtentMin"));
         label_extent_ExtentMin->setGeometry(QRect(140, 60, 31, 21));
-        extent_Extent2Min = new QSpinBox(gp_Extent);
+        extent_Extent1Min = new QComboBox(gp_Extent);
+        extent_Extent1Min->setObjectName(QString::fromUtf8("extent_Extent1Min"));
+        extent_Extent1Min->setGeometry(QRect(130, 80, 61, 25));
+        extent_Extent1Max = new QComboBox(gp_Extent);
+        extent_Extent1Max->setObjectName(QString::fromUtf8("extent_Extent1Max"));
+        extent_Extent1Max->setGeometry(QRect(200, 80, 61, 25));
+        extent_Extent2Min = new QComboBox(gp_Extent);
         extent_Extent2Min->setObjectName(QString::fromUtf8("extent_Extent2Min"));
-        extent_Extent2Min->setGeometry(QRect(130, 110, 51, 26));
-        extent_Extent2Min->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent3Max = new QSpinBox(gp_Extent);
-        extent_Extent3Max->setObjectName(QString::fromUtf8("extent_Extent3Max"));
-        extent_Extent3Max->setGeometry(QRect(190, 140, 51, 26));
-        extent_Extent3Max->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent3Min = new QSpinBox(gp_Extent);
+        extent_Extent2Min->setGeometry(QRect(130, 110, 61, 25));
+        extent_Extent2Max = new QComboBox(gp_Extent);
+        extent_Extent2Max->setObjectName(QString::fromUtf8("extent_Extent2Max"));
+        extent_Extent2Max->setGeometry(QRect(200, 110, 61, 25));
+        extent_Extent3Min = new QComboBox(gp_Extent);
         extent_Extent3Min->setObjectName(QString::fromUtf8("extent_Extent3Min"));
-        extent_Extent3Min->setGeometry(QRect(130, 140, 51, 26));
-        extent_Extent3Min->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent4Max = new QSpinBox(gp_Extent);
+        extent_Extent3Min->setGeometry(QRect(130, 140, 61, 25));
+        extent_Extent3Max = new QComboBox(gp_Extent);
+        extent_Extent3Max->setObjectName(QString::fromUtf8("extent_Extent3Max"));
+        extent_Extent3Max->setGeometry(QRect(200, 140, 61, 25));
+        extent_Extent4Max = new QComboBox(gp_Extent);
         extent_Extent4Max->setObjectName(QString::fromUtf8("extent_Extent4Max"));
-        extent_Extent4Max->setGeometry(QRect(190, 170, 51, 26));
-        extent_Extent4Max->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent4Min = new QSpinBox(gp_Extent);
+        extent_Extent4Max->setGeometry(QRect(200, 170, 61, 25));
+        extent_Extent4Min = new QComboBox(gp_Extent);
         extent_Extent4Min->setObjectName(QString::fromUtf8("extent_Extent4Min"));
-        extent_Extent4Min->setGeometry(QRect(130, 170, 51, 26));
-        extent_Extent4Min->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent5Max = new QSpinBox(gp_Extent);
-        extent_Extent5Max->setObjectName(QString::fromUtf8("extent_Extent5Max"));
-        extent_Extent5Max->setGeometry(QRect(190, 200, 51, 26));
-        extent_Extent5Max->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        extent_Extent5Min = new QSpinBox(gp_Extent);
+        extent_Extent4Min->setGeometry(QRect(130, 170, 61, 25));
+        extent_Extent5Min = new QComboBox(gp_Extent);
         extent_Extent5Min->setObjectName(QString::fromUtf8("extent_Extent5Min"));
-        extent_Extent5Min->setGeometry(QRect(130, 200, 51, 26));
-        extent_Extent5Min->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        extent_Extent5Min->setGeometry(QRect(130, 200, 61, 25));
+        extent_Extent5Max = new QComboBox(gp_Extent);
+        extent_Extent5Max->setObjectName(QString::fromUtf8("extent_Extent5Max"));
+        extent_Extent5Max->setGeometry(QRect(200, 200, 61, 25));
         gp_Input = new QGroupBox(BossRc500SystemDialog);
         gp_Input->setObjectName(QString::fromUtf8("gp_Input"));
-        gp_Input->setGeometry(QRect(300, 240, 281, 241));
+        gp_Input->setGeometry(QRect(590, 240, 281, 241));
         input_Phantom = new QCheckBox(gp_Input);
         input_Phantom->setObjectName(QString::fromUtf8("input_Phantom"));
         input_Phantom->setGeometry(QRect(10, 30, 131, 23));
@@ -344,14 +342,11 @@ public:
         label_input_PeakSource = new QLabel(gp_Input);
         label_input_PeakSource->setObjectName(QString::fromUtf8("label_input_PeakSource"));
         label_input_PeakSource->setGeometry(QRect(20, 210, 101, 21));
-        input_PeakSource = new QSpinBox(gp_Input);
-        input_PeakSource->setObjectName(QString::fromUtf8("input_PeakSource"));
-        input_PeakSource->setGeometry(QRect(130, 210, 81, 26));
-        input_PeakSource->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         input_MicroInNs = new QSpinBox(gp_Input);
         input_MicroInNs->setObjectName(QString::fromUtf8("input_MicroInNs"));
         input_MicroInNs->setGeometry(QRect(130, 150, 81, 26));
         input_MicroInNs->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        input_MicroInNs->setMaximum(100);
         label_input_InstrInNs = new QLabel(gp_Input);
         label_input_InstrInNs->setObjectName(QString::fromUtf8("label_input_InstrInNs"));
         label_input_InstrInNs->setGeometry(QRect(20, 180, 101, 21));
@@ -359,13 +354,55 @@ public:
         input_InstrInNs->setObjectName(QString::fromUtf8("input_InstrInNs"));
         input_InstrInNs->setGeometry(QRect(130, 180, 81, 26));
         input_InstrInNs->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        input_InstrInNs->setMaximum(100);
+        input_PeakSource = new QComboBox(gp_Input);
+        input_PeakSource->setObjectName(QString::fromUtf8("input_PeakSource"));
+        input_PeakSource->setGeometry(QRect(130, 210, 141, 25));
         button_Apply = new QPushButton(BossRc500SystemDialog);
         button_Apply->setObjectName(QString::fromUtf8("button_Apply"));
-        button_Apply->setGeometry(QRect(800, 460, 71, 24));
+        button_Apply->setGeometry(QRect(790, 490, 71, 24));
         button_Cancel = new QPushButton(BossRc500SystemDialog);
         button_Cancel->setObjectName(QString::fromUtf8("button_Cancel"));
-        button_Cancel->setGeometry(QRect(720, 460, 71, 24));
-        QWidget::setTabOrder(general_DisplayContrast, general_DisplayMode);
+        button_Cancel->setGeometry(QRect(710, 490, 71, 24));
+        gb_Control = new QGroupBox(BossRc500SystemDialog);
+        gb_Control->setObjectName(QString::fromUtf8("gb_Control"));
+        gb_Control->setGeometry(QRect(590, 10, 251, 211));
+        label_control_Pedal1 = new QLabel(gb_Control);
+        label_control_Pedal1->setObjectName(QString::fromUtf8("label_control_Pedal1"));
+        label_control_Pedal1->setGeometry(QRect(10, 30, 81, 21));
+        control_Pedal1 = new QComboBox(gb_Control);
+        control_Pedal1->setObjectName(QString::fromUtf8("control_Pedal1"));
+        control_Pedal1->setGeometry(QRect(100, 30, 141, 25));
+        label_control_Pedal2 = new QLabel(gb_Control);
+        label_control_Pedal2->setObjectName(QString::fromUtf8("label_control_Pedal2"));
+        label_control_Pedal2->setGeometry(QRect(10, 60, 81, 21));
+        control_Pedal2 = new QComboBox(gb_Control);
+        control_Pedal2->setObjectName(QString::fromUtf8("control_Pedal2"));
+        control_Pedal2->setGeometry(QRect(100, 60, 141, 25));
+        control_Pedal3 = new QComboBox(gb_Control);
+        control_Pedal3->setObjectName(QString::fromUtf8("control_Pedal3"));
+        control_Pedal3->setGeometry(QRect(100, 90, 141, 25));
+        label_control_Pedal3 = new QLabel(gb_Control);
+        label_control_Pedal3->setObjectName(QString::fromUtf8("label_control_Pedal3"));
+        label_control_Pedal3->setGeometry(QRect(10, 90, 81, 21));
+        label_control_Control1 = new QLabel(gb_Control);
+        label_control_Control1->setObjectName(QString::fromUtf8("label_control_Control1"));
+        label_control_Control1->setGeometry(QRect(10, 120, 81, 21));
+        control_Control1 = new QComboBox(gb_Control);
+        control_Control1->setObjectName(QString::fromUtf8("control_Control1"));
+        control_Control1->setGeometry(QRect(100, 120, 141, 25));
+        label_control_Control2 = new QLabel(gb_Control);
+        label_control_Control2->setObjectName(QString::fromUtf8("label_control_Control2"));
+        label_control_Control2->setGeometry(QRect(10, 150, 81, 21));
+        control_Control2 = new QComboBox(gb_Control);
+        control_Control2->setObjectName(QString::fromUtf8("control_Control2"));
+        control_Control2->setGeometry(QRect(100, 150, 141, 25));
+        label_control_Expression = new QLabel(gb_Control);
+        label_control_Expression->setObjectName(QString::fromUtf8("label_control_Expression"));
+        label_control_Expression->setGeometry(QRect(10, 180, 81, 21));
+        control_Expression = new QComboBox(gb_Control);
+        control_Expression->setObjectName(QString::fromUtf8("control_Expression"));
+        control_Expression->setGeometry(QRect(100, 180, 141, 25));
         QWidget::setTabOrder(general_DisplayMode, general_UndoRedo);
         QWidget::setTabOrder(general_UndoRedo, pref_Pedal1Pref);
         QWidget::setTabOrder(pref_Pedal1Pref, pref_Pedal2Pref);
@@ -373,35 +410,23 @@ public:
         QWidget::setTabOrder(pref_Pedal3Pref, pref_Ctl1Pref);
         QWidget::setTabOrder(pref_Ctl1Pref, pref_Ctl2Pref);
         QWidget::setTabOrder(pref_Ctl2Pref, pref_ExpPref);
-        QWidget::setTabOrder(pref_ExpPref, midi_RxCtlChannel);
-        QWidget::setTabOrder(midi_RxCtlChannel, midi_Omni);
+        QWidget::setTabOrder(pref_ExpPref, midi_Omni);
         QWidget::setTabOrder(midi_Omni, midi_RxNoteCh);
         QWidget::setTabOrder(midi_RxNoteCh, midi_TxChannel);
         QWidget::setTabOrder(midi_TxChannel, midi_SyncClock);
         QWidget::setTabOrder(midi_SyncClock, midi_ClockOut);
-        QWidget::setTabOrder(midi_ClockOut, midi_SyncClock_2);
-        QWidget::setTabOrder(midi_SyncClock_2, midi_PcOut);
+        QWidget::setTabOrder(midi_ClockOut, midi_SyncStart);
+        QWidget::setTabOrder(midi_SyncStart, midi_PcOut);
         QWidget::setTabOrder(midi_PcOut, midi_MidiThru);
         QWidget::setTabOrder(midi_MidiThru, midi_UsbThru);
         QWidget::setTabOrder(midi_UsbThru, extent_Extent);
-        QWidget::setTabOrder(extent_Extent, extent_Extent1Min);
-        QWidget::setTabOrder(extent_Extent1Min, extent_Extent1Max);
-        QWidget::setTabOrder(extent_Extent1Max, extent_Extent2Min);
-        QWidget::setTabOrder(extent_Extent2Min, extent_Extent2Max);
-        QWidget::setTabOrder(extent_Extent2Max, extent_Extent3Min);
-        QWidget::setTabOrder(extent_Extent3Min, extent_Extent3Max);
-        QWidget::setTabOrder(extent_Extent3Max, extent_Extent4Min);
-        QWidget::setTabOrder(extent_Extent4Min, extent_Extent4Max);
-        QWidget::setTabOrder(extent_Extent4Max, extent_Extent5Min);
-        QWidget::setTabOrder(extent_Extent5Min, extent_Extent5Max);
-        QWidget::setTabOrder(extent_Extent5Max, input_Phantom);
+        QWidget::setTabOrder(extent_Extent, input_Phantom);
         QWidget::setTabOrder(input_Phantom, input_MicroIn);
         QWidget::setTabOrder(input_MicroIn, input_InstrumentIn);
         QWidget::setTabOrder(input_InstrumentIn, input_Rhythm);
         QWidget::setTabOrder(input_Rhythm, input_MicroInNs);
         QWidget::setTabOrder(input_MicroInNs, input_InstrInNs);
-        QWidget::setTabOrder(input_InstrInNs, input_PeakSource);
-        QWidget::setTabOrder(input_PeakSource, button_Cancel);
+        QWidget::setTabOrder(input_InstrInNs, button_Cancel);
         QWidget::setTabOrder(button_Cancel, button_Apply);
 
         retranslateUi(BossRc500SystemDialog);
@@ -429,7 +454,7 @@ public:
         label_midi_SyncClock->setText(QCoreApplication::translate("BossRc500SystemDialog", "Sync Clock", nullptr));
         label_midi_RxCtlChannel->setText(QCoreApplication::translate("BossRc500SystemDialog", "Rx Ctl Channel", nullptr));
         midi_ClockOut->setText(QCoreApplication::translate("BossRc500SystemDialog", "Clock Out", nullptr));
-        label_midi_SyncClock_2->setText(QCoreApplication::translate("BossRc500SystemDialog", "Sync Clock", nullptr));
+        label_midi_SyncStart->setText(QCoreApplication::translate("BossRc500SystemDialog", "Sync Start", nullptr));
         midi_PcOut->setText(QCoreApplication::translate("BossRc500SystemDialog", "Pc Out", nullptr));
         label_midi_MidiThru->setText(QCoreApplication::translate("BossRc500SystemDialog", "Midi Thru", nullptr));
         label_midi_UsbThru->setText(QCoreApplication::translate("BossRc500SystemDialog", "Usb Thru", nullptr));
@@ -453,10 +478,17 @@ public:
         label_input_InstrInNs->setText(QCoreApplication::translate("BossRc500SystemDialog", "Instr. In NS", nullptr));
         button_Apply->setText(QCoreApplication::translate("BossRc500SystemDialog", "Apply", nullptr));
         button_Cancel->setText(QCoreApplication::translate("BossRc500SystemDialog", "Cancel", nullptr));
+        gb_Control->setTitle(QCoreApplication::translate("BossRc500SystemDialog", "CONTROL", nullptr));
+        label_control_Pedal1->setText(QCoreApplication::translate("BossRc500SystemDialog", "Pedal 1", nullptr));
+        label_control_Pedal2->setText(QCoreApplication::translate("BossRc500SystemDialog", "Pedal 2", nullptr));
+        label_control_Pedal3->setText(QCoreApplication::translate("BossRc500SystemDialog", "Pedal 3", nullptr));
+        label_control_Control1->setText(QCoreApplication::translate("BossRc500SystemDialog", "Control 1", nullptr));
+        label_control_Control2->setText(QCoreApplication::translate("BossRc500SystemDialog", "Control 2", nullptr));
+        label_control_Expression->setText(QCoreApplication::translate("BossRc500SystemDialog", "Expression", nullptr));
     } // retranslateUi
 
 };
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_SYSTEMLAOHVG_H
+#endif // BOSS_2D_RC500_2D_SYSTEMXQWJFB_H

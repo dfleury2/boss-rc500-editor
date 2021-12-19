@@ -20,5 +20,5 @@ private:
 private:
     QDialog& _parent;
 
-    nlohmann::json _database;
+    nlohmann::json _database_mem;
 };

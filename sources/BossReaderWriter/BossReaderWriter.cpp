@@ -37,6 +37,10 @@ ExtractFlatXmlStruct(rapidxml::xml_node<>* node)
 void
 AppendStruct(nlohmann::json& json, rapidxml::xml_node<>* node, const char* name)
 {
+    if (!node) {
+        throw std::runtime_error("Missing expected node: " + std::string(name));
+    }
+
     if (auto elem = node->first_node(name); elem) {
         json[name] = ExtractFlatXmlStruct(elem);
     }
@@ -83,7 +87,7 @@ ExtractMemory(rapidxml::xml_node<>* node)
 
 // --------------------------------------------------------------------------
 nlohmann::json
-ExtractDatabase(rapidxml::xml_document<>& doc)
+ExtractMemoryDatabase(rapidxml::xml_document<>& doc)
 {
     nlohmann::json database;
 
@@ -127,6 +131,34 @@ ExtractDatabase(rapidxml::xml_document<>& doc)
 
 // --------------------------------------------------------------------------
 nlohmann::json
+ExtractSystemDatabase(rapidxml::xml_document<>& doc)
+{
+    nlohmann::json database;
+
+    // Reading the database
+    auto root = doc.first_node("database");
+    if (!root) throw std::runtime_error("No root tag database found");
+
+    database["name"] = root->first_attribute("name")->value();
+    database["revision"] = root->first_attribute("revision")->value();
+
+    // sys
+    auto sys = root->first_node("sys");
+    if (!sys) {
+        throw std::runtime_error("No sys node found under database");
+    }
+
+    AppendStruct(database["sys"], sys, "SETUP");
+    AppendStruct(database["sys"], sys, "MIDI");
+    AppendStruct(database["sys"], sys, "INPUT");
+    AppendStruct(database["sys"], sys, "CTL");
+    AppendStruct(database["sys"], sys, "PREF");
+
+    return database;
+}
+
+// --------------------------------------------------------------------------
+nlohmann::json
 ReadMemoryDatabase(const std::string& filename)
 {
     // Read Xml File to a database
@@ -134,18 +166,46 @@ ReadMemoryDatabase(const std::string& filename)
     rapidxml::xml_document doc;
     ReadXml(doc, buffer, filename);
 
-    return ExtractDatabase(doc);
+    return ExtractMemoryDatabase(doc);
 }
+
+// --------------------------------------------------------------------------
+nlohmann::json
+ReadSystemDatabase(const std::string& filename)
+{
+    // Read Xml File to a database
+    std::string buffer;
+    rapidxml::xml_document doc;
+    ReadXml(doc, buffer, filename);
+
+    return ExtractSystemDatabase(doc);
+}
+
+// --------------------------------------------------------------------------
+void
+WriteDatabase(const nlohmann::json& database, const std::string& filename,
+        const std::string template_name)
+{
+    // Load Inja template for MEMORY file, and render it with database
+    inja::Environment env;
+    inja::Template tpl = env.parse_file(template_name);
+
+    // Write the output
+    std::ofstream file(filename);
+    file << env.render(tpl, database);
+}
+
 
 // --------------------------------------------------------------------------
 void
 WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename)
 {
-    // Load Inja template for MEMORY file, and render it with database
-    inja::Environment env;
-    inja::Template tpl = env.parse_file("./resources/templates/MEMORY.txt");
+    WriteDatabase(database, filename, "./resources/templates/MEMORY.txt");
+}
 
-    // Write the output
-    std::ofstream file(filename);
-    file << env.render(tpl, database);
+// --------------------------------------------------------------------------
+void
+WriteSystemDatabase(const nlohmann::json& database, const std::string& filename)
+{
+    WriteDatabase(database, filename, "./resources/templates/SYSTEM.txt");
 }
