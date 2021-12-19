@@ -20,4 +20,5 @@ target_link_libraries(BossRc500
     PUBLIC
         Qt6::Qt6
         BossReaderWriter::BossReaderWriter
+        miniaudio::miniaudio
 )

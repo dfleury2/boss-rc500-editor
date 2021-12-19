@@ -10,6 +10,9 @@
 #include <QInputDialog>
 #include <QMenu>
 
+#define MINIAUDIO_IMPLEMENTATION
+#include <miniaudio.h>
+
 #include <iostream>
 #include <initializer_list>
 #include <filesystem>
@@ -21,6 +24,18 @@ void AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list) 
     for (auto& item : list) {
         cb->addItem(item);
     }
+}
+
+void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+{
+    ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
+    if (pDecoder == nullptr) {
+        return;
+    }
+
+    ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount);
+
+    (void)pInput;
 }
 
 }
@@ -747,7 +762,38 @@ BossRc500MainDialog::on_rhythm_play()
 
     drumkit_filename += beat + ".wav";
 
+    ma_decoder decoder;
+    ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder);
+    if (result != MA_SUCCESS) {
+        std::cout << "Failed to open file: " << drumkit_filename << std::endl;
+        return;
+    }
+
+    ma_device_config deviceConfig = ma_device_config_init(ma_device_type_playback);
+    deviceConfig.playback.format   = decoder.outputFormat;
+    deviceConfig.playback.channels = decoder.outputChannels;
+    deviceConfig.sampleRate        = decoder.outputSampleRate;
+    deviceConfig.dataCallback      = data_callback;
+    deviceConfig.pUserData         = &decoder;
+
+    ma_device device;
+    if (ma_device_init(nullptr, &deviceConfig, &device) != MA_SUCCESS) {
+        std::cout << "Failed to open playback device." << std::endl;
+        ma_decoder_uninit(&decoder);
+        return;
+    }
+
+    if (ma_device_start(&device) != MA_SUCCESS) {
+        std::cout << "Failed to start playback device." << std::endl;
+        ma_device_uninit(&device);
+        ma_decoder_uninit(&decoder);
+        return;
+    }
+
     QMessageBox(QMessageBox::Information, "Information", drumkit_filename.c_str()).exec();
+
+    ma_device_uninit(&device);
+    ma_decoder_uninit(&decoder);
 }
 
 // --------------------------------------------------------------------------

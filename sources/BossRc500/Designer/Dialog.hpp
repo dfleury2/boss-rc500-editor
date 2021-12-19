@@ -592,7 +592,6 @@ public:
         label_rhythm_ReverbValue->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         button_rhythm_Play = new QPushButton(gp_Rhythm);
         button_rhythm_Play->setObjectName(QString::fromUtf8("button_rhythm_Play"));
-        button_rhythm_Play->setEnabled(false);
         button_rhythm_Play->setGeometry(QRect(320, 60, 61, 24));
         gb_LoopFx = new QGroupBox(BossRc500MainDialog);
         gb_LoopFx->setObjectName(QString::fromUtf8("gb_LoopFx"));
