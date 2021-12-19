@@ -499,20 +499,19 @@ BossRc500MainDialog::add_callbacks()
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_ToneHigh, "ToneHigh"); });
 
     // Control callbacks
-    QObject::connect(control_Pedal1, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Pedal1, "Pedal1"); });
-    QObject::connect(control_Pedal2, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Pedal2, "Pedal2"); });
-    QObject::connect(control_Pedal3, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Pedal3, "Pedal3"); });
+    auto ConnectComboBox_Control = [&](QComboBox* cb, const char* name) {
+        QObject::connect(cb, &QComboBox::currentIndexChanged,
+                this, [this, cb, name] {
+                    on_Control_ComboBox_changed(cb, name);
+                });
+    };
 
-    QObject::connect(control_Control1, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Control1, "Ctl1"); });
-    QObject::connect(control_Control2, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Control2, "Ctl2"); });
-
-    QObject::connect(control_Expression, &QComboBox::currentIndexChanged,
-            this, [this] { on_Control_ComboBox_changed(control_Expression, "Exp"); });
+    ConnectComboBox_Control(control_Pedal1, "Pedal1");
+    ConnectComboBox_Control(control_Pedal2, "Pedal2");
+    ConnectComboBox_Control(control_Pedal3, "Pedal3");
+    ConnectComboBox_Control(control_Control1, "Ctl1");
+    ConnectComboBox_Control(control_Control2, "Ctl2");
+    ConnectComboBox_Control(control_Expression, "Exp");
 }
 
 // --------------------------------------------------------------------------
@@ -521,8 +520,8 @@ BossRc500MainDialog::on_ToolMenu_New()
 {
     try {
         setDirname("");
-        load_database_mem("./resources/templates/MEMORY_DEFAULT.RC0");
         load_database_sys("./resources/templates/SYSTEM_DEFAULT.RC0");
+        load_database_mem("./resources/templates/MEMORY_DEFAULT.RC0");
 
         cb_Memory->setCurrentIndex(0);
         load_memory(cb_Memory->currentIndex());
@@ -543,15 +542,15 @@ BossRc500MainDialog::on_ToolMenu_Open()
 
             setDirname(dirname);
 
+            if (auto filename_sys = dirname + "/SYSTEM1.RC0"; std::filesystem::exists(filename_sys)) {
+                load_database_sys(filename_sys);
+            }
+
             if (auto filename_nem = dirname + "/MEMORY1.RC0"; std::filesystem::exists(filename_nem)) {
                 load_database_mem(filename_nem);
 
                 cb_Memory->setCurrentIndex(0);
                 load_memory(cb_Memory->currentIndex());
-            }
-
-            if (auto filename_sys = dirname + "/SYSTEM1.RC0"; std::filesystem::exists(filename_sys)) {
-                load_database_sys(filename_sys);
             }
         }
     }
@@ -628,6 +627,8 @@ BossRc500MainDialog::on_ToolMenu_System()
         dialog.exec();
         if (systemDialog.apply) {
             _database_sys = std::move(systemDialog.database);
+
+            load_memory(cb_Memory->currentIndex());
         }
 
     }
@@ -873,14 +874,28 @@ BossRc500MainDialog::load_memory(int memory_index)
     }
 
     // CONTROL
+    // These controls are effective only if the associated PREF is set to MEMORY
     {
         auto& ctl = _database_mem["mem"][memory_index]["CTL"];
-        control_Pedal1->setCurrentIndex(ctl["Pedal1"].get<int>());
-        control_Pedal2->setCurrentIndex(ctl["Pedal2"].get<int>());
-        control_Pedal3->setCurrentIndex(ctl["Pedal3"].get<int>());
-        control_Control1->setCurrentIndex(ctl["Ctl1"].get<int>());
-        control_Control2->setCurrentIndex(ctl["Ctl2"].get<int>());
-        control_Expression->setCurrentIndex(ctl["Exp"].get<int>());
+        auto& pref  = _database_sys["sys"]["PREF"];
+        auto& sys_ctl  = _database_sys["sys"]["CTL"];
+
+        auto SetControl = [&](QComboBox* cb, const char* pref_name, const char* ctl_name) {
+            cb->setEnabled(pref[pref_name].get<int>() == 0);
+            if (cb->isEnabled()) {
+                cb->setCurrentIndex(ctl[ctl_name].get<int>());
+            }
+            else {
+                cb->setCurrentIndex(sys_ctl[ctl_name].get<int>());
+            }
+        };
+
+        SetControl(control_Pedal1, "Pdl1", "Pedal1");
+        SetControl(control_Pedal2, "Pdl2", "Pedal2");
+        SetControl(control_Pedal3, "Pdl3", "Pedal3");
+        SetControl(control_Control1, "Ctl1", "Ctl1");
+        SetControl(control_Control2, "Ctl2", "Ctl2");
+        SetControl(control_Expression, "Exp", "Exp");
     }
 }
 
@@ -1204,10 +1219,13 @@ BossRc500MainDialog::on_Rhythm_Slider_changed(QSlider* s, const char* name)
 void
 BossRc500MainDialog::on_Control_ComboBox_changed(QComboBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["CTL"][name] = value;
+    // Change the database only if cb is enabled // MEMORY mode in sys.PREF
+    if (cb->isEnabled()) {
+        int memory_index = cb_Memory->currentIndex();
+        int value = cb->currentIndex();
+        std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
+        _database_mem["mem"][memory_index]["CTL"][name] = value;
+    }
 }
 
 // --------------------------------------------------------------------------
