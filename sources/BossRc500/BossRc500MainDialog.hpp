@@ -16,6 +16,14 @@ private:
     void add_combo_items();
     void add_callbacks();
 
+    void AddItemsToComboBox_LoopFx_ScatLen();
+    void AddItemsToComboBox_LoopFx_RepLen();
+    void AddItemsToComboBox_LoopFx_Shift();
+
+    void EnableItemsToComboBox_LoopFx_ScatLen(const QPoint& beat);
+    void EnableItemsToComboBox_LoopFx_RepLen(const QPoint& beat);
+    void EnableItemsToComboBox_LoopFx_Shift(const QPoint& beat);
+
     void on_ToolMenu_New();
     void on_ToolMenu_Open();
     void on_ToolMenu_Save(bool askDirname = false);

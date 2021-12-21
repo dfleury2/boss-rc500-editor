@@ -23,22 +23,22 @@ namespace {
 void
 AddItemsToComboBox(QComboBox* cb, std::initializer_list<const char*> list)
 {
+    int i = 0; // By default, UserDate (QVariant) is the same as item index
     for (auto& item : list) {
-        cb->addItem(item);
+        cb->addItem(item, i);
+        ++i;
     }
 }
 
 // --------------------------------------------------------------------------
 void
-data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCount)
 {
     ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
     if (pDecoder) {
 
-        /* Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping(). */
-        ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, NULL);
-
-        (void)pInput;
+        // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
+        ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
     }
 }
 
@@ -52,6 +52,18 @@ SetComboBoxItemEnabled(QComboBox * comboBox, int index, bool enabled)
     auto * item = model->item(index);
     if(!item) return;
     item->setEnabled(enabled);
+}
+
+// --------------------------------------------------------------------------
+bool
+IsComboBoxItemEnabled(QComboBox * comboBox, int index)
+{
+    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
+    if(!model) return false;
+
+    auto * item = model->item(index);
+    if(!item) return false;
+    return item->isEnabled();
 }
 
 }
@@ -276,26 +288,9 @@ BossRc500MainDialog::add_combo_items()
     AddItemsToComboBox(loopFx_Type, {"SCATTER-1", "SCATTER-2","SCATTER-3", "SCATTER-4",
                                      "REPEAT-1", "REPEAT-2","REPEAT-3", "SHIFT-1", "SHIFT-2", "VINYL FLICK"});
 
-    loopFx_ScatLen->addItem("THRU");
-    loopFx_ScatLen->addItem(QIcon("./resources/images/half note.png"), "Half Note");
-    loopFx_ScatLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    loopFx_ScatLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    loopFx_ScatLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-
-    loopFx_ReptLen->addItem("THRU");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/half note.png"), "Half Note");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    loopFx_ReptLen->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver");
-
-    loopFx_Shift->addItem("THRU");
-    loopFx_Shift->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    loopFx_Shift->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    loopFx_Shift->addItem(QIcon("./resources/images/half note.png"), "Half Note");
-    loopFx_Shift->addItem(QIcon("./resources/images/whole note.png"), "Whole Note");
+    AddItemsToComboBox_LoopFx_ScatLen();
+    AddItemsToComboBox_LoopFx_RepLen();
+    AddItemsToComboBox_LoopFx_Shift();
 
     // ----- RHYTHM ----
     AddItemsToComboBox(rhythm_Pattern, {
@@ -320,8 +315,17 @@ BossRc500MainDialog::add_combo_items()
     AddItemsToComboBox(rhythm_Kit, {"Studio", "Live", "Light", "Heavy", "Rock", "Metal", "Jazz",
                                     "Brush", "Cajon", "Drum & Bass", "Dance", "Techno", "Dance Beats",
                                     "HipHop", "808+909"});
-    AddItemsToComboBox(rhythm_Beat, {"2/4", "3/4", "4/4", "5/4", "6/4", "7/4",
-                                     "5/8", "6/8", "7/8", "8/8", "9/8", "10/8", "11/8", "12/8", "13/8", "14/8", "15/8"});
+
+
+    // 2/4, 3/4, 4/4, 5/4, 6/4, 7/4
+    for (auto note_count = 2; note_count <=7; ++note_count) { // X/4
+        rhythm_Beat->addItem((std::to_string(note_count) + "/4").c_str(), QPoint{note_count, 4});
+    }
+    // 5/8, 6/8, 7/8, 8/8, 9/8, 10/8, 11/8,  12/8, 13/8, 14/8, 15/8
+    for (auto note_count = 5; note_count <=15; ++note_count) { // X/8
+        rhythm_Beat->addItem((std::to_string(note_count) + "/8").c_str(), QPoint{note_count, 8});
+    }
+
     AddItemsToComboBox(rhythm_Start, {"LOOP START", "REC END", "BEFORE LOOP"});
     AddItemsToComboBox(rhythm_Stop, {"OFF", "LOOP STOP", "REC END"});
     AddItemsToComboBox(rhythm_RecCount, {"OFF", "1-MEASURE"});
@@ -355,6 +359,106 @@ BossRc500MainDialog::add_combo_items()
              "FX CONTROL",
              "RHYTHM LEV1", "RHYTHM LEV2",
              "MEMORY LEV1", "MEMORY LEV2", });
+}
+
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::AddItemsToComboBox_LoopFx_ScatLen()
+{
+    loopFx_ScatLen->addItem("THRU");
+    loopFx_ScatLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
+    loopFx_ScatLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
+    //loopFx_ScatLen->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::AddItemsToComboBox_LoopFx_RepLen()
+{
+    loopFx_ReptLen->addItem("THRU", 0);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
+    loopFx_ReptLen->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::AddItemsToComboBox_LoopFx_Shift()
+{
+    loopFx_Shift->addItem("THRU");
+    loopFx_Shift->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+    loopFx_Shift->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
+    loopFx_Shift->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
+    loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
+    loopFx_Shift->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    loopFx_Shift->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
+    loopFx_Shift->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
+    loopFx_Shift->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::EnableItemsToComboBox_LoopFx_ScatLen(const QPoint& beat)
+{
+    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
+
+    auto current_index = loopFx_ScatLen->currentIndex();
+
+    SetComboBoxItemEnabled(loopFx_ScatLen, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(loopFx_ScatLen, 1, false); // Whole Note
+    SetComboBoxItemEnabled(loopFx_ScatLen, 2, false); // Half Note Dotted
+    SetComboBoxItemEnabled(loopFx_ScatLen, 3, beat.x() == 2 || beat.x() == 4 || beat.x() == 8); // Half Note
+    SetComboBoxItemEnabled(loopFx_ScatLen, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(loopFx_ScatLen, 5, beat.y() == 4 || (beat.y() == 8 && (beat.x() == 8 || beat.x() == 10 || beat.x() == 14))); // Quarter Note
+    SetComboBoxItemEnabled(loopFx_ScatLen, 6, true); // Quaver
+    SetComboBoxItemEnabled(loopFx_ScatLen, 7, true); // Semi-quaver
+
+    if (!IsComboBoxItemEnabled(loopFx_ScatLen, current_index)) {
+        loopFx_ScatLen->setCurrentIndex(6); // Quaver as default
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::EnableItemsToComboBox_LoopFx_RepLen(const QPoint& beat)
+{
+    // Number of notes per measure = beat.x();
+    // Note duration = beat.y();
+    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
+
+    auto current_index = loopFx_ReptLen->currentIndex();
+
+    SetComboBoxItemEnabled(loopFx_ReptLen, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(loopFx_ReptLen, 1, beat.x() == beat.y()); // Whole Note
+    SetComboBoxItemEnabled(loopFx_ReptLen, 2, beat.x() % 3 == 0 && beat.x() != 9 && beat.x() != 15); // Half Note Dotted
+    SetComboBoxItemEnabled(loopFx_ReptLen, 3, beat.x() * 2 == beat.y()); // Half Note
+    SetComboBoxItemEnabled(loopFx_ReptLen, 4, beat.y() == 8 && beat.x() % 3 == 0 && beat.x() > beat.y()); // Quarter Note Dotted
+    SetComboBoxItemEnabled(loopFx_ReptLen, 5, beat.y() == 4); // Quarter Note
+    SetComboBoxItemEnabled(loopFx_ReptLen, 6, true); // Quaver
+    SetComboBoxItemEnabled(loopFx_ReptLen, 7, true); // Semi-quaver
+    SetComboBoxItemEnabled(loopFx_ReptLen, 8, true); // Demi Semi-quaver
+
+    if (!IsComboBoxItemEnabled(loopFx_ReptLen, current_index)) {
+        loopFx_ReptLen->setCurrentIndex(6); // Quaver as default
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::EnableItemsToComboBox_LoopFx_Shift(const QPoint& beat)
+{
+    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
 }
 
 // --------------------------------------------------------------------------
@@ -1228,9 +1332,9 @@ void
 BossRc500MainDialog::on_LoopFx_ComboBox_changed(QComboBox* cb, const char* name)
 {
     int memory_index = cb_Memory->currentIndex();
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["MASTER"][name] = value;
+    auto i = cb->currentData().value<int>();
+    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << i << std::endl;
+    _database_mem["mem"][memory_index]["LOOPFX"][name] = i;
 }
 
 // --------------------------------------------------------------------------
@@ -1261,6 +1365,15 @@ BossRc500MainDialog::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
     int value = cb->currentIndex();
     std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
     _database_mem["mem"][memory_index]["RHYTHM"][name] = value;
+
+    if (cb == rhythm_Beat) {
+        auto p = cb->currentData().value<QPoint>();
+
+        // On beat change, we need to recompute the available values for Scat, Rep and Shift
+        EnableItemsToComboBox_LoopFx_ScatLen(p);
+        EnableItemsToComboBox_LoopFx_RepLen(p);
+        EnableItemsToComboBox_LoopFx_Shift(p);
+    }
 }
 
 // --------------------------------------------------------------------------
