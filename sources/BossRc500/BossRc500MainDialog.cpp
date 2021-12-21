@@ -366,6 +366,8 @@ BossRc500MainDialog::add_combo_items()
 void
 BossRc500MainDialog::AddItemsToComboBox_LoopFx_ScatLen()
 {
+    loopFx_ScatLen->setIconSize(QSize{32, 32});
+
     loopFx_ScatLen->addItem("THRU");
     loopFx_ScatLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
     loopFx_ScatLen->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
@@ -381,6 +383,8 @@ BossRc500MainDialog::AddItemsToComboBox_LoopFx_ScatLen()
 void
 BossRc500MainDialog::AddItemsToComboBox_LoopFx_RepLen()
 {
+    loopFx_ReptLen->setIconSize(QSize{32, 32});
+
     loopFx_ReptLen->addItem("THRU", 0);
     loopFx_ReptLen->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
     loopFx_ReptLen->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
@@ -396,8 +400,10 @@ BossRc500MainDialog::AddItemsToComboBox_LoopFx_RepLen()
 void
 BossRc500MainDialog::AddItemsToComboBox_LoopFx_Shift()
 {
+    loopFx_Shift->setIconSize(QSize{32, 32});
+
     loopFx_Shift->addItem("THRU");
-    loopFx_Shift->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+    //loopFx_Shift->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
     loopFx_Shift->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
     loopFx_Shift->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
     loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
@@ -1025,8 +1031,10 @@ BossRc500MainDialog::load_memory(int memory_index)
         loopFx_ReptLen->setCurrentIndex(repeat ? 9 - repeat : 0);
 
         // Index 1 is not available (0, 2, 3, 4, ....)
-        auto found_Shift = loopFx_Shift->findData(loopfx["ShiftShift"].get<int>());
+        auto shift = loopfx["ShiftShift"].get<int>();
+        auto found_Shift = loopFx_Shift->findData(shift);
         loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
+        //std::cout << "Found shift value: " << shift << " at index: " << found_Shift << std::endl;
 
         loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
     }
