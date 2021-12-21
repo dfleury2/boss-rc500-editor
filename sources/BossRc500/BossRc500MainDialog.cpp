@@ -1016,9 +1016,18 @@ BossRc500MainDialog::load_memory(int memory_index)
         auto& loopfx = _database_mem["mem"][memory_index]["LOOPFX"];
         loopFx_Sw->setChecked(loopfx["Sw"].get<int>());
         loopFx_Type->setCurrentIndex(loopfx["FxType"].get<int>());
-        loopFx_ScatLen->setCurrentIndex(loopfx["ScatterLength"].get<int>());
-        loopFx_ReptLen->setCurrentIndex(loopfx["RepeatLength"].get<int>());
-        loopFx_Shift->setCurrentIndex(loopfx["ShiftShift"].get<int>());
+
+        // These one are reverted from 8 to 1
+        auto scatter = loopfx["ScatterLength"].get<int>();
+        loopFx_ScatLen->setCurrentIndex(scatter ? 9 - scatter : 0);
+
+        auto repeat = loopfx["RepeatLength"].get<int>();
+        loopFx_ReptLen->setCurrentIndex(repeat ? 9 - repeat : 0);
+
+        // Index 1 is not available (0, 2, 3, 4, ....)
+        auto found_Shift = loopFx_Shift->findData(loopfx["ShiftShift"].get<int>());
+        loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
+
         loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
     }
 
