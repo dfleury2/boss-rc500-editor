@@ -230,6 +230,7 @@ BossRc500MainDialog::add_combo_items()
 
     // MEASURE
     auto measure_items = [](QComboBox* cb) {
+        cb->setIconSize(QSize{32, 32});
         cb->addItem("AUTO");
         cb->addItem("FREE");
         cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
@@ -273,6 +274,7 @@ BossRc500MainDialog::add_combo_items()
     AddItemsToComboBox(play_PlayMode, {"MULTI", "SINGLE"});
     AddItemsToComboBox(play_SingleChange, {"IMMEDIATE", "LOOP END"});
 
+    play_FadeTime->setIconSize(QSize{32, 32});
     play_FadeTime->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
     play_FadeTime->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
     play_FadeTime->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
