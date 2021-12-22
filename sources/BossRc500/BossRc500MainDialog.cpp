@@ -405,7 +405,6 @@ BossRc500MainDialog::AddItemsToComboBox_LoopFx_Shift()
     loopFx_Shift->setIconSize(QSize{32, 32});
 
     loopFx_Shift->addItem("THRU");
-    //loopFx_Shift->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
     loopFx_Shift->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
     loopFx_Shift->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
     loopFx_Shift->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
@@ -467,6 +466,21 @@ void
 BossRc500MainDialog::EnableItemsToComboBox_LoopFx_Shift(const QPoint& beat)
 {
     std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
+
+    auto current_index = loopFx_Shift->currentIndex();
+
+    SetComboBoxItemEnabled(loopFx_Shift, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(loopFx_Shift, 1, true); // Semi-quaver
+    SetComboBoxItemEnabled(loopFx_Shift, 2, true); // Quaver
+    SetComboBoxItemEnabled(loopFx_Shift, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14); // Quarter Note
+    SetComboBoxItemEnabled(loopFx_Shift, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(loopFx_Shift, 5, beat.x() == 2 || beat.x() == beat.y()); // Half Note
+    SetComboBoxItemEnabled(loopFx_Shift, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12 ); // Half Note Dotted
+    SetComboBoxItemEnabled(loopFx_Shift, 7, beat.x() == beat.y()); // Whole Note
+
+    if (!IsComboBoxItemEnabled(loopFx_Shift, current_index)) {
+        loopFx_Shift->setCurrentIndex(2); // Quaver as default
+    }
 }
 
 // --------------------------------------------------------------------------
