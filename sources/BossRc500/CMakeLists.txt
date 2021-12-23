@@ -1,7 +1,7 @@
 # Make this a GUI application on Windows
-if(WIN32)
+if (WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
-endif()
+endif ()
 
 add_executable(BossRc500
         main.cpp
@@ -21,4 +21,8 @@ target_link_libraries(BossRc500
         Qt6::Qt6
         BossReaderWriter::BossReaderWriter
         miniaudio::miniaudio
+        )
+
+install(TARGETS BossRc500
+        RUNTIME DESTINATION .
 )

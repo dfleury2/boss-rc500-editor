@@ -30,3 +30,18 @@ add_subdirectory(sources/WidgetExamples)
 
 # Not used, only for first prototyping
 #add_subdirectory(sources/xml-reader)
+
+# Installation steps for Resources
+install(DIRECTORY resources/drumkits  DESTINATION resources)
+install(DIRECTORY resources/images  DESTINATION resources)
+install(DIRECTORY resources/templates  DESTINATION resources)
+install(DIRECTORY resources/tooltips  DESTINATION resources)
+install(DIRECTORY resources/fonts  DESTINATION resources)
+install(DIRECTORY doc  DESTINATION .)
+
+if(WIN32)
+    add_custom_target(zip-package
+            DEPENDS install
+            COMMAND 7z a -tzip BossRc500.zip ${CMAKE_INSTALL_PREFIX}
+            )
+endif()
