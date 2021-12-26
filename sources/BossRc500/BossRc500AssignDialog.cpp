@@ -187,8 +187,8 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
     // Change available items for the current target
     auto targetMin = _targetMins[index];
     auto targetMax = _targetMaxs[index];
-    auto current_index_min = targetMin->currentIndex();
-    auto current_index_max = targetMax->currentIndex();
+//    auto current_index_min = targetMin->currentIndex();
+//    auto current_index_max = targetMax->currentIndex();
 
     targetMin->clear();
     targetMax->clear();
@@ -217,134 +217,116 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
         case 88: // RHY PART 1-4
         case 89: // RHY PART 1-4
         {
-            BossRc500::OffOn(targetMin);
-            BossRc500::OffOn(targetMax);
+            BossRc500::OffOnMinMax(targetMin, targetMax);
             break;
         }
         case 6: // T1 LEVEL1
         case 21: // T2 LEVEL1
         case 37: // CUR LEVEL1
+        case 74: // RHYTHM LEV1
+        case 94: // MEMORY LEV1
         {
-            BossRc500::Level(targetMin);
-            BossRc500::Level(targetMax);
+            BossRc500::LevelMinMax(targetMin, targetMax);
             break;
         }
         case 8: // T1 PAN
         case 23: // T2 PAN
         case 39: // CUR PAN
         {
-            BossRc500::Pan(targetMin);
-            BossRc500::Pan(targetMax);
+            BossRc500::PanMinMax(targetMin, targetMax);
             break;
         }
         case 9: // T1 START
         case 24: // T2 START
         case 40: // CUR START
         {
-            BossRc500::Start(targetMin);
-            BossRc500::Start(targetMax);
+            BossRc500::StartMinMax(targetMin, targetMax);
             break;
         }
         case 10: // T1 STOP
         case 25: // T2 STOP
         case 41: // CUR STOP
         {
-            BossRc500::Stop(targetMin);
-            BossRc500::Stop(targetMax);
+            BossRc500::StopMinMax(targetMin, targetMax);
             break;
         }
         case 13: // T1 INPUT
         case 28: // T2 INPUT
         case 44: // CUR INPUT
         {
-            BossRc500::Input(targetMin);
-            BossRc500::Input(targetMax);
+            BossRc500::InputMinMax(targetMin, targetMax);
             break;
         }
         case 14: // T1 OUTPUT
         case 29: // T2 OUTPUT
         case 45: // CUR OUTPUT
         {
-            BossRc500::Output(targetMin);
-            BossRc500::Output(targetMax);
+            BossRc500::OutputMinMax(targetMin, targetMax);
             break;
         }
         case 30: // TRK SELECT
         {
-            BossRc500::TrkSelect(targetMin);
-            BossRc500::TrkSelect(targetMax);
+            BossRc500::TrkSelectMinMax(targetMin, targetMax);
             break;
         }
         case 51: // TEMPO
         {
-            BossRc500::Tempo(targetMin);
-            BossRc500::Tempo(targetMax);
+            BossRc500::TempoMinMax(targetMin, targetMax);
             break;
         }
         case 52: // DUB MOD
         {
-            BossRc500::DubMode(targetMin);
-            BossRc500::DubMode(targetMax);
+            BossRc500::DubModeMinMax(targetMin, targetMax);
             break;
         }
         case 53: // REC ACTION
         {
-            BossRc500::RecAction(targetMin);
-            BossRc500::RecAction(targetMax);
+            BossRc500::RecActionMinMax(targetMin, targetMax);
             break;
         }
         case 55: // A. REC SENS
         {
-            BossRc500::RecSens(targetMin);
-            BossRc500::RecSens(targetMax);
+            BossRc500::RecSensMinMax(targetMin, targetMax);
             break;
         }
         case 56: // REC SOURCE ALL
         {
-            BossRc500::RecSource(targetMin);
-            BossRc500::RecSource(targetMax);
+            BossRc500::RecSourceMinMax(targetMin, targetMax);
             break;
         }
         case 57: // LOOP LENGTH
         {
-            BossRc500::LoopLength(targetMin);
-            BossRc500::LoopLength(targetMax);
+            BossRc500::LoopLengthMinMax(targetMin, targetMax);
             break;
         }
         case 58: // PLAY MODE
         {
-            BossRc500::PlayMode(targetMin);
-            BossRc500::PlayMode(targetMax);
+            BossRc500::PlayModeMinMax(targetMin, targetMax);
             break;
         }
         case 59: // SINGLE CHANGE
         {
-            BossRc500::SingleChange(targetMin);
-            BossRc500::SingleChange(targetMax);
+            BossRc500::SingleChangeMinMax(targetMin, targetMax);
             break;
         }
         case 60: // FADE TIME
         {
-            BossRc500::FadeTime(targetMin);
-            BossRc500::FadeTime(targetMax);
+            BossRc500::FadeTimeMinMax(targetMin, targetMax);
             break;
         }
         case 61: // ALL START TRK
         {
-            BossRc500::AllStart(targetMin);
-            BossRc500::AllStart(targetMax);
+            BossRc500::AllStartMinMax(targetMin, targetMax);
             break;
         }
         case 62: // TRK CHAIN
         {
-            BossRc500::TrkChain(targetMin);
-            BossRc500::TrkChain(targetMax);
+            BossRc500::TrkChainMinMax(targetMin, targetMax);
             break;
         }
         case 67: // FX TYPE
         {
-            BossRc500::LoopFxType(targetMin);
-            BossRc500::LoopFxType(targetMax);
+            BossRc500::LoopFxTypeMinMax(targetMin, targetMax);
             break;
         }
         case 70: // FX CONTROL
@@ -353,92 +335,63 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
             BossRc500::AssignFxControl(targetMax, _beat);
             break;
         }
-        case 74: // RHYTHM LEV1
-        {
-            BossRc500::Level(targetMin);
-            BossRc500::Level(targetMax);
-            break;
-        }
         case 76: // REVERB
         {
-            BossRc500::Reverb(targetMin);
-            BossRc500::Reverb(targetMax);
+            BossRc500::ReverbMinMax(targetMin, targetMax);
             break;
         }
         case 77: // RHY PATTERN
         {
-            BossRc500::RhythmPattern(targetMin);
-            BossRc500::RhythmPattern(targetMax);
+            BossRc500::RhythmPatternMinMax(targetMin, targetMax);
             break;
         }
         case 78: // VARIATION
         {
-            BossRc500::RhythmVariation(targetMin);
-            BossRc500::RhythmVariation(targetMax);
+            BossRc500::RhythmVariationMinMax(targetMin, targetMax);
             break;
         }
         case 79: // VAR CHANGE
         {
-            BossRc500::RhythmVarChange(targetMin);
-            BossRc500::RhythmVarChange(targetMax);
+            BossRc500::RhythmVarChangeMinMax(targetMin, targetMax);
             break;
         }
         case 80: // KIT
         {
-            BossRc500::RhythmKit(targetMin);
-            BossRc500::RhythmKit(targetMax);
+            BossRc500::RhythmKitMinMax(targetMin, targetMax);
             break;
         }
         case 81: // RHY START
         {
-            BossRc500::RhythmStart(targetMin);
-            BossRc500::RhythmStart(targetMax);
+            BossRc500::RhythmStartMinMax(targetMin, targetMax);
             break;
         }
         case 82: // RHY STOP
         {
-            BossRc500::RhythmStop(targetMin);
-            BossRc500::RhythmStop(targetMax);
+            BossRc500::RhythmStopMinMax(targetMin, targetMax);
             break;
         }
         case 83: // REC COUNT
         {
-            BossRc500::RhythmRecCount(targetMin);
-            BossRc500::RhythmRecCount(targetMax);
+            BossRc500::RhythmRecCountMinMax(targetMin, targetMax);
             break;
         }
         case 84: // PLAY COUNT
         {
-            BossRc500::RhythmPlayCount(targetMin);
-            BossRc500::RhythmPlayCount(targetMax);
+            BossRc500::RhythmPlayCountMinMax(targetMin, targetMax);
             break;
         }
         case 90: // TONE LOW
-        {
-            BossRc500::RhythmTone(targetMin);
-            BossRc500::RhythmTone(targetMax);
-            break;
-        }
         case 91: // TONE HIGH
         {
-            BossRc500::RhythmTone(targetMin);
-            BossRc500::RhythmTone(targetMax);
-            break;
-        }
-        case 94: // MEMORY LEV1
-        {
-            BossRc500::Level(targetMin);
-            BossRc500::Level(targetMax);
+            BossRc500::RhythmToneMinMax(targetMin, targetMax);
             break;
         }
         default: {
             if (target_index >= 96) {
-                BossRc500::IntegerRange(targetMin, 0, 127);
-                BossRc500::IntegerRange(targetMax, 0, 127);
+                BossRc500::AssignMidiMinMax(targetMin, targetMax);
             }
             else {
-                BossRc500::NotAvailable(targetMin);
-                BossRc500::NotAvailable(targetMax);
+                BossRc500::NotAvailableMinMax(targetMin, targetMax);
             }
             break;
         }

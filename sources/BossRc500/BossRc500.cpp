@@ -13,16 +13,18 @@ AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& list)
 }
 }
 
-// --------------------------------------------------------------------------
-void
-AddItemsToComboBox(QComboBox* cb, const std::initializer_list<const char*>& list)
-{
-    std::vector<std::string> items{list.begin(), list.end()};
-    AddItemsToComboBox(cb, items);
-}
 
 // --------------------------------------------------------------------------
 namespace BossRc500 {
+
+void SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
+{
+    fct(min);
+    fct(max);
+    max->setCurrentIndex(max->count() - 1);
+}
+
+// --------------------------------------------------------------------------
 void NotAvailable(QComboBox* cb) { AddItemsToComboBox(cb, {"---"}); }
 void OffOn(QComboBox* cb) { AddItemsToComboBox(cb, {"Off", "On"}); }
 void IntegerRange(QComboBox* cb, int min, int max)
@@ -38,9 +40,19 @@ void DoubleRange(QComboBox* cb, double min, double max, double step)
     }
 }
 
-void Pan(QComboBox* cb) { AddItemsToComboBox(cb, Items::Pan()); }
-void Start(QComboBox* cb) { AddItemsToComboBox(cb, Items::Start()); }
-void Stop(QComboBox* cb) { AddItemsToComboBox(cb, Items::Stop()); }
+void Pan(QComboBox* cb)
+{
+    for (int i = 0; i <= 100; ++i) {
+        std::string pan_label = "CENTER";
+        if (i < 50) pan_label = "L" + std::to_string(50 - i);
+        else if (i > 50) pan_label = "R" + std::to_string(i - 50);
+
+        cb->addItem(pan_label.c_str());
+    }
+}
+
+void Start(QComboBox* cb) { AddItemsToComboBox(cb, {"IMMEDIATE", "FADE IN"}); }
+void Stop(QComboBox* cb) { AddItemsToComboBox(cb, {"IMMEDIATE", "FADE OUT", "LOOP END"}); }
 void Measure(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
@@ -56,12 +68,12 @@ void Measure(QComboBox* cb)
         cb->addItem(std::to_string(i).c_str());
     }
 }
-void Input(QComboBox* cb) { AddItemsToComboBox(cb, Items::Input()); }
-void Output(QComboBox* cb) { AddItemsToComboBox(cb, Items::Output()); }
-void DubMode(QComboBox* cb) { AddItemsToComboBox(cb, Items::DubMode()); }
-void RecAction(QComboBox* cb) { AddItemsToComboBox(cb, Items::RecAction()); }
-void Quantize(QComboBox* cb) { AddItemsToComboBox(cb, Items::Quantize()); }
-void RecSource(QComboBox* cb) { AddItemsToComboBox(cb, Items::RecSource()); }
+void Input(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "MIC IN", "INST IN", "INST IN-A", "INST IN-B", "MIC/INST"}); }
+void Output(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "OUT-A", "OUT-B"}); }
+void DubMode(QComboBox* cb) { AddItemsToComboBox(cb, {"OVERDUB", "REPLACE"}); }
+void RecAction(QComboBox* cb) { AddItemsToComboBox(cb, {"REC -> DUB", "REC -> PLAY"}); }
+void Quantize(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "MEASURE"}); }
+void RecSource(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "MIC IN", "INST", "INST-A", "INST-B"}); }
 void LoopLength(QComboBox* cb)
 {
     cb->addItem("AUTO");
@@ -283,77 +295,4 @@ void AssignFxControl(QComboBox* cb, const Beat& beat)
     AddItemsToComboBox(cb, {"TODO"});
 }
 
-}
-
-namespace BossRc500::Items {
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Pan()
-{
-    std::vector<std::string> items;
-    for (int i = 0; i <= 100; ++i) {
-        std::string pan_label = "CENTER";
-        if (i < 50) pan_label = "L" + std::to_string(50 - i);
-        else if (i > 50) pan_label = "R" + std::to_string(i - 50);
-
-        items.push_back(std::move(pan_label));
-    }
-    return items;
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Start()
-{
-    return {"IMMEDIATE", "FADE IN"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Stop()
-{
-    return {"IMMEDIATE", "FADE OUT", "LOOP END"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Input()
-{
-    return {"ALL", "MIC IN", "INST IN", "INST IN-A", "INST IN-B", "MIC/INST"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Output()
-{
-    return {"ALL", "OUT-A", "OUT-B"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-DubMode()
-{
-    return {"OVERDUB", "REPLACE"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-RecAction()
-{
-    return {"REC -> DUB", "REC -> PLAY"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-Quantize()
-{
-    return {"OFF", "MEASURE"};
-}
-
-// --------------------------------------------------------------------------
-std::vector<std::string>
-RecSource()
-{
-    return {"ALL", "MIC IN", "INST", "INST-A", "INST-B"};
-}
 }
