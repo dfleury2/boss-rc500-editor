@@ -187,8 +187,6 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
     // Change available items for the current target
     auto targetMin = _targetMins[index];
     auto targetMax = _targetMaxs[index];
-//    auto current_index_min = targetMin->currentIndex();
-//    auto current_index_max = targetMax->currentIndex();
 
     targetMin->clear();
     targetMax->clear();

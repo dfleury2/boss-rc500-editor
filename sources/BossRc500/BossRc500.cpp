@@ -17,7 +17,9 @@ AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& list)
 // --------------------------------------------------------------------------
 namespace BossRc500 {
 
-void SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
+// --------------------------------------------------------------------------
+void
+SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
 {
     fct(min);
     fct(max);
@@ -26,21 +28,31 @@ void SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> f
 
 // --------------------------------------------------------------------------
 void NotAvailable(QComboBox* cb) { AddItemsToComboBox(cb, {"---"}); }
+
+// --------------------------------------------------------------------------
 void OffOn(QComboBox* cb) { AddItemsToComboBox(cb, {"Off", "On"}); }
-void IntegerRange(QComboBox* cb, int min, int max)
+
+// --------------------------------------------------------------------------
+void
+IntegerRange(QComboBox* cb, int min, int max)
 {
     for (int i = min; i <= max; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
 }
-void DoubleRange(QComboBox* cb, double min, double max, double step)
+
+// --------------------------------------------------------------------------
+void
+DoubleRange(QComboBox* cb, double min, double max, double step)
 {
     for (int i = min; i <= max; i += step) {
         cb->addItem(std::to_string(i).c_str());
     }
 }
 
-void Pan(QComboBox* cb)
+// --------------------------------------------------------------------------
+void
+Pan(QComboBox* cb)
 {
     for (int i = 0; i <= 100; ++i) {
         std::string pan_label = "CENTER";
@@ -51,9 +63,15 @@ void Pan(QComboBox* cb)
     }
 }
 
+// --------------------------------------------------------------------------
 void Start(QComboBox* cb) { AddItemsToComboBox(cb, {"IMMEDIATE", "FADE IN"}); }
+
+// --------------------------------------------------------------------------
 void Stop(QComboBox* cb) { AddItemsToComboBox(cb, {"IMMEDIATE", "FADE OUT", "LOOP END"}); }
-void Measure(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+Measure(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
     cb->addItem("AUTO");
@@ -68,13 +86,28 @@ void Measure(QComboBox* cb)
         cb->addItem(std::to_string(i).c_str());
     }
 }
+
+// --------------------------------------------------------------------------
 void Input(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "MIC IN", "INST IN", "INST IN-A", "INST IN-B", "MIC/INST"}); }
+
+// --------------------------------------------------------------------------
 void Output(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "OUT-A", "OUT-B"}); }
+
+// --------------------------------------------------------------------------
 void DubMode(QComboBox* cb) { AddItemsToComboBox(cb, {"OVERDUB", "REPLACE"}); }
+
+// --------------------------------------------------------------------------
 void RecAction(QComboBox* cb) { AddItemsToComboBox(cb, {"REC -> DUB", "REC -> PLAY"}); }
+
+// --------------------------------------------------------------------------
 void Quantize(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "MEASURE"}); }
+
+// --------------------------------------------------------------------------
 void RecSource(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "MIC IN", "INST", "INST-A", "INST-B"}); }
-void LoopLength(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+LoopLength(QComboBox* cb)
 {
     cb->addItem("AUTO");
     for (int i = 1; i <= 32; ++i) {
@@ -82,9 +115,15 @@ void LoopLength(QComboBox* cb)
     }
 }
 
+// --------------------------------------------------------------------------
 void PlayMode(QComboBox* cb) { AddItemsToComboBox(cb, {"MULTI", "SINGLE"}); }
+
+// --------------------------------------------------------------------------
 void SingleChange(QComboBox* cb) { AddItemsToComboBox(cb, {"IMMEDIATE", "LOOP END"}); }
-void FadeTime(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+FadeTime(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
     cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
@@ -96,14 +135,23 @@ void FadeTime(QComboBox* cb)
     }
 }
 
+// --------------------------------------------------------------------------
 void AllStart(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "TRACK1", "TRACK2"}); }
+
+// --------------------------------------------------------------------------
 void TrkChain(QComboBox* cb) { AddItemsToComboBox(cb, {"PARALLEL", "SERIES"}); }
+
+// --------------------------------------------------------------------------
 void TrkSelect(QComboBox* cb) { AddItemsToComboBox(cb, {"TRACK 1", "TRACK 2"}); }
-void LoopFxType(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+LoopFxType(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {"SCATTER-1", "SCATTER-2","SCATTER-3", "SCATTER-4",
-                            "REPEAT-1", "REPEAT-2","REPEAT-3", "SHIFT-1", "SHIFT-2", "VINYL FLICK"});
+    AddItemsToComboBox(cb, {"SCATTER-1", "SCATTER-2", "SCATTER-3", "SCATTER-4",
+                            "REPEAT-1", "REPEAT-2", "REPEAT-3", "SHIFT-1", "SHIFT-2", "VINYL FLICK"});
 }
+
 // --------------------------------------------------------------------------
 void
 ScatLen(QComboBox* cb)
@@ -173,64 +221,95 @@ RhythmPattern(QComboBox* cb)
             "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
             "Metronome1", "Metronome2", "Metronome3", "Metronome4",
             "Blank"
-            });
+    });
 }
 
 // --------------------------------------------------------------------------
 void RhythmVariation(QComboBox* cb) { AddItemsToComboBox(cb, {"A", "B"}); }
+
+// --------------------------------------------------------------------------
 void RhythmVarChange(QComboBox* cb) { AddItemsToComboBox(cb, {"MEASURE", "LOOP END"}); }
-void RhythmKit(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+RhythmKit(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"Studio", "Live", "Light", "Heavy", "Rock", "Metal", "Jazz",
                             "Brush", "Cajon", "Drum & Bass", "Dance", "Techno", "Dance Beats",
                             "HipHop", "808+909"});
 }
-void RhythmBeat(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+RhythmBeat(QComboBox* cb)
 {
     // 2/4, 3/4, 4/4, 5/4, 6/4, 7/4
-    for (auto note_count = 2; note_count <=7; ++note_count) { // X/4
+    for (auto note_count = 2; note_count <= 7; ++note_count) { // X/4
         cb->addItem((std::to_string(note_count) + "/4").c_str(), QPoint{note_count, 4});
     }
     // 5/8, 6/8, 7/8, 8/8, 9/8, 10/8, 11/8,  12/8, 13/8, 14/8, 15/8
-    for (auto note_count = 5; note_count <=15; ++note_count) { // X/8
+    for (auto note_count = 5; note_count <= 15; ++note_count) { // X/8
         cb->addItem((std::to_string(note_count) + "/8").c_str(), QPoint{note_count, 8});
     }
 }
 
+// --------------------------------------------------------------------------
 void RhythmStart(QComboBox* cb) { AddItemsToComboBox(cb, {"LOOP START", "REC END", "BEFORE LOOP"}); }
+
+// --------------------------------------------------------------------------
 void RhythmStop(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "LOOP STOP", "REC END"}); }
+
+// --------------------------------------------------------------------------
 void RhythmRecCount(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "1-MEASURE"}); }
+
+// --------------------------------------------------------------------------
 void RhythmPlayCount(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "1-MEASURE"}); }
-void RhythmTone(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+RhythmTone(QComboBox* cb)
 {
     for (int i = -10; i <= 10; ++i) { // May be easier to understand if reversed here ?
         cb->addItem(((i > 0 ? "+" : "") + std::to_string(i)).c_str());
     }
 }
-void ControlPdlCtl(QComboBox* cb)
+
+// --------------------------------------------------------------------------
+void
+ControlPdlCtl(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"OFF",
-            "T1 REC/PLY", "T1 R/P/S", "T1 R/P/S(CLR)", "T1 MON R/P", "T1 PLY/STP", "T1 P/S(CLR)", "T1 STOP", "T1 STOP(TAP)", "T1 STOP(CLR)", "T1 STOP(T/C)", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE",
-            "T2 REC/PLY", "T2 R/P/S", "T2 R/P/S(CLR)", "T2 MON R/P", "T2 PLY/STP", "T2 P/S(CLR)", "T2 STOP", "T2 STOP(TAP)", "T2 STOP(CLR)", "T2 STOP(T/C)", "T2 CLEAR", "T2 UND/RED", "T2 REVERSE",
-            "TRK SELECT", "CUR REC/PLY", "CUR R/P/S", "CUR R/P/S(CLR)", "CUR MON R/P", "CUR PLY/STP", "CUR P/S(CLR)", "CUR STOP", "CUR STP(TAP)", "CUR STP(CLR)",
-            "CUR STP(T/C)", "CUR CLEAR", "CUR UND/RED", "CUR REVERSE", "UNDO/REDO", "ALL START", "TAP TEMPO", "LOOP FX", "TR1 FX", "TR2 FX", "CUR TR FX",
-            "FX INC", "FX DEC", "RHYTHM P/S", "RHYTHM PLAY", "RHYTHM STOP", "MEMORY INC", "MEMORY DEC", "MIC MUTE", "EXTENT INC", "EXTENT DEC"
-    });
-}
-void ControlExpr(QComboBox* cb)
-{
-    AddItemsToComboBox(cb, {"OFF",
-            "T1 LEVEL1", "T1 LEVEL2",
-            "T2 LEVEL1", "T2 LEVEL2",
-            "CUR LEVEL1", "CUR LEVEL2",
-            "TEMPO UP", "TEMPO DOWN",
-            "FX CONTROL",
-            "RHYTHM LEV1", "RHYTHM LEV2",
-            "MEMORY LEV1", "MEMORY LEV2"
+                            "T1 REC/PLY", "T1 R/P/S", "T1 R/P/S(CLR)", "T1 MON R/P", "T1 PLY/STP", "T1 P/S(CLR)", "T1 STOP", "T1 STOP(TAP)",
+                            "T1 STOP(CLR)", "T1 STOP(T/C)", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE",
+                            "T2 REC/PLY", "T2 R/P/S", "T2 R/P/S(CLR)", "T2 MON R/P", "T2 PLY/STP", "T2 P/S(CLR)", "T2 STOP", "T2 STOP(TAP)",
+                            "T2 STOP(CLR)", "T2 STOP(T/C)", "T2 CLEAR", "T2 UND/RED", "T2 REVERSE",
+                            "TRK SELECT", "CUR REC/PLY", "CUR R/P/S", "CUR R/P/S(CLR)", "CUR MON R/P", "CUR PLY/STP", "CUR P/S(CLR)",
+                            "CUR STOP", "CUR STP(TAP)", "CUR STP(CLR)",
+                            "CUR STP(T/C)", "CUR CLEAR", "CUR UND/RED", "CUR REVERSE", "UNDO/REDO", "ALL START", "TAP TEMPO", "LOOP FX",
+                            "TR1 FX", "TR2 FX", "CUR TR FX",
+                            "FX INC", "FX DEC", "RHYTHM P/S", "RHYTHM PLAY", "RHYTHM STOP", "MEMORY INC", "MEMORY DEC", "MIC MUTE",
+                            "EXTENT INC", "EXTENT DEC"
     });
 }
 
-void AssignSource(QComboBox* cb)
+// --------------------------------------------------------------------------
+void
+ControlExpr(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OFF",
+                            "T1 LEVEL1", "T1 LEVEL2",
+                            "T2 LEVEL1", "T2 LEVEL2",
+                            "CUR LEVEL1", "CUR LEVEL2",
+                            "TEMPO UP", "TEMPO DOWN",
+                            "FX CONTROL",
+                            "RHYTHM LEV1", "RHYTHM LEV2",
+                            "MEMORY LEV1", "MEMORY LEV2"
+    });
+}
+
+// --------------------------------------------------------------------------
+void
+AssignSource(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {
             "PEDAL1", "PEDAL2", "PEDAL3", "EXP PEDAL",
@@ -251,12 +330,16 @@ void AssignSource(QComboBox* cb)
     });
 }
 
-void AssignSourceMode(QComboBox* cb)
+// --------------------------------------------------------------------------
+void
+AssignSourceMode(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"MOMENT", "TOGGLE"});
 }
 
-void AssignTarget(QComboBox* cb)
+// --------------------------------------------------------------------------
+void
+AssignTarget(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {
             "T1 REC/PLY", "T1 PLY/STP", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE", "T1 1SHOT", "T1 LEVEL1", "T1 LEVEL2",
