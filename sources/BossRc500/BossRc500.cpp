@@ -148,9 +148,19 @@ void TrkSelect(QComboBox* cb) { AddItemsToComboBox(cb, {"TRACK 1", "TRACK 2"}); 
 void
 LoopFxType(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {"SCATTER-1", "SCATTER-2", "SCATTER-3", "SCATTER-4",
-                            "REPEAT-1", "REPEAT-2", "REPEAT-3", "SHIFT-1", "SHIFT-2", "VINYL FLICK"});
+    AddItemsToComboBox(cb, {
+        "SCATTER-1", "SCATTER-2", "SCATTER-3", "SCATTER-4", // 0 - 3
+        "REPEAT-1", "REPEAT-2", "REPEAT-3",                 // 4 - 6
+        "SHIFT-1", "SHIFT-2",                               // 7 - 8
+        "VINYL FLICK"                                       // 9
+    });
 }
+
+bool IsScatter(int value) { return (value >= 0 && value <= 3); }
+bool IsRepeat(int value) { return (value >= 4 && value <= 6); }
+bool IsShift(int value) { return (value >= 7 && value <= 8); }
+bool IsVinyl(int value) { return (value == 9); }
+
 
 // --------------------------------------------------------------------------
 void

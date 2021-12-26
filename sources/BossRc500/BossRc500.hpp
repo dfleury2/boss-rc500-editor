@@ -86,6 +86,11 @@ inline void TrkSelectMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max
 
 void LoopFxType(QComboBox* cb);
 inline void LoopFxTypeMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max, LoopFxType); }
+bool IsScatter(int value);
+bool IsRepeat(int value);
+bool IsShift(int value);
+bool IsVinyl(int value);
+
 
 void ScatLen(QComboBox* cb);
 void ReptLen(QComboBox* cb);

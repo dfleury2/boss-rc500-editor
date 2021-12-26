@@ -1197,11 +1197,10 @@ BossRc500MainDialog::on_LoopFx_FxType_changed()
     on_LoopFx_ComboBox_changed(loopFx_Type, "FxType");
 
     // Discard some combobox
-    std::string fxType = loopFx_Type->currentText().toStdString();
-    loopFx_ScatLen->setEnabled(fxType.find("SCATTER") != std::string::npos);
-    loopFx_ReptLen->setEnabled(fxType.find("REPEAT") != std::string::npos);
-    loopFx_Shift->setEnabled(fxType.find("SHIFT") != std::string::npos);
-    loopFx_Flick->setEnabled(fxType.find("VINYL") != std::string::npos);
+    loopFx_ScatLen->setEnabled(BossRc500::IsScatter(loopFx_Type->currentIndex()));
+    loopFx_ReptLen->setEnabled(BossRc500::IsRepeat(loopFx_Type->currentIndex()));
+    loopFx_Shift->setEnabled(BossRc500::IsShift(loopFx_Type->currentIndex()));
+    loopFx_Flick->setEnabled(BossRc500::IsVinyl(loopFx_Type->currentIndex()));
 }
 
 // --------------------------------------------------------------------------
