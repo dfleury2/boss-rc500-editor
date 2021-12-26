@@ -9,9 +9,10 @@
 BossRc500AssignDialog::BossRc500AssignDialog(QDialog& dialog,
         nlohmann::json db,
         int mem_index,
-        const BossRc500::Beat& beat) :
+        const BossRc500::Beat& beat,
+        int loopFxType) :
         _parent(dialog), database(std::move(db)), _memory_index(mem_index),
-        _beat(beat)
+        _beat(beat), _loopfxType(loopFxType)
 {
     setup();
 }
@@ -329,8 +330,7 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
         }
         case 70: // FX CONTROL
         {
-            BossRc500::AssignFxControl(targetMin, _beat);
-            BossRc500::AssignFxControl(targetMax, _beat);
+            BossRc500::AssignFxControlMinMax(targetMin, targetMax, _beat, _loopfxType);
             break;
         }
         case 76: // REVERB

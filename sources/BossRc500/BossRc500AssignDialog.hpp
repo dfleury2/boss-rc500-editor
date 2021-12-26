@@ -13,7 +13,8 @@ public:
     explicit BossRc500AssignDialog(QDialog& dialog,
                                    nlohmann::json database,
                                    int mem_index,
-                                   const BossRc500::Beat& beat);
+                                   const BossRc500::Beat& beat,
+                                   int loopfxType);
 
     bool apply = false;
     nlohmann::json  database;
@@ -35,6 +36,7 @@ private:
     QDialog&        _parent;
     int             _memory_index{0};
     BossRc500::Beat _beat;
+    int             _loopfxType{0};
 
     std::vector<QCheckBox*> _assigns;
     std::vector<QComboBox*> _sources;

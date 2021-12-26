@@ -1,5 +1,7 @@
 #include "BossRc500.hpp"
 
+#include <QStandardItemModel>
+
 namespace {
 // --------------------------------------------------------------------------
 void
@@ -11,6 +13,31 @@ AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& list)
         ++i;
     }
 }
+
+// --------------------------------------------------------------------------
+void
+SetComboBoxItemEnabled(QComboBox * comboBox, int index, bool enabled)
+{
+    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
+    if(!model) return;
+
+    auto * item = model->item(index);
+    if(!item) return;
+    item->setEnabled(enabled);
+}
+
+// --------------------------------------------------------------------------
+bool
+IsComboBoxItemEnabled(QComboBox * comboBox, int index)
+{
+    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
+    if(!model) return false;
+
+    auto * item = model->item(index);
+    if(!item) return false;
+    return item->isEnabled();
+}
+
 }
 
 
@@ -161,7 +188,6 @@ bool IsRepeat(int value) { return (value >= 4 && value <= 6); }
 bool IsShift(int value) { return (value >= 7 && value <= 8); }
 bool IsVinyl(int value) { return (value == 9); }
 
-
 // --------------------------------------------------------------------------
 void
 ScatLen(QComboBox* cb)
@@ -210,6 +236,69 @@ Shift(QComboBox* cb)
     cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
     cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
 }
+
+// --------------------------------------------------------------------------
+void
+ScatLen_EnableItems(QComboBox* cb, const Beat& beat)
+{
+    auto current_index = cb->currentIndex();
+
+    SetComboBoxItemEnabled(cb, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(cb, 1, false); // Whole Note
+    SetComboBoxItemEnabled(cb, 2, false); // Half Note Dotted
+    SetComboBoxItemEnabled(cb, 3, beat.x() == 2 || beat.x() == 4 || beat.x() == 8); // Half Note
+    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(cb, 5, beat.y() == 4 || (beat.y() == 8 && (beat.x() == 8 || beat.x() == 10 || beat.x() == 14))); // Quarter Note
+    SetComboBoxItemEnabled(cb, 6, true); // Quaver
+    SetComboBoxItemEnabled(cb, 7, true); // Semi-quaver
+
+    if (!IsComboBoxItemEnabled(cb, current_index)) {
+        cb->setCurrentIndex(6); // Quaver as default
+    }
+
+}
+
+// --------------------------------------------------------------------------
+void
+ReptLen_EnableItems(QComboBox* cb, const Beat& beat)
+{
+    auto current_index = cb->currentIndex();
+
+    SetComboBoxItemEnabled(cb, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(cb, 1, beat.x() == beat.y()); // Whole Note
+    SetComboBoxItemEnabled(cb, 2, beat.x() % 3 == 0 && beat.x() != 9 && beat.x() != 15); // Half Note Dotted
+    SetComboBoxItemEnabled(cb, 3, beat.x() * 2 == beat.y()); // Half Note
+    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0 && beat.x() > beat.y()); // Quarter Note Dotted
+    SetComboBoxItemEnabled(cb, 5, beat.y() == 4); // Quarter Note
+    SetComboBoxItemEnabled(cb, 6, true); // Quaver
+    SetComboBoxItemEnabled(cb, 7, true); // Semi-quaver
+    SetComboBoxItemEnabled(cb, 8, true); // Demi Semi-quaver
+
+    if (!IsComboBoxItemEnabled(cb, current_index)) {
+        cb->setCurrentIndex(6); // Quaver as default
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+ShiftLen_EnableItems(QComboBox* cb, const Beat& beat)
+{
+    auto current_index = cb->currentIndex();
+
+    SetComboBoxItemEnabled(cb, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(cb, 1, true); // Semi-quaver
+    SetComboBoxItemEnabled(cb, 2, true); // Quaver
+    SetComboBoxItemEnabled(cb, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14); // Quarter Note
+    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(cb, 5, beat.x() == 2 || beat.x() == beat.y()); // Half Note
+    SetComboBoxItemEnabled(cb, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12 ); // Half Note Dotted
+    SetComboBoxItemEnabled(cb, 7, beat.x() == beat.y()); // Whole Note
+
+    if (!IsComboBoxItemEnabled(cb, current_index)) {
+        cb->setCurrentIndex(2); // Quaver as default
+    }
+}
+
 
 // --------------------------------------------------------------------------
 void
@@ -383,9 +472,24 @@ AssignTarget(QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
-void AssignFxControl(QComboBox* cb, const Beat& beat)
+void AssignFxControl(QComboBox* cb, const Beat& beat, int loopFxType)
 {
-    AddItemsToComboBox(cb, {"TODO"});
+    if (IsScatter(loopFxType))
+    {
+        ScatLen(cb);
+        ScatLen_EnableItems(cb, beat);
+    }
+    else if (IsRepeat(loopFxType)) {
+        ReptLen(cb);
+        ReptLen_EnableItems(cb,beat);
+    }
+    else if (IsShift(loopFxType)) {
+        Shift(cb);
+        ShiftLen_EnableItems(cb, beat);
+    }
+    else if (IsVinyl(loopFxType)) {
+        IntegerRange(cb, 0, 100);
+    }
 }
 
 }

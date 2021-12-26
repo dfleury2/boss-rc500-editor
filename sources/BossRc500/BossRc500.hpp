@@ -91,10 +91,13 @@ bool IsRepeat(int value);
 bool IsShift(int value);
 bool IsVinyl(int value);
 
-
 void ScatLen(QComboBox* cb);
 void ReptLen(QComboBox* cb);
 void Shift(QComboBox* cb);
+
+void ScatLen_EnableItems(QComboBox* cb, const Beat& beat);
+void ReptLen_EnableItems(QComboBox* cb, const Beat& beat);
+void ShiftLen_EnableItems(QComboBox* cb, const Beat& beat);
 
 void RhythmPattern(QComboBox* cb);
 inline void RhythmPatternMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max, RhythmPattern); }
@@ -135,7 +138,14 @@ void AssignTarget(QComboBox* cb);
 inline void RecSens(QComboBox* cb) { IntegerRange(cb, 1, 100); }
 inline void RecSensMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max, RecSens); }
 
-void AssignFxControl(QComboBox* cb, const Beat& beat);
+void AssignFxControl(QComboBox* cb, const Beat& beat, int loopFxType);
+inline void AssignFxControlMinMax(QComboBox* min, QComboBox* max, const Beat& beat, int loopFxType)
+{
+    AssignFxControl(min, beat, loopFxType);
+    AssignFxControl(max, beat, loopFxType);
+    max->setCurrentIndex(max->count() - 1);
+
+}
 
 inline void AssignMidiMinMax(QComboBox* min, QComboBox* max)
 {

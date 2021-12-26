@@ -10,7 +10,6 @@
 #include <QStyleFactory>
 #include <QInputDialog>
 #include <QMenu>
-#include <QStandardItemModel>
 
 #include <miniaudio/miniaudio.h>
 
@@ -29,30 +28,6 @@ data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCou
         // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
         ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
     }
-}
-
-// --------------------------------------------------------------------------
-void
-SetComboBoxItemEnabled(QComboBox * comboBox, int index, bool enabled)
-{
-    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
-    if(!model) return;
-
-    auto * item = model->item(index);
-    if(!item) return;
-    item->setEnabled(enabled);
-}
-
-// --------------------------------------------------------------------------
-bool
-IsComboBoxItemEnabled(QComboBox * comboBox, int index)
-{
-    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
-    if(!model) return false;
-
-    auto * item = model->item(index);
-    if(!item) return false;
-    return item->isEnabled();
 }
 
 }
@@ -254,75 +229,6 @@ BossRc500MainDialog::add_combo_items()
     BossRc500::ControlPdlCtl(control_Control1);
     BossRc500::ControlPdlCtl(control_Control2);
     BossRc500::ControlExpr(control_Expression);
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500MainDialog::EnableItemsToComboBox_LoopFx_ScatLen(const QPoint& beat)
-{
-    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
-
-    auto current_index = loopFx_ScatLen->currentIndex();
-
-    SetComboBoxItemEnabled(loopFx_ScatLen, 0, true); // THRU - Always active
-    SetComboBoxItemEnabled(loopFx_ScatLen, 1, false); // Whole Note
-    SetComboBoxItemEnabled(loopFx_ScatLen, 2, false); // Half Note Dotted
-    SetComboBoxItemEnabled(loopFx_ScatLen, 3, beat.x() == 2 || beat.x() == 4 || beat.x() == 8); // Half Note
-    SetComboBoxItemEnabled(loopFx_ScatLen, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
-    SetComboBoxItemEnabled(loopFx_ScatLen, 5, beat.y() == 4 || (beat.y() == 8 && (beat.x() == 8 || beat.x() == 10 || beat.x() == 14))); // Quarter Note
-    SetComboBoxItemEnabled(loopFx_ScatLen, 6, true); // Quaver
-    SetComboBoxItemEnabled(loopFx_ScatLen, 7, true); // Semi-quaver
-
-    if (!IsComboBoxItemEnabled(loopFx_ScatLen, current_index)) {
-        loopFx_ScatLen->setCurrentIndex(6); // Quaver as default
-    }
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500MainDialog::EnableItemsToComboBox_LoopFx_RepLen(const QPoint& beat)
-{
-    // Number of notes per measure = beat.x();
-    // Note duration = beat.y();
-    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
-
-    auto current_index = loopFx_ReptLen->currentIndex();
-
-    SetComboBoxItemEnabled(loopFx_ReptLen, 0, true); // THRU - Always active
-    SetComboBoxItemEnabled(loopFx_ReptLen, 1, beat.x() == beat.y()); // Whole Note
-    SetComboBoxItemEnabled(loopFx_ReptLen, 2, beat.x() % 3 == 0 && beat.x() != 9 && beat.x() != 15); // Half Note Dotted
-    SetComboBoxItemEnabled(loopFx_ReptLen, 3, beat.x() * 2 == beat.y()); // Half Note
-    SetComboBoxItemEnabled(loopFx_ReptLen, 4, beat.y() == 8 && beat.x() % 3 == 0 && beat.x() > beat.y()); // Quarter Note Dotted
-    SetComboBoxItemEnabled(loopFx_ReptLen, 5, beat.y() == 4); // Quarter Note
-    SetComboBoxItemEnabled(loopFx_ReptLen, 6, true); // Quaver
-    SetComboBoxItemEnabled(loopFx_ReptLen, 7, true); // Semi-quaver
-    SetComboBoxItemEnabled(loopFx_ReptLen, 8, true); // Demi Semi-quaver
-
-    if (!IsComboBoxItemEnabled(loopFx_ReptLen, current_index)) {
-        loopFx_ReptLen->setCurrentIndex(6); // Quaver as default
-    }
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500MainDialog::EnableItemsToComboBox_LoopFx_Shift(const QPoint& beat)
-{
-    std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
-
-    auto current_index = loopFx_Shift->currentIndex();
-
-    SetComboBoxItemEnabled(loopFx_Shift, 0, true); // THRU - Always active
-    SetComboBoxItemEnabled(loopFx_Shift, 1, true); // Semi-quaver
-    SetComboBoxItemEnabled(loopFx_Shift, 2, true); // Quaver
-    SetComboBoxItemEnabled(loopFx_Shift, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14); // Quarter Note
-    SetComboBoxItemEnabled(loopFx_Shift, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
-    SetComboBoxItemEnabled(loopFx_Shift, 5, beat.x() == 2 || beat.x() == beat.y()); // Half Note
-    SetComboBoxItemEnabled(loopFx_Shift, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12 ); // Half Note Dotted
-    SetComboBoxItemEnabled(loopFx_Shift, 7, beat.x() == beat.y()); // Whole Note
-
-    if (!IsComboBoxItemEnabled(loopFx_Shift, current_index)) {
-        loopFx_Shift->setCurrentIndex(2); // Quaver as default
-    }
 }
 
 // --------------------------------------------------------------------------
@@ -600,9 +506,14 @@ BossRc500MainDialog::on_ToolMenu_Assign()
 {
     try {
         auto beat = rhythm_Beat->currentData().value<QPoint>();
+        auto loopFx_type = loopFx_Type->currentIndex();
 
         QDialog dialog;
-        BossRc500AssignDialog assignDialog(dialog, _database_mem, cb_Memory->currentIndex(), beat);
+        BossRc500AssignDialog assignDialog(dialog,
+                _database_mem,
+                cb_Memory->currentIndex(),
+                beat,
+                loopFx_type);
         dialog.setWindowTitle("BOSS RC-500 - Assign");
         dialog.setModal(true);
         dialog.exec();
@@ -1243,12 +1154,13 @@ BossRc500MainDialog::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
     _database_mem["mem"][memory_index]["RHYTHM"][name] = value;
 
     if (cb == rhythm_Beat) {
-        auto p = cb->currentData().value<QPoint>();
+        auto beat = cb->currentData().value<QPoint>();
 
         // On beat change, we need to recompute the available values for Scat, Rep and Shift
-        EnableItemsToComboBox_LoopFx_ScatLen(p);
-        EnableItemsToComboBox_LoopFx_RepLen(p);
-        EnableItemsToComboBox_LoopFx_Shift(p);
+        std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
+        BossRc500::ScatLen_EnableItems(loopFx_ScatLen, beat);
+        BossRc500::ReptLen_EnableItems(loopFx_ReptLen, beat);
+        BossRc500::ShiftLen_EnableItems(loopFx_Shift, beat);
     }
 }
 
