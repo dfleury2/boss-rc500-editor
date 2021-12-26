@@ -207,30 +207,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign1_TargetMin">
+   <widget class="QComboBox" name="assign1_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
    </widget>
-   <widget class="QSpinBox" name="assign1_TargetMax">
+   <widget class="QComboBox" name="assign1_TargetMax">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>180</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -357,30 +351,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign2_TargetMax">
+   <widget class="QComboBox" name="assign2_TargetMax">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>180</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
    </widget>
-   <widget class="QSpinBox" name="assign2_TargetMin">
+   <widget class="QComboBox" name="assign2_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -507,30 +495,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign3_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign3_TargetMin">
+   <widget class="QComboBox" name="assign3_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign3_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -657,30 +639,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign4_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign4_TargetMin">
+   <widget class="QComboBox" name="assign4_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign4_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -807,30 +783,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign5_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign5_TargetMin">
+   <widget class="QComboBox" name="assign5_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign5_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -957,30 +927,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign6_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign6_TargetMin">
+   <widget class="QComboBox" name="assign6_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign6_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -1107,30 +1071,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign7_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign7_TargetMin">
+   <widget class="QComboBox" name="assign7_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign7_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -1257,30 +1215,24 @@
      <string>Target Max.</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="assign8_TargetMax">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
-      <width>81</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="assign8_TargetMin">
+   <widget class="QComboBox" name="assign8_TargetMin">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>81</width>
-      <height>26</height>
+      <width>141</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </widget>
+   <widget class="QComboBox" name="assign8_TargetMax">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -1317,50 +1269,34 @@
   <tabstop>assign1_Source</tabstop>
   <tabstop>assign1_SourceMode</tabstop>
   <tabstop>assign1_Target</tabstop>
-  <tabstop>assign1_TargetMin</tabstop>
-  <tabstop>assign1_TargetMax</tabstop>
   <tabstop>assign2_Assign</tabstop>
   <tabstop>assign2_Source</tabstop>
   <tabstop>assign2_SourceMode</tabstop>
   <tabstop>assign2_Target</tabstop>
-  <tabstop>assign2_TargetMin</tabstop>
-  <tabstop>assign2_TargetMax</tabstop>
   <tabstop>assign3_Assign</tabstop>
   <tabstop>assign3_Source</tabstop>
   <tabstop>assign3_SourceMode</tabstop>
   <tabstop>assign3_Target</tabstop>
-  <tabstop>assign3_TargetMin</tabstop>
-  <tabstop>assign3_TargetMax</tabstop>
   <tabstop>assign4_Assign</tabstop>
   <tabstop>assign4_Source</tabstop>
   <tabstop>assign4_SourceMode</tabstop>
   <tabstop>assign4_Target</tabstop>
-  <tabstop>assign4_TargetMin</tabstop>
-  <tabstop>assign4_TargetMax</tabstop>
   <tabstop>assign5_Assign</tabstop>
   <tabstop>assign5_Source</tabstop>
   <tabstop>assign5_SourceMode</tabstop>
   <tabstop>assign5_Target</tabstop>
-  <tabstop>assign5_TargetMin</tabstop>
-  <tabstop>assign5_TargetMax</tabstop>
   <tabstop>assign6_Assign</tabstop>
   <tabstop>assign6_Source</tabstop>
   <tabstop>assign6_SourceMode</tabstop>
   <tabstop>assign6_Target</tabstop>
-  <tabstop>assign6_TargetMin</tabstop>
-  <tabstop>assign6_TargetMax</tabstop>
   <tabstop>assign7_Assign</tabstop>
   <tabstop>assign7_Source</tabstop>
   <tabstop>assign7_SourceMode</tabstop>
   <tabstop>assign7_Target</tabstop>
-  <tabstop>assign7_TargetMin</tabstop>
-  <tabstop>assign7_TargetMax</tabstop>
   <tabstop>assign8_Assign</tabstop>
   <tabstop>assign8_Source</tabstop>
   <tabstop>assign8_SourceMode</tabstop>
   <tabstop>assign8_Target</tabstop>
-  <tabstop>assign8_TargetMin</tabstop>
-  <tabstop>assign8_TargetMax</tabstop>
   <tabstop>button_Cancel</tabstop>
   <tabstop>button_Apply</tabstop>
  </tabstops>
