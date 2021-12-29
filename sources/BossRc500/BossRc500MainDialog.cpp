@@ -66,7 +66,13 @@ BossRc500MainDialog::setup()
 
     auto themesMenu = new QMenu("Themes", toolMenu);
     for (auto filename : std::filesystem::directory_iterator("./resources/themes")) {
-        themesMenu->addAction(filename.path().stem().c_str(),
+        QString stem;
+#if WIN32
+        stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar quick fix
+#else
+        stem = filename.path().stem().c_str();
+#endif
+        themesMenu->addAction(stem,
                 [this, filename] {
                     on_ToolMenu_Themes(std::filesystem::absolute(filename));
                 });
