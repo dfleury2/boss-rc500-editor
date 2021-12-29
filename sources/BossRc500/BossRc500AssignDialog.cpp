@@ -24,7 +24,6 @@ BossRc500AssignDialog::setup()
     setupUi(&_parent);
 
     // Add some tweaks...
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
     _parent.setFixedSize(_parent.width(), _parent.height());
 
     _assigns = { assign1_Assign, assign2_Assign, assign3_Assign, assign4_Assign,

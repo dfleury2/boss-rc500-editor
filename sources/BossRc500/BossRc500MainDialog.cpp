@@ -16,6 +16,7 @@
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
+#include <fstream>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -46,8 +47,10 @@ BossRc500MainDialog::setup()
     setupUi(&_parent);
 
     // Add some tweaks...
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
     _parent.setFixedSize(_parent.width(), _parent.height());
+
+    font_bold = _parent.font();
+    font_bold.setWeight(QFont::Weight::Bold);
 
     auto toolMenu = new QMenu(toolButton);
     toolMenu->addAction("New",          this, &BossRc500MainDialog::on_ToolMenu_New);
@@ -59,6 +62,17 @@ BossRc500MainDialog::setup()
     toolMenu->addAction("Assign...",   this, &BossRc500MainDialog::on_ToolMenu_Assign);
     toolMenu->addSeparator();
     toolMenu->addAction("System...",   this, &BossRc500MainDialog::on_ToolMenu_System);
+    toolMenu->addSeparator();
+
+    auto themesMenu = new QMenu("Themes", toolMenu);
+    for (auto filename : std::filesystem::directory_iterator("./resources/themes")) {
+        themesMenu->addAction(filename.path().stem().c_str(),
+                [this, filename] {
+                    on_ToolMenu_Themes(std::filesystem::absolute(filename));
+                });
+    }
+    toolMenu->addMenu(themesMenu);
+
     toolMenu->addSeparator();
     toolMenu->addAction("Quit",         [] { QApplication::exit(); });
     toolButton->setMenu(toolMenu);
@@ -551,6 +565,21 @@ BossRc500MainDialog::on_ToolMenu_System()
 
 // --------------------------------------------------------------------------
 void
+BossRc500MainDialog::on_ToolMenu_Themes(const std::filesystem::path& path)
+{
+    try {
+        std::ifstream in(path);
+        std::string style_sheet{std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
+
+        qApp->setStyleSheet(style_sheet.c_str());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
 BossRc500MainDialog::on_copy()
 {
     try {
@@ -703,7 +732,7 @@ BossRc500MainDialog::on_rhythm_play()
 void
 BossRc500MainDialog::load_database_mem(const std::string& filename)
 {
-    _database_mem = ReadMemoryDatabase(filename);
+    _database_mem_default = _database_mem = ReadMemoryDatabase(filename);
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
@@ -719,7 +748,7 @@ BossRc500MainDialog::load_database_mem(const std::string& filename)
 void
 BossRc500MainDialog::load_database_sys(const std::string& filename)
 {
-    _database_sys = ReadSystemDatabase(filename);
+    _database_sys_default = _database_sys = ReadSystemDatabase(filename);
 }
 
 // --------------------------------------------------------------------------
@@ -1194,6 +1223,13 @@ BossRc500MainDialog::on_Control_ComboBox_changed(QComboBox* cb, const char* name
         int value = cb->currentIndex();
         std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
         _database_mem["mem"][memory_index]["CTL"][name] = value;
+
+        if (_database_mem["mem"][memory_index]["CTL"][name] != _database_mem_default["mem"][memory_index]["CTL"][name]) {
+            cb->setFont(font_bold);
+        }
+        else {
+            cb->setFont(_parent.font());
+        }
     }
 }
 

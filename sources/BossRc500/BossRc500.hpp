@@ -9,6 +9,16 @@
 #include <functional>
 
 namespace BossRc500 {
+inline
+static const char* StyleSheet = R"(
+QGroupBox {
+    border: 1px solid white;
+}
+QGroupBox::title {
+    color: white;
+}
+)";
+
 // --------------------------------------------------------------------------
 using Beat = QPoint;
 

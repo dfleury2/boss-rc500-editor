@@ -28,7 +28,6 @@ BossRc500SystemDialog::setup()
     setupUi(&_parent);
 
     // Add some tweaks...
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
     _parent.setFixedSize(_parent.width(), _parent.height());
 
     add_tooltips();

@@ -139,11 +139,6 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         BossRc500AssignDialog->setPalette(palette);
-        QFont font;
-        font.setFamily(QString::fromUtf8("Bitstream Vera Sans"));
-        font.setBold(true);
-        font.setWeight(QFont::DemiBold);
-        BossRc500AssignDialog->setFont(font);
         gp_Assign1 = new QGroupBox(BossRc500AssignDialog);
         gp_Assign1->setObjectName(QString::fromUtf8("gp_Assign1"));
         gp_Assign1->setGeometry(QRect(10, 10, 281, 221));

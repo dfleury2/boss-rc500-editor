@@ -191,11 +191,6 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         BossRc500MainDialog->setPalette(palette);
-        QFont font;
-        font.setFamily(QString::fromUtf8("Bitstream Vera Sans"));
-        font.setBold(true);
-        font.setWeight(QFont::DemiBold);
-        BossRc500MainDialog->setFont(font);
         label_LoopStation = new QLabel(BossRc500MainDialog);
         label_LoopStation->setObjectName(QString::fromUtf8("label_LoopStation"));
         label_LoopStation->setGeometry(QRect(790, 0, 341, 31));

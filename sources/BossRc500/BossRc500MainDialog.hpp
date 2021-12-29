@@ -5,6 +5,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include <filesystem>
+
 // --------------------------------------------------------------------------
 class BossRc500MainDialog : public Ui_BossRc500MainDialog, public QObject
 {
@@ -22,6 +24,7 @@ private:
     void on_ToolMenu_Save(bool askDirname = false);
     void on_ToolMenu_Assign();
     void on_ToolMenu_System();
+    void on_ToolMenu_Themes(const std::filesystem::path& path);
 
     void on_edit();
     void on_copy();
@@ -76,5 +79,11 @@ private:
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;
 
+    nlohmann::json  _database_mem_default;
+    nlohmann::json  _database_sys_default;
+
+
     std::string     _dirname;
+
+    QFont font_bold; // different from default
 };

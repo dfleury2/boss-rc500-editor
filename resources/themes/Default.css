@@ -1,0 +1,6 @@
+QGroupBox {
+    border: 1px solid white;
+}
+QGroupBox::title {
+    color: white;
+}
