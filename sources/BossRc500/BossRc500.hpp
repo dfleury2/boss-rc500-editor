@@ -12,7 +12,7 @@
 
 namespace BossRc500 {
 inline
-static const char* StyleSheet = R"(
+const char* StyleSheet = R"(
 QGroupBox {
     border: 1px solid white;
 }
@@ -21,8 +21,8 @@ QGroupBox::title {
 }
 )";
 
-inline static nlohmann::json  DatabaseMemDefault;
-inline static nlohmann::json  DatabaseSysDefault;
+inline nlohmann::json  DatabaseMemDefault;
+inline nlohmann::json  DatabaseSysDefault;
 
 // --------------------------------------------------------------------------
 using Beat = QPoint;
@@ -166,5 +166,27 @@ inline void AssignMidiMinMax(QComboBox* min, QComboBox* max)
 {
     SetMinMax(min, max, [](auto* cb) { IntegerRange(cb, 0, 127); });
 }
+
+// General
+void DisplayContrast(QComboBox* cb);
+void DisplayMode(QComboBox* cb);
+void UndoRedo(QComboBox* cb);
+void Extent(QComboBox* cb);
+void ExtentMinMax(QComboBox* cb);
+void PedalCtlExpPref(QComboBox* cb);
+
+// Midi
+void RxCtlChannel(QComboBox* cb);
+void RxNoteChannel(QComboBox* cb);
+void TxChannel(QComboBox* cb);
+void SyncClock(QComboBox* cb);
+void SyncStart(QComboBox* cb);
+void MidiThru(QComboBox* cb);
+
+void MicroIn(QComboBox* cb);
+void InstrumentIn(QComboBox* cb);
+void RhythmOut(QComboBox* cb);
+void PeakSource(QComboBox* cb);
+
 
 }
