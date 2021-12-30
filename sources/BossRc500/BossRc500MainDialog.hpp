@@ -80,7 +80,7 @@ private:
     void update_mem_database(int memory_index, const char* root, const char* name, Value value, Widget* w)
     {
         std::cout << "Memory: " << (memory_index + 1) << ", " << root << "." << name << ": " << value << std::endl;
-        _database_mem["mem"][memory_index][root][name] = value;
+        _database_mem["mem"][memory_index][root][name] = static_cast<int>(value);
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
 
