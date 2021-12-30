@@ -96,7 +96,7 @@ private:
             is_modified = (default_value != value);
         }
 
-        w->setFont(is_modified ? font_bold : _parent.font());
+        w->setFont(is_modified ? _font_bold : _parent.font());
     }
 
     template<typename Widget>
@@ -109,7 +109,7 @@ private:
 
         bool is_modified = (value != default_value);
 
-        w->setFont(is_modified ? font_bold : _parent.font());
+        w->setFont(is_modified ? _font_bold : _parent.font());
     }
 
 private:
@@ -120,5 +120,5 @@ private:
 
     std::string     _dirname;
 
-    QFont font_bold; // different from default
+    QFont _font_bold; // different from default
 };

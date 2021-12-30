@@ -26,6 +26,9 @@ BossRc500AssignDialog::setup()
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
 
+    _font_bold = _parent.font();
+    _font_bold.setWeight(QFont::Weight::Bold);
+
     _assigns = { assign1_Assign, assign2_Assign, assign3_Assign, assign4_Assign,
             assign5_Assign, assign6_Assign, assign7_Assign, assign8_Assign };
 
@@ -399,16 +402,12 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
 void
 BossRc500AssignDialog::on_Assign_CheckBox_changed(QCheckBox* cb, int index, const char* name)
 {
-    int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (_memory_index + 1) << ", ASSIGN: " << index << ": " << name << ": " << value << std::endl;
-    database["mem"][_memory_index]["ASSIGN"][index][name] = value;
+    update_mem_database(index, name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500AssignDialog::on_Assign_ComboBox_changed(QComboBox* cb, int index, const char* name)
 {
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (_memory_index + 1) << ", ASSIGN: " << index << ": " << name << ": " << value << std::endl;
-    database["mem"][_memory_index]["ASSIGN"][index][name] = value;
+    update_mem_database(index, name, cb->currentIndex(), cb);
 }

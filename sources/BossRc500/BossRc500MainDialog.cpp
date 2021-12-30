@@ -49,8 +49,8 @@ BossRc500MainDialog::setup()
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
 
-    font_bold = _parent.font();
-    font_bold.setWeight(QFont::Weight::Bold);
+    _font_bold = _parent.font();
+    _font_bold.setWeight(QFont::Weight::Bold);
 
     auto toolMenu = new QMenu(toolButton);
     toolMenu->addAction("New",          this, &BossRc500MainDialog::on_ToolMenu_New);
