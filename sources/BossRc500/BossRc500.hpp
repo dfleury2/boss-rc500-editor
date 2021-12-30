@@ -3,6 +3,8 @@
 #include <QComboBox>
 #include <QPoint>
 
+#include <nlohmann/json.hpp>
+
 #include <string>
 #include <vector>
 #include <initializer_list>
@@ -18,6 +20,9 @@ QGroupBox::title {
     color: white;
 }
 )";
+
+inline static nlohmann::json  DatabaseMemDefault;
+inline static nlohmann::json  DatabaseSysDefault;
 
 // --------------------------------------------------------------------------
 using Beat = QPoint;

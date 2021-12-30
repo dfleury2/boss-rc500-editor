@@ -6,6 +6,8 @@
 #include <nlohmann/json.hpp>
 
 #include <filesystem>
+#include <iostream>
+#include <cmath>
 
 // --------------------------------------------------------------------------
 class BossRc500MainDialog : public Ui_BossRc500MainDialog, public QObject
@@ -74,14 +76,47 @@ private:
     void setDirname(const std::string& dirname);
 
 private:
+    template<typename Widget, typename Value>
+    void update_mem_database(int memory_index, const char* root, const char* name, Value value, Widget* w)
+    {
+        std::cout << "Memory: " << (memory_index + 1) << ", " << root << "." << name << ": " << value << std::endl;
+        _database_mem["mem"][memory_index][root][name] = value;
+
+        auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
+
+        bool is_modified = false;
+
+        if constexpr(std::is_floating_point_v<Value>) {
+            is_modified = (std::abs(value - default_value) > 0.05);
+        }
+        else if constexpr(std::is_same_v<Value, bool>) {
+            is_modified = (int(value) != default_value);
+        }
+        else {
+            is_modified = (default_value != value);
+        }
+
+        w->setFont(is_modified ? font_bold : _parent.font());
+    }
+
+    template<typename Widget>
+    void update_mem_track_database(int memory_index, int track_index, const char* name, int value, Widget* w)
+    {
+        std::cout << "Memory: " << (memory_index + 1) << ", Track: " << (track_index + 1) << ", " << name << ": " << value << std::endl;
+        _database_mem["mem"][memory_index]["TRACK"][track_index][name] = value;
+
+        auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
+
+        bool is_modified = (value != default_value);
+
+        w->setFont(is_modified ? font_bold : _parent.font());
+    }
+
+private:
     QDialog&        _parent;
 
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;
-
-    nlohmann::json  _database_mem_default;
-    nlohmann::json  _database_sys_default;
-
 
     std::string     _dirname;
 

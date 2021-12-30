@@ -65,7 +65,7 @@ BossRc500MainDialog::setup()
     toolMenu->addSeparator();
 
     auto themesMenu = new QMenu("Themes", toolMenu);
-    for (auto filename : std::filesystem::directory_iterator("./resources/themes")) {
+    for (auto&& filename : std::filesystem::directory_iterator("./resources/themes")) {
         QString stem;
 #if WIN32
         stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar quick fix
@@ -738,7 +738,7 @@ BossRc500MainDialog::on_rhythm_play()
 void
 BossRc500MainDialog::load_database_mem(const std::string& filename)
 {
-    _database_mem_default = _database_mem = ReadMemoryDatabase(filename);
+    BossRc500::DatabaseMemDefault = _database_mem = ReadMemoryDatabase(filename);
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
@@ -754,7 +754,7 @@ BossRc500MainDialog::load_database_mem(const std::string& filename)
 void
 BossRc500MainDialog::load_database_sys(const std::string& filename)
 {
-    _database_sys_default = _database_sys = ReadSystemDatabase(filename);
+    BossRc500::DatabaseSysDefault = _database_sys = ReadSystemDatabase(filename);
 }
 
 // --------------------------------------------------------------------------
@@ -898,15 +898,13 @@ BossRc500MainDialog::load_memory(int memory_index)
 void
 BossRc500MainDialog::on_Level_changed(QSlider* slider)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (slider == track1_Level ? 0 : 1);
-    int value = slider->value();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Level: " << value << std::endl;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (slider->parentWidget() == gp_Track1 ? 0 : 1),
+            "PlyLvl",
+            slider->value(),
+            slider);
 
-    auto value_str = std::to_string(value);
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["PlyLvl"] = value;
+    auto value_str = std::to_string(slider->value());
 
     (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
 }
@@ -915,42 +913,33 @@ BossRc500MainDialog::on_Level_changed(QSlider* slider)
 void
 BossRc500MainDialog::on_Pan_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Pan ? 0 : 1);
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Pan: " << value << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["Pan"] = value;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "Pan",
+            cb->currentIndex(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Start_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Start ? 0 : 1);
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Start: " << value << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["StrtMod"] = value;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "StrtMod",
+            cb->currentIndex(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Stop_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Stop ? 0 : 1);
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Stop: " << value << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["StpMod"] = value;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "StpMod",
+            cb->currentIndex(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
@@ -983,7 +972,12 @@ BossRc500MainDialog::on_Measure_changed(QComboBox* cb)
         measBtLp = 0;
     }
 
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["Measure"] = value;
+    update_mem_track_database(memory_index,
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "Measure",
+            value,
+            cb);
+
     _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasMod"] = measMod;
     _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasLen"] = measLen;
     _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasBtLp"] = measBtLp;
@@ -993,147 +987,118 @@ BossRc500MainDialog::on_Measure_changed(QComboBox* cb)
 void
 BossRc500MainDialog::on_Reverse_changed(QCheckBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Reverse ? 0 : 1);
-    int is_checked = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1)
-            << ", Track: " << (track_index + 1 )
-            << ", Rev: " << is_checked << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["Rev"] = is_checked;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "Rev",
+            cb->isChecked(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_LoopFx_changed(QCheckBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_LoopFx ? 0 : 1);
-    int is_checked = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1)
-            << ", Track: " << (track_index + 1 )
-            << ", LoopFx: " << is_checked << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["LoopFx"] = is_checked;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "LoopFx",
+            cb->isChecked(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_OneShot_changed(QCheckBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_OneShot ? 0 : 1);
-    int is_checked = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1)
-            << ", Track: " << (track_index + 1 )
-            << ", OneShot: " << is_checked << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["One"] = is_checked;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "One",
+            cb->isChecked(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_LoopSync_changed(QCheckBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_LoopSync ? 0 : 1);
-    int is_checked = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1)
-            << ", Track: " << (track_index + 1 )
-            << ", LoopSync: " << is_checked << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["LoopSync"] = is_checked;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "LoopSync",
+            cb->isChecked(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_TempoSync_changed(QCheckBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_TempoSync ? 0 : 1);
-    int is_checked = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1)
-            << ", Track: " << (track_index + 1 )
-            << ", TempoSync: " << is_checked << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["TempoSync"] = is_checked;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "TempoSync",
+            cb->isChecked(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Input_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Input ? 0 : 1);
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Input: " << value << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["Input"] = value;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "Input",
+            cb->currentIndex(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Output_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Output ? 0 : 1);
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Output: " << value << std::endl;
-
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["Output"] = value;
+    update_mem_track_database(cb_Memory->currentIndex(),
+            (cb->parentWidget() == gp_Track1 ? 0 : 1),
+            "Output",
+            cb->currentIndex(),
+            cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Master_ComboBox_changed(QComboBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = cb->currentIndex();
-
     // Some ugly ack for Quantize
     // NOTE: may be a usage for userData and QVariant here, but too long to refactor
+    int value = cb->currentIndex();
+
     if (cb == record_Quantize) {
         if (value == 1) { // MEASURE
             value = 2;
         }
     }
 
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["MASTER"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, value, cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Master_CheckBox_changed(QCheckBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["MASTER"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = sb->value();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["MASTER"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, sb->value(), sb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, const char* name, int factor)
 {
-    int memory_index = cb_Memory->currentIndex();
     auto value = sb->value();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["MASTER"][name] = static_cast<int>(value * factor);
+    if (sb == play_Tempo) value *= 10;
+
+    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, value, sb);
 }
 
 // --------------------------------------------------------------------------
@@ -1153,40 +1118,28 @@ BossRc500MainDialog::on_LoopFx_FxType_changed()
 void
 BossRc500MainDialog::on_LoopFx_ComboBox_changed(QComboBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    auto i = cb->currentData().value<int>();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << i << std::endl;
-    _database_mem["mem"][memory_index]["LOOPFX"][name] = i;
+    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name,  cb->currentData().value<int>(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_LoopFx_CheckBox_changed(QCheckBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["LOOPFX"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_LoopFx_SpinBox_changed(QSpinBox* sb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = sb->value();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["LOOPFX"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name, sb->value(), sb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["RHYTHM"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, cb->currentIndex(), cb);
 
     if (cb == rhythm_Beat) {
         auto beat = cb->currentData().value<QPoint>();
@@ -1203,20 +1156,14 @@ BossRc500MainDialog::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
 void
 BossRc500MainDialog::on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["RHYTHM"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_Rhythm_Slider_changed(QSlider* s, const char* name)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int value = s->value();
-    std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-    _database_mem["mem"][memory_index]["RHYTHM"][name] = value;
+    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, s->value(), s);
 }
 
 // --------------------------------------------------------------------------
@@ -1225,17 +1172,7 @@ BossRc500MainDialog::on_Control_ComboBox_changed(QComboBox* cb, const char* name
 {
     // Change the database only if cb is enabled // MEMORY mode in sys.PREF
     if (cb->isEnabled()) {
-        int memory_index = cb_Memory->currentIndex();
-        int value = cb->currentIndex();
-        std::cout << "Memory: " << (memory_index + 1) << ", " << name << ": " << value << std::endl;
-        _database_mem["mem"][memory_index]["CTL"][name] = value;
-
-        if (_database_mem["mem"][memory_index]["CTL"][name] != _database_mem_default["mem"][memory_index]["CTL"][name]) {
-            cb->setFont(font_bold);
-        }
-        else {
-            cb->setFont(_parent.font());
-        }
+        update_mem_database(cb_Memory->currentIndex(), "CTL", name, cb->currentIndex(), cb);
     }
 }
 
