@@ -492,4 +492,123 @@ void AssignFxControl(QComboBox* cb, const Beat& beat, int loopFxType)
     }
 }
 
+// --------------------------------------------------------------------------
+void
+DisplayContrast(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
+}
+
+// --------------------------------------------------------------------------
+void
+DisplayMode(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"STATUS", "POSITION", "2TRACK POS", "STATUS+POS",
+                            "NUMBER+POS", "NAME+POS", "BEAT+POS", "BEAT"});
+}
+
+// --------------------------------------------------------------------------
+void
+UndoRedo(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"HOLD", "RELEASE"});
+}
+
+// --------------------------------------------------------------------------
+void
+Extent(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"EXT1", "EXT2", "EXT3", "EXT4", "EXT5"});
+}
+
+// --------------------------------------------------------------------------
+void
+ExtentMinMax(QComboBox* cb)
+{
+    for (int i = 1; i < 100; ++i) {
+        cb->addItem(std::to_string(i).c_str());
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+PedalCtlExpPref(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"MEMORY", "SYSTEM"});
+}
+
+// --------------------------------------------------------------------------
+void
+RxCtlChannel(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+                            "11", "12", "13", "14", "15", "16"});
+}
+
+// --------------------------------------------------------------------------
+void
+RxNoteChannel(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+                            "11", "12", "13", "14", "15", "16"});
+}
+
+// --------------------------------------------------------------------------
+void
+TxChannel(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+                            "11", "12", "13", "14", "15", "16", "RX CTL"});
+}
+
+// --------------------------------------------------------------------------
+void
+SyncClock(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"AUTO", "INTERNAL", "USB", "MIDI"});
+}
+
+// --------------------------------------------------------------------------
+void
+SyncStart(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OFF", "ALL", "RHYTHM"});
+}
+
+// --------------------------------------------------------------------------
+void
+MidiThru(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OFF", "MIDI OUT", "USB OUT", "USB/MIDI"});
+}
+
+// --------------------------------------------------------------------------
+void
+MicroIn(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OUT-A&B", "OUT-A", "OFF"});
+}
+
+// --------------------------------------------------------------------------
+void
+InstrumentIn(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OUT-A&B", "OUT-A", "OUT-B", "OFF"});
+}
+
+// --------------------------------------------------------------------------
+void
+RhythmOut(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"OUT-A&B", "OUT-A", "OUT-B", "LOOP", "OFF"});
+}
+
+// --------------------------------------------------------------------------
+void
+PeakSource(QComboBox* cb)
+{
+    AddItemsToComboBox(cb, {"ALL IN", "MIC IN", "INST IN", "LOOP&RHYTHM"});
+}
+
+
 }

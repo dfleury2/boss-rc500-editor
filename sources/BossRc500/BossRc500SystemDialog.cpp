@@ -1,18 +1,5 @@
 #include "BossRc500SystemDialog.hpp"
-
-#include <QStyleFactory>
-
-#include <iostream>
-
-namespace {
-// --------------------------------------------------------------------------
-void
-AddItemsToComboBox(QComboBox *cb, std::initializer_list<const char *> list) {
-    for (auto &item: list) {
-        cb->addItem(item);
-    }
-}
-}
+#include "BossRc500.hpp"
 
 // --------------------------------------------------------------------------
 BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& db) :
@@ -29,6 +16,9 @@ BossRc500SystemDialog::setup()
 
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
+
+    _font_bold = _parent.font();
+    _font_bold.setWeight(QFont::Weight::Bold);
 
     add_tooltips();
     add_combo_items();
@@ -57,79 +47,56 @@ BossRc500SystemDialog::add_tooltips()
 void
 BossRc500SystemDialog::add_combo_items()
 {
-    AddItemsToComboBox(general_DisplayContrast, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
-    AddItemsToComboBox(general_DisplayMode,
-            {"STATUS", "POSITION", "2TRACK POS", "STATUS+POS",
-             "NUMBER+POS", "NAME+POS", "BEAT+POS", "BEAT"});
-    AddItemsToComboBox(general_UndoRedo, {"HOLD", "RELEASE"});
+    // General
+    BossRc500::DisplayContrast(general_DisplayContrast);
+    BossRc500::DisplayMode(general_DisplayMode);
+    BossRc500::UndoRedo(general_UndoRedo);
 
-    for (int i = 1; i < 100; ++i) {
-        extent_Extent1Min->addItem(std::to_string(i).c_str());
-        extent_Extent1Max->addItem(std::to_string(i).c_str());
-        extent_Extent2Min->addItem(std::to_string(i).c_str());
-        extent_Extent2Max->addItem(std::to_string(i).c_str());
-        extent_Extent3Min->addItem(std::to_string(i).c_str());
-        extent_Extent3Max->addItem(std::to_string(i).c_str());
-        extent_Extent4Min->addItem(std::to_string(i).c_str());
-        extent_Extent4Max->addItem(std::to_string(i).c_str());
-        extent_Extent5Min->addItem(std::to_string(i).c_str());
-        extent_Extent5Max->addItem(std::to_string(i).c_str());
-    }
+    // Extent
+    BossRc500::Extent(extent_Extent);
+    BossRc500::ExtentMinMax(extent_Extent1Min);
+    BossRc500::ExtentMinMax(extent_Extent1Max);
+    BossRc500::ExtentMinMax(extent_Extent2Min);
+    BossRc500::ExtentMinMax(extent_Extent2Max);
+    BossRc500::ExtentMinMax(extent_Extent3Min);
+    BossRc500::ExtentMinMax(extent_Extent3Max);
+    BossRc500::ExtentMinMax(extent_Extent4Min);
+    BossRc500::ExtentMinMax(extent_Extent4Max);
+    BossRc500::ExtentMinMax(extent_Extent5Min);
+    BossRc500::ExtentMinMax(extent_Extent5Max);
 
-    auto pref_Pedal = {"MEMORY", "SYSTEM"};
-    AddItemsToComboBox(pref_Pedal1Pref, pref_Pedal);
-    AddItemsToComboBox(pref_Pedal2Pref, pref_Pedal);
-    AddItemsToComboBox(pref_Pedal3Pref, pref_Pedal);
-    AddItemsToComboBox(pref_Ctl1Pref, pref_Pedal);
-    AddItemsToComboBox(pref_Ctl2Pref, pref_Pedal);
-    AddItemsToComboBox(pref_ExpPref, pref_Pedal);
+    // Preference
+    BossRc500::PedalCtlExpPref(pref_Pedal1Pref);
+    BossRc500::PedalCtlExpPref(pref_Pedal2Pref);
+    BossRc500::PedalCtlExpPref(pref_Pedal3Pref);
+    BossRc500::PedalCtlExpPref(pref_Ctl1Pref);
+    BossRc500::PedalCtlExpPref(pref_Ctl2Pref);
+    BossRc500::PedalCtlExpPref(pref_ExpPref);
 
-    AddItemsToComboBox(midi_RxCtlChannel,
-            {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-             "11", "12", "13", "14", "15", "16"});
-    AddItemsToComboBox(midi_RxNoteCh,
-            {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-             "11", "12", "13", "14", "15", "16"});
-    AddItemsToComboBox(midi_TxChannel,
-            {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-             "11", "12", "13", "14", "15", "16", "RX CTL"});
-    AddItemsToComboBox(midi_SyncClock, {"AUTO", "INTERNAL", "USB", "MIDI"});
-    AddItemsToComboBox(midi_SyncStart, {"OFF", "ALL", "RHYTHM"});
+    // Midi
+    BossRc500::RxCtlChannel(midi_RxCtlChannel);
+    BossRc500::RxNoteChannel(midi_RxNoteCh);
+    BossRc500::TxChannel(midi_TxChannel);
+    BossRc500::SyncClock(midi_SyncClock);
+    BossRc500::SyncStart(midi_SyncStart);
 
-    auto midiUsbThru_items = {"OFF", "MIDI OUT", "USB OUT", "USB/MIDI"};
-    AddItemsToComboBox(midi_MidiThru, midiUsbThru_items);
-    AddItemsToComboBox(midi_UsbThru, midiUsbThru_items);
+    BossRc500::MidiThru(midi_MidiThru);
+    BossRc500::MidiThru(midi_UsbThru);
 
-    AddItemsToComboBox(extent_Extent, {"EXT1", "EXT2", "EXT3", "EXT4", "EXT5"});
+    // Input
+    BossRc500::MicroIn(input_MicroIn);
+    BossRc500::InstrumentIn(input_InstrumentIn);
+    BossRc500::RhythmOut(input_Rhythm);
+    BossRc500::PeakSource(input_PeakSource);
 
-    AddItemsToComboBox(input_MicroIn, {"OUT-A&B", "OUT-A", "OFF"});
-    AddItemsToComboBox(input_InstrumentIn, {"OUT-A&B", "OUT-A", "OUT-B", "OFF"});
-    AddItemsToComboBox(input_Rhythm, {"OUT-A&B", "OUT-A", "OUT-B", "LOOP", "OFF"});
-    AddItemsToComboBox(input_PeakSource, {"ALL IN", "MIC IN", "INST IN", "LOOP&RHYTHM"});
+    // Control
+    BossRc500::ControlPdlCtl(control_Pedal1);
+    BossRc500::ControlPdlCtl(control_Pedal2);
+    BossRc500::ControlPdlCtl(control_Pedal3);
+    BossRc500::ControlPdlCtl(control_Control1);
+    BossRc500::ControlPdlCtl(control_Control2);
 
-    // ----- CTL -----
-    auto ctl_items = {"OFF",
-                      "T1 REC/PLY", "T1 R/P/S", "T1 R/P/S(CLR)", "T1 MON R/P", "T1 PLY/STP", "T1 P/S(CLR)", "T1 STOP", "T1 STOP(TAP)", "T1 STOP(CLR)", "T1 STOP(T/C)", "T1 CLEAR", "T1 UND/RED", "T1 REVERSE",
-                      "T2 REC/PLY", "T2 R/P/S", "T2 R/P/S(CLR)", "T2 MON R/P", "T2 PLY/STP", "T2 P/S(CLR)", "T2 STOP", "T2 STOP(TAP)", "T2 STOP(CLR)", "T2 STOP(T/C)", "T2 CLEAR", "T2 UND/RED", "T2 REVERSE",
-                      "TRK SELECT", "CUR REC/PLY", "CUR R/P/S", "CUR R/P/S(CLR)", "CUR MON R/P", "CUR PLY/STP", "CUR P/S(CLR)", "CUR STOP", "CUR STP(TAP)", "CUR STP(CLR)",
-                      "CUR STP(T/C)", "CUR CLEAR", "CUR UND/RED", "CUR REVERSE", "UNDO/REDO", "ALL START", "TAP TEMPO", "LOOP FX", "TR1 FX", "TR2 FX", "CUR TR FX",
-                      "FX INC", "FX DEC", "RHYTHM P/S", "RHYTHM PLAY", "RHYTHM STOP", "MEMORY INC", "MEMORY DEC", "MIC MUTE", "EXTENT INC", "EXTENT DEC"
-    };
-    AddItemsToComboBox(control_Pedal1, ctl_items);
-    AddItemsToComboBox(control_Pedal2, ctl_items);
-    AddItemsToComboBox(control_Pedal3, ctl_items);
-    AddItemsToComboBox(control_Control1, ctl_items);
-    AddItemsToComboBox(control_Control2, ctl_items);
-
-    AddItemsToComboBox(control_Expression,
-            {"OFF",
-             "T1 LEVEL1", "T1 LEVEL2",
-             "T2 LEVEL1", "T2 LEVEL2",
-             "CUR LEVEL1", "CUR LEVEL2",
-             "TEMPO UP", "TEMPO DOWN",
-             "FX CONTROL",
-             "RHYTHM LEV1", "RHYTHM LEV2",
-             "MEMORY LEV1", "MEMORY LEV2", });
+    BossRc500::ControlExpr(control_Expression);
 }
 
 // --------------------------------------------------------------------------
@@ -156,8 +123,8 @@ BossRc500SystemDialog::add_callbacks()
     // SETUP (General + Extent)
     ConnectComboBox(general_DisplayContrast, "SETUP", "Contrast");
     ConnectComboBox(general_DisplayMode, "SETUP", "DisplayMode");
-    ConnectComboBox(general_UndoRedo, "SETUP", "UndoRedo");
-    ConnectComboBox(extent_Extent, "SETUP", "ExtentCh");
+    ConnectComboBox(general_UndoRedo,  "SETUP", "UndoRedo");
+    ConnectComboBox(extent_Extent,     "SETUP", "ExtentCh");
     ConnectComboBox(extent_Extent1Min, "SETUP", "Extent1Min");
     ConnectComboBox(extent_Extent1Max, "SETUP", "Extent1Max");
     ConnectComboBox(extent_Extent2Min, "SETUP", "Extent2Min");
@@ -167,7 +134,7 @@ BossRc500SystemDialog::add_callbacks()
     ConnectComboBox(extent_Extent4Min, "SETUP", "Extent4Min");
     ConnectComboBox(extent_Extent4Max, "SETUP", "Extent4Max");
     ConnectComboBox(extent_Extent5Min, "SETUP", "Extent5Min");
-    ConnectComboBox(extent_Extent5Max, "SETUP", "Extent5Max");
+    ConnectComboBox(extent_Extent5Max,  "SETUP", "Extent5Max");
 
     // PREF
     ConnectComboBox(pref_Pedal1Pref,    "PREF", "Pdl1");
@@ -204,7 +171,7 @@ BossRc500SystemDialog::add_callbacks()
     ConnectComboBox(control_Pedal3,     "CTL", "Pedal3");
     ConnectComboBox(control_Control1,   "CTL", "Ctl1");
     ConnectComboBox(control_Control2,   "CTL", "Ctl2");
-    ConnectComboBox(control_Expression,   "CTL", "Exp");
+    ConnectComboBox(control_Expression, "CTL", "Exp");
 }
 
 // --------------------------------------------------------------------------
@@ -281,25 +248,19 @@ BossRc500SystemDialog::load_system()
 void
 BossRc500SystemDialog::on_System_CheckBox_changed(QCheckBox* cb, const char* node, const char* name)
 {
-    int value = (cb->isChecked() ? 1 : 0);
-    std::cout << "node: " << node << ", name: " << name << ": " << value << std::endl;
-    database["sys"][node][name] = value;
+    update_sys_database(node, name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500SystemDialog::on_System_ComboBox_changed(QComboBox *cb, const char* node, const char* name)
 {
-    int value = cb->currentIndex();
-    std::cout << "node: " << node << ", name: " << name << ": " << value << std::endl;
-    database["sys"][node][name] = value;
+    update_sys_database(node, name, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500SystemDialog::on_System_SpinBox_changed(QSpinBox *cb, const char* node, const char* name)
 {
-    int value = cb->value();
-    std::cout << "node: " << node << ", name: " << name << ": " << value << std::endl;
-    database["sys"][node][name] = value;
+    update_sys_database(node, name, cb->value(), cb);
 }
