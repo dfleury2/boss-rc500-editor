@@ -24,6 +24,8 @@ private:
     void on_ToolMenu_New();
     void on_ToolMenu_Open();
     void on_ToolMenu_Save(bool askDirname = false);
+    void on_ToolMenu_PresetSave();
+    void on_ToolMenu_PresetLoad(const std::filesystem::path& path);
     void on_ToolMenu_Assign();
     void on_ToolMenu_System();
     void on_ToolMenu_Themes(const std::filesystem::path& path);
@@ -74,6 +76,7 @@ private:
     void on_Control_ComboBox_changed(QComboBox* cb, const char* name);
 
     void setDirname(const std::string& dirname);
+    void loadPresets();
 
 private:
     template<typename Widget, typename Value>
@@ -121,4 +124,6 @@ private:
     std::string     _dirname;
 
     QFont _font_bold; // different from default
+    QMenu* _presetLoadMenu = nullptr;
+
 };

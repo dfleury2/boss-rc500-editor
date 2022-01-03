@@ -58,6 +58,14 @@ BossRc500MainDialog::setup()
     toolMenu->addSeparator();
     toolMenu->addAction("Save",         this, &BossRc500MainDialog::on_ToolMenu_Save);
     toolMenu->addAction("Save as...",   this, [this] { on_ToolMenu_Save(true); });
+
+    toolMenu->addSeparator();
+    toolMenu->addAction("Save as preset...",   this, [this] { on_ToolMenu_PresetSave(); });
+
+    _presetLoadMenu = new QMenu("Load Preset", toolMenu);
+    loadPresets();
+    toolMenu->addMenu(_presetLoadMenu);
+
     toolMenu->addSeparator();
     toolMenu->addAction("Assign...",   this, &BossRc500MainDialog::on_ToolMenu_Assign);
     toolMenu->addSeparator();
@@ -68,7 +76,7 @@ BossRc500MainDialog::setup()
     for (auto&& filename : std::filesystem::directory_iterator("./resources/themes")) {
         QString stem;
 #if WIN32
-        stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar quick fix
+        stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar_t quick fix
 #else
         stem = filename.path().stem().c_str();
 #endif
@@ -520,6 +528,57 @@ BossRc500MainDialog::on_ToolMenu_Save(bool askDirname)
     }
 }
 
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_ToolMenu_PresetSave()
+{
+    try {
+        auto memory_index = cb_Memory->currentIndex();
+        auto current_name = _database_mem["mem"][memory_index]["name"].get<std::string>();
+
+        if (auto filename = QFileDialog::getSaveFileName(&_parent, "Save a preset to file",
+                ("./resources/presets/" + current_name + ".json").c_str(),
+                "Preset files (*.json)").toStdString(); !filename.empty()) {
+
+            std::filesystem::path path(filename);
+            if (!path.has_extension()) path.replace_extension(".json");
+
+            std::ofstream file(path);
+            file << _database_mem["mem"][memory_index].dump(2) << std::endl;
+
+            loadPresets();
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::on_ToolMenu_PresetLoad(const std::filesystem::path& path)
+{
+    try {
+        std::ifstream file(path);
+
+        auto memory_index = cb_Memory->currentIndex();
+        file >> _database_mem["mem"][memory_index];
+        load_memory(cb_Memory->currentIndex());
+
+        // To be refactored... (duplicate code)
+        auto index = std::to_string(memory_index + 1);
+        if (auto found_name = _database_mem["mem"][memory_index].find("name");
+                found_name != _database_mem["mem"][memory_index].end()) {
+            index += " - " + found_name->get<std::string>();
+        }
+        cb_Memory->setItemText(memory_index, index.c_str());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
 // --------------------------------------------------------------------------
 void
 BossRc500MainDialog::on_ToolMenu_Assign()
@@ -540,7 +599,6 @@ BossRc500MainDialog::on_ToolMenu_Assign()
         if (assignDialog.apply) {
             _database_mem = std::move(assignDialog.database);
         }
-
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -1184,4 +1242,26 @@ BossRc500MainDialog::setDirname(const std::string& dirname)
 
     std::string title = "BOSS RC-500 - " + (_dirname.empty() ? "[Untitled]" : _dirname);
     _parent.setWindowTitle(title.c_str());
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainDialog::loadPresets()
+{
+    _presetLoadMenu->clear();
+
+    for (auto&& filename : std::filesystem::directory_iterator("./resources/presets")) {
+        if (filename.path().extension() == ".json") {
+            QString stem;
+#if WIN32
+            stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar_t quick fix
+#else
+            stem = filename.path().stem().c_str();
+#endif
+            _presetLoadMenu->addAction(stem,
+                    [this, filename] {
+                        on_ToolMenu_PresetLoad(std::filesystem::absolute(filename));
+                    });
+        }
+    }
 }
