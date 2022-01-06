@@ -6,8 +6,9 @@
 
 #include <iostream>
 
-#ifdef LINUX
-
+#ifdef APPLE
+Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
+#elif LINUX
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
 #else
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)

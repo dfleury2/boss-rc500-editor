@@ -38,6 +38,7 @@ add_subdirectory(sources/BossRc500)
 # Installation steps for Resources
 install(DIRECTORY resources/drumkits  DESTINATION resources)
 install(DIRECTORY resources/images  DESTINATION resources)
+install(DIRECTORY resources/themes  DESTINATION resources)
 install(DIRECTORY resources/templates  DESTINATION resources)
 install(DIRECTORY resources/tooltips  DESTINATION resources)
 install(DIRECTORY resources/presets  DESTINATION resources)
