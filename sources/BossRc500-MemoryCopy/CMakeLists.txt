@@ -15,7 +15,3 @@ target_link_libraries(BossRc500MemoryCopier
         Qt6::Qt6
         BossReaderWriter::BossReaderWriter
 )
-
-if(APPLE)
-    set(CMAKE_EXE_LINKER_FLAGS "-framework IOSurface -framework CoreVideo -framework Carbon -framework Metal -framework QuartzCore")
-endif()

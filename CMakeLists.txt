@@ -16,6 +16,8 @@ if(NOT WIN32)
 endif()
 if(APPLE)
     add_definitions(-DAPPLE)
+    # Waiting for something better
+    set(CMAKE_EXE_LINKER_FLAGS "-framework IOSurface -framework CoreVideo -framework Carbon -framework Metal -framework QuartzCore")
 endif()
 
 
