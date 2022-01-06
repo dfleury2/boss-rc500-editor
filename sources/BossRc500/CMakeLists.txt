@@ -25,6 +25,10 @@ target_link_libraries(BossRc500
         miniaudio::miniaudio
         )
 
+if(APPLE)
+set(CMAKE_EXE_LINKER_FLAGS "-framework IOSurface -framework CoreVideo -framework Carbon -framework Metal -framework QuartzCore")
+endif()
+
 install(TARGETS BossRc500
         RUNTIME DESTINATION .
 )

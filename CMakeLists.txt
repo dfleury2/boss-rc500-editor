@@ -14,6 +14,10 @@ set(CMAKE_AUTOUIC ON)
 if(NOT WIN32)
     add_definitions(-DLINUX)
 endif()
+if(APPLE)
+    add_definitions(-DAPPLE)
+endif()
+
 
 find_package(inja REQUIRED)
 find_package(nlohmann_json REQUIRED)
@@ -23,10 +27,10 @@ find_package(Qt6 REQUIRED)
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)
 add_subdirectory(sources/BossRc500)
-add_subdirectory(sources/BossRc500-MemoryCopy)
+#add_subdirectory(sources/BossRc500-MemoryCopy)
 
 # Some widget examples to learn Qt
-add_subdirectory(sources/WidgetExamples)
+#add_subdirectory(sources/WidgetExamples)
 
 # Not used, only for first prototyping
 #add_subdirectory(sources/xml-reader)
