@@ -29,13 +29,6 @@ find_package(Qt6 REQUIRED)
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)
 add_subdirectory(sources/BossRc500)
-#add_subdirectory(sources/BossRc500-MemoryCopy)
-
-# Some widget examples to learn Qt
-#add_subdirectory(sources/WidgetExamples)
-
-# Not used, only for first prototyping
-#add_subdirectory(sources/xml-reader)
 
 # Installation steps for Resources
 install(DIRECTORY resources/drumkits  DESTINATION resources)
