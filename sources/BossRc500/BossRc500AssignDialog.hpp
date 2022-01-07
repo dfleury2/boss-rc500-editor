@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Designer/DialogAssign.hpp"
+#include "Designer/ui_Boss-rc500-assign.h"
 #include "BossRc500.hpp"
 
 #include <nlohmann/json.hpp>

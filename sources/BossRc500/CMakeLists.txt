@@ -4,18 +4,18 @@ if (WIN32)
 endif ()
 
 add_executable(BossRc500
+        Designer/ui_Boss-rc500-main.h
+        Designer/ui_Boss-rc500-assign.h
+        Designer/ui_Boss-rc500-system.h
         main.cpp
-        Designer/Dialog.hpp
-        Designer/DialogAssign.hpp
-        Designer/DialogSystem.hpp
         BossRc500.hpp
         BossRc500.cpp
         BossRc500AssignDialog.hpp
         BossRc500AssignDialog.cpp
         BossRc500SystemDialog.hpp
         BossRc500SystemDialog.cpp
-        BossRc500MainDialog.hpp
-        BossRc500MainDialog.cpp
+        BossRc500MainWindow.hpp
+        BossRc500MainWindow.cpp
 )
 
 target_link_libraries(BossRc500

@@ -1,4 +1,4 @@
-#include "BossRc500MainDialog.hpp"
+#include "BossRc500MainWindow.hpp"
 
 #include <QApplication>
 #include <QtPlugin>
@@ -32,9 +32,9 @@ main(int argc, char* argv[])
         qApp->setFont(QFont{family, 15});
         qApp->setStyleSheet(BossRc500::StyleSheet);
 
-        QDialog dialog;
-        BossRc500MainDialog bossUi(dialog);
-        dialog.show();
+        QMainWindow win;
+        BossRc500MainWindow bossUi(win);
+        win.show();
 
         return QCoreApplication::exec();
     }

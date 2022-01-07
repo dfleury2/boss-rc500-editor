@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-assignXpHOuf.ui'
+** Form generated from reading UI file 'Boss-rc500-assignhCVMQb.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_ASSIGNKZPQTE_H
-#define BOSS_2D_RC500_2D_ASSIGNKZPQTE_H
+#ifndef BOSS_2D_RC500_2D_ASSIGNHCVMQB_H
+#define BOSS_2D_RC500_2D_ASSIGNHCVMQB_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -127,18 +127,6 @@ public:
         if (BossRc500AssignDialog->objectName().isEmpty())
             BossRc500AssignDialog->setObjectName(QString::fromUtf8("BossRc500AssignDialog"));
         BossRc500AssignDialog->resize(1172, 504);
-        QPalette palette;
-        QBrush brush(QColor(255, 255, 255, 255));
-        brush.setStyle(Qt::SolidPattern);
-        palette.setBrush(QPalette::Active, QPalette::Base, brush);
-        QBrush brush1(QColor(170, 49, 45, 255));
-        brush1.setStyle(Qt::SolidPattern);
-        palette.setBrush(QPalette::Active, QPalette::Window, brush1);
-        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
-        palette.setBrush(QPalette::Inactive, QPalette::Window, brush1);
-        palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
-        palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
-        BossRc500AssignDialog->setPalette(palette);
         gp_Assign1 = new QGroupBox(BossRc500AssignDialog);
         gp_Assign1->setObjectName(QString::fromUtf8("gp_Assign1"));
         gp_Assign1->setGeometry(QRect(10, 10, 281, 221));
@@ -545,6 +533,10 @@ public:
 
 };
 
+namespace Ui {
+    class BossRc500AssignDialog: public Ui_BossRc500AssignDialog {};
+} // namespace Ui
+
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_ASSIGNKZPQTE_H
+#endif // BOSS_2D_RC500_2D_ASSIGNHCVMQB_H

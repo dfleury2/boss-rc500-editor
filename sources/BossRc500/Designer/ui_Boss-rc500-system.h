@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-systemXQWjfB.ui'
+** Form generated from reading UI file 'Boss-rc500-systemTOwkUn.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_SYSTEMXQWJFB_H
-#define BOSS_2D_RC500_2D_SYSTEMXQWJFB_H
+#ifndef BOSS_2D_RC500_2D_SYSTEMTOWKUN_H
+#define BOSS_2D_RC500_2D_SYSTEMTOWKUN_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -117,18 +117,6 @@ public:
         if (BossRc500SystemDialog->objectName().isEmpty())
             BossRc500SystemDialog->setObjectName(QString::fromUtf8("BossRc500SystemDialog"));
         BossRc500SystemDialog->resize(884, 526);
-        QPalette palette;
-        QBrush brush(QColor(255, 255, 255, 255));
-        brush.setStyle(Qt::SolidPattern);
-        palette.setBrush(QPalette::Active, QPalette::Base, brush);
-        QBrush brush1(QColor(170, 49, 45, 255));
-        brush1.setStyle(Qt::SolidPattern);
-        palette.setBrush(QPalette::Active, QPalette::Window, brush1);
-        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
-        palette.setBrush(QPalette::Inactive, QPalette::Window, brush1);
-        palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
-        palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
-        BossRc500SystemDialog->setPalette(palette);
         gp_General = new QGroupBox(BossRc500SystemDialog);
         gp_General->setObjectName(QString::fromUtf8("gp_General"));
         gp_General->setGeometry(QRect(10, 10, 281, 131));
@@ -484,6 +472,10 @@ public:
 
 };
 
+namespace Ui {
+    class BossRc500SystemDialog: public Ui_BossRc500SystemDialog {};
+} // namespace Ui
+
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_SYSTEMXQWJFB_H
+#endif // BOSS_2D_RC500_2D_SYSTEMTOWKUN_H

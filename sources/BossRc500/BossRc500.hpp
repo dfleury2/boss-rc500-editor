@@ -11,15 +11,7 @@
 #include <functional>
 
 namespace BossRc500 {
-inline
-const char* StyleSheet = R"(
-QGroupBox {
-    border: 1px solid white;
-}
-QGroupBox::title {
-    color: white;
-}
-)";
+extern const char* StyleSheet;
 
 inline nlohmann::json  DatabaseMemDefault;
 inline nlohmann::json  DatabaseSysDefault;

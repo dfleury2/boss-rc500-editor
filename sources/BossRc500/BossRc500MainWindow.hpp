@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Designer/Dialog.hpp"
+#include "Designer/ui_Boss-rc500-main.h"
 #include "BossRc500.hpp"
+
+#include <QMainWindow>
 
 #include <nlohmann/json.hpp>
 
@@ -10,10 +12,10 @@
 #include <cmath>
 
 // --------------------------------------------------------------------------
-class BossRc500MainDialog : public Ui_BossRc500MainDialog, public QObject
+class BossRc500MainWindow : public Ui_MainWindow, public QObject
 {
 public:
-    explicit BossRc500MainDialog(QDialog& dialog);
+    explicit BossRc500MainWindow(QMainWindow& win);
 
 private:
     void setup();
@@ -116,7 +118,7 @@ private:
     }
 
 private:
-    QDialog&        _parent;
+    QMainWindow&        _parent;
 
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;

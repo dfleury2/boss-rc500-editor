@@ -44,6 +44,26 @@ IsComboBoxItemEnabled(QComboBox * comboBox, int index)
 // --------------------------------------------------------------------------
 namespace BossRc500 {
 
+const char* StyleSheet = R"(
+QMainWindow, QDialog {
+    background: #aa312d;
+}
+
+QGroupBox {
+    border: 1px solid white;
+}
+
+QGroupBox::title {
+    color: white;
+}
+
+QLabel#label_Logo {
+    color: white;
+    font-family: Serif;
+}
+
+)";
+
 // --------------------------------------------------------------------------
 void
 SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
