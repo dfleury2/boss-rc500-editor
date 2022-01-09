@@ -47,6 +47,7 @@ if(WIN32)
             )
 endif()
 
-if(APPLE)
+if(NOT WIN32)
+    set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
     include(CPack)
 endif()
