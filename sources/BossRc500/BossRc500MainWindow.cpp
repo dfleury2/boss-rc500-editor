@@ -73,7 +73,7 @@ BossRc500MainWindow::setup()
     fileMenu->addSeparator();
 
     auto themesMenu = new QMenu("Themes", fileMenu);
-    for (auto&& filename : std::filesystem::directory_iterator("./resources/themes")) {
+    for (auto&& filename : std::filesystem::directory_iterator(BossRc500::Resources::Themes().toStdString())) {
         QString stem;
 #if WIN32
         stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar_t quick fix
@@ -453,8 +453,8 @@ BossRc500MainWindow::on_ToolMenu_New()
 {
     try {
         setDirname("");
-        load_database_sys("./resources/templates/SYSTEM_DEFAULT.RC0");
-        load_database_mem("./resources/templates/MEMORY_DEFAULT.RC0");
+        load_database_sys(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
+        load_database_mem(BossRc500::Resources::Templates().toStdString() + "/MEMORY_DEFAULT.RC0");
 
         cb_Memory->setCurrentIndex(0);
         load_memory(cb_Memory->currentIndex());
@@ -538,7 +538,7 @@ BossRc500MainWindow::on_ToolMenu_PresetSave()
         auto current_name = _database_mem["mem"][memory_index]["name"].get<std::string>();
 
         if (auto filename = QFileDialog::getSaveFileName(&_parent, "Save a preset to file",
-                ("./resources/presets/" + current_name + ".json").c_str(),
+                (BossRc500::Resources::Presets().toStdString() + "/" + current_name + ".json").c_str(),
                 "Preset files (*.json)").toStdString(); !filename.empty()) {
 
             std::filesystem::path path(filename);
@@ -743,8 +743,8 @@ BossRc500MainWindow::on_memory_changed()
 void
 BossRc500MainWindow::on_rhythm_play()
 {
-    std::string drumkit_filename = "./resources/drumkits/";
-    drumkit_filename += rhythm_Pattern->currentText().toStdString() + "_";
+    std::string drumkit_filename = BossRc500::Resources::Drumkits().toStdString();
+    drumkit_filename += "/" + rhythm_Pattern->currentText().toStdString() + "_";
     drumkit_filename += rhythm_Variation->currentText().toStdString() + "_";
 
     auto beat = rhythm_Beat->currentText().toStdString();
@@ -1250,7 +1250,7 @@ BossRc500MainWindow::loadPresets()
 {
     _presetLoadMenu->clear();
 
-    for (auto&& filename : std::filesystem::directory_iterator("./resources/presets")) {
+    for (auto&& filename : std::filesystem::directory_iterator(BossRc500::Resources::Presets().toStdString())) {
         if (filename.path().extension() == ".json") {
             QString stem;
 #if WIN32

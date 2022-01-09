@@ -154,12 +154,12 @@ Measure(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
     cb->addItem("AUTO");
     cb->addItem("FREE");
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Dot. Quarter Note");
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note");
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Dot. Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Dot. Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Dot. Half Note");
     for (int i = 1; i <= 16; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
@@ -204,10 +204,10 @@ void
 FadeTime(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note");
     for (int i = 1; i <= 32; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
@@ -246,13 +246,13 @@ ScatLen(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU");
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
 }
 
 // --------------------------------------------------------------------------
@@ -262,14 +262,14 @@ ReptLen(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU", 0);
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
-    cb->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/demi semi-quaver.png"), "Demi Semi-quaver", 1);
 }
 
 // --------------------------------------------------------------------------
@@ -279,13 +279,13 @@ Shift(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU");
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
 }
 
 // --------------------------------------------------------------------------
