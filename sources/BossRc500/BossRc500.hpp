@@ -2,6 +2,7 @@
 
 #include <QComboBox>
 #include <QPoint>
+#include <QDir>
 
 #include <nlohmann/json.hpp>
 
@@ -12,6 +13,19 @@
 
 namespace BossRc500 {
 extern const char* StyleSheet;
+
+// --------------------------------------------------------------------------
+struct Resources {
+    static QString ResourcePath();
+
+    static QString Drumkits() { return ResourcePath() + "/drumkits"; }
+    static QString Fonts() { return ResourcePath() + "/fonts"; }
+    static QString Images()  { return ResourcePath() + "/images"; }
+    static QString Presets() { return ResourcePath() + "/presets"; }
+    static QString Templates() { return ResourcePath() + "/templates"; }
+    static QString Themes() { return ResourcePath() + "/themes"; }
+    static QString Toolstip() { return ResourcePath() + "/tooltips"; }
+};
 
 inline nlohmann::json  DatabaseMemDefault;
 inline nlohmann::json  DatabaseSysDefault;

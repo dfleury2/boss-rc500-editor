@@ -1,6 +1,10 @@
 #include "BossRc500.hpp"
 
 #include <QStandardItemModel>
+#include <QCoreApplication>
+#include <QDir>
+
+#include <iostream>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -63,6 +67,33 @@ QLabel#label_Logo {
 }
 
 )";
+
+// --------------------------------------------------------------------------
+// Try to find the 'resources' directory, first near the exe location,
+// next using workdir
+// --------------------------------------------------------------------------
+QString
+Resources::ResourcePath()
+{
+    static QString resource_path;
+
+    if (!resource_path.isEmpty()) {
+        return resource_path;
+    }
+
+    QDir dir = QCoreApplication::applicationDirPath() + "/resources";
+    if (!dir.exists()) {
+        dir = QDir::currentPath() + "/resources";
+        if (!dir.exists()) {
+            std::cout << "No resources directory here: " << std::endl;
+            std::cout << "Application path: " << (QCoreApplication::applicationDirPath() + "/resources").toStdString() << std::endl;
+            std::cout << "working dir path: " << (QDir::currentPath() + "/resources").toStdString() << std::endl;
+            throw std::runtime_error("Resources directory not found");
+        }
+    }
+
+    return resource_path = dir.path();
+}
 
 // --------------------------------------------------------------------------
 void
@@ -629,6 +660,5 @@ PeakSource(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"ALL IN", "MIC IN", "INST IN", "LOOP&RHYTHM"});
 }
-
 
 }
