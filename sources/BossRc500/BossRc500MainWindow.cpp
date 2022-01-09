@@ -34,8 +34,7 @@ data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCou
 }
 
 // --------------------------------------------------------------------------
-BossRc500MainWindow::BossRc500MainWindow(QMainWindow& win) :
-        _parent(win)
+BossRc500MainWindow::BossRc500MainWindow()
 {
     setup();
 }
@@ -44,15 +43,15 @@ BossRc500MainWindow::BossRc500MainWindow(QMainWindow& win) :
 void
 BossRc500MainWindow::setup()
 {
-    setupUi(&_parent);
+    setupUi(this);
 
     // Add some tweaks...
-    _parent.setFixedSize(_parent.width(), _parent.height());
+    setFixedSize(width(), height());
 
-    _font_bold = _parent.font();
+    _font_bold = font();
     _font_bold.setWeight(QFont::Weight::Bold);
 
-    auto fileMenu = new QMenu("File", _parent.menuBar());
+    auto fileMenu = new QMenu("File", menuBar());
     fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New);
     fileMenu->addAction("Open...",      this, &BossRc500MainWindow::on_ToolMenu_Open);
     fileMenu->addSeparator();
@@ -87,9 +86,12 @@ BossRc500MainWindow::setup()
     }
     fileMenu->addMenu(themesMenu);
 
+#ifndef APPLE
+    // Apple will used application menu to quit
     fileMenu->addSeparator();
     fileMenu->addAction("Quit",         [] { QApplication::exit(); });
-    _parent.menuBar()->addMenu(fileMenu);
+#endif
+    menuBar()->addMenu(fileMenu);
 
     add_tooltips();
     add_combo_items();
@@ -469,7 +471,7 @@ void
 BossRc500MainWindow::on_ToolMenu_Open()
 {
     try {
-        auto dirname = QFileDialog::getExistingDirectory(&_parent,
+        auto dirname = QFileDialog::getExistingDirectory(this,
                 tr("Open a DATA directory"), "").toStdString();
         if (!dirname.empty()) {
 
@@ -499,7 +501,7 @@ BossRc500MainWindow::on_ToolMenu_Save(bool askDirname)
 {
     try {
         if (_dirname.empty() || askDirname) {
-            auto dirname = QFileDialog::getExistingDirectory(&_parent,
+            auto dirname = QFileDialog::getExistingDirectory(this,
                     tr("Save to MEMORY/SYSTEM files to a directory"), "").toStdString();
             if (dirname.empty()) {
                 return;
@@ -537,7 +539,7 @@ BossRc500MainWindow::on_ToolMenu_PresetSave()
         auto memory_index = cb_Memory->currentIndex();
         auto current_name = _database_mem["mem"][memory_index]["name"].get<std::string>();
 
-        if (auto filename = QFileDialog::getSaveFileName(&_parent, "Save a preset to file",
+        if (auto filename = QFileDialog::getSaveFileName(this, "Save a preset to file",
                 (BossRc500::Resources::Presets().toStdString() + "/" + current_name + ".json").c_str(),
                 "Preset files (*.json)").toStdString(); !filename.empty()) {
 
@@ -1241,7 +1243,7 @@ BossRc500MainWindow::setDirname(const std::string& dirname)
     _dirname = dirname;
 
     std::string title = "BOSS RC-500 - " + (_dirname.empty() ? "[Untitled]" : _dirname);
-    _parent.setWindowTitle(title.c_str());
+    setWindowTitle(title.c_str());
 }
 
 // --------------------------------------------------------------------------

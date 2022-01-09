@@ -12,10 +12,10 @@
 #include <cmath>
 
 // --------------------------------------------------------------------------
-class BossRc500MainWindow : public Ui_MainWindow, public QObject
+class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 {
 public:
-    explicit BossRc500MainWindow(QMainWindow& win);
+    BossRc500MainWindow();
 
 private:
     void setup();
@@ -101,7 +101,7 @@ private:
             is_modified = (default_value != value);
         }
 
-        w->setFont(is_modified ? _font_bold : _parent.font());
+        w->setFont(is_modified ? _font_bold : font());
     }
 
     template<typename Widget>
@@ -114,12 +114,10 @@ private:
 
         bool is_modified = (value != default_value);
 
-        w->setFont(is_modified ? _font_bold : _parent.font());
+        w->setFont(is_modified ? _font_bold : font());
     }
 
 private:
-    QMainWindow&        _parent;
-
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;
 

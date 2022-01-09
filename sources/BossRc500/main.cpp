@@ -34,9 +34,8 @@ main(int argc, char* argv[])
         qApp->setFont(QFont{family, 15});
         qApp->setStyleSheet(BossRc500::StyleSheet);
 
-        QMainWindow win;
-        BossRc500MainWindow bossUi(win);
-        win.show();
+        BossRc500MainWindow bossUi;
+        bossUi.show();
 
         return QCoreApplication::exec();
     }
