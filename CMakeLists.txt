@@ -46,3 +46,7 @@ if(WIN32)
             COMMAND 7z a -tzip BossRc500.zip ${CMAKE_INSTALL_PREFIX}
             )
 endif()
+
+if(APPLE)
+    include(CPack)
+endif()
