@@ -40,14 +40,8 @@ install(DIRECTORY resources/presets  DESTINATION resources)
 install(DIRECTORY resources/fonts  DESTINATION resources)
 install(DIRECTORY doc  DESTINATION .)
 
-if(WIN32)
-    add_custom_target(zip-package
-            DEPENDS install
-            COMMAND 7z a -tzip BossRc500.zip ${CMAKE_INSTALL_PREFIX}
-            )
-endif()
 
-if(NOT WIN32)
-    set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
-    include(CPack)
-endif()
+# Packaging
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
+
+include(CPack)
