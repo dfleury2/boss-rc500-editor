@@ -14,7 +14,7 @@
 
   <!-- General explanation -->
   <tr>
-    <th style="background-color:#cdd8ea;border-right: 1px solid grey;">{{ Parameter }}</th>
+    <th rowspan="{{ length(Details) + 1 }}" style="text-align: left; vertical-align: middle; background-color:#cdd8ea;border-right: 1px solid grey;">{{ Parameter }}</th>
     <td colspan="2" style="border-right: 1px solid grey;border-bottom: 1px solid grey; background: #edf2f8">
       {{ Explanation}}
     </td>
@@ -23,7 +23,6 @@
   <!--  Value specific explanation -->
 ## for detail in Details
   <tr>
-    <th style="background-color:#cdd8ea;border-right: 1px solid grey;"></th>
     <td style="border-right: 1px solid grey;text-align:center;border-bottom: 1px solid grey;">
         {% if detail.Default %}<span style="font-weight:bold; color:#00548f;">{% endif %}
         {{ detail.Value }}
