@@ -355,28 +355,101 @@ ShiftLen_EnableItems(QComboBox* cb, const Beat& beat)
     }
 }
 
-
 // --------------------------------------------------------------------------
 void
 RhythmPattern(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {
-            "SimpleBeat1", "SimpleBeat2", "SimpleBeat3", "SimpleBeat4",
-            "GrooveBeat1", "GrooveBeat2", "GrooveBeat3", "GrooveBeat4", "GrooveBeat5", "GrooveBeat6", "GrooveBeat7",
-            "Rock1", "Rock2", "Rock3", "Rock4",
-            "Funk1", "Funk2", "Funk3", "Funk4",
-            "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
-            "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
-            "SideStick1", "SideStick2", "SideStick3", "SideStick4", "SideStick5",
-            "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
-            "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
-            "Conga1", "Conga2", "Conga3",
-            "Bossa1", "Bossa2",
-            "Samba1", "Samba2",
-            "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
-            "Metronome1", "Metronome2", "Metronome3", "Metronome4",
-            "Blank"
-    });
+    RhythmPatternWithBeat(cb, Beat{4, 4});
+}
+
+// --------------------------------------------------------------------------
+void
+RhythmPatternWithBeat(QComboBox* cb, const Beat& beat, int index)
+{
+    auto currentText = (cb->currentIndex() != 0 ? cb->currentText() : "");
+    if (cb->count()) {
+        cb->clear();
+    }
+
+    // Available patterns depends on the beat...
+    if (beat == Beat{4, 4}) {
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2", "SimpleBeat3", "SimpleBeat4",
+                "GrooveBeat1", "GrooveBeat2", "GrooveBeat3", "GrooveBeat4", "GrooveBeat5", "GrooveBeat6", "GrooveBeat7",
+                "Rock1", "Rock2", "Rock3", "Rock4",
+                "Funk1", "Funk2", "Funk3", "Funk4",
+                "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
+                "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
+                "SideStick1", "SideStick2", "SideStick3", "SideStick4", "SideStick5",
+                "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
+                "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
+                "Conga1", "Conga2", "Conga3",
+                "Bossa1", "Bossa2",
+                "Samba1", "Samba2",
+                "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
+                "Metronome1", "Metronome2", "Metronome3", "Metronome4",
+                "Blank"
+        });
+    }
+    else if (beat.y() == 4) {
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2",
+                "Rock1", "Rock2",
+                "Funk1",
+                "Shuffle1",
+                "Swing1",
+                "SideStick1",
+                "DanceBeat1",
+                "Metronome1", "Metronome2", "Metronome3", "Metronome4",
+                "Blank"
+        });
+    }
+    else { // beat.y() == 8
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2",
+                "Rock1", "Rock2",
+                "Funk1",
+                "Shuffle1",
+                "Swing1",
+                "SideStick1",
+                "DanceBeat1",
+                "Metronome1", "Metronome2",
+                "Blank"
+        });
+    }
+
+    if (currentText.isEmpty() && index != -1 && cb->count() > index) {
+        cb->setCurrentIndex(index);
+    }
+    else {
+        if (!currentText.isEmpty()) { // Try to find the current Text
+            auto found = cb->findText(currentText);
+            if (found == -1) {
+                found = 0;
+            }
+            cb->setCurrentIndex(found);
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+Pattern_EnableItems(QComboBox* cb, const Beat& beat)
+{
+    auto current_index = cb->currentIndex();
+
+    SetComboBoxItemEnabled(cb, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(cb, 1, true); // Semi-quaver
+    SetComboBoxItemEnabled(cb, 2, true); // Quaver
+    SetComboBoxItemEnabled(cb, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14); // Quarter Note
+    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(cb, 5, beat.x() == 2 || beat.x() == beat.y()); // Half Note
+    SetComboBoxItemEnabled(cb, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12 ); // Half Note Dotted
+    SetComboBoxItemEnabled(cb, 7, beat.x() == beat.y()); // Whole Note
+
+    if (!IsComboBoxItemEnabled(cb, current_index)) {
+        cb->setCurrentIndex(2); // Quaver as default
+    }
 }
 
 // --------------------------------------------------------------------------

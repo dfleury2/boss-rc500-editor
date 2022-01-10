@@ -121,6 +121,7 @@ void ReptLen_EnableItems(QComboBox* cb, const Beat& beat);
 void ShiftLen_EnableItems(QComboBox* cb, const Beat& beat);
 
 void RhythmPattern(QComboBox* cb);
+void RhythmPatternWithBeat(QComboBox* cb, const Beat& beat, int index = -1);
 inline void RhythmPatternMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max, RhythmPattern); }
 
 void RhythmVariation(QComboBox* cb);

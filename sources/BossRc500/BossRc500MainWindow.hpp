@@ -84,8 +84,10 @@ private:
     template<typename Widget, typename Value>
     void update_mem_database(int memory_index, const char* root, const char* name, Value value, Widget* w)
     {
-        std::cout << "Memory: " << (memory_index + 1) << ", " << root << "." << name << ": " << value << std::endl;
-        _database_mem["mem"][memory_index][root][name] = static_cast<int>(value);
+        if (!_is_loading) {
+            std::cout << "Memory: " << (memory_index + 1) << ", " << root << "." << name << ": " << value << std::endl;
+            _database_mem["mem"][memory_index][root][name] = static_cast<int>(value);
+        }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
 
@@ -107,8 +109,10 @@ private:
     template<typename Widget>
     void update_mem_track_database(int memory_index, int track_index, const char* name, int value, Widget* w)
     {
-        std::cout << "Memory: " << (memory_index + 1) << ", Track: " << (track_index + 1) << ", " << name << ": " << value << std::endl;
-        _database_mem["mem"][memory_index]["TRACK"][track_index][name] = value;
+        if (!_is_loading) {
+            std::cout << "Memory: " << (memory_index + 1) << ", Track: " << (track_index + 1) << ", " << name << ": " << value << std::endl;
+            _database_mem["mem"][memory_index]["TRACK"][track_index][name] = value;
+        }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
 
@@ -125,5 +129,5 @@ private:
 
     QFont _font_bold; // different from default
     QMenu* _presetLoadMenu = nullptr;
-
+    bool _is_loading = false; // Allow detecting on new/load on callback calls
 };

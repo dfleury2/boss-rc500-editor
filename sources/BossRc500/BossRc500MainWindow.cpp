@@ -19,7 +19,6 @@
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
-#include <fstream>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -141,7 +140,7 @@ BossRc500MainWindow::add_tooltips()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-    std::cout << track_reverse_json.dump(2) << std::endl;
+    //std::cout << track_reverse_json.dump(2) << std::endl;
 
     try {
         // Load Inja template for MEMORY file, and render it with database
@@ -153,7 +152,6 @@ BossRc500MainWindow::add_tooltips()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-
 
     track1_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
     track1_OneShot->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_oneshot.png\"/></p></body></html>", nullptr));
@@ -504,6 +502,8 @@ BossRc500MainWindow::add_callbacks()
 void
 BossRc500MainWindow::on_ToolMenu_New()
 {
+    _is_loading = true;
+
     try {
         setDirname("");
         load_database_sys(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
@@ -515,12 +515,16 @@ BossRc500MainWindow::on_ToolMenu_New()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------
 void
 BossRc500MainWindow::on_ToolMenu_Open()
 {
+    _is_loading = true;
+
     try {
         auto dirname = QFileDialog::getExistingDirectory(this,
                 tr("Open a DATA directory"), "").toStdString();
@@ -544,6 +548,8 @@ BossRc500MainWindow::on_ToolMenu_Open()
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
         setDirname("");
     }
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------
@@ -612,6 +618,8 @@ BossRc500MainWindow::on_ToolMenu_PresetSave()
 void
 BossRc500MainWindow::on_ToolMenu_PresetLoad(const std::filesystem::path& path)
 {
+    _is_loading = true;
+
     try {
         std::ifstream file(path);
 
@@ -630,6 +638,8 @@ BossRc500MainWindow::on_ToolMenu_PresetLoad(const std::filesystem::path& path)
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------
@@ -789,7 +799,11 @@ BossRc500MainWindow::on_memory_next()
 void
 BossRc500MainWindow::on_memory_changed()
 {
+    _is_loading = true;
+
     load_memory(cb_Memory->currentIndex());
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------
@@ -849,7 +863,11 @@ BossRc500MainWindow::on_rhythm_play()
 void
 BossRc500MainWindow::load_database_mem(const std::string& filename)
 {
-    BossRc500::DatabaseMemDefault = _database_mem = ReadMemoryDatabase(filename);
+    _database_mem = ReadMemoryDatabase(filename);
+    if (BossRc500::DatabaseMemDefault.is_null()) {
+        // Load the default values only on start
+        BossRc500::DatabaseMemDefault = _database_mem;
+    }
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
@@ -866,6 +884,10 @@ void
 BossRc500MainWindow::load_database_sys(const std::string& filename)
 {
     BossRc500::DatabaseSysDefault = _database_sys = ReadSystemDatabase(filename);
+    if (BossRc500::DatabaseSysDefault.is_null()) {
+        // Load the default values only on start
+        BossRc500::DatabaseSysDefault = _database_sys;
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -959,13 +981,18 @@ BossRc500MainWindow::load_memory(int memory_index)
     // RHYTHM
     {
         auto& rhythm = _database_mem["mem"][memory_index]["RHYTHM"];
+        std::cout << rhythm.dump(2) << std::endl;
+
         rhythm_Level->setValue(rhythm["Level"].get<int>());
         rhythm_Reverb->setValue(rhythm["Reverb"].get<int>());
+
+        // Beat before Pattern to drive Pattern combobox items
+        rhythm_Beat->setCurrentIndex(rhythm["Beat"].get<int>());
+
         rhythm_Pattern->setCurrentIndex(rhythm["Pattern"].get<int>());
         rhythm_Variation->setCurrentIndex(rhythm["Variation"].get<int>());
         rhythm_VarChange->setCurrentIndex(rhythm["VariationChange"].get<int>());
         rhythm_Kit->setCurrentIndex(rhythm["Kit"].get<int>());
-        rhythm_Beat->setCurrentIndex(rhythm["Beat"].get<int>());
         rhythm_Start->setCurrentIndex(rhythm["Start"].get<int>());
         rhythm_Stop->setCurrentIndex(rhythm["Stop"].get<int>());
         rhythm_RecCount->setCurrentIndex(rhythm["RecCount"].get<int>());
@@ -1261,6 +1288,11 @@ BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
         BossRc500::ScatLen_EnableItems(loopFx_ScatLen, beat);
         BossRc500::ReptLen_EnableItems(loopFx_ReptLen, beat);
         BossRc500::ShiftLen_EnableItems(loopFx_Shift, beat);
+
+        auto& rhythm = _database_mem["mem"][cb_Memory->currentIndex()]["RHYTHM"];
+        auto pattern = rhythm["Pattern"].get<int>();
+
+        BossRc500::RhythmPatternWithBeat(rhythm_Pattern, beat, pattern);
     }
 }
 
