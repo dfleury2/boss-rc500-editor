@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
-project(Boss-Rc500-Editor)
+project(Boss-Rc500-Editor VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 17)
 
