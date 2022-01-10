@@ -66,6 +66,10 @@ QLabel#label_Logo {
     font-family: Serif;
 }
 
+QToolTip {
+     background-color:white;
+}
+
 )";
 
 // --------------------------------------------------------------------------
