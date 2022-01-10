@@ -425,6 +425,9 @@ RhythmTone(QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
+void RhythmState(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "READY"}); }
+
+// --------------------------------------------------------------------------
 void
 ControlPdlCtl(QComboBox* cb)
 {

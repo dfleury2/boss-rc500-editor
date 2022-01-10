@@ -149,6 +149,8 @@ inline void RhythmPlayCountMinMax(QComboBox* min, QComboBox* max) { SetMinMax(mi
 void RhythmTone(QComboBox* cb);
 inline void RhythmToneMinMax(QComboBox* min, QComboBox* max) { SetMinMax(min, max, RhythmTone); }
 
+void RhythmState(QComboBox* cb);
+
 void ControlPdlCtl(QComboBox* cb);
 void ControlExpr(QComboBox* cb);
 

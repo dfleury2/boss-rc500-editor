@@ -251,6 +251,7 @@ BossRc500MainWindow::add_combo_items()
     BossRc500::RhythmPlayCount(rhythm_PlayCount);
     BossRc500::RhythmTone(rhythm_ToneLow);
     BossRc500::RhythmTone(rhythm_ToneHigh);
+    BossRc500::RhythmState(rhythm_State);
 
     // ----- CONTROL -----
     BossRc500::ControlPdlCtl(control_Pedal1);
@@ -432,6 +433,9 @@ BossRc500MainWindow::add_callbacks()
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_ToneLow, "ToneLow"); });
     QObject::connect(rhythm_ToneHigh, &QComboBox::currentIndexChanged,
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_ToneHigh, "ToneHigh"); });
+
+    QObject::connect(rhythm_State, &QComboBox::currentIndexChanged,
+            this, [this] { on_Rhythm_ComboBox_changed(rhythm_State, "State"); });
 
     // Control callbacks
     auto ConnectComboBox_Control = [&](QComboBox* cb, const char* name) {
@@ -926,6 +930,7 @@ BossRc500MainWindow::load_memory(int memory_index)
         rhythm_Part4->setChecked(rhythm["Part4"].get<int>());
         rhythm_ToneLow->setCurrentIndex(rhythm["ToneLow"].get<int>());
         rhythm_ToneHigh->setCurrentIndex(rhythm["ToneHigh"].get<int>());
+        rhythm_State->setCurrentIndex(rhythm["State"].get<int>());
     }
 
     // CONTROL
