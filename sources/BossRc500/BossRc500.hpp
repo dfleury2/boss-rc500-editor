@@ -24,7 +24,7 @@ struct Resources {
     static QString Presets() { return ResourcePath() + "/presets"; }
     static QString Templates() { return ResourcePath() + "/templates"; }
     static QString Themes() { return ResourcePath() + "/themes"; }
-    static QString Toolstip() { return ResourcePath() + "/tooltips"; }
+    static QString Tooltips() { return ResourcePath() + "/tooltips"; }
 };
 
 inline nlohmann::json  DatabaseMemDefault;
