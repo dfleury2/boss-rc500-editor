@@ -12,6 +12,9 @@
 #include <QMenu>
 
 #include <miniaudio/miniaudio.h>
+#include <yaml-cpp/yaml.h>
+#include <nlohmann/json.hpp>
+#include <inja/inja.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -107,7 +110,51 @@ BossRc500MainWindow::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-    track1_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_reverse.png\"/></p></body></html>", nullptr));
+    nlohmann::json track_reverse_json;
+    try {
+        YAML::Node yaml = YAML::LoadFile(BossRc500::Resources::Tooltips().toStdString() + "/track_reverse.yaml");
+        if (yaml["Parameter"]) {
+            track_reverse_json["Parameter"] = yaml["Parameter"].as<std::string>();
+        }
+        if (yaml["Explanation"]) {
+            track_reverse_json["Explanation"] = yaml["Explanation"].as<std::string>();
+        }
+
+        auto details_json = nlohmann::json::array();
+
+        if (yaml["Details"] && yaml["Details"].IsSequence()) {
+            for (auto&& detail : yaml["Details"]) {
+                nlohmann::json detail_json;
+                if (detail["Value"]) {
+                    detail_json["Value"] = detail["Value"].as<std::string>();
+                }
+                detail_json["Default"] = (detail["Default"] && detail["Default"].as<bool>());
+                if (detail["Detail"]) {
+                    detail_json["Detail"] = detail["Detail"].as<std::string>();
+                }
+
+                details_json.push_back(std::move(detail_json));
+            }
+        }
+        track_reverse_json["Details"] = std::move(details_json);
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+    std::cout << track_reverse_json.dump(2) << std::endl;
+
+    try {
+        // Load Inja template for MEMORY file, and render it with database
+        inja::Environment env;
+        inja::Template tpl = env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
+
+        track1_Reverse->setToolTip(env.render(tpl, track_reverse_json).c_str());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+
+
     track1_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
     track1_OneShot->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_oneshot.png\"/></p></body></html>", nullptr));
     track1_Pan->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_pan.png\"/></p></body></html>", nullptr));

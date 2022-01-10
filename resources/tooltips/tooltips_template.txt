@@ -1,0 +1,41 @@
+<html>
+<table width="700" style="border-collapse: collapse;">
+  <thead>
+  <tr>
+    <th width="100" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Parameter</th>
+    <th width="150" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">
+        Value <span style="font-size: smaller; font-weight: normal;">(Bold: default)</span>
+    </th>
+    <th style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Explanation</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <!-- General explanation -->
+  <tr>
+    <th style="background-color:#cdd8ea;border-right: 1px solid grey;">{{ Parameter }}</th>
+    <td colspan="2" style="border-right: 1px solid grey;border-bottom: 1px solid grey; background: #edf2f8">
+      {{ Explanation}}
+    </td>
+  </tr>
+
+  <!--  Value specific explanation -->
+## for detail in Details
+  <tr>
+    <th style="background-color:#cdd8ea;border-right: 1px solid grey;"></th>
+    <td style="border-right: 1px solid grey;text-align:center;border-bottom: 1px solid grey;">
+        {% if detail.Default %}<span style="font-weight:bold; color:#00548f;">{% endif %}
+        {{ detail.Value }}
+        {% if detail.Default %}</span>{% endif %}
+    </td>
+    <td style="border-right: 1px solid grey;border-bottom: 1px solid grey;">
+        {{ detail.Detail }}
+    </td>
+  </tr>
+## endfor
+
+  </tbody>
+
+</table>
+</html>

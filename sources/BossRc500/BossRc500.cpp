@@ -67,7 +67,8 @@ QLabel#label_Logo {
 }
 
 QToolTip {
-     background-color:white;
+    background-color:white;
+    font-size: 15px;
 }
 
 )";
