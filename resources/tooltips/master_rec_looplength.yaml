@@ -1,0 +1,12 @@
+Parameter: LOOP LENGTH
+
+Explanation:
+  Specifies the length to which LOOP.S (p. 3) aligns the beginnings of the material for loop sync.
+
+Details:
+  - Value: AUTO
+    Default: True
+    Detail: The length of the first-recorded phrase will be the LOOP LENGTH.
+
+  - Value: 1-25632
+    Detail: Manually specifies the number of measures that will be looped.

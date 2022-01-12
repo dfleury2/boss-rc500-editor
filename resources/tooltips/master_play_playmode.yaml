@@ -1,0 +1,19 @@
+Parameter: PLAY MODE
+
+Explanation:
+  Specifies whether tracks 1 and 2 play back simultaneously.
+  <div><img src="./resources/tooltips/master_play_playmode_explanation.png"></img></div>
+
+Details:
+  - Value: MULTI
+    Default: True
+    Detail:
+      Play back all tracks.
+      <br>* To ensure that playback always takes place from the beginning of the phrase, you need to
+      set LOOP.S (p. 3) to “OFF.”
+
+  - Value: SINGLE
+    Detail:
+      Play back only a single track.
+      <br>The currently-playing track stops when the other track starts playing.
+      <br>* If SINGL CHNGE is set to “LOOP END,” the track will change at the end of the loop.

@@ -156,6 +156,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="button_targetHelp">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>120</y>
+      <width>21</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>?</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="gp_Assign2">
    <property name="geometry">

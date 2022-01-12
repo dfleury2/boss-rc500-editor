@@ -2,6 +2,7 @@
 #include "BossRc500AssignDialog.hpp"
 #include "BossRc500SystemDialog.hpp"
 #include "BossRc500.hpp"
+#include "Designer/ui_Boss-rc500-text.h"
 
 #include <BossReaderWriter/BossReaderWriter.hpp>
 
@@ -12,9 +13,6 @@
 #include <QMenu>
 
 #include <miniaudio/miniaudio.h>
-#include <yaml-cpp/yaml.h>
-#include <nlohmann/json.hpp>
-#include <inja/inja.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -109,121 +107,86 @@ BossRc500MainWindow::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-    nlohmann::json track_reverse_json;
     try {
-        YAML::Node yaml = YAML::LoadFile(BossRc500::Resources::Tooltips().toStdString() + "/track_reverse.yaml");
-        if (yaml["Parameter"]) {
-            track_reverse_json["Parameter"] = yaml["Parameter"].as<std::string>();
-        }
-        if (yaml["Explanation"]) {
-            track_reverse_json["Explanation"] = yaml["Explanation"].as<std::string>();
-        }
+        BossRc500::Tooltips tooltips;
 
-        auto details_json = nlohmann::json::array();
+        track1_Reverse->setToolTip(tooltips.track_Reverse());
+        track1_LoopFx->setToolTip(tooltips.track_LoopFx());
+        track1_OneShot->setToolTip(tooltips.track_OneShot());
+        track1_Level->setToolTip(tooltips.track_Level());
+        track1_Pan->setToolTip(tooltips.track_Pan());
+        track1_Start->setToolTip(tooltips.track_Start());
+        track1_Stop->setToolTip(tooltips.track_Stop());
+        track1_Measure->setToolTip(tooltips.track_Measure());
+        track1_LoopSync->setToolTip(tooltips.track_LoopSync());
+        track1_TempoSync->setToolTip(tooltips.track_TempoSync());
+        track1_Input->setToolTip(tooltips.track_Input());
+        track1_Output->setToolTip(tooltips.track_Output());
 
-        if (yaml["Details"] && yaml["Details"].IsSequence()) {
-            for (auto&& detail : yaml["Details"]) {
-                nlohmann::json detail_json;
-                if (detail["Value"]) {
-                    detail_json["Value"] = detail["Value"].as<std::string>();
-                }
-                detail_json["Default"] = (detail["Default"] && detail["Default"].as<bool>());
-                if (detail["Detail"]) {
-                    detail_json["Detail"] = detail["Detail"].as<std::string>();
-                }
+        track2_Reverse->setToolTip(tooltips.track_Reverse());
+        track2_LoopFx->setToolTip(tooltips.track_LoopFx());
+        track2_OneShot->setToolTip(tooltips.track_OneShot());
+        track2_Level->setToolTip(tooltips.track_Level());
+        track2_Pan->setToolTip(tooltips.track_Pan());
+        track2_Start->setToolTip(tooltips.track_Start());
+        track2_Stop->setToolTip(tooltips.track_Stop());
+        track2_Measure->setToolTip(tooltips.track_Measure());
+        track2_LoopSync->setToolTip(tooltips.track_LoopSync());
+        track2_TempoSync->setToolTip(tooltips.track_TempoSync());
+        track2_Input->setToolTip(tooltips.track_Input());
+        track2_Output->setToolTip(tooltips.track_Output());
 
-                details_json.push_back(std::move(detail_json));
-            }
-        }
-        track_reverse_json["Details"] = std::move(details_json);
+        record_DubMode->setToolTip(tooltips.master_rec_DubMode());
+        record_RecordAction->setToolTip(tooltips.master_rec_RecAction());
+        record_Quantize->setToolTip(tooltips.master_rec_Quantize());
+        record_AutoRecord->setToolTip(tooltips.master_rec_AutoRec());
+        record_AutoRecordSensitivity->setToolTip(tooltips.master_rec_ARecSens());
+        record_AutoRecordSource->setToolTip(tooltips.master_rec_ARecSrc());
+        record_LoopLength->setToolTip(tooltips.master_rec_LoopLength());
+
+        play_PlayMode->setToolTip(tooltips.master_play_PlayMode());
+        play_SingleChange->setToolTip(tooltips.master_play_SinglChange());
+        play_Level->setToolTip(tooltips.master_play_Level());
+        play_FadeTime->setToolTip(tooltips.master_play_FadeTime());
+        play_AllStart->setToolTip(tooltips.master_play_AllStart());
+        play_TrackChain->setToolTip(tooltips.master_play_TrkChain());
+
+        loopFx_Sw->setToolTip(tooltips.loopfx_LoopFx());
+        loopFx_Type->setToolTip(tooltips.loopfx_Type());
+        loopFx_ScatLen->setToolTip(tooltips.loopfx_ScatLen());
+        loopFx_ReptLen->setToolTip(tooltips.loopfx_ReptLen());
+        loopFx_Shift->setToolTip(tooltips.loopfx_Shift());
+        loopFx_Flick->setToolTip(tooltips.loopfx_Flick());
+
+        rhythm_Level->setToolTip(tooltips.rhythm_Level());
+        rhythm_Reverb->setToolTip(tooltips.rhythm_Reverb());
+        rhythm_Pattern->setToolTip(tooltips.rhythm_Pattern());
+        rhythm_Variation->setToolTip(tooltips.rhythm_Variation());
+        rhythm_VarChange->setToolTip(tooltips.rhythm_VarChange());
+        rhythm_Kit->setToolTip(tooltips.rhythm_Kit());
+        rhythm_Beat->setToolTip(tooltips.rhythm_Beat());
+        rhythm_Start->setToolTip(tooltips.rhythm_Start());
+        rhythm_Stop->setToolTip(tooltips.rhythm_Stop());
+        rhythm_RecCount->setToolTip(tooltips.rhythm_RecCount());
+        rhythm_PlayCount->setToolTip(tooltips.rhythm_PlayCount());
+        rhythm_Fill->setToolTip(tooltips.rhythm_Fill());
+        rhythm_Part1->setToolTip(tooltips.rhythm_Part14());
+        rhythm_Part2->setToolTip(tooltips.rhythm_Part14());
+        rhythm_Part3->setToolTip(tooltips.rhythm_Part14());
+        rhythm_Part4->setToolTip(tooltips.rhythm_Part14());
+        rhythm_ToneLow->setToolTip(tooltips.rhythm_ToneLow());
+        rhythm_ToneHigh->setToolTip(tooltips.rhythm_ToneHigh());
+
+//        control_Pedal1->setToolTip(tooltips.control_PdlCtl());
+//        control_Pedal2->setToolTip(tooltips.control_PdlCtl());
+//        control_Pedal3->setToolTip(tooltips.control_PdlCtl());
+//        control_Control1->setToolTip(tooltips.control_PdlCtl());
+//        control_Control2->setToolTip(tooltips.control_PdlCtl());
+        control_Expression->setToolTip(tooltips.control_Exp());
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-    //std::cout << track_reverse_json.dump(2) << std::endl;
-
-    try {
-        // Load Inja template for MEMORY file, and render it with database
-        inja::Environment env;
-        inja::Template tpl = env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
-
-        track1_Reverse->setToolTip(env.render(tpl, track_reverse_json).c_str());
-    }
-    catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-    }
-
-    track1_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
-    track1_OneShot->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_oneshot.png\"/></p></body></html>", nullptr));
-    track1_Pan->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_pan.png\"/></p></body></html>", nullptr));
-    track1_Start->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_start.png\"/></p></body></html>", nullptr));
-    track1_Stop->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_stop.png\"/></p></body></html>", nullptr));
-    track1_Measure->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_measure.png\"/></p></body></html>", nullptr));
-    track1_LoopSync->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopsync.png\"/></p></body></html>", nullptr));
-    track1_TempoSync->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_temposync.png\"/></p></body></html>", nullptr));
-    track1_Input->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_input.png\"/></p></body></html>", nullptr));
-    track1_Output->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_output.png\"/></p></body></html>", nullptr));
-
-    track2_Level->setToolTip(std::to_string(track2_Level->value()).c_str());
-    track2_Reverse->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_reverse.png\"/></p></body></html>", nullptr));
-    track2_LoopFx->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopfx.png\"/></p></body></html>", nullptr));
-    track2_OneShot->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_oneshot.png\"/></p></body></html>", nullptr));
-    track2_Pan->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_pan.png\"/></p></body></html>", nullptr));
-    track2_Start->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_start.png\"/></p></body></html>", nullptr));
-    track2_Stop->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_stop.png\"/></p></body></html>", nullptr));
-    track2_Measure->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_measure.png\"/></p></body></html>", nullptr));
-    track2_LoopSync->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_loopsync.png\"/></p></body></html>", nullptr));
-    track2_TempoSync->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_temposync.png\"/></p></body></html>", nullptr));
-    track2_Input->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_input.png\"/></p></body></html>", nullptr));
-    track2_Output->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/track_output.png\"/></p></body></html>", nullptr));
-
-    record_DubMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_dubmode.png\"/></p></body></html>", nullptr));
-    record_RecordAction->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_recaction.png\"/></p></body></html>", nullptr));
-    record_Quantize->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_quantize.png\"/></p></body></html>", nullptr));
-    record_AutoRecord->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_autorec.png\"/></p></body></html>", nullptr));
-    record_AutoRecordSensitivity->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_autorecsens.png\"/></p></body></html>", nullptr));
-    record_AutoRecordSource->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_autorecsrc.png\"/></p></body></html>", nullptr));
-    record_LoopLength->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_rec_looplength.png\"/></p></body></html>", nullptr));
-
-    play_PlayMode->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_playmode.png\"/></p></body></html>", nullptr));
-    play_SingleChange->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_singlechange.png\"/></p></body></html>", nullptr));
-    play_Level->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_level.png\"/></p></body></html>", nullptr));
-    play_FadeTime->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_fadetime.png\"/></p></body></html>", nullptr));
-    play_AllStart->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_allstart.png\"/></p></body></html>", nullptr));
-    play_TrackChain->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/master_play_trackchain.png\"/></p></body></html>", nullptr));
-
-    loopFx_Sw->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_loopfx.png\"/></p></body></html>", nullptr));
-    loopFx_Type->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_type.png\"/></p></body></html>", nullptr));
-    loopFx_ScatLen->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_scatlen.png\"/></p></body></html>", nullptr));
-    loopFx_ReptLen->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_replen.png\"/></p></body></html>", nullptr));
-    loopFx_Shift->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_shift.png\"/></p></body></html>", nullptr));
-    loopFx_Flick->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/loopfx_flick.png\"/></p></body></html>", nullptr));
-
-    rhythm_Level->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_level.png\"/></p></body></html>", nullptr));
-    rhythm_Reverb->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_reverb.png\"/></p></body></html>", nullptr));
-    rhythm_Pattern->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_pattern.png\"/></p></body></html>", nullptr));
-    rhythm_Variation->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_variation.png\"/></p></body></html>", nullptr));
-    rhythm_VarChange->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_varchange.png\"/></p></body></html>", nullptr));
-    rhythm_Kit->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_kit.png\"/></p></body></html>", nullptr));
-    rhythm_Beat->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_beat.png\"/></p></body></html>", nullptr));
-    rhythm_Start->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_start.png\"/></p></body></html>", nullptr));
-    rhythm_Stop->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_stop.png\"/></p></body></html>", nullptr));
-    rhythm_RecCount->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_reccount.png\"/></p></body></html>", nullptr));
-    rhythm_PlayCount->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_playcount.png\"/></p></body></html>", nullptr));
-    rhythm_Fill->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_fill.png\"/></p></body></html>", nullptr));
-    rhythm_Part1->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_part1-4.png\"/></p></body></html>", nullptr));
-    rhythm_Part2->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_part1-4.png\"/></p></body></html>", nullptr));
-    rhythm_Part3->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_part1-4.png\"/></p></body></html>", nullptr));
-    rhythm_Part4->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_part1-4.png\"/></p></body></html>", nullptr));
-    rhythm_ToneLow->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_tonelow.png\"/></p></body></html>", nullptr));
-    rhythm_ToneHigh->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/rhythm_tonehigh.png\"/></p></body></html>", nullptr));
-
-    control_Pedal1->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_pdlctl.png\"/></p></body></html>", nullptr));
-    control_Pedal2->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_pdlctl.png\"/></p></body></html>", nullptr));
-    control_Pedal3->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_pdlctl.png\"/></p></body></html>", nullptr));
-    control_Control1->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_pdlctl.png\"/></p></body></html>", nullptr));
-    control_Control2->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_pdlctl.png\"/></p></body></html>", nullptr));
-    control_Expression->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/control_exp.png\"/></p></body></html>", nullptr));
 
 #endif // QT_CONFIG(tooltip)
 }
@@ -319,6 +282,7 @@ BossRc500MainWindow::add_callbacks()
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossRc500MainWindow::on_memory_changed);
     QObject::connect(button_Edit, &QPushButton::pressed, this, &BossRc500MainWindow::on_edit);
+    QObject::connect(button_pdlctlHelp, &QPushButton::pressed, this, &BossRc500MainWindow::on_control_pdlctl_help);
 
     // Track 1/2 callbacks
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
@@ -786,6 +750,28 @@ void BossRc500MainWindow::on_edit()
 
 // --------------------------------------------------------------------------
 void
+BossRc500MainWindow::on_control_pdlctl_help()
+{
+    try {
+        QDialog dialog;
+        Ui::DialogText textDialog;
+        textDialog.setupUi(&dialog);
+
+        BossRc500::Tooltips tooltips;
+        textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
+
+        dialog.setWindowTitle("BOSS RC-500 - Assign Pdl Ctl Help");
+        dialog.setModal(true);
+        dialog.exec();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+
+}
+
+// --------------------------------------------------------------------------
+void
 BossRc500MainWindow::on_memory_previous()
 {
     int memory_index = cb_Memory->currentIndex();
@@ -990,7 +976,7 @@ BossRc500MainWindow::load_memory(int memory_index)
     // RHYTHM
     {
         auto& rhythm = _database_mem["mem"][memory_index]["RHYTHM"];
-        std::cout << rhythm.dump(2) << std::endl;
+        //std::cout << rhythm.dump(2) << std::endl;
 
         rhythm_Level->setValue(rhythm["Level"].get<int>());
         rhythm_Reverb->setValue(rhythm["Reverb"].get<int>());

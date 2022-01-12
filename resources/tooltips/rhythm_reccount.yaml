@@ -1,0 +1,15 @@
+Parameter: REC COUNT
+
+Explanation:
+  Specifies whether a count-in is heard for recording.
+  <br>* A count-in won’t be sounded when a track or rhythm is being played back.
+
+Details:
+  - Value: OFF
+    Default: True
+    Detail:
+      No count-in is played.
+
+  - Value: 1MEAS
+    Detail:
+      Recording starts after a one-measure count-in is played.

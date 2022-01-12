@@ -1,0 +1,10 @@
+Parameter: ALL START
+
+Explanation:
+  Normally, tracks 1 and 2 start playing simultaneously when a MIDI start message is received
+  (the ALL setting). However, you can set this to make only the specified track (TRACK 1 or
+  TRACK 2) start playing.
+
+Values: [ALL, TRACK1, TRACK2]
+#Join: "-"
+#Default: 1

@@ -1,0 +1,25 @@
+Parameter: STOP
+
+Explanation:
+  Specifies how the track will stop when you press the [STOP] switch.
+  <ul>
+    <li>The PLAY indicator will blink until playback stops.</li>
+    <li>If you press the [STOP] switch once again before playback stops, playback will stop immediately.</li>
+  </ul>
+  (*) You can’t overdubbing during the time until playback stops.
+
+Details:
+  - Value: IMMEDIATE
+    Default: True
+    Detail:
+      Playback will stop immediately
+
+  - Value: FADE OUT
+    Detail:
+      Playback will fade out and then stop.
+      <br>
+      (*) You can use “FADE TIME” (p. 5) to specify the length of the fade-out.
+
+  - Value: LOOP END
+    Detail:
+      Playback will continue to the end of the loop, and then stop.

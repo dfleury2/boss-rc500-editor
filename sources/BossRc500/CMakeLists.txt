@@ -7,6 +7,7 @@ add_executable(BossRc500
         Designer/ui_Boss-rc500-main.h
         Designer/ui_Boss-rc500-assign.h
         Designer/ui_Boss-rc500-system.h
+        Designer/ui_Boss-rc500-text.h
         main.cpp
         BossRc500.hpp
         BossRc500.cpp

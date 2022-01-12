@@ -1,0 +1,36 @@
+Parameter: EXP FUNC
+
+Explanation:
+  Specifies the function of a expression pedal connected to the CTL 1, 2/EXP jack.
+
+Details:
+  - Value: OFF
+    Detail: No function is assigned.
+  - Value: T1, T2 LEVEL1
+    Detail: Control the “LEVEL” (p. 2) of track 1 or 2 in the range of 0–200.
+  - Value: T1, T2 LEVEL2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of track 1 or 2 as the maximum value.
+  - Value: CUR LEVEL 1
+    Detail: Control the “LEVEL” of the currently selected track in the range of 0–200.
+  - Value: CUR LEVEL 2
+    Detail: Control the level of the currently selected track in the range of 0–”maximum value,” with the “LEVEL” setting of the currently selected track as the maximum value.
+  - Value: TEMPO UP
+    Detail: Press the pedal to make the tempo faster.
+  - Value: TEMPO DOWN
+    Detail: Press the pedal to make the tempo slower.
+  - Value: FX CONTROL
+    Detail: Control a parameter according to the loop FX type.
+      <table><tr><th>Type</th><th>Parameter that is controlled</th></tr>
+        <tr><td>SCATTER1–4</td><td>SCAT LEN</td></tr>
+        <tr><td>REPEAT1–3</td><td>REPT LEN</td></tr>
+        <tr><td>SHIFT1–2</td><td>SHIFT</td></tr>
+        <tr><td>VINYL FLICK</td><td>FLICK</td></tr>
+      </table>
+  - Value: RHYTHM LEV1
+    Detail: Control the “LEVEL” (p. 6) of rhythm in the range of 0–200.
+  - Value: RHYTHM LEV2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of rhythm as the maximum value.
+  - Value: MEMORY LEV1
+    Detail: Control the “LEVEL” (p. 5) of memory in the range of 0–200.
+  - Value: MEMORY LEV2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of memory as the maximum value.

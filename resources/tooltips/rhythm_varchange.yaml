@@ -1,0 +1,14 @@
+Parameter: VAR.CHANGE
+
+Explanation:
+  Specifies the timing at which the rhythm pattern variation is switched.
+
+Details:
+  - Value: MEASURE
+    Default: True
+    Detail:
+      Play to the end of the measure and then switch.
+
+  - Value: LOOP END
+    Detail:
+      Play to the end of the loop and then switch.

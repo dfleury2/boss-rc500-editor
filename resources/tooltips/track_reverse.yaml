@@ -2,15 +2,10 @@ Parameter: REVERSE
 
 Explanation:
   Specifies conventional playback (OFF) or reverse playback (ON).
-  <br>(*) When REVERSE is set to “ON,” you won’t be able to switch to overdubbing after a recording
+  <br>
+  (*) When REVERSE is set to “ON,” you won’t be able to switch to overdubbing after a recording
   has been completed.
 
-Details:
-  - Value: OFF
-    Default: True
-    Detail:
-      Conventional playback.
-
-  - Value: ON
-    Detail:
-      Reverse playback.
+Values: [OFF, ON]
+#Join: "-"
+#Default: 1

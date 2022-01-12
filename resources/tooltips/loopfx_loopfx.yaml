@@ -1,0 +1,8 @@
+Parameter: LOOP FX
+
+Explanation:
+  Specifies whether loop FX is used (ON) or not used (OFF).
+
+Values: [OFF, ON]
+#Join: "-"
+#Default: 1

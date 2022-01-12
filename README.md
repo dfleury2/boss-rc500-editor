@@ -53,17 +53,6 @@ else the program could not find the images and others files needed.
 
 If you use CLion, after the conan install command, you can open the project root directory in it.
 
-## xml-reader
-
-This tool will read a MEMORY1.RC0 file, and will create a Nlohmann Json object to be manipulated later
-with an IHM. This in-memory object will be saved using a Inja template.
-
-This is just a prototype for read testing and Inja rendering with a Nlohmann Json object.
-
-The real tool will come with an GUI (provided by someone else maybe)
-
-Happy guitar playing :)
-
 ## Tips
 
 Under Linux (Debian), if `Fontconfig error: Cannot load default config file: No such file: (null)` appears

@@ -1,0 +1,24 @@
+Parameter: LOOP SYNC
+
+Explanation:
+  Specifies whether the beginning of the track 1 and track 2 phrases are aligned for loop
+  playback (ON), or whether they loop-play at the length of their respective phrases (OFF).
+  <br>
+  (*) When REVERSE is set to “ON,” you won’t be able to switch to overdubbing after a recording
+  has been completed.
+
+  <div><img src="./resources/tooltips/track_loopsync_explanation1.png"></img></div>
+
+  <div><span style="font-weight:bold; color:#00548f;">Playback starting location</span></div>
+  
+  If you turn LOOP.S on, the beginning of the tracks will always be aligned. This means that if
+  tracks are already playing back, the playback start location of the other tracks will become
+  “the current location of the phrase being played.”The following illustration is an example
+  of how playback will occur with track 1 and 2 that contain the identical melody but have
+  different loop sync settings.
+
+  <div><img src="./resources/tooltips/track_loopsync_explanation2.png"></img></div>
+
+Values: [OFF, ON]
+#Join: "-"
+Default: 1

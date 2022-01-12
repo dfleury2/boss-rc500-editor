@@ -1,0 +1,15 @@
+Parameter: START
+
+Explanation:
+  Specifies whether playback starts with a fade-in or immediately when the track plays.
+
+Details:
+  - Value: IMMEDIATE
+    Default: True
+    Detail:
+      Playback starts immediately
+
+  - Value: FADE IN
+    Detail:
+      Playback starts while fading in.
+      <br>(*) You can use “FADE TIME” (p. 5) to specify the length of the fade-in.

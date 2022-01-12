@@ -1,0 +1,21 @@
+Parameter: STOP
+
+Explanation:
+  Specifies how rhythm playback stops.
+
+Details:
+  - Value: OFF
+    Detail:
+      The rhythm always continues playing.
+      <br>If you are performing in synchronization with an external MIDI device, you can keep the
+      rhythm playing continuously to allow synchronized playback.
+
+  - Value: LOOP STOP
+    Default: True
+    Detail:
+      The rhythm stops when the loop stops
+
+  - Value: REC END
+    Detail:
+      The rhythm stops when loop recording ends.
+      <br>This is useful when you want to use the rhythm as a guide during recording.

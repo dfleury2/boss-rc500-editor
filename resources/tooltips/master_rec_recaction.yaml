@@ -1,0 +1,14 @@
+Parameter: REC ACTION
+
+Explanation:
+  Specifies the order in which record/playback/overdubbing are switched when you press the [REC/PLAY] switch.
+
+Details:
+  - Value: REC -> DUB
+    Detail:
+      Operation will switch in the order of Recording -> Overdubbing -> Playback.
+
+  - Value: REC -> PLAY
+    Default: True
+    Detail:
+      Operation will switch in the order of Recording -> Playback -> Overdubbing

@@ -4,6 +4,9 @@
 #include <QCoreApplication>
 #include <QDir>
 
+#include <yaml-cpp/yaml.h>
+#include <nlohmann/json.hpp>
+
 #include <iostream>
 
 namespace {
@@ -68,7 +71,7 @@ QLabel#label_Logo {
 
 QToolTip {
     background-color:white;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 )";
@@ -741,5 +744,131 @@ PeakSource(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"ALL IN", "MIC IN", "INST IN", "LOOP&RHYTHM"});
 }
+
+// --------------------------------------------------------------------------
+Tooltips::Tooltips(const char* language) :
+        _language(language)
+{
+    _tpl = _env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
+}
+
+// --------------------------------------------------------------------------
+QString Tooltips::track_Reverse() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_reverse.yaml"); }
+QString Tooltips::track_LoopFx() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_loopfx.yaml"); }
+QString Tooltips::track_OneShot() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_oneshot.yaml"); }
+QString Tooltips::track_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_level.yaml"); }
+QString Tooltips::track_Pan() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_pan.yaml"); }
+QString Tooltips::track_Start() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_start.yaml"); }
+QString Tooltips::track_Stop() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_stop.yaml"); }
+QString Tooltips::track_Measure() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_measure.yaml"); }
+QString Tooltips::track_LoopSync() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_loopsync.yaml"); }
+QString Tooltips::track_TempoSync() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_temposync.yaml"); }
+QString Tooltips::track_Input() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_input.yaml"); }
+QString Tooltips::track_Output() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_output.yaml"); }
+
+QString Tooltips::master_rec_DubMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_dubmode.yaml"); }
+QString Tooltips::master_rec_RecAction() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_recaction.yaml"); }
+QString Tooltips::master_rec_Quantize() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_quantize.yaml"); }
+QString Tooltips::master_rec_AutoRec() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_autorec.yaml"); }
+QString Tooltips::master_rec_ARecSens() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_arecsens.yaml"); }
+QString Tooltips::master_rec_ARecSrc() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_arecsrc.yaml"); }
+QString Tooltips::master_rec_LoopLength() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_looplength.yaml"); }
+
+QString Tooltips::master_play_PlayMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_playmode.yaml"); }
+QString Tooltips::master_play_SinglChange() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_singlchange.yaml"); }
+QString Tooltips::master_play_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_level.yaml"); }
+QString Tooltips::master_play_FadeTime() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_fadetime.yaml"); }
+QString Tooltips::master_play_AllStart() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_allstart.yaml"); }
+QString Tooltips::master_play_TrkChain() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_trkchain.yaml"); }
+
+QString Tooltips::loopfx_LoopFx() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_loopfx.yaml"); }
+QString Tooltips::loopfx_Type() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_type.yaml"); }
+QString Tooltips::loopfx_ScatLen() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_scatlen.yaml"); }
+QString Tooltips::loopfx_ReptLen() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_reptlen.yaml"); }
+QString Tooltips::loopfx_Shift() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_shift.yaml"); }
+QString Tooltips::loopfx_Flick() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_flick.yaml"); }
+
+QString Tooltips::rhythm_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_level.yaml"); }
+QString Tooltips::rhythm_Reverb() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_reverb.yaml"); }
+QString Tooltips::rhythm_Pattern() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_pattern.yaml"); }
+QString Tooltips::rhythm_Variation() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_variation.yaml"); }
+QString Tooltips::rhythm_VarChange() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_varchange.yaml"); }
+QString Tooltips::rhythm_Kit() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_kit.yaml"); }
+QString Tooltips::rhythm_Beat() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_beat.yaml"); }
+QString Tooltips::rhythm_Start() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_start.yaml"); }
+QString Tooltips::rhythm_Stop() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_stop.yaml"); }
+QString Tooltips::rhythm_RecCount() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_reccount.yaml"); }
+QString Tooltips::rhythm_PlayCount() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_playcount.yaml"); }
+QString Tooltips::rhythm_Fill() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_fill.yaml"); }
+QString Tooltips::rhythm_Part14() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_part14.yaml"); }
+QString Tooltips::rhythm_ToneLow() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_tonelow.yaml"); }
+QString Tooltips::rhythm_ToneHigh() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_tonehigh.yaml"); }
+
+QString Tooltips::assign_Assign() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_assign.yaml"); }
+QString Tooltips::assign_Source() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_source.yaml"); }
+QString Tooltips::assign_SourceMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_sourcemode.yaml"); }
+QString Tooltips::assign_Target() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_target.yaml"); }
+QString Tooltips::assign_TargetMinMax() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_targetminmax.yaml"); }
+
+QString Tooltips::control_PdlCtl() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_pdlctl.yaml"); }
+QString Tooltips::control_Exp() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_exp.yaml"); }
+
+// --------------------------------------------------------------------------
+QString
+Tooltips::load_tooltip(const QString& filename)
+{
+    QString tooltip = "*** Error while loading the tooltip ***";
+
+    nlohmann::json json;
+    try {
+        YAML::Node yaml = YAML::LoadFile(filename.toStdString().c_str());
+        if (yaml["Parameter"]) {
+            json["Parameter"] = yaml["Parameter"].as<std::string>();
+        }
+        if (yaml["Explanation"]) {
+            json["Explanation"] = yaml["Explanation"].as<std::string>();
+        }
+
+        // Always present, default values
+        json["Values"] = nlohmann::json::array();
+        json["Join"] = ",";
+        json["DefaultIndex"] = 0;
+
+        if (yaml["Values"] && yaml["Values"].IsSequence()) {
+            for (auto&& value : yaml["Values"]) {
+                json["Values"].push_back(value.as<std::string>());
+            }
+
+            if (yaml["Join"]) json["Join"] = yaml["Join"].as<std::string>();
+            if (yaml["Default"]) json["DefaultIndex"] = yaml["Default"].as<int>();
+        }
+
+        auto details_json = nlohmann::json::array();
+
+        if (yaml["Details"] && yaml["Details"].IsSequence()) {
+            for (auto&& detail : yaml["Details"]) {
+                nlohmann::json detail_json;
+                if (detail["Value"]) {
+                    detail_json["Value"] = detail["Value"].as<std::string>();
+                }
+                detail_json["Default"] = (detail["Default"] && detail["Default"].as<bool>());
+                if (detail["Detail"]) {
+                    detail_json["Detail"] = detail["Detail"].as<std::string>();
+                }
+
+                details_json.push_back(std::move(detail_json));
+            }
+        }
+        json["Details"] = std::move(details_json);
+
+        tooltip = _env.render(_tpl, json).c_str();
+    }
+    catch (const std::exception& ex) {
+        std::cout << ex.what() << std::endl;
+    }
+
+    return tooltip;
+}
+
 
 }

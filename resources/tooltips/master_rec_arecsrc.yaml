@@ -1,0 +1,22 @@
+Parameter: A.REC SRC
+
+Explanation:
+  Specifies the input to which AUTO REC applies.
+  <br>* Valid when AUTO REC is ON
+
+Details:
+  - Value: ALL
+    Default: True
+    Detail: MIC IN connector, INST IN jacks (A/MONO, B)
+
+  - Value: MIC IN
+    Detail: MIC IN connector
+
+  - Value: INST
+    Detail: INST IN jacks (A/MONO, B)
+
+  - Value: INST-A
+    Detail: INST IN A/MONO jack
+
+  - Value: INST-B
+    Detail: INST IN B

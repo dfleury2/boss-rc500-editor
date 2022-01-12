@@ -1,21 +1,34 @@
 <html>
-<table width="700" style="border-collapse: collapse;">
+<table width="850" style="border-collapse: collapse;">
   <thead>
   <tr>
     <th width="100" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Parameter</th>
     <th width="150" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">
         Value <span style="font-size: smaller; font-weight: normal;">(Bold: default)</span>
     </th>
-    <th style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Explanation</th>
+    <th width="600" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Explanation</th>
   </tr>
   </thead>
 
   <tbody>
 
+  {% set is_detailed = (length(Values) == 0) %}
+
   <!-- General explanation -->
   <tr>
     <th rowspan="{{ length(Details) + 1 }}" style="text-align: left; vertical-align: middle; background-color:#cdd8ea;border-right: 1px solid grey;">{{ Parameter }}</th>
-    <td colspan="2" style="border-right: 1px solid grey;border-bottom: 1px solid grey; background: #edf2f8">
+    {% if length(Values) > 0 %}
+    <td style="text-align: left; vertical-align: middle; border-right: 1px solid grey; border-bottom: 1px solid grey;">
+## for value in Values
+    {% if loop.index > 0 %}{{ Join }}{% endif %}
+    {% if loop.index == DefaultIndex %}<span style="font-weight:bold; color:#00548f;">{% endif %}
+    {{ value }}
+    {% if loop.index == DefaultIndex %}</span>{% endif %}
+## endfor
+    </td>
+    {% endif %}
+    <td {% if is_detailed %} colspan="2" {% endif %}
+        style="border-right: 1px solid grey; border-bottom: 1px solid grey; {% if is_detailed %} background: #edf2f8 {% endif %}">
       {{ Explanation}}
     </td>
   </tr>
@@ -23,7 +36,7 @@
   <!--  Value specific explanation -->
 ## for detail in Details
   <tr>
-    <td style="border-right: 1px solid grey;text-align:center;border-bottom: 1px solid grey;">
+    <td style="text-align: left; border-right: 1px solid grey; border-bottom: 1px solid grey;">
         {% if detail.Default %}<span style="font-weight:bold; color:#00548f;">{% endif %}
         {{ detail.Value }}
         {% if detail.Default %}</span>{% endif %}

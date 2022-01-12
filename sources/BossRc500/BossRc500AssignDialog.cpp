@@ -1,7 +1,9 @@
 #include "BossRc500AssignDialog.hpp"
+#include "Designer/ui_Boss-rc500-text.h"
 #include "BossRc500.hpp"
 
 #include <QStyleFactory>
+#include <QMessageBox>
 
 #include <iostream>
 
@@ -60,35 +62,15 @@ BossRc500AssignDialog::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-    for (auto assign : _assigns) {
-        assign->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_assign.png\"/></p></body></html>", nullptr));
-    }
+    BossRc500::Tooltips tooltips;
 
-    for (auto source : _sources) {
-        source->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_source.png\"/></p></body></html>", nullptr));
-    }
+    for (auto assign : _assigns) assign->setToolTip(tooltips.assign_Assign());
+    for (auto source : _sources) source->setToolTip(tooltips.assign_Source());
+    for (auto sourceMode : _sourceModes) sourceMode->setToolTip(tooltips.assign_SourceMode());
+    //for (auto target : _targets) target->setToolTip(tooltips.assign_Target());
+    for (auto targetMin : _targetMins) targetMin->setToolTip(tooltips.assign_TargetMinMax());
+    for (auto targetMax : _targetMaxs) targetMax->setToolTip(tooltips.assign_TargetMinMax());
 
-    for (auto sourceMode : _sourceModes) {
-        sourceMode->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_sourcemode.png\"/></p></body></html>", nullptr));
-    }
-
-    for (auto target : _targets) {
-        target->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_target.png\"/></p></body></html>", nullptr));
-    }
-
-    for (auto targetMin : _targetMins) {
-        targetMin->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-    }
-
-    for (auto targetMax : _targetMaxs) {
-        targetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog",
-                "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-    }
 #endif // QT_CONFIG(tooltip)
 }
 
@@ -117,6 +99,8 @@ BossRc500AssignDialog::add_callbacks()
     // Add callbacks
     QObject::connect(button_Apply, &QPushButton::clicked, this, [this] { apply = true; _parent.close(); });
     QObject::connect(button_Cancel, &QPushButton::clicked, [this] { apply = false; _parent.close(); });
+
+    QObject::connect(button_targetHelp, &QPushButton::pressed, this, &BossRc500AssignDialog::on_target_help);
 
     // Control callbacks
     auto ConnectCheckBox_Assign = [&](const std::vector<QCheckBox*>& cbs, const char* name) {
@@ -176,6 +160,27 @@ BossRc500AssignDialog::load_assign()
 
     for (int i = 0; i < 8; ++i) {
         load(i);
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500AssignDialog::on_target_help()
+{
+    try {
+        QDialog dialog;
+        Ui::DialogText textDialog;
+        textDialog.setupUi(&dialog);
+
+        BossRc500::Tooltips tooltips;
+        textDialog.textEdit->setHtml(tooltips.assign_Target());
+
+        dialog.setWindowTitle("BOSS RC-500 - Assign Target Help");
+        dialog.setModal(true);
+        dialog.exec();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
 }
 

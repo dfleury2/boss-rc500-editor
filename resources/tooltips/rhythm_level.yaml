@@ -1,0 +1,8 @@
+Parameter: LEVEL
+
+Explanation:
+  Adjusts the volume of the rhythm.
+
+Values: [0, 100, 200]
+Join: "-"
+Default: 1

@@ -5,6 +5,7 @@
 #include <QDir>
 
 #include <nlohmann/json.hpp>
+#include <inja/inja.hpp>
 
 #include <string>
 #include <vector>
@@ -197,5 +198,85 @@ void InstrumentIn(QComboBox* cb);
 void RhythmOut(QComboBox* cb);
 void PeakSource(QComboBox* cb);
 
+// --------------------------------------------------------------------------
+class Tooltips {
+public:
+    Tooltips(const char* language = "en");
+
+    // Tracks
+    QString track_Reverse();
+    QString track_LoopFx();
+    QString track_OneShot();
+    QString track_Level();
+    QString track_Pan();
+    QString track_Start();
+    QString track_Stop();
+    QString track_Measure();
+    QString track_LoopSync();
+    QString track_TempoSync();
+    QString track_Input();
+    QString track_Output();
+
+    // Rec
+    QString master_rec_DubMode();
+    QString master_rec_RecAction();
+    QString master_rec_Quantize();
+    QString master_rec_AutoRec();
+    QString master_rec_ARecSens();
+    QString master_rec_ARecSrc();
+    QString master_rec_LoopLength();
+
+    // Play
+    QString master_play_PlayMode();
+    QString master_play_SinglChange();
+    QString master_play_Level();
+    QString master_play_FadeTime();
+    QString master_play_AllStart();
+    QString master_play_TrkChain();
+
+    // Loopfx
+    QString loopfx_LoopFx();
+    QString loopfx_Type();
+    QString loopfx_ScatLen();
+    QString loopfx_ReptLen();
+    QString loopfx_Shift();
+    QString loopfx_Flick();
+
+    // Rhythm
+    QString rhythm_Level();
+    QString rhythm_Reverb();
+    QString rhythm_Pattern();
+    QString rhythm_Variation();
+    QString rhythm_VarChange();
+    QString rhythm_Kit();
+    QString rhythm_Beat();
+    QString rhythm_Start();
+    QString rhythm_Stop();
+    QString rhythm_RecCount();
+    QString rhythm_PlayCount();
+    QString rhythm_Fill();
+    QString rhythm_Part14();
+    QString rhythm_ToneLow();
+    QString rhythm_ToneHigh();
+
+    // Assign
+    QString assign_Assign();
+    QString assign_Source();
+    QString assign_SourceMode();
+    QString assign_Target();
+    QString assign_TargetMinMax();
+
+    // Control
+    QString control_PdlCtl();
+    QString control_Exp();
+
+private:
+    QString load_tooltip(const QString& filename);
+
+private:
+    inja::Template _tpl;
+    inja::Environment _env;
+    QString _language;
+};
 
 }

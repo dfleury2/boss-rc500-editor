@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-mainJNVpcz.ui'
+** Form generated from reading UI file 'Boss-rc500-mainhIrGFE.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_MAINJNVPCZ_H
-#define BOSS_2D_RC500_2D_MAINJNVPCZ_H
+#ifndef BOSS_2D_RC500_2D_MAINHIRGFE_H
+#define BOSS_2D_RC500_2D_MAINHIRGFE_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -57,6 +57,7 @@ public:
     QComboBox *control_Control2;
     QLabel *label_control_Expression;
     QComboBox *control_Expression;
+    QPushButton *button_pdlctlHelp;
     QPushButton *button_MemoryPrevious;
     QGroupBox *gp_Track1;
     QCheckBox *track1_Reverse;
@@ -272,6 +273,9 @@ public:
         control_Expression = new QComboBox(gb_Control);
         control_Expression->setObjectName(QString::fromUtf8("control_Expression"));
         control_Expression->setGeometry(QRect(100, 180, 141, 25));
+        button_pdlctlHelp = new QPushButton(gb_Control);
+        button_pdlctlHelp->setObjectName(QString::fromUtf8("button_pdlctlHelp"));
+        button_pdlctlHelp->setGeometry(QRect(70, 30, 21, 24));
         button_MemoryPrevious = new QPushButton(centralwidget);
         button_MemoryPrevious->setObjectName(QString::fromUtf8("button_MemoryPrevious"));
         button_MemoryPrevious->setGeometry(QRect(370, 20, 31, 24));
@@ -701,6 +705,7 @@ public:
         label_control_Control1->setText(QCoreApplication::translate("MainWindow", "Control 1", nullptr));
         label_control_Control2->setText(QCoreApplication::translate("MainWindow", "Control 2", nullptr));
         label_control_Expression->setText(QCoreApplication::translate("MainWindow", "Expression", nullptr));
+        button_pdlctlHelp->setText(QCoreApplication::translate("MainWindow", "?", nullptr));
         button_MemoryPrevious->setText(QCoreApplication::translate("MainWindow", "<", nullptr));
         gp_Track1->setTitle(QCoreApplication::translate("MainWindow", "TRACK 1", nullptr));
         track1_Reverse->setText(QCoreApplication::translate("MainWindow", "Reverse", nullptr));
@@ -787,4 +792,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_MAINJNVPCZ_H
+#endif // BOSS_2D_RC500_2D_MAINHIRGFE_H

@@ -1,0 +1,12 @@
+Parameter: SINGL CHANGE
+
+Explanation:
+  Specifies how the tracks will be switched when PLAY MODE is “SINGLE.”
+
+Details:
+  - Value: IMMEDIATE
+    Default: True
+    Detail: The change will occur immediately.
+
+  - Value: LOOP END
+    Detail: The change will occur after playback has reached the end of the loop.

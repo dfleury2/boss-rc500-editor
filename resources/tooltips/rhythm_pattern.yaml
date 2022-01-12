@@ -1,0 +1,12 @@
+Parameter: PATTERN
+
+Explanation:
+  Selects the rhythm pattern.
+
+Details:
+  - Value: SimpleBeat1
+    Default: True
+    Detail:
+      SimpleBeat1–4, GrooveBeat1–7, Rock1–4, Funk1–4, Shuffle1–5, Swing1–5, SideStick1–5, PercusBeat1–4, LatinBeat1–4,
+      Conga1–3, Bossa1–2, Samba1–2, DanceBeat1–4, Metronome1–4, Blank
+      <br>(*) will depend on the Beat
