@@ -132,4 +132,7 @@ private:
     QFont _font_bold; // different from default
     QMenu* _presetLoadMenu = nullptr;
     bool _is_loading = false; // Allow detecting on new/load on callback calls
+
+    // Preferences
+    QString _language;
 };

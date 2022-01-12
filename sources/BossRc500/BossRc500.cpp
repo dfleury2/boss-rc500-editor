@@ -746,7 +746,7 @@ PeakSource(QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
-Tooltips::Tooltips(const char* language) :
+Tooltips::Tooltips(const QString& language) :
         _language(language)
 {
     _tpl = _env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
@@ -825,8 +825,16 @@ Tooltips::load_tooltip(const QString& filename)
         if (yaml["Parameter"]) {
             json["Parameter"] = yaml["Parameter"].as<std::string>();
         }
-        if (yaml["Explanation"]) {
-            json["Explanation"] = yaml["Explanation"].as<std::string>();
+
+        if (!_language.isEmpty() && yaml[("Explanation." + _language).toStdString().c_str()]) {
+            if (yaml[("Explanation." + _language).toStdString().c_str()]) {
+                json["Explanation"] = yaml[("Explanation." + _language).toStdString().c_str()].as<std::string>();
+            }
+        }
+        else {
+            if (yaml["Explanation"]) {
+                json["Explanation"] = yaml["Explanation"].as<std::string>();
+            }
         }
 
         // Always present, default values
@@ -852,7 +860,13 @@ Tooltips::load_tooltip(const QString& filename)
                     detail_json["Value"] = detail["Value"].as<std::string>();
                 }
                 detail_json["Default"] = (detail["Default"] && detail["Default"].as<bool>());
-                if (detail["Detail"]) {
+
+                if (!_language.isEmpty() && detail[("Detail." + _language).toStdString().c_str()]) {
+                    if (detail[("Detail." + _language).toStdString().c_str()]) {
+                        detail_json["Detail"] = detail[("Detail." + _language).toStdString().c_str()].as<std::string>();
+                    }
+                }
+                else if (detail["Detail"]) {
                     detail_json["Detail"] = detail["Detail"].as<std::string>();
                 }
 

@@ -86,6 +86,11 @@ BossRc500MainWindow::setup()
     }
     fileMenu->addMenu(themesMenu);
 
+    auto preferencesMenu = new QMenu("Preferences", fileMenu);
+    preferencesMenu->addAction("English", [this] { _language = ""; add_tooltips(); } );
+    preferencesMenu->addAction("French", [this] { _language = "fr"; add_tooltips(); } );
+    fileMenu->addMenu(preferencesMenu);
+
 #ifndef APPLE
     // Apple will used application menu to quit
     fileMenu->addSeparator();
@@ -108,7 +113,7 @@ BossRc500MainWindow::add_tooltips()
 // Add tooltips
 #if QT_CONFIG(tooltip)
     try {
-        BossRc500::Tooltips tooltips;
+        BossRc500::Tooltips tooltips(_language);
 
         track1_Reverse->setToolTip(tooltips.track_Reverse());
         track1_LoopFx->setToolTip(tooltips.track_LoopFx());
@@ -177,11 +182,6 @@ BossRc500MainWindow::add_tooltips()
         rhythm_ToneLow->setToolTip(tooltips.rhythm_ToneLow());
         rhythm_ToneHigh->setToolTip(tooltips.rhythm_ToneHigh());
 
-//        control_Pedal1->setToolTip(tooltips.control_PdlCtl());
-//        control_Pedal2->setToolTip(tooltips.control_PdlCtl());
-//        control_Pedal3->setToolTip(tooltips.control_PdlCtl());
-//        control_Control1->setToolTip(tooltips.control_PdlCtl());
-//        control_Control2->setToolTip(tooltips.control_PdlCtl());
         control_Expression->setToolTip(tooltips.control_Exp());
     }
     catch (const std::exception& ex) {

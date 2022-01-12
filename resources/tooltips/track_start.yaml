@@ -3,13 +3,21 @@ Parameter: START
 Explanation:
   Specifies whether playback starts with a fade-in or immediately when the track plays.
 
+Explanation.fr:
+  Spécifie si la lecture commence par un fondu d'entrée ou immédiatement lors de la lecture de la piste.
+
 Details:
   - Value: IMMEDIATE
     Default: True
     Detail:
       Playback starts immediately
+    Detail.fr:
+      La lecture démarre immédiatement.
 
   - Value: FADE IN
     Detail:
       Playback starts while fading in.
-      <br>(*) You can use “FADE TIME” (p. 5) to specify the length of the fade-in.
+      <br>* You can use “FADE TIME” (p. 5) to specify the length of the fade-in.
+    Detail.fr:
+      La lecture démarre progressivement.
+      <br>* Vous pouvez utiliser «FADE TIME» (p. 5) pour spécifier la durée du fondu d'entrée

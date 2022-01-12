@@ -201,7 +201,7 @@ void PeakSource(QComboBox* cb);
 // --------------------------------------------------------------------------
 class Tooltips {
 public:
-    Tooltips(const char* language = "en");
+    explicit Tooltips(const QString& language = "");
 
     // Tracks
     QString track_Reverse();
