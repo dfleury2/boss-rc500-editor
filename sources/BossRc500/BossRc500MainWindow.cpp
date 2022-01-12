@@ -730,9 +730,18 @@ BossRc500MainWindow::on_copy()
         const auto& slot = _database_mem["mem"][memory_slot - 1];
 
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
-            _database_mem["mem"][i - 1] = slot;
-            // Restore the memory id of the copied slot
-            _database_mem["mem"][i - 1]["id"] = i - 1;
+            auto& mem = _database_mem["mem"][i - 1];
+
+            // Save values to be restored after the copy
+            auto backup = mem;
+
+            // Copy all the values
+            mem = slot;
+
+            // Restore some values from the original
+            mem["id"] = backup["id"];
+            mem["NAME"] = backup["NAME"];
+            mem["name"] = backup["name"];
         }
     }
     catch (const std::exception& ex) {
