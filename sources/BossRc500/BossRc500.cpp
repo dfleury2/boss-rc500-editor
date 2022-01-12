@@ -131,7 +131,7 @@ IntegerRange(QComboBox* cb, int min, int max)
 void
 DoubleRange(QComboBox* cb, double min, double max, double step)
 {
-    for (int i = min; i <= max; i += step) {
+    for (double i = min; i <= max; i += step) {
         cb->addItem(std::to_string(i).c_str());
     }
 }
@@ -746,8 +746,8 @@ PeakSource(QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
-Tooltips::Tooltips(const QString& language) :
-        _language(language)
+Tooltips::Tooltips(QString language) :
+        _language(std::move(language))
 {
     _tpl = _env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
 }
@@ -821,7 +821,7 @@ Tooltips::load_tooltip(const QString& filename)
 
     nlohmann::json json;
     try {
-        YAML::Node yaml = YAML::LoadFile(filename.toStdString().c_str());
+        YAML::Node yaml = YAML::LoadFile(filename.toStdString());
         if (yaml["Parameter"]) {
             json["Parameter"] = yaml["Parameter"].as<std::string>();
         }
