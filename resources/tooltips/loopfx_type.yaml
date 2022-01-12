@@ -1,0 +1,19 @@
+Parameter: TYPE
+
+Explanation:
+  Selects the Input FX/Track FX type.
+
+Details:
+  - Value: SCATTER1-4
+    Detail: The change will occur immediately.
+
+  - Value: REPEAT1-3
+    Default: True
+    Detail: Plays the track repeatedly in time with the beat.
+      <br>REPEAT1 is the default
+
+  - Value: SHIFT1-2
+    Detail: The track will play shifted by the length of the beat.
+
+  - Value: VINYL FLICK
+    Detail: The track will sound as though you are touching the turntable.

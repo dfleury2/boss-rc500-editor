@@ -1,0 +1,8 @@
+Parameter: FILL
+
+Explanation:
+  Specifies whether the rhythm plays with a fill-in (ON) or without a fill-in (OFF).
+
+Values: [OFF, ON]
+#Join: "-"
+Default: 1

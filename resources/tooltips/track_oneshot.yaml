@@ -1,0 +1,22 @@
+Parameter: 1SHOT
+
+Explanation:
+    Specifies whether the track playback will be one-shot (ON) or not one-shot (OFF; conventional loop playback).
+    <br>
+    <img src="./resources/tooltips/track_oneshot_explanation.png"></img>
+
+Details:
+  - Value: OFF
+    Default: True
+    Detail:
+      Conventional loop playback.
+
+  - Value: ON
+    Detail:
+      The phrase will play only once from the beginning to the end of the track, and then stop
+      automatically (One-Shot Playback).
+      <br>
+      If you press the [REC/PLAY] switch during playback, playback will begin again from the
+      beginning of the track (Retrigger Playback). Overdubbing cannot be carried out.
+      <br>
+      (*) If you don’t want to use tempo synchronization, set TEMPO.S (p. 3) “OFF.”

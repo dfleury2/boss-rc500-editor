@@ -1,0 +1,5 @@
+Parameter: TARGET MIN, TARGET MAX
+
+Explanation:
+  "Specifies the variable range of the function (parameter) that is specified as the target.
+  The value (MIN: minimum value, MAX: maximum value) depends on the parameter that is specified as the target."

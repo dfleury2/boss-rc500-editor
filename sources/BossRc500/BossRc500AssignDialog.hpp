@@ -29,6 +29,8 @@ private:
 
     void load_assign();
 
+    void on_target_help();
+
     void on_Assign_Target_ComboBox_changed(QComboBox* cb, int index, const char* name);
 
     void on_Assign_CheckBox_changed(QCheckBox* cb, int index, const char* name);

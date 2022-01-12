@@ -1,0 +1,18 @@
+Parameter: DUB MODE
+
+Explanation:
+  Specifies the overdubbing method.
+
+Details:
+  - Value: OVERDUB
+    Default: True
+    Detail:
+      The new performance is layered onto the prerecorded tracks.
+      <br>If overdubbing is repeated, the next performance is layered on top of the previous material,
+      allowing you to create an ensemble in a single track.
+
+  - Value: REPLACE
+    Detail:
+      Tracks with existing recordings are overwritten as new tracks are recorded over them.
+      <br>Overwriting takes places while the previously recorded tracks are played back, allowing you
+      to achieve a kind of delay effect similar to that obtained from an effects processor.

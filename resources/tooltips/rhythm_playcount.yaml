@@ -1,0 +1,14 @@
+Parameter: PLAY COUNT
+
+Explanation:
+  Specifies whether a count-in is heard for playback.
+
+Details:
+  - Value: OFF
+    Default: True
+    Detail:
+      No count-in is played.
+
+  - Value: 1MEAS
+    Detail:
+      Playback starts after a one-measure count-in is played.

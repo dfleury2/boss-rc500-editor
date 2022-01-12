@@ -1,0 +1,28 @@
+Parameter: MEASURE
+
+Explanation:
+  You can specify the number of measures for each track. When recording along with rhythm sounds or other tracks, it’s
+  convenient to specify the number of measures before you record, so that looping will occur at the specified measure
+  length, even if you don’t operate the switch when you’ve finished recording.
+  <br>
+  (*) This parameter is available only if LOOP.S (p. 3) is "ON".
+  <div><img src="./resources/tooltips/track_measure_explanation.png"></img></div>
+
+Details:
+  - Value: AUTO
+    Detail:
+      Tracks that are set to AUTO will have the same number of measures. The number of
+      measures is determined by the first-recorded track of the tracks that are set to AUTO.
+      For example, if all tracks are set to AUTO, the value set as the number of measures for the
+      second and subsequent tracks will be identical to the number of measures in the first track
+      that was recorded.
+
+  - Value: FREE
+    Default: True
+    Detail:
+      The number of measures will be set automatically, corresponding to the length of the
+      recording.
+
+  - Value: 1MEAS-
+    Detail:
+      The number of measures will be set manually.

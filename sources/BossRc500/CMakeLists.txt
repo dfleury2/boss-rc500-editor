@@ -7,6 +7,7 @@ add_executable(BossRc500
         Designer/ui_Boss-rc500-main.h
         Designer/ui_Boss-rc500-assign.h
         Designer/ui_Boss-rc500-system.h
+        Designer/ui_Boss-rc500-text.h
         main.cpp
         BossRc500.hpp
         BossRc500.cpp
@@ -23,6 +24,9 @@ target_link_libraries(BossRc500
         Qt6::Qt6
         BossReaderWriter::BossReaderWriter
         miniaudio::miniaudio
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        pantor::inja
 )
 
 install(TARGETS BossRc500

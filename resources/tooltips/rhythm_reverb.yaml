@@ -1,0 +1,8 @@
+Parameter: REVERB
+
+Explanation:
+  Adjusts the depth of the reverb applied to the rhythm.
+
+Values: [0, 30, 100]
+Join: "-"
+Default: 1

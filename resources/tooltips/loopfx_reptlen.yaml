@@ -1,0 +1,9 @@
+Parameter: REPT LEN
+
+Explanation:
+  This is shown when TYPE is "REPEAT1–3".
+  <br>Specifies the repeat length. If this is set to “THRU,” there is no effect.
+
+Values: [THRU, Notes]
+#Join: "-"
+Default: 2

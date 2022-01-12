@@ -1,0 +1,9 @@
+Parameter: BEAT
+
+Explanation:
+  Selects the rhythm beat.
+  <br>(*) You cannot change the beat after the track is recorded. Be sure to set this before recording.
+
+Values: [2/4, 4/4, "7/4, 5/8", 15/8]
+Join: "-"
+Default: 1

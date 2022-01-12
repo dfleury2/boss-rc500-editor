@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-mainKiopME.ui'
+** Form generated from reading UI file 'Boss-rc500-mainhIrGFE.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_MAINKIOPME_H
-#define BOSS_2D_RC500_2D_MAINKIOPME_H
+#ifndef BOSS_2D_RC500_2D_MAINHIRGFE_H
+#define BOSS_2D_RC500_2D_MAINHIRGFE_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -57,6 +57,7 @@ public:
     QComboBox *control_Control2;
     QLabel *label_control_Expression;
     QComboBox *control_Expression;
+    QPushButton *button_pdlctlHelp;
     QPushButton *button_MemoryPrevious;
     QGroupBox *gp_Track1;
     QCheckBox *track1_Reverse;
@@ -160,6 +161,8 @@ public:
     QLabel *label_rhythm_LevelValue;
     QLabel *label_rhythm_ReverbValue;
     QPushButton *button_rhythm_Play;
+    QLabel *label_rhythm_State;
+    QComboBox *rhythm_State;
     QGroupBox *gb_LoopFx;
     QLabel *label_loopFx_Type;
     QComboBox *loopFx_Type;
@@ -270,6 +273,9 @@ public:
         control_Expression = new QComboBox(gb_Control);
         control_Expression->setObjectName(QString::fromUtf8("control_Expression"));
         control_Expression->setGeometry(QRect(100, 180, 141, 25));
+        button_pdlctlHelp = new QPushButton(gb_Control);
+        button_pdlctlHelp->setObjectName(QString::fromUtf8("button_pdlctlHelp"));
+        button_pdlctlHelp->setGeometry(QRect(70, 30, 21, 24));
         button_MemoryPrevious = new QPushButton(centralwidget);
         button_MemoryPrevious->setObjectName(QString::fromUtf8("button_MemoryPrevious"));
         button_MemoryPrevious->setGeometry(QRect(370, 20, 31, 24));
@@ -591,10 +597,10 @@ public:
         rhythm_Part4->setLayoutDirection(Qt::RightToLeft);
         label_rhythm_Part = new QLabel(gp_Rhythm);
         label_rhythm_Part->setObjectName(QString::fromUtf8("label_rhythm_Part"));
-        label_rhythm_Part->setGeometry(QRect(130, 320, 91, 21));
+        label_rhythm_Part->setGeometry(QRect(180, 320, 41, 21));
         label_rhythm_Tone = new QLabel(gp_Rhythm);
         label_rhythm_Tone->setObjectName(QString::fromUtf8("label_rhythm_Tone"));
-        label_rhythm_Tone->setGeometry(QRect(70, 350, 51, 21));
+        label_rhythm_Tone->setGeometry(QRect(80, 350, 51, 21));
         rhythm_ToneHigh = new QComboBox(gp_Rhythm);
         rhythm_ToneHigh->setObjectName(QString::fromUtf8("rhythm_ToneHigh"));
         rhythm_ToneHigh->setGeometry(QRect(310, 350, 71, 25));
@@ -618,6 +624,12 @@ public:
         button_rhythm_Play = new QPushButton(gp_Rhythm);
         button_rhythm_Play->setObjectName(QString::fromUtf8("button_rhythm_Play"));
         button_rhythm_Play->setGeometry(QRect(320, 60, 61, 24));
+        label_rhythm_State = new QLabel(gp_Rhythm);
+        label_rhythm_State->setObjectName(QString::fromUtf8("label_rhythm_State"));
+        label_rhythm_State->setGeometry(QRect(10, 320, 41, 21));
+        rhythm_State = new QComboBox(gp_Rhythm);
+        rhythm_State->setObjectName(QString::fromUtf8("rhythm_State"));
+        rhythm_State->setGeometry(QRect(60, 320, 71, 25));
         gb_LoopFx = new QGroupBox(centralwidget);
         gb_LoopFx->setObjectName(QString::fromUtf8("gb_LoopFx"));
         gb_LoopFx->setGeometry(QRect(620, 460, 231, 211));
@@ -693,6 +705,7 @@ public:
         label_control_Control1->setText(QCoreApplication::translate("MainWindow", "Control 1", nullptr));
         label_control_Control2->setText(QCoreApplication::translate("MainWindow", "Control 2", nullptr));
         label_control_Expression->setText(QCoreApplication::translate("MainWindow", "Expression", nullptr));
+        button_pdlctlHelp->setText(QCoreApplication::translate("MainWindow", "?", nullptr));
         button_MemoryPrevious->setText(QCoreApplication::translate("MainWindow", "<", nullptr));
         gp_Track1->setTitle(QCoreApplication::translate("MainWindow", "TRACK 1", nullptr));
         track1_Reverse->setText(QCoreApplication::translate("MainWindow", "Reverse", nullptr));
@@ -760,6 +773,7 @@ public:
         label_rhythm_LevelValue->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         label_rhythm_ReverbValue->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         button_rhythm_Play->setText(QCoreApplication::translate("MainWindow", "Play", nullptr));
+        label_rhythm_State->setText(QCoreApplication::translate("MainWindow", "State", nullptr));
         gb_LoopFx->setTitle(QCoreApplication::translate("MainWindow", "LOOP FX", nullptr));
         label_loopFx_Type->setText(QCoreApplication::translate("MainWindow", "Type", nullptr));
         label_loopFx_ScatLen->setText(QCoreApplication::translate("MainWindow", "Scat Len", nullptr));
@@ -778,4 +792,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_MAINKIOPME_H
+#endif // BOSS_2D_RC500_2D_MAINHIRGFE_H

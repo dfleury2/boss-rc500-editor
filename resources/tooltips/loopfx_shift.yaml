@@ -1,0 +1,9 @@
+Parameter: SHIFT
+
+Explanation:
+  This is shown when TYPE is “SHIFT1–2”.
+  <br>Specifies the beat shift length. If this is set to “THRU,” there is no effect.
+
+Values: [THRU, Notes]
+#Join: "-"
+Default: 2

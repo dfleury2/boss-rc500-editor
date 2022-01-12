@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-assignhCVMQb.ui'
+** Form generated from reading UI file 'Boss-rc500-assignuAXhfM.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_ASSIGNHCVMQB_H
-#define BOSS_2D_RC500_2D_ASSIGNHCVMQB_H
+#ifndef BOSS_2D_RC500_2D_ASSIGNUAXHFM_H
+#define BOSS_2D_RC500_2D_ASSIGNUAXHFM_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -35,6 +35,7 @@ public:
     QLabel *label_assign1_TargetMax;
     QComboBox *assign1_TargetMin;
     QComboBox *assign1_TargetMax;
+    QPushButton *button_targetHelp;
     QGroupBox *gp_Assign2;
     QCheckBox *assign2_Assign;
     QLabel *label_assign2_Source;
@@ -164,6 +165,9 @@ public:
         assign1_TargetMax = new QComboBox(gp_Assign1);
         assign1_TargetMax->setObjectName(QString::fromUtf8("assign1_TargetMax"));
         assign1_TargetMax->setGeometry(QRect(130, 180, 141, 25));
+        button_targetHelp = new QPushButton(gp_Assign1);
+        button_targetHelp->setObjectName(QString::fromUtf8("button_targetHelp"));
+        button_targetHelp->setGeometry(QRect(100, 120, 21, 24));
         gp_Assign2 = new QGroupBox(BossRc500AssignDialog);
         gp_Assign2->setObjectName(QString::fromUtf8("gp_Assign2"));
         gp_Assign2->setGeometry(QRect(300, 10, 281, 221));
@@ -478,6 +482,7 @@ public:
         label_assign1_Target->setText(QCoreApplication::translate("BossRc500AssignDialog", "Target", nullptr));
         label_assign1_TargetMin->setText(QCoreApplication::translate("BossRc500AssignDialog", "Target Min.", nullptr));
         label_assign1_TargetMax->setText(QCoreApplication::translate("BossRc500AssignDialog", "Target Max.", nullptr));
+        button_targetHelp->setText(QCoreApplication::translate("BossRc500AssignDialog", "?", nullptr));
         gp_Assign2->setTitle(QCoreApplication::translate("BossRc500AssignDialog", "ASSIGN 2", nullptr));
         assign2_Assign->setText(QCoreApplication::translate("BossRc500AssignDialog", "Active", nullptr));
         label_assign2_Source->setText(QCoreApplication::translate("BossRc500AssignDialog", "Source", nullptr));
@@ -539,4 +544,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_ASSIGNHCVMQB_H
+#endif // BOSS_2D_RC500_2D_ASSIGNUAXHFM_H

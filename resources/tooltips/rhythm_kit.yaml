@@ -1,0 +1,11 @@
+Parameter: KIT
+
+Explanation:
+  Selects the drum kit that is used for rhythm playback.
+
+Details:
+  - Value: Studio
+    Default: True
+    Detail:
+      Studio, Live, Light, Heavy, Rock, Metal, Jazz, Brush, Cajon, Drum&Bass, R&B, Dance, Techno, Dance Beats, HipHop,
+      808+909

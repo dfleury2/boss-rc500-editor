@@ -1,0 +1,23 @@
+Parameter: QUANTIZE
+
+Explanation:
+    "With tracks for which LOOP.S (p. 3) is “ON,” under any of the conditions listed below, your timing will be corrected
+      (Loop Quantize) based on the tempo and time signature of the rhythm, even if the timing at which you press a button is slightly inaccurate.
+    <ul>
+      <li>If the rhythm is on</li>
+      <li>If there is an already-recorded track whose LOOP.S is turned on</li>
+      <li>If the MIDI Sync is on</li>
+    </ul>
+     <br> * The QUANTIZE setting applies only during recording. It is ignored during overdubbing or playback.
+     <br> * When you stop recording, it is quantized to match the measure length of the previously-recorded track (LOOP.S: ON) or
+      rhythm."
+
+Details:
+  - Value: REC -> DUB
+    Detail:
+      Operation will switch in the order of Recording -> Overdubbing -> Playback.
+
+  - Value: REC -> PLAY
+    Default: True
+    Detail:
+      Operation will switch in the order of Recording -> Playback -> Overdubbing

@@ -1,0 +1,8 @@
+Parameter: PAN
+
+Explanation:
+  Specifies the stereo position (pan) of the track.
+
+Values: [L50, CENTER, R50]
+Join: "-"
+Default: 1

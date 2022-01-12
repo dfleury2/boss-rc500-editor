@@ -1,0 +1,16 @@
+Parameter: AUTO REC
+
+Explanation:
+  “AUTO REC” (auto record) starts recording when there is audio input from your guitar performance or the mic.
+
+Details:
+  - Value: OFF
+    Default: True
+    Detail:
+      Recording will begin the instant you press the [REC/PLAY] switch.
+
+  - Value: ON
+    Detail:
+      When you press the [REC/PLAY] switch, the REC/PLAY indicator will blink rapidly, and the
+      RC-500 will enter recording-standby mode.
+      <br>When you begin playing, the REC/PLAY indicator will light and recording will start.

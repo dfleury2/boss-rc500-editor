@@ -1,0 +1,41 @@
+Parameter: SOURCE
+
+Explanation:
+  Specify the controller (source) that will control the target.
+
+Details:
+  - Value: PEDAL1
+    Detail: "[REC/PLAY] switch"
+
+  - Value: PEDAL2
+    Detail: "[STOP] switch"
+
+  - Value: PEDAL3
+    Detail: "[TRACK SELECT] switch"
+
+  - Value: EXP PEDAL
+    Detail: An Expression pedal connected to the CTL 1, 2/EXP jack
+
+  - Value: CTL1 PEDAL, CTL2 PEDAL
+    Detail: A footswitch (CTL1, CTL2) connected to the CTL 1, 2/EXP jack
+
+  - Value: TR1 KNOB
+    Detail: "[TRACK 1] slider"
+
+  - Value: TR2 KNOB
+    Detail: "[TRACK 2] slider"
+
+  - Value: TR1 PLY/STOP
+    Detail: When track 1 playback starts or stops
+
+  - Value: TR2 PLY/STOP
+    Detail: When track 2 playback starts or stops
+
+  - Value: CUR TR CHG
+    Detail: When the track for record/playback is switched
+
+  - Value: SYNC START
+    Detail: All Start message from an external MIDI device
+
+  - Value: "CC #1–31, CC #64–95"
+    Detail: Control Change message (1–31, 64–95) from an external MIDI device

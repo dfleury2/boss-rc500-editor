@@ -1,0 +1,10 @@
+Parameter: LEVEL
+
+Explanation:
+  Adjusts the playback level of the tracks.
+  <br>
+  (*) You can also use the [TRACK 1] and [TRACK 2] sliders to adjust the playback level.
+
+Values: [0, 100, 200]
+Join: "-"
+Default: 1

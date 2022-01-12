@@ -14,3 +14,7 @@ QLabel#label_Logo {
     color: white;
     font-family: Serif;
 }
+
+QToolTip {
+    background-color:white;
+}

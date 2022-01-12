@@ -1,0 +1,12 @@
+Parameter: TRK CHAIN
+
+Explanation:
+  Specifies how tracks 1 and 2 are connected.
+
+Details:
+  - Value: PARALLEL
+    Default: True
+    Detail: The two loop tracks are connected in parallel.
+
+  - Value: SERIES
+    Detail: The output of track 1 is connected to track 2.

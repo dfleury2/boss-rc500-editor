@@ -1,0 +1,246 @@
+Parameter: TARGET
+
+Explanation:
+  Specifies the function that is controlled.
+  <br>* Depending on the specified function, control might not be possible while playing a track or the rhythm.
+
+Details:
+  - Value: T1, T2 REC/PLY
+    Detail: Switch between record/play/overdubbing for track 1 or 2.
+
+  - Value: T1, T2 PLY/STP
+    Detail: Switch between play/stop for track 1 or 2.
+
+  - Value: T1, T2 CLEAR
+    Detail: Clear track 1 or 2.
+
+  - Value: T1, T2 UND/RED
+    Detail: Undo/redo recording or the most recent overdubbing for track 1 or 2.
+
+  - Value: T1, T2 REVERSE
+    Detail: Control “REVERSE” for track 1 or 2.
+
+  - Value: T1, T2 1SHOT
+    Detail: Control “1SHOT” for track 1 or 2.
+
+  - Value: T1, T2 LEVEL1
+    Detail: Control the “LEVEL” (p. 2) of track 1 or 2 in the range of 0–200.
+
+  - Value: T1, T2 LEVEL2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of track 1 or 2 as the maximum value.
+
+  - Value: T1, T2 PAN
+    Detail: Control “PAN” for track 1 or 2.
+
+  - Value: T1, T2 START
+    Detail: Control “START” for track 1 or 2.
+
+  - Value: T1, T2 STOP
+    Detail: Control “STOP” for track 1 or 2.
+
+  - Value: T1, T2 LOOP.S
+    Detail: Control “LOOP.S” for track 1 or 2.
+
+  - Value: T1, T2 TEMPO.S
+    Detail: Control “TEMPO.S” for track 1 or 2.
+
+  - Value: T1, T2 INPUT
+    Detail: Control “INPUT” for track 1 or 2.
+
+  - Value: T1, T2 OUTPUT
+    Detail: Control “OUTPUT” for track 1 or 2.
+
+  - Value: TRK SELECT
+    Detail: Switch between tracks 1 and 2.
+
+  - Value: CUR REC/PLY
+    Detail: Switch between record/play/overdubbing for the currently selected track.
+
+  - Value: CUR CLEAR
+    Detail: Clear the currently selected track.
+
+  - Value: CUR UND/RED
+    Detail: Undo/redo recording or the most recent overdubbing for the currently selected track.
+
+  - Value: CUR REVERSE
+    Detail: Control “REVERSE” for the currently selected track.
+
+  - Value: CUR 1SHOT
+    Detail: Control “1SHOT” for the currently selected track.
+
+  - Value: CUR LEVEL1
+    Detail: Control the “LEVEL” of the currently selected track in the range of 0–200.
+
+  - Value: CUR LEVEL2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of track 1 or 2 as the maximum value.
+
+  - Value: CUR PAN
+    Detail: Control “PAN” for the currently selected track.
+
+  - Value: CUR START
+    Detail: Control “START” for the currently selected track.
+
+  - Value: CUR STOP
+    Detail: Control “STOP” for the currently selected track.
+
+  - Value: CUR LOOP.S
+    Detail: Control “LOOP.S” for the currently selected track.
+
+  - Value: CUR TEMPO.S
+    Detail: Control “TEMPO.S” for the currently selected track.
+
+  - Value: CUR INPUT
+    Detail: Control “INPUT” for the currently selected track.
+
+  - Value: CUR OUTPUT
+    Detail: Control “OUTPUT” for the currently selected track.
+
+  - Value: UNDO/REDO
+    Detail: Allows you to undo/redo the last recording or overdubbing of a track.
+
+  - Value: ALL START
+    Detail: Simultaneously start play for tracks 1 and 2.
+
+  - Value: TAP TEMPO
+    Detail: Press the switch several times at the desired interval to specify the tempo.
+
+  - Value: TEMPO UP
+    Detail: Operate the pedal to make the tempo faster.
+
+  - Value: TEMPO DOWN
+    Detail: Operate the pedal to make the tempo slower.
+
+  - Value: TEMPO
+    Detail: Control the tempo.
+
+  - Value: DUB MODE
+    Detail: Control “DUB MODE” of memory/REC.
+
+  - Value: REC ACTION
+    Detail: Control “REC ACTION” of memory/REC.
+
+  - Value: QUANTIZE
+    Detail: Control “QUANTIZE” of memory/REC.
+
+  - Value: AUTO REC
+    Detail: Control “AUTO REC” of memory/REC.
+
+  - Value: A.REC SENS
+    Detail: Control “A.REC SENS” of memory/REC.
+
+  - Value: A.REC SRC
+    Detail: Control “A.REC SRC” of memory/REC.
+
+  - Value: LOOP LENGTH
+    Detail: Control “LOOP LENGTH” of memory/REC.
+
+  - Value: PLAY MODE
+    Detail: Control “PLAY MODE” of memory/REC.
+
+  - Value: SINGL CHNGE
+    Detail: Control “SINGL CHNGE” of memory/REC.
+
+  - Value: FADE TIME
+    Detail: Control “FADE TIME” of memory/REC.
+
+  - Value: ALL ST TRK
+    Detail: Control “ALL START” of memory/REC.
+
+  - Value: TRK CHAIN
+    Detail: Control “TRK CHAIN” of memory/REC.
+
+  - Value: LOOP FX
+    Detail: Turn the loop FX on/off.
+
+  - Value: TR1 FX
+    Detail: Turn the loop FX on/off for track 1.
+
+  - Value: TR2 FX
+    Detail: Turn the loop FX on/off for track 2.
+
+  - Value: CUR TR FX
+    Detail: Turn the loop FX on/off for the currently selected track.
+
+  - Value: FX TYPE
+    Detail: Control “TYPE” of memory/LOOP FX.
+
+  - Value: FX INC
+    Detail: Switch the loop FX in the order of SCATTER1–4 -> REPEAT1–3 -> SHIFT1–2 -> VINYL FLICK -> SCATTER1...
+
+  - Value: FX DEC
+    Detail: Switch the loop FX in the order of VINYL FLICK0SHIFT2–1 -> REPEAT3–1 -> SCATTER4–1 -> VINYL FLICK...
+
+  - Value: FX CONTROL
+    Detail:
+      Control a parameter according to the loop FX type.
+      <div><img src="./resources/tooltips/assign_target_explanation.png"></img></div>
+
+  - Value: RHYHTM P/S
+    Detail: Switch the rhythm between play/stop.
+
+  - Value: RHYTHM PLAY
+    Detail: Play the rhythm.
+
+  - Value: RHYTHM STOP
+    Detail: Stop playing the rhythm.
+
+  - Value: RHYTHM LEV1
+    Detail: Control the “LEVEL” (p. 6) of rhythm in the range of 0–200.
+
+  - Value: RHYTHM LEV2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of rhythm as the maximum value.
+
+  - Value: RHY REVERB
+    Detail: Control “REVERB” of memory/RHYTHM.
+
+  - Value: RHY PATTERN
+    Detail: Control “PATTERN” of memory/RHYTHM.
+
+  - Value: VARIATION
+    Detail: Control “VARIATION” of memory/RHYTHM.
+
+  - Value: VAR.CHANGE
+    Detail: Control “VAR.CHANGE” of memory/RHYTHM.
+
+  - Value: KIT
+    Detail: Control “KIT” of memory/RHYTHM.
+
+  - Value: RHY START
+    Detail: Control “START” of memory/RHYTHM.
+
+  - Value: RHY STOP
+    Detail: Control “STOP” of memory/RHYTHM.
+
+  - Value: REC COUNT
+    Detail: Control “REC COUNT” of memory/RHYTHM.
+
+  - Value: PLAY COUNT
+    Detail: Control “PLAY COUNT” of memory/RHYTHM.
+
+  - Value: RHY FILL
+    Detail: Control “FILL” of memory/RHYTHM.
+
+  - Value: RHY PART1–4
+    Detail: Control “PART1”–“PART4” of memory/RHYTHM.
+
+  - Value: TONE LOW
+    Detail: Control “TONE LOW” of memory/RHYTHM.
+
+  - Value: TONE HIGH
+    Detail: Control “TONE HIGH” of memory/RHYTHM.
+
+  - Value: MEMORY INC
+    Detail: Switch to the next memory.
+
+  - Value: MEMORY DEC
+    Detail: Switch to the previous memory.
+
+  - Value: MEMORY LEV1
+    Detail: Control the “LEVEL” (p. 5) of memory in the range of 0–200.
+
+  - Value: MEMORY LEV2
+    Detail: Control the level in the range of 0–”maximum value,” with the “LEVEL” setting of memory as the maximum value.
+
+  - Value: "CC #1–31, CC #64–95"
+    Detail: Transmit a control change message of the specified controller number from the MIDI OUT connector.
+

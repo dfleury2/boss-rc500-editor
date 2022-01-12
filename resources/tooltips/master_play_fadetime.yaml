@@ -1,0 +1,9 @@
+Parameter: FADE TIME
+
+Explanation:
+  Specifies the fade-in/out time as a number of measures when START (p. 2) is set to
+  “FADE IN” or STOP (p. 2) is set to “FADE OUT.”
+
+Values: ["Notes, 1MEAS", 2MEAS, 64MEAS]
+Join: "-"
+Default: 1

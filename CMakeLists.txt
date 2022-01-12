@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
-project(Boss-Rc500-Editor)
+project(Boss-Rc500-Editor VERSION 0.0.2)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -25,6 +25,7 @@ find_package(inja REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(rapidxml REQUIRED)
 find_package(Qt6 REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)
@@ -40,9 +41,8 @@ install(DIRECTORY resources/presets  DESTINATION resources)
 install(DIRECTORY resources/fonts  DESTINATION resources)
 install(DIRECTORY doc  DESTINATION .)
 
-if(WIN32)
-    add_custom_target(zip-package
-            DEPENDS install
-            COMMAND 7z a -tzip BossRc500.zip ${CMAKE_INSTALL_PREFIX}
-            )
-endif()
+
+# Packaging
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
+
+include(CPack)

@@ -1,0 +1,8 @@
+Parameter: VARIATION
+
+Explanation:
+  Selects the rhythm pattern variation (A or B).
+
+Values: [A, B]
+#Join: "-"
+Default: 0

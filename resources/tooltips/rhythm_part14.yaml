@@ -1,0 +1,10 @@
+Parameter: PART1-4
+
+Explanation:
+  For each of the four drum parts (PART 1–4) that make up the drum kit, these settings specify
+  whether the drum sound is heard (ON) or not heard (OFF).
+  <br>PART4 is OFF by default
+
+Values: [OFF, ON]
+#Join: "-"
+Default: 1

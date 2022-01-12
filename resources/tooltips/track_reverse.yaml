@@ -1,0 +1,17 @@
+Parameter: REVERSE
+
+Explanation:
+  Specifies conventional playback (OFF) or reverse playback (ON).
+  <br>
+  * When REVERSE is set to “ON,” you won’t be able to switch to overdubbing after a recording
+  has been completed.
+
+Explanation.fr:
+  Spécifie la lecture conventionnelle (OFF) ou la lecture inversée (ON).
+  <br>
+  * Lorsque REVERSE est réglé sur «ON», vous ne pourrez pas passer en overdub une fois
+  l'enregistrement terminé
+
+Values: [OFF, ON]
+#Join: "-"
+#Default: 1

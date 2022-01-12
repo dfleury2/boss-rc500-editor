@@ -1,0 +1,10 @@
+Parameter: A. REC SENS
+
+Explanation:
+  Specifies the input sensitivity at which auto record starts. Recording will start when the
+  input from the guitar or mic exceeds the specified sensitivity.
+  <br>* Valid when AUTO REC is ON
+
+Values: [0, 50, 100]
+Join: "-"
+Default: 1

@@ -1,0 +1,22 @@
+Parameter: START
+
+Explanation:
+  Specifies how rhythm playback starts.
+
+Details:
+  - Value: LOOP START
+    Default: True
+    Detail:
+      The rhythm plays when loop recording or playback starts.
+
+  - Value: REC END
+    Detail:
+      The rhythm plays when loop recording ends and switches to playback.
+      <br>This is useful if you want to perform without specifying a tempo, then start recording, and
+      then play the loop in time with the rhythm when playback starts.
+
+  - Value: BEFORE LOOP
+    Detail:
+      The rhythm plays before loop recording or playback.
+      <br>The rhythm starts playing when you press the switch once, and recording/playback starts in
+      time with the rhythm when you press the switch once again.

@@ -1,0 +1,16 @@
+Parameter: SRC MODE
+
+Explanation:
+  If a momentary-type footswitch (such as the separately sold FS-5U) is connected as the source, you can specify how
+  footswitch operations will affect the value.
+
+Details:
+  - Value: MOMENT
+    Detail:
+      The setting will normally be off (minimum value); it will be on (maximum value) only while you
+      continue holding down the footswitch.
+
+  - Value: TOGGLE
+    Detail:
+      The setting will alternate between off (minimum value) and on (maximum value) each time you
+      press the footswitch.

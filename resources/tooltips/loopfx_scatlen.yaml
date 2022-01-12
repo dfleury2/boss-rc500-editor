@@ -1,0 +1,9 @@
+Parameter: SCAT LEN
+
+Explanation:
+  This is shown when TYPE is “SCATTER1–4.
+  <br>Specifies the scrub length. If this is set to “THRU,” there is no effect.
+
+Values: [THRU, Notes]
+#Join: "-"
+Default: 2

@@ -1,0 +1,8 @@
+Parameter: TONE HIGH
+
+Explanation:
+  Adjusts the high-frequency tonal character of the rhythm sound.
+
+Values: [-10, 0, 10]
+Join: "-"
+Default: 1

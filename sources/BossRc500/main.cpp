@@ -26,15 +26,16 @@ main(int argc, char* argv[])
 
         QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-        int font_id = QFontDatabase::addApplicationFont(QDir::currentPath() + "/resources/fonts/D-DINCondensed.ttf");
+        std::cout << "Resource Path [" << BossRc500::Resources::ResourcePath().toStdString() << "]" << std::endl;
+
+        int font_id = QFontDatabase::addApplicationFont(BossRc500::Resources::Fonts() + "/D-DINCondensed.ttf");
         auto family = QFontDatabase::applicationFontFamilies(font_id).at(0);
 
         qApp->setFont(QFont{family, 15});
         qApp->setStyleSheet(BossRc500::StyleSheet);
 
-        QMainWindow win;
-        BossRc500MainWindow bossUi(win);
-        win.show();
+        BossRc500MainWindow bossUi;
+        bossUi.show();
 
         return QCoreApplication::exec();
     }

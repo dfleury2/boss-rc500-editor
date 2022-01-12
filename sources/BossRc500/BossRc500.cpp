@@ -1,6 +1,13 @@
 #include "BossRc500.hpp"
 
 #include <QStandardItemModel>
+#include <QCoreApplication>
+#include <QDir>
+
+#include <yaml-cpp/yaml.h>
+#include <nlohmann/json.hpp>
+
+#include <iostream>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -62,7 +69,39 @@ QLabel#label_Logo {
     font-family: Serif;
 }
 
+QToolTip {
+    background-color:white;
+    font-size: 16px;
+}
+
 )";
+
+// --------------------------------------------------------------------------
+// Try to find the 'resources' directory, first near the exe location,
+// next using workdir
+// --------------------------------------------------------------------------
+QString
+Resources::ResourcePath()
+{
+    static QString resource_path;
+
+    if (!resource_path.isEmpty()) {
+        return resource_path;
+    }
+
+    QDir dir = QCoreApplication::applicationDirPath() + "/resources";
+    if (!dir.exists()) {
+        dir = QDir::currentPath() + "/resources";
+        if (!dir.exists()) {
+            std::cout << "No resources directory here: " << std::endl;
+            std::cout << "Application path: " << (QCoreApplication::applicationDirPath() + "/resources").toStdString() << std::endl;
+            std::cout << "working dir path: " << (QDir::currentPath() + "/resources").toStdString() << std::endl;
+            throw std::runtime_error("Resources directory not found");
+        }
+    }
+
+    return resource_path = dir.path();
+}
 
 // --------------------------------------------------------------------------
 void
@@ -123,12 +162,12 @@ Measure(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
     cb->addItem("AUTO");
     cb->addItem("FREE");
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Dot. Quarter Note");
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note");
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Dot. Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Dot. Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Dot. Half Note");
     for (int i = 1; i <= 16; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
@@ -173,10 +212,10 @@ void
 FadeTime(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver");
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver");
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note");
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note");
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note");
     for (int i = 1; i <= 32; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
@@ -215,13 +254,13 @@ ScatLen(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU");
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
 }
 
 // --------------------------------------------------------------------------
@@ -231,14 +270,14 @@ ReptLen(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU", 0);
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
-    cb->addItem(QIcon("./resources/images/demi semi-quaver.png"), "Demi Semi-quaver", 1);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/demi semi-quaver.png"), "Demi Semi-quaver", 1);
 }
 
 // --------------------------------------------------------------------------
@@ -248,13 +287,13 @@ Shift(QComboBox* cb)
     cb->setIconSize(QSize{32, 32});
 
     cb->addItem("THRU");
-    cb->addItem(QIcon("./resources/images/semi-quaver.png"), "Semi-quaver", 2);
-    cb->addItem(QIcon("./resources/images/quaver.png"), "Quaver", 3);
-    cb->addItem(QIcon("./resources/images/quarter note.png"), "Quarter Note", 4);
-    cb->addItem(QIcon("./resources/images/quarter note dotted.png"), "Quarter Note Dotted", 5);
-    cb->addItem(QIcon("./resources/images/half note.png"), "Half Note", 6);
-    cb->addItem(QIcon("./resources/images/half note dotted.png"), "Half Note Dotted", 7);
-    cb->addItem(QIcon("./resources/images/whole note.png"), "Whole Note", 8);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note dotted.png"), "Quarter Note Dotted", 5);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note", 6);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note dotted.png"), "Half Note Dotted", 7);
+    cb->addItem(QIcon(BossRc500::Resources::Images() + "/whole note.png"), "Whole Note", 8);
 }
 
 // --------------------------------------------------------------------------
@@ -319,28 +358,101 @@ ShiftLen_EnableItems(QComboBox* cb, const Beat& beat)
     }
 }
 
-
 // --------------------------------------------------------------------------
 void
 RhythmPattern(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {
-            "SimpleBeat1", "SimpleBeat2", "SimpleBeat3", "SimpleBeat4",
-            "GrooveBeat1", "GrooveBeat2", "GrooveBeat3", "GrooveBeat4", "GrooveBeat5", "GrooveBeat6", "GrooveBeat7",
-            "Rock1", "Rock2", "Rock3", "Rock4",
-            "Funk1", "Funk2", "Funk3", "Funk4",
-            "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
-            "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
-            "SideStick1", "SideStick2", "SideStick3", "SideStick4", "SideStick5",
-            "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
-            "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
-            "Conga1", "Conga2", "Conga3",
-            "Bossa1", "Bossa2",
-            "Samba1", "Samba2",
-            "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
-            "Metronome1", "Metronome2", "Metronome3", "Metronome4",
-            "Blank"
-    });
+    RhythmPatternWithBeat(cb, Beat{4, 4});
+}
+
+// --------------------------------------------------------------------------
+void
+RhythmPatternWithBeat(QComboBox* cb, const Beat& beat, int index)
+{
+    auto currentText = (cb->currentIndex() != 0 ? cb->currentText() : "");
+    if (cb->count()) {
+        cb->clear();
+    }
+
+    // Available patterns depends on the beat...
+    if (beat == Beat{4, 4}) {
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2", "SimpleBeat3", "SimpleBeat4",
+                "GrooveBeat1", "GrooveBeat2", "GrooveBeat3", "GrooveBeat4", "GrooveBeat5", "GrooveBeat6", "GrooveBeat7",
+                "Rock1", "Rock2", "Rock3", "Rock4",
+                "Funk1", "Funk2", "Funk3", "Funk4",
+                "Shuffle1", "Shuffle2", "Shuffle3", "Shuffle4", "Shuffle5",
+                "Swing1", "Swing2", "Swing3", "Swing4", "Swing5",
+                "SideStick1", "SideStick2", "SideStick3", "SideStick4", "SideStick5",
+                "PercusBeat1", "PercusBeat2", "PercusBeat3", "PercusBeat4",
+                "LatinBeat1", "LatinBeat2", "LatinBeat3", "LatinBeat4",
+                "Conga1", "Conga2", "Conga3",
+                "Bossa1", "Bossa2",
+                "Samba1", "Samba2",
+                "DanceBeat1", "DanceBeat2", "DanceBeat3", "DanceBeat4",
+                "Metronome1", "Metronome2", "Metronome3", "Metronome4",
+                "Blank"
+        });
+    }
+    else if (beat.y() == 4) {
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2",
+                "Rock1", "Rock2",
+                "Funk1",
+                "Shuffle1",
+                "Swing1",
+                "SideStick1",
+                "DanceBeat1",
+                "Metronome1", "Metronome2", "Metronome3", "Metronome4",
+                "Blank"
+        });
+    }
+    else { // beat.y() == 8
+        AddItemsToComboBox(cb, {
+                "SimpleBeat1", "SimpleBeat2",
+                "Rock1", "Rock2",
+                "Funk1",
+                "Shuffle1",
+                "Swing1",
+                "SideStick1",
+                "DanceBeat1",
+                "Metronome1", "Metronome2",
+                "Blank"
+        });
+    }
+
+    if (currentText.isEmpty() && index != -1 && cb->count() > index) {
+        cb->setCurrentIndex(index);
+    }
+    else {
+        if (!currentText.isEmpty()) { // Try to find the current Text
+            auto found = cb->findText(currentText);
+            if (found == -1) {
+                found = 0;
+            }
+            cb->setCurrentIndex(found);
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+void
+Pattern_EnableItems(QComboBox* cb, const Beat& beat)
+{
+    auto current_index = cb->currentIndex();
+
+    SetComboBoxItemEnabled(cb, 0, true); // THRU - Always active
+    SetComboBoxItemEnabled(cb, 1, true); // Semi-quaver
+    SetComboBoxItemEnabled(cb, 2, true); // Quaver
+    SetComboBoxItemEnabled(cb, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14); // Quarter Note
+    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0); // Quarter Note Dotted
+    SetComboBoxItemEnabled(cb, 5, beat.x() == 2 || beat.x() == beat.y()); // Half Note
+    SetComboBoxItemEnabled(cb, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12 ); // Half Note Dotted
+    SetComboBoxItemEnabled(cb, 7, beat.x() == beat.y()); // Whole Note
+
+    if (!IsComboBoxItemEnabled(cb, current_index)) {
+        cb->setCurrentIndex(2); // Quaver as default
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -392,6 +504,9 @@ RhythmTone(QComboBox* cb)
         cb->addItem(((i > 0 ? "+" : "") + std::to_string(i)).c_str());
     }
 }
+
+// --------------------------------------------------------------------------
+void RhythmState(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "READY"}); }
 
 // --------------------------------------------------------------------------
 void
@@ -628,6 +743,145 @@ void
 PeakSource(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"ALL IN", "MIC IN", "INST IN", "LOOP&RHYTHM"});
+}
+
+// --------------------------------------------------------------------------
+Tooltips::Tooltips(const QString& language) :
+        _language(language)
+{
+    _tpl = _env.parse_file(BossRc500::Resources::Tooltips().toStdString() + "/tooltips_template.txt");
+}
+
+// --------------------------------------------------------------------------
+QString Tooltips::track_Reverse() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_reverse.yaml"); }
+QString Tooltips::track_LoopFx() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_loopfx.yaml"); }
+QString Tooltips::track_OneShot() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_oneshot.yaml"); }
+QString Tooltips::track_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_level.yaml"); }
+QString Tooltips::track_Pan() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_pan.yaml"); }
+QString Tooltips::track_Start() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_start.yaml"); }
+QString Tooltips::track_Stop() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_stop.yaml"); }
+QString Tooltips::track_Measure() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_measure.yaml"); }
+QString Tooltips::track_LoopSync() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_loopsync.yaml"); }
+QString Tooltips::track_TempoSync() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_temposync.yaml"); }
+QString Tooltips::track_Input() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_input.yaml"); }
+QString Tooltips::track_Output() { return load_tooltip(BossRc500::Resources::Tooltips() + "/track_output.yaml"); }
+
+QString Tooltips::master_rec_DubMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_dubmode.yaml"); }
+QString Tooltips::master_rec_RecAction() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_recaction.yaml"); }
+QString Tooltips::master_rec_Quantize() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_quantize.yaml"); }
+QString Tooltips::master_rec_AutoRec() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_autorec.yaml"); }
+QString Tooltips::master_rec_ARecSens() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_arecsens.yaml"); }
+QString Tooltips::master_rec_ARecSrc() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_arecsrc.yaml"); }
+QString Tooltips::master_rec_LoopLength() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_rec_looplength.yaml"); }
+
+QString Tooltips::master_play_PlayMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_playmode.yaml"); }
+QString Tooltips::master_play_SinglChange() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_singlchange.yaml"); }
+QString Tooltips::master_play_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_level.yaml"); }
+QString Tooltips::master_play_FadeTime() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_fadetime.yaml"); }
+QString Tooltips::master_play_AllStart() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_allstart.yaml"); }
+QString Tooltips::master_play_TrkChain() { return load_tooltip(BossRc500::Resources::Tooltips() + "/master_play_trkchain.yaml"); }
+
+QString Tooltips::loopfx_LoopFx() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_loopfx.yaml"); }
+QString Tooltips::loopfx_Type() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_type.yaml"); }
+QString Tooltips::loopfx_ScatLen() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_scatlen.yaml"); }
+QString Tooltips::loopfx_ReptLen() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_reptlen.yaml"); }
+QString Tooltips::loopfx_Shift() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_shift.yaml"); }
+QString Tooltips::loopfx_Flick() { return load_tooltip(BossRc500::Resources::Tooltips() + "/loopfx_flick.yaml"); }
+
+QString Tooltips::rhythm_Level() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_level.yaml"); }
+QString Tooltips::rhythm_Reverb() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_reverb.yaml"); }
+QString Tooltips::rhythm_Pattern() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_pattern.yaml"); }
+QString Tooltips::rhythm_Variation() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_variation.yaml"); }
+QString Tooltips::rhythm_VarChange() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_varchange.yaml"); }
+QString Tooltips::rhythm_Kit() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_kit.yaml"); }
+QString Tooltips::rhythm_Beat() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_beat.yaml"); }
+QString Tooltips::rhythm_Start() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_start.yaml"); }
+QString Tooltips::rhythm_Stop() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_stop.yaml"); }
+QString Tooltips::rhythm_RecCount() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_reccount.yaml"); }
+QString Tooltips::rhythm_PlayCount() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_playcount.yaml"); }
+QString Tooltips::rhythm_Fill() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_fill.yaml"); }
+QString Tooltips::rhythm_Part14() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_part14.yaml"); }
+QString Tooltips::rhythm_ToneLow() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_tonelow.yaml"); }
+QString Tooltips::rhythm_ToneHigh() { return load_tooltip(BossRc500::Resources::Tooltips() + "/rhythm_tonehigh.yaml"); }
+
+QString Tooltips::assign_Assign() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_assign.yaml"); }
+QString Tooltips::assign_Source() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_source.yaml"); }
+QString Tooltips::assign_SourceMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_sourcemode.yaml"); }
+QString Tooltips::assign_Target() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_target.yaml"); }
+QString Tooltips::assign_TargetMinMax() { return load_tooltip(BossRc500::Resources::Tooltips() + "/assign_targetminmax.yaml"); }
+
+QString Tooltips::control_PdlCtl() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_pdlctl.yaml"); }
+QString Tooltips::control_Exp() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_exp.yaml"); }
+
+// --------------------------------------------------------------------------
+QString
+Tooltips::load_tooltip(const QString& filename)
+{
+    QString tooltip = "*** Error while loading the tooltip ***";
+
+    nlohmann::json json;
+    try {
+        YAML::Node yaml = YAML::LoadFile(filename.toStdString().c_str());
+        if (yaml["Parameter"]) {
+            json["Parameter"] = yaml["Parameter"].as<std::string>();
+        }
+
+        if (!_language.isEmpty() && yaml[("Explanation." + _language).toStdString().c_str()]) {
+            if (yaml[("Explanation." + _language).toStdString().c_str()]) {
+                json["Explanation"] = yaml[("Explanation." + _language).toStdString().c_str()].as<std::string>();
+            }
+        }
+        else {
+            if (yaml["Explanation"]) {
+                json["Explanation"] = yaml["Explanation"].as<std::string>();
+            }
+        }
+
+        // Always present, default values
+        json["Values"] = nlohmann::json::array();
+        json["Join"] = ",";
+        json["DefaultIndex"] = 0;
+
+        if (yaml["Values"] && yaml["Values"].IsSequence()) {
+            for (auto&& value : yaml["Values"]) {
+                json["Values"].push_back(value.as<std::string>());
+            }
+
+            if (yaml["Join"]) json["Join"] = yaml["Join"].as<std::string>();
+            if (yaml["Default"]) json["DefaultIndex"] = yaml["Default"].as<int>();
+        }
+
+        auto details_json = nlohmann::json::array();
+
+        if (yaml["Details"] && yaml["Details"].IsSequence()) {
+            for (auto&& detail : yaml["Details"]) {
+                nlohmann::json detail_json;
+                if (detail["Value"]) {
+                    detail_json["Value"] = detail["Value"].as<std::string>();
+                }
+                detail_json["Default"] = (detail["Default"] && detail["Default"].as<bool>());
+
+                if (!_language.isEmpty() && detail[("Detail." + _language).toStdString().c_str()]) {
+                    if (detail[("Detail." + _language).toStdString().c_str()]) {
+                        detail_json["Detail"] = detail[("Detail." + _language).toStdString().c_str()].as<std::string>();
+                    }
+                }
+                else if (detail["Detail"]) {
+                    detail_json["Detail"] = detail["Detail"].as<std::string>();
+                }
+
+                details_json.push_back(std::move(detail_json));
+            }
+        }
+        json["Details"] = std::move(details_json);
+
+        tooltip = _env.render(_tpl, json).c_str();
+    }
+    catch (const std::exception& ex) {
+        std::cout << ex.what() << std::endl;
+    }
+
+    return tooltip;
 }
 
 

@@ -1,0 +1,197 @@
+Parameter: PDL1-3, CTL1-2 FUNC
+
+Explanation:
+  Specify the functions of the [REC/PLAY] switch (PDL1), [STOP] switch (PDL2), [TRACK SELECT] switch (PDL3), and a
+  footswitch connected to the CTL 1, 2/EXP jack.
+
+Details:
+  - Value: OFF
+    Detail: No function is assigned.
+
+  - Value: T1, T2 REC/PLY
+    Detail:
+      Switch between record/play/overdubbing for track 1 or 2.
+      Long press (two seconds or longer) the switch during playback or overdubbing to Undo, long
+      press the switch once again to Redo.
+
+  - Value: T1, T2 R/P/S
+    Detail:
+      Switch between record/play/stop (press the switch twice) for track 1 or 2.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+
+  - Value: T1, T2 R/P/S(C
+    Detail:
+      Switch between record/play/stop (press the switch twice) for track 1 or 2.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+
+  - Value: T1, T2 MOM R/P
+    Detail: Put track 1 or 2 in record/play only while you hold down the switch.
+
+  - Value: T1, T2 PLY/STP
+    Detail: Switch between play/stop for track 1 or 2.
+
+  - Value: T1, T2 P/S(CLR
+    Detail:
+      Switch between play/stop for track 1 or 2.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+  - Value: T1, T2 STOP
+    Detail: Stop record/play for track 1 or 2.
+
+  - Value: T1, T2 STOP(TAP
+    Detail:
+      Stop record/play for track 1 or 2.
+      Specify the tempo (tap tempo) by pressing the switch several times at the desired interval while stopped.
+
+  - Value: T1, T2 STOP(CLR
+    Detail:
+      Stop record/play for track 1 or 2.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+
+  - Value: T1, T2 STOP(T/C
+    Detail:
+      Stop record/play for track 1 or 2.
+      Specify the tempo (tap tempo) by pressing the switch several times at the desired interval while
+      stopped.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+  - Value: T1, T2 CLEAR
+    Detail: Clear track 1 or 2.
+
+  - Value: T1, T2 UND/RED
+    Detail: Undo/redo recording or the most recent overdubbing for track 1 or 2.
+
+  - Value: T1, T2 REVERSE
+    Detail: Turn reverse play on/off for track 1 or 2.
+
+  - Value: TRK SELECT (PDL3)
+    Default: True
+    Detail:
+      Switch between tracks 1 and 2. Long-press the switch to select both tracks.
+      If both tracks are selected, operating the switch assigned to CUR REC/PLY lets you control play/
+      stop for both tracks.
+
+  - Value: CUR REC/PLY (PDL1)
+    Default: True
+    Detail:
+      Switch between record/play/overdubbing for the currently selected track.
+      Long press (two seconds or longer) the switch during playback or overdubbing to Undo, long
+      press the switch once again to Redo.
+
+  - Value: CUR R/P/S
+    Detail:
+      Switch between record/play/stop (press the switch twice) for the currently selected track.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+
+  - Value: CUR R/P/S(C
+    Detail:
+      Switch between record/play/stop (press the switch twice) for the currently selected track.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+
+  - Value: CUR MOM R/P
+    Detail:
+      Select record/play/overdubbing for the currently selected track only while you hold down the
+      switch.
+
+  - Value: CUR PLY/STP
+    Detail:
+      Switch between play/stop for the currently selected track.
+
+  - Value: CUR P/S(CLR
+    Detail:
+      Switch between play/stop for track 1 or 2.
+      Long press (two seconds or longer) the switch during recording or playback to Undo, long press
+      the switch once again to Redo.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+
+  - Value: CUR STOP
+    Detail: Stop record/play for the currently selected track.
+
+  - Value: CUR STP(TAP
+    Detail:
+      Stop record/play for the currently selected track.
+      Specify the tempo (tap tempo) by pressing the switch several times at the desired interval while
+      stopped.
+
+  - Value: CUR STP(CLR (PDL2)
+    Default: True
+    Detail:
+      Stop record/play for the currently selected track.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+
+  - Value: CUR STP(T/C
+    Detail:
+      Stop record/play for the currently selected track.
+      Specify the tempo (tap tempo) by pressing the switch several times at the desired interval while
+      stopped.
+      Long press (two seconds or longer) the switch during stopped, the track is cleared.
+  - Value: CUR CLEAR
+    Detail: Clear the currently selected track.
+
+  - Value: CUR UND/RED
+    Detail: Undo/redo recording or the most recent overdubbing for the currently selected track.
+
+  - Value: CUR REVERSE
+    Detail: Turn reverse play on/off for the currently selected track.
+
+  - Value: UNDO/REDO
+    Detail: Allows you to undo/redo the last recording or overdubbing of a track.
+
+  - Value: ALL START
+    Detail: Simultaneously start play for tracks 1 and 2.
+
+  - Value: TAP TEMPO
+    Detail:
+      Press the switch several times at the desired interval to specify the tempo.
+      Long-press the switch (two seconds or longer) to return to the previous tempo.
+
+  - Value: LOOP FX (CTL1)
+    Default: True
+    Detail: Turn the loop FX on/off.
+
+  - Value: TR1 FX
+    Detail: Turn the loop FX on/off for track 1.
+
+  - Value: TR2 FX
+    Detail: Turn the loop FX on/off for track 2.
+
+  - Value: CUR TR FX
+    Detail: Turn the loop FX on/off for the currently selected track.
+
+  - Value: FX INC
+    Detail:
+      Switch the loop FX in the order of SCATTER1–4 -> REPEAT1–3 -> SHIFT1–2 -> VINYL FLICK -> SCATTER1...
+
+  - Value: FX DEC
+    Detail: Switch the loop FX in the order of VINYL FLICK -> SHIFT2–1 -> REPEAT3–1 -> SCATTER4–1 -> VINYL FLICK...
+
+  - Value: RHYHTM P/S
+    Detail: Switch the rhythm between play/stop.
+
+  - Value: RHYTHM PLAY
+    Detail: Play the rhythm.
+
+  - Value: RHYTHM STOP
+    Detail: Stop playing the rhythm.
+
+  - Value: MEMORY INC (CTL2)
+    Default: True
+    Detail: Switch to the next memory.
+
+  - Value: MEMORY DEC
+    Detail: Switch to the previous memory.
+
+  - Value: MIC MUTE
+    Detail: Mute the audio from the mic.
+
+  - Value: EXTENT INC
+    Detail: Switch the “EXTENT” (p. 13) setting in the order of EXT1 -> EXT2...EXT5 -> ...
+
+  - Value: EXTENT DEC
+    Detail: Switch the “EXTENT” (p. 13) setting in the order of EXT5 -> EXT4...EXT1 -> ...
