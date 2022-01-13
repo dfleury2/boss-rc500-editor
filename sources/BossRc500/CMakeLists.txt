@@ -3,7 +3,9 @@ if (WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
 endif ()
 
-add_executable(BossRc500
+set(app_icon_resource_windows "${PROJECT_SOURCE_DIR}/resources/images/BossRc500.rc")
+
+qt_add_executable(BossRc500
         Designer/ui_Boss-rc500-main.h
         Designer/ui_Boss-rc500-assign.h
         Designer/ui_Boss-rc500-system.h
@@ -17,6 +19,7 @@ add_executable(BossRc500
         BossRc500SystemDialog.cpp
         BossRc500MainWindow.hpp
         BossRc500MainWindow.cpp
+        ${app_icon_resource_windows}
 )
 
 target_link_libraries(BossRc500
