@@ -347,7 +347,7 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
         }
         case 77: // RHY PATTERN
         {
-            BossRc500::RhythmPatternMinMax(targetMin, targetMax);
+            BossRc500::RhythmPatternMinMax(targetMin, targetMax, _beat);
             break;
         }
         case 78: // VARIATION
