@@ -1,5 +1,7 @@
 #include "BossRc500MainWindow.hpp"
 
+#include <BossReaderWriter/BossReaderWriter.hpp>
+
 #include <QApplication>
 #include <QtPlugin>
 #include <QDialog>
@@ -28,12 +30,19 @@ main(int argc, char* argv[])
 
         std::cout << "Resource Path [" << BossRc500::Resources::ResourcePath().toStdString() << "]" << std::endl;
 
+        // Font
         int font_id = QFontDatabase::addApplicationFont(BossRc500::Resources::Fonts() + "/D-DINCondensed.ttf");
         auto family = QFontDatabase::applicationFontFamilies(font_id).at(0);
+        qApp->setFont(QFont{family, 14});
 
-        qApp->setFont(QFont{family, 15});
+        // Stylesheet
         qApp->setStyleSheet(BossRc500::StyleSheet);
 
+        // Read default database files
+        BossRc500::DatabaseSysDefault = ReadSystemDatabase(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
+        BossRc500::DatabaseMemDefault = ReadMemoryDatabase(BossRc500::Resources::Templates().toStdString() + "/MEMORY_DEFAULT.RC0");
+
+        // Show the main window
         BossRc500MainWindow bossUi;
         bossUi.show();
 
