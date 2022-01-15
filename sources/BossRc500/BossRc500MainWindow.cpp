@@ -859,10 +859,6 @@ void
 BossRc500MainWindow::load_database_mem(const std::string& filename)
 {
     _database_mem = ReadMemoryDatabase(filename);
-    if (BossRc500::DatabaseMemDefault.is_null()) {
-        // Load the default values only on start
-        BossRc500::DatabaseMemDefault = _database_mem;
-    }
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
@@ -878,11 +874,7 @@ BossRc500MainWindow::load_database_mem(const std::string& filename)
 void
 BossRc500MainWindow::load_database_sys(const std::string& filename)
 {
-    BossRc500::DatabaseSysDefault = _database_sys = ReadSystemDatabase(filename);
-    if (BossRc500::DatabaseSysDefault.is_null()) {
-        // Load the default values only on start
-        BossRc500::DatabaseSysDefault = _database_sys;
-    }
+    _database_sys = ReadSystemDatabase(filename);
 }
 
 // --------------------------------------------------------------------------
