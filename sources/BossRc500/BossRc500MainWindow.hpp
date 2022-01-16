@@ -34,6 +34,7 @@ private:
 
     void on_edit();
     void on_copy();
+    void on_advanced_copy();
 
     void on_control_pdlctl_help();
 

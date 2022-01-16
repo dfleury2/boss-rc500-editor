@@ -8,10 +8,12 @@ add_executable(BossRc500
         Designer/ui_Boss-rc500-assign.h
         Designer/ui_Boss-rc500-system.h
         Designer/ui_Boss-rc500-text.h
+        Designer/ui_Boss-rc500-copy.h
         main.cpp
         BossRc500.hpp
         BossRc500.cpp
-        BossRc500AssignDialog.hpp
+        BossRc500AdvancedCopyDialog.hpp
+        BossRc500AdvancedCopyDialog.cpp
         BossRc500AssignDialog.cpp
         BossRc500SystemDialog.hpp
         BossRc500SystemDialog.cpp
