@@ -83,13 +83,14 @@ BossRc500MainWindow::setup()
         default_themes->setChecked(true);
         _preferences_themes_group->addAction(default_themes);
 
-        auto dir_it = QDirIterator(BossRc500::Resources::Themes());
-        while (dir_it.hasNext()) {
-            auto filename = dir_it.next();
-            if (filename.endsWith(".css", Qt::CaseInsensitive) && !dir_it.fileInfo().baseName().startsWith("Default", Qt::CaseInsensitive)) {
-                std::cout << "Loading theme file [" << filename.toStdString() << "]" << std::endl;
+        for (auto&& file_info : QDir{BossRc500::Resources::Themes()}.entryInfoList(QDir::Files)) {
+            std::cout << "Loading theme file [" << file_info.absoluteFilePath().toStdString() << "]" << std::endl;
 
-                auto theme = themesMenu->addAction(dir_it.fileInfo().baseName(), [this, filename] { on_ToolMenu_Themes(filename); });
+            if (file_info.completeSuffix() == "css" && file_info.baseName() != "Default") {
+                auto filename = file_info.absoluteFilePath();
+                std::cout << "Add theme file [" << filename.toStdString() << "]" << std::endl;
+
+                auto theme = themesMenu->addAction(file_info.baseName(), [this, filename] { on_ToolMenu_Themes(filename); });
                 theme->setCheckable(true);
                 _preferences_themes_group->addAction(theme);
             }
