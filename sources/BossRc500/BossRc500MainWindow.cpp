@@ -48,9 +48,6 @@ BossRc500MainWindow::setup()
     // Add some tweaks...
     setFixedSize(width(), height());
 
-    _font_bold = font();
-    _font_bold.setWeight(QFont::Weight::Bold);
-
     auto fileMenu = new QMenu("File", menuBar());
     fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New);
     fileMenu->addAction("Open...",      this, &BossRc500MainWindow::on_ToolMenu_Open);
@@ -767,7 +764,6 @@ BossRc500MainWindow::on_control_pdlctl_help()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-
 }
 
 // --------------------------------------------------------------------------
@@ -796,7 +792,12 @@ BossRc500MainWindow::on_memory_changed()
 {
     _is_loading = true;
 
-    load_memory(cb_Memory->currentIndex());
+    try {
+        load_memory(cb_Memory->currentIndex());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
 
     _is_loading = false;
 }
@@ -805,7 +806,7 @@ BossRc500MainWindow::on_memory_changed()
 void
 BossRc500MainWindow::on_rhythm_play()
 {
-    std::string drumkit_filename = BossRc500::Resources::Drumkits().toStdString();
+    std::string drumkit_filename = BossRc500::Resources::DrumKits().toStdString();
     drumkit_filename += "/" + rhythm_Pattern->currentText().toStdString() + "_";
     drumkit_filename += rhythm_Variation->currentText().toStdString() + "_";
 

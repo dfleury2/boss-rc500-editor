@@ -19,7 +19,7 @@ extern const char* StyleSheet;
 struct Resources {
     static QString ResourcePath();
 
-    static QString Drumkits() { return ResourcePath() + "/drumkits"; }
+    static QString DrumKits() { return ResourcePath() + "/drumkits"; }
     static QString Fonts() { return ResourcePath() + "/fonts"; }
     static QString Images()  { return ResourcePath() + "/images"; }
     static QString Presets() { return ResourcePath() + "/presets"; }
@@ -182,7 +182,8 @@ void DisplayContrast(QComboBox* cb);
 void DisplayMode(QComboBox* cb);
 void UndoRedo(QComboBox* cb);
 void Extent(QComboBox* cb);
-void ExtentMinMax(QComboBox* cb);
+void ExtentMin(QComboBox* cb);
+void ExtentMax(QComboBox* cb);
 void PedalCtlExpPref(QComboBox* cb);
 
 // Midi

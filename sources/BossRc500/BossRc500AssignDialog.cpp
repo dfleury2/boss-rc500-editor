@@ -49,11 +49,21 @@ BossRc500AssignDialog::setup()
     _targetMaxs = { assign1_TargetMax, assign2_TargetMax, assign3_TargetMax, assign4_TargetMax,
                  assign5_TargetMax, assign6_TargetMax, assign7_TargetMax, assign8_TargetMax };
 
-    add_tooltips();
-    add_combo_items();
-    add_callbacks();
+    _is_loading = true;
 
-    load_assign();
+
+    try {
+        add_tooltips();
+        add_combo_items();
+        add_callbacks();
+
+        load_assign();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------

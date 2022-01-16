@@ -2,10 +2,9 @@
 
 #include <QApplication>
 #include <QtPlugin>
-#include <QDialog>
 #include <QFontDatabase>
 #include <QStyleFactory>
-#include <QDir>
+#include <QDirIterator>
 
 #include <iostream>
 
@@ -18,21 +17,37 @@ Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 #endif
 
 // --------------------------------------------------------------------------
+void
+LoadFonts(const QString& font_dir)
+{
+    auto dir_it = QDirIterator(BossRc500::Resources::Fonts());
+    while (dir_it.hasNext()) {
+        auto filename = dir_it.next();
+        if (filename.endsWith(".ttf")) {
+            std::cout << "Loading font file [" << filename.toStdString() << "]" << std::endl;
+            int font_id = QFontDatabase::addApplicationFont(filename);
+            if (font_id != -1) {
+                std::cout << "[" << QFontDatabase::applicationFontFamilies(font_id).at(0).toStdString()
+                          << "] font family loaded" << std::endl;
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
 int
 main(int argc, char* argv[])
 {
     try {
         QApplication app(argc, argv);
-
         QApplication::setStyle(QStyleFactory::create("Fusion"));
-
         std::cout << "Resource Path [" << BossRc500::Resources::ResourcePath().toStdString() << "]" << std::endl;
 
-        int font_id = QFontDatabase::addApplicationFont(BossRc500::Resources::Fonts() + "/D-DINCondensed.ttf");
-        auto family = QFontDatabase::applicationFontFamilies(font_id).at(0);
+        LoadFonts(BossRc500::Resources::Fonts());
 
-        qApp->setFont(QFont{family, 15});
-        qApp->setStyleSheet(BossRc500::StyleSheet);
+        QFile defaultStyleSheet{BossRc500::Resources::Themes() + "/Default.css"};
+        defaultStyleSheet.open(QFile::ReadOnly);
+        qApp->setStyleSheet(QTextStream(&defaultStyleSheet).readAll());
 
         BossRc500MainWindow bossUi;
         bossUi.show();

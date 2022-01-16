@@ -105,7 +105,10 @@ private:
             is_modified = (default_value != value);
         }
 
-        w->setFont(is_modified ? _font_bold : font());
+
+        const char* styleSheet = is_modified ? "font-weight: bold;" : "font-weight:normal;";
+//        std::cout << "[" << styleSheet << "]" << std::endl;
+        w->setStyleSheet(styleSheet);
     }
 
     template<typename Widget>
@@ -120,7 +123,8 @@ private:
 
         bool is_modified = (value != default_value);
 
-        w->setFont(is_modified ? _font_bold : font());
+        QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
+        w->setStyleSheet(styleSheet);
     }
 
 private:
@@ -129,7 +133,6 @@ private:
 
     std::string     _dirname;
 
-    QFont _font_bold; // different from default
     QMenu* _presetLoadMenu = nullptr;
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 

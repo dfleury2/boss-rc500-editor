@@ -1,6 +1,6 @@
 # Make this a GUI application on Windows
 if (WIN32)
-    set(CMAKE_WIN32_EXECUTABLE ON)
+    #set(CMAKE_WIN32_EXECUTABLE ON)
 endif ()
 
 add_executable(BossRc500
