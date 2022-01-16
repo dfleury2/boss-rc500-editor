@@ -39,8 +39,10 @@ private:
     template<typename Widget, typename Value>
     void update_mem_database(int index, const char* name, Value value, Widget* w)
     {
-        std::cout << "Assign: " << name << ": " << value << std::endl;
-        database["mem"][_memory_index]["ASSIGN"][index][name] = static_cast<int>(value);
+        if (!_is_loading) {
+            std::cout << "Assign: " << name << ": " << value << std::endl;
+            database["mem"][_memory_index]["ASSIGN"][index][name] = static_cast<int>(value);
+        }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][_memory_index]["ASSIGN"][index][name].get<int>();
 
@@ -73,4 +75,5 @@ private:
     std::vector<QComboBox*> _targetMaxs;
 
     QFont           _font_bold; // different from default
+    bool _is_loading = false; // Allow detecting on new/load on callback calls
 };

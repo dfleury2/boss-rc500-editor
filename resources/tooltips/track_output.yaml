@@ -1,0 +1,18 @@
+Parameter: OUTPUT
+
+Explanation:
+  Specifies the output destination of the playback audio.
+
+Details:
+  - Value: ALL
+    Default: True
+    Detail:
+      Audio is output from both OUTPUT A/MONO and B jacks.
+
+  - Value: OUT-A
+    Detail:
+      Audio is output from the OUTPUT A/MONO jack.
+
+  - Value: OUT-B
+    Detail:
+      Audio is output from the OUTPUT B jack.

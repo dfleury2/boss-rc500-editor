@@ -1,6 +1,8 @@
 #include "BossRc500SystemDialog.hpp"
 #include "BossRc500.hpp"
 
+#include <QMessageBox>
+
 // --------------------------------------------------------------------------
 BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& db) :
         _parent(dialog), database(db)
@@ -20,11 +22,21 @@ BossRc500SystemDialog::setup()
     _font_bold = _parent.font();
     _font_bold.setWeight(QFont::Weight::Bold);
 
-    add_tooltips();
-    add_combo_items();
-    add_callbacks();
+    _is_loading = true;
 
-    load_system();
+    try {
+        add_tooltips();
+        add_combo_items();
+        add_callbacks();
+
+
+        load_system();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+
+    _is_loading = false;
 }
 
 // --------------------------------------------------------------------------
@@ -54,16 +66,16 @@ BossRc500SystemDialog::add_combo_items()
 
     // Extent
     BossRc500::Extent(extent_Extent);
-    BossRc500::ExtentMinMax(extent_Extent1Min);
-    BossRc500::ExtentMinMax(extent_Extent1Max);
-    BossRc500::ExtentMinMax(extent_Extent2Min);
-    BossRc500::ExtentMinMax(extent_Extent2Max);
-    BossRc500::ExtentMinMax(extent_Extent3Min);
-    BossRc500::ExtentMinMax(extent_Extent3Max);
-    BossRc500::ExtentMinMax(extent_Extent4Min);
-    BossRc500::ExtentMinMax(extent_Extent4Max);
-    BossRc500::ExtentMinMax(extent_Extent5Min);
-    BossRc500::ExtentMinMax(extent_Extent5Max);
+    BossRc500::ExtentMin(extent_Extent1Min);
+    BossRc500::ExtentMax(extent_Extent1Max);
+    BossRc500::ExtentMin(extent_Extent2Min);
+    BossRc500::ExtentMax(extent_Extent2Max);
+    BossRc500::ExtentMin(extent_Extent3Min);
+    BossRc500::ExtentMax(extent_Extent3Max);
+    BossRc500::ExtentMin(extent_Extent4Min);
+    BossRc500::ExtentMax(extent_Extent4Max);
+    BossRc500::ExtentMin(extent_Extent5Min);
+    BossRc500::ExtentMax(extent_Extent5Max);
 
     // Preference
     BossRc500::PedalCtlExpPref(pref_Pedal1Pref);

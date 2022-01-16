@@ -1,3 +1,8 @@
+QWidget {
+    font-family: "D-DIN Condensed";
+    font-size: 20px;
+}
+
 QMainWindow, QDialog {
     background: #aa312d;
 }
@@ -17,4 +22,5 @@ QLabel#label_Logo {
 
 QToolTip {
     background-color:white;
+    font-size: 14px;
 }

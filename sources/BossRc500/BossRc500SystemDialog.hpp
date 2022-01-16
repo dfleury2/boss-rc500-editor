@@ -31,8 +31,10 @@ private:
     template<typename Widget, typename Value>
     void update_sys_database(const char* root, const char* name, Value value, Widget* w)
     {
-        std::cout << "System: " << root << "." << name << ": " << value << std::endl;
-        database["sys"][root][name] = static_cast<int>(value);
+        if (!_is_loading) {
+            std::cout << "System: " << root << "." << name << ": " << value << std::endl;
+            database["sys"][root][name] = static_cast<int>(value);
+        }
 
         auto default_value = BossRc500::DatabaseSysDefault["sys"][root][name].get<int>();
 
@@ -54,4 +56,5 @@ private:
 private:
     QDialog&        _parent;
     QFont           _font_bold; // different from default
+    bool _is_loading = false; // Allow detecting on new/load on callback calls
 };

@@ -11,38 +11,80 @@
 
 namespace {
 // --------------------------------------------------------------------------
-void
-AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& list)
+QStandardItem*
+GetStandardItem(QComboBox* cb, int index)
 {
-    int i = 0; // By default, UserDate (QVariant) is the same as item index
-    for (auto& item: list) {
-        cb->addItem(item.c_str(), i);
-        ++i;
+    auto* model = qobject_cast<QStandardItemModel*>(cb->model());
+    if (!model) throw std::runtime_error("No QStandardItemModel found...");
+
+    auto* item = model->item(index);
+    if (!item) throw std::runtime_error("No QStandardItem found...");
+
+    return item;
+}
+
+// --------------------------------------------------------------------------
+void
+SetItemAsDefault(QStandardItem* item, QComboBox* cb)
+{
+    QFont font{cb->font()};
+    font.setBold(true);
+    font.setPixelSize(16);
+    item->setFont(font);
+
+    item->setForeground(QBrush(QColor("#00548f")));
+    item->setBackground(QBrush(QColor("#CCCCCC")));
+}
+
+// --------------------------------------------------------------------------
+void
+SetItemAsNormal(QStandardItem* item, QComboBox* cb)
+{
+    QFont font{cb->font()};
+    font.setBold(false);
+    font.setPixelSize(16);
+    item->setFont(font);
+}
+
+// --------------------------------------------------------------------------
+void
+SetItemAsDefault(QComboBox* cb, int index)
+{
+    for (int i = 0; i < cb->count(); ++i) {
+        if (i == index) {
+            SetItemAsDefault(GetStandardItem(cb, i), cb);
+        }
+        else {
+            SetItemAsNormal(GetStandardItem(cb, i), cb);
+        }
     }
 }
 
 // --------------------------------------------------------------------------
 void
-SetComboBoxItemEnabled(QComboBox * comboBox, int index, bool enabled)
+AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& items, int default_value = 0)
 {
-    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
-    if(!model) return;
+    int i = 0; // By default, UserDate (QVariant) is the same as item index
+    for (auto& item: items) {
+        cb->addItem(item.c_str(), i);
+        ++i;
+    }
 
-    auto * item = model->item(index);
-    if(!item) return;
-    item->setEnabled(enabled);
+    SetItemAsDefault(cb, default_value);
+}
+
+// --------------------------------------------------------------------------
+void
+SetComboBoxItemEnabled(QComboBox* comboBox, int index, bool enabled)
+{
+    GetStandardItem(comboBox, index)->setEnabled(enabled);
 }
 
 // --------------------------------------------------------------------------
 bool
-IsComboBoxItemEnabled(QComboBox * comboBox, int index)
+IsComboBoxItemEnabled(QComboBox* comboBox, int index)
 {
-    auto * model = qobject_cast<QStandardItemModel*>(comboBox->model());
-    if(!model) return false;
-
-    auto * item = model->item(index);
-    if(!item) return false;
-    return item->isEnabled();
+    return GetStandardItem(comboBox, index)->isEnabled();
 }
 
 }
@@ -50,31 +92,6 @@ IsComboBoxItemEnabled(QComboBox * comboBox, int index)
 
 // --------------------------------------------------------------------------
 namespace BossRc500 {
-
-const char* StyleSheet = R"(
-QMainWindow, QDialog {
-    background: #aa312d;
-}
-
-QGroupBox {
-    border: 1px solid white;
-}
-
-QGroupBox::title {
-    color: white;
-}
-
-QLabel#label_Logo {
-    color: white;
-    font-family: Serif;
-}
-
-QToolTip {
-    background-color:white;
-    font-size: 16px;
-}
-
-)";
 
 // --------------------------------------------------------------------------
 // Try to find the 'resources' directory, first near the exe location,
@@ -140,13 +157,15 @@ DoubleRange(QComboBox* cb, double min, double max, double step)
 void
 Pan(QComboBox* cb)
 {
+    std::vector<std::string> items;
     for (int i = 0; i <= 100; ++i) {
         std::string pan_label = "CENTER";
         if (i < 50) pan_label = "L" + std::to_string(50 - i);
         else if (i > 50) pan_label = "R" + std::to_string(i - 50);
-
-        cb->addItem(pan_label.c_str());
+        items.push_back(std::move(pan_label));
     }
+
+    AddItemsToComboBox(cb, items, 50);
 }
 
 // --------------------------------------------------------------------------
@@ -171,6 +190,8 @@ Measure(QComboBox* cb)
     for (int i = 1; i <= 16; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
+
+    SetItemAsDefault(cb, 1);
 }
 
 // --------------------------------------------------------------------------
@@ -183,7 +204,7 @@ void Output(QComboBox* cb) { AddItemsToComboBox(cb, {"ALL", "OUT-A", "OUT-B"}); 
 void DubMode(QComboBox* cb) { AddItemsToComboBox(cb, {"OVERDUB", "REPLACE"}); }
 
 // --------------------------------------------------------------------------
-void RecAction(QComboBox* cb) { AddItemsToComboBox(cb, {"REC -> DUB", "REC -> PLAY"}); }
+void RecAction(QComboBox* cb) { AddItemsToComboBox(cb, {"REC → DUB", "REC → PLAY"}, 1); }
 
 // --------------------------------------------------------------------------
 void Quantize(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "MEASURE"}); }
@@ -199,6 +220,8 @@ LoopLength(QComboBox* cb)
     for (int i = 1; i <= 32; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
+
+    SetItemAsDefault(cb, 0);
 }
 
 // --------------------------------------------------------------------------
@@ -219,6 +242,8 @@ FadeTime(QComboBox* cb)
     for (int i = 1; i <= 32; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
+
+    SetItemAsDefault(cb, 5);
 }
 
 // --------------------------------------------------------------------------
@@ -239,7 +264,7 @@ LoopFxType(QComboBox* cb)
         "REPEAT-1", "REPEAT-2", "REPEAT-3",                 // 4 - 6
         "SHIFT-1", "SHIFT-2",                               // 7 - 8
         "VINYL FLICK"                                       // 9
-    });
+    }, 4);
 }
 
 bool IsScatter(int value) { return (value >= 0 && value <= 3); }
@@ -482,13 +507,16 @@ RhythmBeat(QComboBox* cb)
     for (auto note_count = 5; note_count <= 15; ++note_count) { // X/8
         cb->addItem((std::to_string(note_count) + "/8").c_str(), QPoint{note_count, 8});
     }
+
+    SetItemAsDefault(cb, 2);
+
 }
 
 // --------------------------------------------------------------------------
 void RhythmStart(QComboBox* cb) { AddItemsToComboBox(cb, {"LOOP START", "REC END", "BEFORE LOOP"}); }
 
 // --------------------------------------------------------------------------
-void RhythmStop(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "LOOP STOP", "REC END"}); }
+void RhythmStop(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "LOOP STOP", "REC END"}, 1); }
 
 // --------------------------------------------------------------------------
 void RhythmRecCount(QComboBox* cb) { AddItemsToComboBox(cb, {"OFF", "1-MEASURE"}); }
@@ -503,6 +531,8 @@ RhythmTone(QComboBox* cb)
     for (int i = -10; i <= 10; ++i) { // May be easier to understand if reversed here ?
         cb->addItem(((i > 0 ? "+" : "") + std::to_string(i)).c_str());
     }
+
+    SetItemAsDefault(cb, 10);
 }
 
 // --------------------------------------------------------------------------
@@ -631,7 +661,7 @@ void AssignFxControl(QComboBox* cb, const Beat& beat, int loopFxType)
 void
 DisplayContrast(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
+    AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, 4);
 }
 
 // --------------------------------------------------------------------------
@@ -639,7 +669,7 @@ void
 DisplayMode(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"STATUS", "POSITION", "2TRACK POS", "STATUS+POS",
-                            "NUMBER+POS", "NAME+POS", "BEAT+POS", "BEAT"});
+                            "NUMBER+POS", "NAME+POS", "BEAT+POS", "BEAT"}, 6);
 }
 
 // --------------------------------------------------------------------------
@@ -658,18 +688,29 @@ Extent(QComboBox* cb)
 
 // --------------------------------------------------------------------------
 void
-ExtentMinMax(QComboBox* cb)
+ExtentMin(QComboBox* cb)
 {
     for (int i = 1; i < 100; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
+    SetItemAsDefault(cb, 0);
+}
+
+// --------------------------------------------------------------------------
+void
+ExtentMax(QComboBox* cb)
+{
+    for (int i = 1; i < 100; ++i) {
+        cb->addItem(std::to_string(i).c_str());
+    }
+    SetItemAsDefault(cb, 98);
 }
 
 // --------------------------------------------------------------------------
 void
 PedalCtlExpPref(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {"MEMORY", "SYSTEM"});
+    AddItemsToComboBox(cb, {"MEMORY", "SYSTEM"}, 1);
 }
 
 // --------------------------------------------------------------------------
@@ -677,7 +718,7 @@ void
 RxCtlChannel(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                            "11", "12", "13", "14", "15", "16"});
+                            "11", "12", "13", "14", "15", "16"}, 0);
 }
 
 // --------------------------------------------------------------------------
@@ -685,7 +726,7 @@ void
 RxNoteChannel(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                            "11", "12", "13", "14", "15", "16"});
+                            "11", "12", "13", "14", "15", "16"}, 9);
 }
 
 // --------------------------------------------------------------------------
@@ -693,7 +734,7 @@ void
 TxChannel(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                            "11", "12", "13", "14", "15", "16", "RX CTL"});
+                            "11", "12", "13", "14", "15", "16", "RX CTL"}, 16);
 }
 
 // --------------------------------------------------------------------------
@@ -707,7 +748,7 @@ SyncClock(QComboBox* cb)
 void
 SyncStart(QComboBox* cb)
 {
-    AddItemsToComboBox(cb, {"OFF", "ALL", "RHYTHM"});
+    AddItemsToComboBox(cb, {"OFF", "ALL", "RHYTHM"}, 1);
 }
 
 // --------------------------------------------------------------------------
@@ -883,6 +924,5 @@ Tooltips::load_tooltip(const QString& filename)
 
     return tooltip;
 }
-
 
 }

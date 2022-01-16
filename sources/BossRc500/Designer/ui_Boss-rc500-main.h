@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-mainhIrGFE.ui'
+** Form generated from reading UI file 'Boss-rc500-mainMGnYKS.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_MAINHIRGFE_H
-#define BOSS_2D_RC500_2D_MAINHIRGFE_H
+#ifndef BOSS_2D_RC500_2D_MAINMGNYKS_H
+#define BOSS_2D_RC500_2D_MAINMGNYKS_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -176,6 +176,7 @@ public:
     QSpinBox *loopFx_Flick;
     QCheckBox *loopFx_Sw;
     QLabel *label_Logo;
+    QPushButton *button_AdvancedCopy;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -233,7 +234,7 @@ public:
         record_AutoRecordSensitivity->setMaximum(100);
         cb_CopyTo = new QComboBox(centralwidget);
         cb_CopyTo->setObjectName(QString::fromUtf8("cb_CopyTo"));
-        cb_CopyTo->setGeometry(QRect(620, 20, 51, 25));
+        cb_CopyTo->setGeometry(QRect(590, 20, 51, 25));
         gb_Control = new QGroupBox(centralwidget);
         gb_Control->setObjectName(QString::fromUtf8("gb_Control"));
         gb_Control->setGeometry(QRect(860, 460, 251, 211));
@@ -354,7 +355,7 @@ public:
         label_track1_PlyLevel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         label_To = new QLabel(centralwidget);
         label_To->setObjectName(QString::fromUtf8("label_To"));
-        label_To->setGeometry(QRect(590, 20, 21, 21));
+        label_To->setGeometry(QRect(560, 20, 21, 21));
         gp_Play = new QGroupBox(centralwidget);
         gp_Play->setObjectName(QString::fromUtf8("gp_Play"));
         gp_Play->setGeometry(QRect(320, 420, 291, 241));
@@ -411,13 +412,13 @@ public:
         button_MemoryNext->setGeometry(QRect(400, 20, 31, 24));
         cb_CopyFrom = new QComboBox(centralwidget);
         cb_CopyFrom->setObjectName(QString::fromUtf8("cb_CopyFrom"));
-        cb_CopyFrom->setGeometry(QRect(530, 20, 51, 25));
+        cb_CopyFrom->setGeometry(QRect(500, 20, 51, 25));
         label_Memory = new QLabel(centralwidget);
         label_Memory->setObjectName(QString::fromUtf8("label_Memory"));
         label_Memory->setGeometry(QRect(10, 20, 61, 21));
         label_CopyTo = new QLabel(centralwidget);
         label_CopyTo->setObjectName(QString::fromUtf8("label_CopyTo"));
-        label_CopyTo->setGeometry(QRect(480, 20, 41, 21));
+        label_CopyTo->setGeometry(QRect(460, 20, 41, 21));
         button_Edit = new QPushButton(centralwidget);
         button_Edit->setObjectName(QString::fromUtf8("button_Edit"));
         button_Edit->setGeometry(QRect(310, 20, 51, 24));
@@ -426,7 +427,7 @@ public:
         cb_Memory->setGeometry(QRect(80, 20, 221, 25));
         button_Copy = new QPushButton(centralwidget);
         button_Copy->setObjectName(QString::fromUtf8("button_Copy"));
-        button_Copy->setGeometry(QRect(690, 20, 51, 24));
+        button_Copy->setGeometry(QRect(650, 20, 51, 24));
         gp_Track2 = new QGroupBox(centralwidget);
         gp_Track2->setObjectName(QString::fromUtf8("gp_Track2"));
         gp_Track2->setGeometry(QRect(360, 70, 341, 341));
@@ -674,6 +675,9 @@ public:
         label_Logo->setGeometry(QRect(780, 10, 331, 41));
         label_Logo->setTextFormat(Qt::RichText);
         label_Logo->setAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
+        button_AdvancedCopy = new QPushButton(centralwidget);
+        button_AdvancedCopy->setObjectName(QString::fromUtf8("button_AdvancedCopy"));
+        button_AdvancedCopy->setGeometry(QRect(710, 20, 21, 24));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -782,6 +786,7 @@ public:
         label_loopFx_Flick->setText(QCoreApplication::translate("MainWindow", "Flick", nullptr));
         loopFx_Sw->setText(QCoreApplication::translate("MainWindow", "Loop Fx", nullptr));
         label_Logo->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:600; font-style:italic; vertical-align:super;\">LOOP STATION</span><span style=\" font-size:28pt; font-weight:600; font-style:italic;\">RC-500 </span></p></body></html>", nullptr));
+        button_AdvancedCopy->setText(QCoreApplication::translate("MainWindow", ">", nullptr));
     } // retranslateUi
 
 };
@@ -792,4 +797,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_MAINHIRGFE_H
+#endif // BOSS_2D_RC500_2D_MAINMGNYKS_H

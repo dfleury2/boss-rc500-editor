@@ -1,6 +1,7 @@
 #include "BossRc500MainWindow.hpp"
 #include "BossRc500AssignDialog.hpp"
 #include "BossRc500SystemDialog.hpp"
+#include "BossRc500AdvancedCopyDialog.hpp"
 #include "BossRc500.hpp"
 #include "Designer/ui_Boss-rc500-text.h"
 
@@ -47,9 +48,6 @@ BossRc500MainWindow::setup()
 
     // Add some tweaks...
     setFixedSize(width(), height());
-
-    _font_bold = font();
-    _font_bold.setWeight(QFont::Weight::Bold);
 
     auto fileMenu = new QMenu("File", menuBar());
     fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New);
@@ -278,6 +276,7 @@ BossRc500MainWindow::add_callbacks()
     QObject::connect(button_MemoryPrevious, &QPushButton::pressed, this, &BossRc500MainWindow::on_memory_previous);
     QObject::connect(button_MemoryNext, &QPushButton::pressed, this, &BossRc500MainWindow::on_memory_next);
     QObject::connect(button_Copy, &QPushButton::pressed, this, &BossRc500MainWindow::on_copy);
+    QObject::connect(button_AdvancedCopy, &QPushButton::pressed, this, &BossRc500MainWindow::on_advanced_copy);
     QObject::connect(button_rhythm_Play, &QPushButton::pressed, this, &BossRc500MainWindow::on_rhythm_play);
 
     QObject::connect(cb_Memory, &QComboBox::currentIndexChanged, this, &BossRc500MainWindow::on_memory_changed);
@@ -713,6 +712,22 @@ BossRc500MainWindow::on_copy()
     }
 }
 
+// --------------------------------------------------------------------------
+void
+BossRc500MainWindow::on_advanced_copy()
+{
+    try {
+        QDialog dialog;
+        BossRc500AdvancedCopyDialog copyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
+
+        dialog.setWindowTitle("BOSS RC-500 - Memory Copy");
+        dialog.setModal(true);
+        dialog.exec();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_edit()
@@ -767,7 +782,6 @@ BossRc500MainWindow::on_control_pdlctl_help()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-
 }
 
 // --------------------------------------------------------------------------
@@ -796,7 +810,12 @@ BossRc500MainWindow::on_memory_changed()
 {
     _is_loading = true;
 
-    load_memory(cb_Memory->currentIndex());
+    try {
+        load_memory(cb_Memory->currentIndex());
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
 
     _is_loading = false;
 }
@@ -805,7 +824,7 @@ BossRc500MainWindow::on_memory_changed()
 void
 BossRc500MainWindow::on_rhythm_play()
 {
-    std::string drumkit_filename = BossRc500::Resources::Drumkits().toStdString();
+    std::string drumkit_filename = BossRc500::Resources::DrumKits().toStdString();
     drumkit_filename += "/" + rhythm_Pattern->currentText().toStdString() + "_";
     drumkit_filename += rhythm_Variation->currentText().toStdString() + "_";
 
