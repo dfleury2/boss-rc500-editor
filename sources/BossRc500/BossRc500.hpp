@@ -11,6 +11,7 @@
 #include <vector>
 #include <initializer_list>
 #include <functional>
+#include <utility>
 
 namespace BossRc500 {
 extern const char* StyleSheet;
@@ -26,6 +27,8 @@ struct Resources {
     static QString Templates() { return ResourcePath() + "/templates"; }
     static QString Themes() { return ResourcePath() + "/themes"; }
     static QString Tooltips() { return ResourcePath() + "/tooltips"; }
+
+    static std::vector<std::pair<QString, QString>> Languages();
 };
 
 inline nlohmann::json  DatabaseMemDefault;

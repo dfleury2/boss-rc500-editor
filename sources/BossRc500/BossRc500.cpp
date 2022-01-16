@@ -121,6 +121,30 @@ Resources::ResourcePath()
 }
 
 // --------------------------------------------------------------------------
+std::vector<std::pair<QString,QString>>
+Resources::Languages()
+{
+    std::vector<std::pair<QString,QString>> languages;
+
+    try {
+        YAML::Node yaml = YAML::LoadFile((BossRc500::Resources::ResourcePath() + "/configuration.yaml").toStdString());
+        if (yaml["Languages"] && yaml["Languages"].IsSequence()) {
+            for (auto&& lang : yaml["Languages"]) {
+                for (auto&& kv : lang) {
+                    languages.emplace_back(kv.first.as<std::string>().c_str(),
+                                    kv.second.as<std::string>().c_str());
+                }
+            }
+        }
+    }
+    catch (const std::exception& ex) {
+        std::cout << ex.what() << std::endl;
+    }
+
+    return languages;
+}
+
+// --------------------------------------------------------------------------
 void
 SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
 {

@@ -4,7 +4,12 @@ Explanation:
   Specifies whether playback starts with a fade-in or immediately when the track plays.
 
 Explanation.fr:
-  Spécifie si la lecture commence par un fondu d'entrée ou immédiatement lors de la lecture de la piste.
+  Spécifie si la lecture commence par un fondu d'entrée ou immédiatement
+  lors de la lecture de la piste.
+
+Explanation.es:
+  Especifica si la reproducción comienza con un fundido de entrada o inmediatamente
+  cuando se reproduce la pista.
 
 Details:
   - Value: IMMEDIATE
@@ -13,6 +18,8 @@ Details:
       Playback starts immediately
     Detail.fr:
       La lecture démarre immédiatement.
+    Detail.es:
+      La reproducción comienza inmediatamente
 
   - Value: FADE IN
     Detail:
@@ -20,4 +27,9 @@ Details:
       <br>* You can use “FADE TIME” (p. 5) to specify the length of the fade-in.
     Detail.fr:
       La lecture démarre progressivement.
-      <br>* Vous pouvez utiliser «FADE TIME» (p. 5) pour spécifier la durée du fondu d'entrée
+      <br>
+      * Vous pouvez utiliser «FADE TIME» (p. 5) pour spécifier la durée du fondu d'entrée
+    Detail.es:
+      La reproducción comienza con el fundido de entrada.
+      <br>
+      * Puede utilizar “FADE TIME” (p. 5) para especificar la duración del fundido de entrada.

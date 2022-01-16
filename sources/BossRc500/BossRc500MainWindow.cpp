@@ -12,6 +12,7 @@
 #include <QStyleFactory>
 #include <QInputDialog>
 #include <QMenu>
+#include <QActionGroup>
 
 #include <miniaudio/miniaudio.h>
 
@@ -84,11 +85,24 @@ BossRc500MainWindow::setup()
     }
     fileMenu->addMenu(themesMenu);
 
-    auto preferencesMenu = new QMenu("Preferences", fileMenu);
-    preferencesMenu->addAction("English", [this] { _language = ""; add_tooltips(); } );
-    preferencesMenu->addAction("French", [this] { _language = "fr"; add_tooltips(); } );
-    fileMenu->addMenu(preferencesMenu);
+    {
+        _preferences_language_group = new QActionGroup(this);
+        _preferences_language_group->isExclusive();
 
+        auto preferencesMenu = new QMenu("Preferences", fileMenu);
+        auto default_english = preferencesMenu->addAction("Default", [this] { add_tooltips(""); } );
+        default_english->setCheckable(true);
+        default_english->setChecked(true);
+        _preferences_language_group->addAction(default_english);
+
+        for (auto&& l : BossRc500::Resources::Languages()) {
+            auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] { add_tooltips(code); } );
+            lang->setCheckable(true);
+            _preferences_language_group->addAction(lang);
+        }
+
+        fileMenu->addMenu(preferencesMenu);
+    }
 #ifndef APPLE
     // Apple will used application menu to quit
     fileMenu->addSeparator();
@@ -96,7 +110,7 @@ BossRc500MainWindow::setup()
 #endif
     menuBar()->addMenu(fileMenu);
 
-    add_tooltips();
+    add_tooltips("");
     add_combo_items();
     add_callbacks();
 
@@ -106,12 +120,12 @@ BossRc500MainWindow::setup()
 
 // --------------------------------------------------------------------------
 void
-BossRc500MainWindow::add_tooltips()
+BossRc500MainWindow::add_tooltips(const QString& language)
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
     try {
-        BossRc500::Tooltips tooltips(_language);
+        BossRc500::Tooltips tooltips(language);
 
         track1_Reverse->setToolTip(tooltips.track_Reverse());
         track1_LoopFx->setToolTip(tooltips.track_LoopFx());
