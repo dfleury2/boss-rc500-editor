@@ -1,0 +1,16 @@
+Parameter: TEMPO.S
+
+Explanation:
+  Specifies whether each track plays at its original tempo (the tempo during recording) or at the tempo that is specified in
+  memory.
+
+Details:
+  - Value: OFF
+    Detail:
+      The track will play at its own original tempo.
+
+  - Value: ON
+    Default: True
+    Detail:
+      The track will play at the memory tempo.
+      <br>Tracks 1 and 2 play at the same tempo.

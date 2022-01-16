@@ -1,0 +1,32 @@
+Parameter: INPUT
+
+Explanation:
+  Specifies the input from which sound is recorded.
+
+Details:
+  - Value: ALL
+    Default: True
+    Detail:
+      Sound that is input from the MIC IN jack and
+      the INST IN jacks (A/MONO, B) is mixed and recorded.
+
+  - Value: MIC IN
+    Detail:
+      Sound that is input from the MIC IN jack is recorded in stereo.
+
+  - Value: INST IN
+    Detail:
+      Sound that is input to the INST IN
+      jacks (A/MONO, B) is assigned and recorded to A and B (L, R).
+
+  - Value: INST IN-A
+    Detail:
+      Sound that is input from the INST IN A/MONO jack is recorded in stereo.
+
+  - Value: INST IN-B
+    Detail: Sound that is input from the INST IN B jack is recorded in stereo.
+
+  - Value: MIC/INST
+    Detail:
+      Sound that is input to the MIC IN jack and the INST IN jacks (A/MONO, B) is assigned
+      and recorded to A and B (L, R).
