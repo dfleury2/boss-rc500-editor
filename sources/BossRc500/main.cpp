@@ -49,7 +49,7 @@ main(int argc, char* argv[])
 
         // Stylesheet
         QFile defaultStyleSheet{BossRc500::Resources::Themes() + "/Default.css"};
-        defaultStyleSheet.open(QFile::ReadOnly);
+        defaultStyleSheet.open(QFile::ReadOnly | QFile::Text);
         qApp->setStyleSheet(QTextStream(&defaultStyleSheet).readAll());
 
         // Read default database files

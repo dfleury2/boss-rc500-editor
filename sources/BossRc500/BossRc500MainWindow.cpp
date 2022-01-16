@@ -13,6 +13,7 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QActionGroup>
+#include <QDirIterator>
 
 #include <miniaudio/miniaudio.h>
 
@@ -70,20 +71,32 @@ BossRc500MainWindow::setup()
     fileMenu->addAction("System...",   this, &BossRc500MainWindow::on_ToolMenu_System);
     fileMenu->addSeparator();
 
-    auto themesMenu = new QMenu("Themes", fileMenu);
-    for (auto&& filename : std::filesystem::directory_iterator(BossRc500::Resources::Themes().toStdString())) {
-        QString stem;
-#if WIN32
-        stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar_t quick fix
-#else
-        stem = filename.path().stem().c_str();
-#endif
-        themesMenu->addAction(stem,
-                [this, filename] {
-                    on_ToolMenu_Themes(std::filesystem::absolute(filename));
-                });
+    {
+        _preferences_themes_group = new QActionGroup(this);
+        _preferences_themes_group->isExclusive();
+
+        // Add the default theme (Default.css)
+        auto themesMenu = new QMenu("Themes", fileMenu);
+
+        auto default_themes = themesMenu->addAction("Default", [this] { on_ToolMenu_Themes(BossRc500::Resources::Themes() + "/Default.css"); } );
+        default_themes->setCheckable(true);
+        default_themes->setChecked(true);
+        _preferences_themes_group->addAction(default_themes);
+
+        auto dir_it = QDirIterator(BossRc500::Resources::Themes());
+        while (dir_it.hasNext()) {
+            auto filename = dir_it.next();
+            if (filename.endsWith(".css", Qt::CaseInsensitive) && !dir_it.fileInfo().baseName().startsWith("Default", Qt::CaseInsensitive)) {
+                std::cout << "Loading theme file [" << filename.toStdString() << "]" << std::endl;
+
+                auto theme = themesMenu->addAction(dir_it.fileInfo().baseName(), [this, filename] { on_ToolMenu_Themes(filename); });
+                theme->setCheckable(true);
+                _preferences_themes_group->addAction(theme);
+            }
+        }
+
+        fileMenu->addMenu(themesMenu);
     }
-    fileMenu->addMenu(themesMenu);
 
     {
         _preferences_language_group = new QActionGroup(this);
@@ -669,13 +682,12 @@ BossRc500MainWindow::on_ToolMenu_System()
 
 // --------------------------------------------------------------------------
 void
-BossRc500MainWindow::on_ToolMenu_Themes(const std::filesystem::path& path)
+BossRc500MainWindow::on_ToolMenu_Themes(const QString& filename)
 {
     try {
-        std::ifstream in(path);
-        std::string style_sheet{std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
-
-        qApp->setStyleSheet(style_sheet.c_str());
+        QFile file{filename};
+        file.open(QFile::ReadOnly | QFile::Text);
+        qApp->setStyleSheet(QTextStream(&file).readAll());
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();

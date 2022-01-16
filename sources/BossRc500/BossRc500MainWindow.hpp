@@ -30,7 +30,7 @@ private:
     void on_ToolMenu_PresetLoad(const std::filesystem::path& path);
     void on_ToolMenu_Assign();
     void on_ToolMenu_System();
-    void on_ToolMenu_Themes(const std::filesystem::path& path);
+    void on_ToolMenu_Themes(const QString& filename);
 
     void on_edit();
     void on_copy();
@@ -138,6 +138,7 @@ private:
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 
     // Preferences
+    QActionGroup* _preferences_themes_group{nullptr};
     QActionGroup* _preferences_language_group{nullptr};
 
 };
