@@ -1,5 +1,5 @@
 <html>
-<table width="850" style="border-collapse: collapse;">
+<table width="850" style="border-collapse: collapse; font-weight: normal;">
   <thead>
   <tr>
     <th width="100" style="background-color:#a5c5af;border-bottom: 3px double grey;border-right: 1px solid grey;">Parameter</th>
