@@ -42,7 +42,7 @@
     <widget class="QComboBox" name="record_DubMode">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>30</y>
        <width>121</width>
        <height>25</height>
@@ -52,7 +52,7 @@
     <widget class="QComboBox" name="record_Quantize">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>90</y>
        <width>121</width>
        <height>25</height>
@@ -75,9 +75,9 @@
     <widget class="QComboBox" name="record_RecordAction">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>60</y>
-       <width>121</width>
+       <width>141</width>
        <height>25</height>
       </rect>
      </property>
@@ -98,7 +98,7 @@
     <widget class="QCheckBox" name="record_AutoRecord">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>40</x>
        <y>120</y>
        <width>121</width>
        <height>21</height>
@@ -127,7 +127,7 @@
     <widget class="QComboBox" name="record_AutoRecordSource">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>180</y>
        <width>121</width>
        <height>25</height>
@@ -163,7 +163,7 @@
     <widget class="QComboBox" name="record_LoopLength">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>210</y>
        <width>121</width>
        <height>25</height>
@@ -173,7 +173,7 @@
     <widget class="QSpinBox" name="record_AutoRecordSensitivity">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>150</y>
        <width>71</width>
        <height>24</height>
@@ -490,7 +490,7 @@
       <rect>
        <x>190</x>
        <y>100</y>
-       <width>91</width>
+       <width>101</width>
        <height>25</height>
       </rect>
      </property>
@@ -500,7 +500,7 @@
       <rect>
        <x>190</x>
        <y>160</y>
-       <width>121</width>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -523,7 +523,7 @@
       <rect>
        <x>190</x>
        <y>130</y>
-       <width>121</width>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -700,7 +700,7 @@
     <widget class="QComboBox" name="play_PlayMode">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>60</y>
        <width>121</width>
        <height>25</height>
@@ -723,9 +723,9 @@
     <widget class="QComboBox" name="play_SingleChange">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>90</y>
-       <width>121</width>
+       <width>141</width>
        <height>25</height>
       </rect>
      </property>
@@ -759,7 +759,7 @@
     <widget class="QComboBox" name="play_FadeTime">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>150</y>
        <width>121</width>
        <height>25</height>
@@ -769,7 +769,7 @@
     <widget class="QComboBox" name="play_AllStart">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>180</y>
        <width>121</width>
        <height>25</height>
@@ -805,7 +805,7 @@
     <widget class="QComboBox" name="play_TrackChain">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>210</y>
        <width>121</width>
        <height>25</height>
@@ -815,7 +815,7 @@
     <widget class="QSpinBox" name="play_Level">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>120</y>
        <width>71</width>
        <height>24</height>
@@ -844,7 +844,7 @@
     <widget class="QDoubleSpinBox" name="play_Tempo">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>140</x>
        <y>30</y>
        <width>91</width>
        <height>24</height>
@@ -1002,7 +1002,7 @@
       <rect>
        <x>190</x>
        <y>160</y>
-       <width>121</width>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -1012,7 +1012,7 @@
       <rect>
        <x>190</x>
        <y>100</y>
-       <width>91</width>
+       <width>101</width>
        <height>25</height>
       </rect>
      </property>
@@ -1135,7 +1135,7 @@
       <rect>
        <x>190</x>
        <y>130</y>
-       <width>121</width>
+       <width>131</width>
        <height>25</height>
       </rect>
      </property>
@@ -1888,9 +1888,9 @@
    <widget class="QLabel" name="label_Logo">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>750</x>
       <y>10</y>
-      <width>331</width>
+      <width>361</width>
       <height>41</height>
      </rect>
     </property>

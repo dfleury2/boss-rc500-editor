@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-mainMGnYKS.ui'
+** Form generated from reading UI file 'Boss-rc500-mainffOGVk.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_MAINMGNYKS_H
-#define BOSS_2D_RC500_2D_MAINMGNYKS_H
+#ifndef BOSS_2D_RC500_2D_MAINFFOGVK_H
+#define BOSS_2D_RC500_2D_MAINFFOGVK_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -194,29 +194,29 @@ public:
         label_record_DubMode->setGeometry(QRect(10, 30, 121, 21));
         record_DubMode = new QComboBox(gp_Record);
         record_DubMode->setObjectName(QString::fromUtf8("record_DubMode"));
-        record_DubMode->setGeometry(QRect(170, 30, 121, 25));
+        record_DubMode->setGeometry(QRect(150, 30, 121, 25));
         record_Quantize = new QComboBox(gp_Record);
         record_Quantize->setObjectName(QString::fromUtf8("record_Quantize"));
-        record_Quantize->setGeometry(QRect(170, 90, 121, 25));
+        record_Quantize->setGeometry(QRect(150, 90, 121, 25));
         label_record_Quantize = new QLabel(gp_Record);
         label_record_Quantize->setObjectName(QString::fromUtf8("label_record_Quantize"));
         label_record_Quantize->setGeometry(QRect(10, 90, 121, 21));
         record_RecordAction = new QComboBox(gp_Record);
         record_RecordAction->setObjectName(QString::fromUtf8("record_RecordAction"));
-        record_RecordAction->setGeometry(QRect(170, 60, 121, 25));
+        record_RecordAction->setGeometry(QRect(150, 60, 141, 25));
         label_record_RecordAction = new QLabel(gp_Record);
         label_record_RecordAction->setObjectName(QString::fromUtf8("label_record_RecordAction"));
         label_record_RecordAction->setGeometry(QRect(10, 60, 121, 21));
         record_AutoRecord = new QCheckBox(gp_Record);
         record_AutoRecord->setObjectName(QString::fromUtf8("record_AutoRecord"));
-        record_AutoRecord->setGeometry(QRect(60, 120, 121, 21));
+        record_AutoRecord->setGeometry(QRect(40, 120, 121, 21));
         record_AutoRecord->setLayoutDirection(Qt::RightToLeft);
         label_record_AutoRecordSource = new QLabel(gp_Record);
         label_record_AutoRecordSource->setObjectName(QString::fromUtf8("label_record_AutoRecordSource"));
         label_record_AutoRecordSource->setGeometry(QRect(10, 180, 151, 21));
         record_AutoRecordSource = new QComboBox(gp_Record);
         record_AutoRecordSource->setObjectName(QString::fromUtf8("record_AutoRecordSource"));
-        record_AutoRecordSource->setGeometry(QRect(170, 180, 121, 25));
+        record_AutoRecordSource->setGeometry(QRect(150, 180, 121, 25));
         label_record_Input_3 = new QLabel(gp_Record);
         label_record_Input_3->setObjectName(QString::fromUtf8("label_record_Input_3"));
         label_record_Input_3->setGeometry(QRect(10, 150, 161, 21));
@@ -225,10 +225,10 @@ public:
         label_record_LoopLength->setGeometry(QRect(10, 210, 141, 21));
         record_LoopLength = new QComboBox(gp_Record);
         record_LoopLength->setObjectName(QString::fromUtf8("record_LoopLength"));
-        record_LoopLength->setGeometry(QRect(170, 210, 121, 25));
+        record_LoopLength->setGeometry(QRect(150, 210, 121, 25));
         record_AutoRecordSensitivity = new QSpinBox(gp_Record);
         record_AutoRecordSensitivity->setObjectName(QString::fromUtf8("record_AutoRecordSensitivity"));
-        record_AutoRecordSensitivity->setGeometry(QRect(170, 150, 71, 24));
+        record_AutoRecordSensitivity->setGeometry(QRect(150, 150, 71, 24));
         record_AutoRecordSensitivity->setLayoutDirection(Qt::LeftToRight);
         record_AutoRecordSensitivity->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         record_AutoRecordSensitivity->setMaximum(100);
@@ -310,16 +310,16 @@ public:
         label_track1_Pan->setGeometry(QRect(90, 100, 91, 21));
         track1_Pan = new QComboBox(gp_Track1);
         track1_Pan->setObjectName(QString::fromUtf8("track1_Pan"));
-        track1_Pan->setGeometry(QRect(190, 100, 91, 25));
+        track1_Pan->setGeometry(QRect(190, 100, 101, 25));
         track1_Stop = new QComboBox(gp_Track1);
         track1_Stop->setObjectName(QString::fromUtf8("track1_Stop"));
-        track1_Stop->setGeometry(QRect(190, 160, 121, 25));
+        track1_Stop->setGeometry(QRect(190, 160, 131, 25));
         label_track1_Stop = new QLabel(gp_Track1);
         label_track1_Stop->setObjectName(QString::fromUtf8("label_track1_Stop"));
         label_track1_Stop->setGeometry(QRect(90, 160, 91, 21));
         track1_Start = new QComboBox(gp_Track1);
         track1_Start->setObjectName(QString::fromUtf8("track1_Start"));
-        track1_Start->setGeometry(QRect(190, 130, 121, 25));
+        track1_Start->setGeometry(QRect(190, 130, 131, 25));
         label_track1_Start = new QLabel(gp_Track1);
         label_track1_Start->setObjectName(QString::fromUtf8("label_track1_Start"));
         label_track1_Start->setGeometry(QRect(90, 130, 91, 21));
@@ -364,13 +364,13 @@ public:
         label_play_PlayMode->setGeometry(QRect(10, 60, 121, 21));
         play_PlayMode = new QComboBox(gp_Play);
         play_PlayMode->setObjectName(QString::fromUtf8("play_PlayMode"));
-        play_PlayMode->setGeometry(QRect(160, 60, 121, 25));
+        play_PlayMode->setGeometry(QRect(140, 60, 121, 25));
         label_play_Level = new QLabel(gp_Play);
         label_play_Level->setObjectName(QString::fromUtf8("label_play_Level"));
         label_play_Level->setGeometry(QRect(10, 120, 141, 21));
         play_SingleChange = new QComboBox(gp_Play);
         play_SingleChange->setObjectName(QString::fromUtf8("play_SingleChange"));
-        play_SingleChange->setGeometry(QRect(160, 90, 121, 25));
+        play_SingleChange->setGeometry(QRect(140, 90, 141, 25));
         label_play_SingleChange = new QLabel(gp_Play);
         label_play_SingleChange->setObjectName(QString::fromUtf8("label_play_SingleChange"));
         label_play_SingleChange->setGeometry(QRect(10, 90, 121, 21));
@@ -379,10 +379,10 @@ public:
         label_play_AllStart->setGeometry(QRect(10, 180, 141, 21));
         play_FadeTime = new QComboBox(gp_Play);
         play_FadeTime->setObjectName(QString::fromUtf8("play_FadeTime"));
-        play_FadeTime->setGeometry(QRect(160, 150, 121, 25));
+        play_FadeTime->setGeometry(QRect(140, 150, 121, 25));
         play_AllStart = new QComboBox(gp_Play);
         play_AllStart->setObjectName(QString::fromUtf8("play_AllStart"));
-        play_AllStart->setGeometry(QRect(160, 180, 121, 25));
+        play_AllStart->setGeometry(QRect(140, 180, 121, 25));
         label_play_FadeTime = new QLabel(gp_Play);
         label_play_FadeTime->setObjectName(QString::fromUtf8("label_play_FadeTime"));
         label_play_FadeTime->setGeometry(QRect(10, 150, 131, 21));
@@ -391,10 +391,10 @@ public:
         label_play_TrackChain->setGeometry(QRect(10, 210, 141, 21));
         play_TrackChain = new QComboBox(gp_Play);
         play_TrackChain->setObjectName(QString::fromUtf8("play_TrackChain"));
-        play_TrackChain->setGeometry(QRect(160, 210, 121, 25));
+        play_TrackChain->setGeometry(QRect(140, 210, 121, 25));
         play_Level = new QSpinBox(gp_Play);
         play_Level->setObjectName(QString::fromUtf8("play_Level"));
-        play_Level->setGeometry(QRect(160, 120, 71, 24));
+        play_Level->setGeometry(QRect(140, 120, 71, 24));
         play_Level->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         play_Level->setMaximum(100);
         label_play_Tempo = new QLabel(gp_Play);
@@ -402,7 +402,7 @@ public:
         label_play_Tempo->setGeometry(QRect(10, 30, 141, 21));
         play_Tempo = new QDoubleSpinBox(gp_Play);
         play_Tempo->setObjectName(QString::fromUtf8("play_Tempo"));
-        play_Tempo->setGeometry(QRect(160, 30, 91, 24));
+        play_Tempo->setGeometry(QRect(140, 30, 91, 24));
         play_Tempo->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         play_Tempo->setDecimals(1);
         play_Tempo->setMinimum(40.000000000000000);
@@ -442,10 +442,10 @@ public:
         label_track2_Output->setGeometry(QRect(90, 300, 91, 21));
         track2_Stop = new QComboBox(gp_Track2);
         track2_Stop->setObjectName(QString::fromUtf8("track2_Stop"));
-        track2_Stop->setGeometry(QRect(190, 160, 121, 25));
+        track2_Stop->setGeometry(QRect(190, 160, 131, 25));
         track2_Pan = new QComboBox(gp_Track2);
         track2_Pan->setObjectName(QString::fromUtf8("track2_Pan"));
-        track2_Pan->setGeometry(QRect(190, 100, 91, 25));
+        track2_Pan->setGeometry(QRect(190, 100, 101, 25));
         track2_OneShot = new QCheckBox(gp_Track2);
         track2_OneShot->setObjectName(QString::fromUtf8("track2_OneShot"));
         track2_OneShot->setGeometry(QRect(110, 70, 91, 23));
@@ -476,7 +476,7 @@ public:
         track2_Reverse->setLayoutDirection(Qt::RightToLeft);
         track2_Start = new QComboBox(gp_Track2);
         track2_Start->setObjectName(QString::fromUtf8("track2_Start"));
-        track2_Start->setGeometry(QRect(190, 130, 121, 25));
+        track2_Start->setGeometry(QRect(190, 130, 131, 25));
         track2_Input = new QComboBox(gp_Track2);
         track2_Input->setObjectName(QString::fromUtf8("track2_Input"));
         track2_Input->setGeometry(QRect(190, 270, 121, 25));
@@ -672,7 +672,7 @@ public:
         loopFx_Sw->setLayoutDirection(Qt::RightToLeft);
         label_Logo = new QLabel(centralwidget);
         label_Logo->setObjectName(QString::fromUtf8("label_Logo"));
-        label_Logo->setGeometry(QRect(780, 10, 331, 41));
+        label_Logo->setGeometry(QRect(750, 10, 361, 41));
         label_Logo->setTextFormat(Qt::RichText);
         label_Logo->setAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
         button_AdvancedCopy = new QPushButton(centralwidget);
@@ -797,4 +797,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_MAINMGNYKS_H
+#endif // BOSS_2D_RC500_2D_MAINFFOGVK_H
