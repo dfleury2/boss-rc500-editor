@@ -51,11 +51,12 @@ void
 SetItemAsDefault(QComboBox* cb, int index)
 {
     for (int i = 0; i < cb->count(); ++i) {
+        auto item = GetStandardItem(cb, i);
         if (i == index) {
-            SetItemAsDefault(GetStandardItem(cb, i), cb);
+            SetItemAsDefault(item, cb);
         }
         else {
-            SetItemAsNormal(GetStandardItem(cb, i), cb);
+            SetItemAsNormal(item, cb);
         }
     }
 }
