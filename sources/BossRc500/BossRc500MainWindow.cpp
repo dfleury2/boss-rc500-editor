@@ -639,12 +639,12 @@ BossRc500MainWindow::on_ToolMenu_PresetSave()
 
 // --------------------------------------------------------------------------
 void
-BossRc500MainWindow::on_ToolMenu_PresetLoad(const std::filesystem::path& path)
+BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
 {
     _is_loading = true;
 
     try {
-        std::ifstream file(path);
+        std::ifstream file(filename.toStdString());
 
         auto memory_index = cb_Memory->currentIndex();
         file >> _database_mem["mem"][memory_index];
@@ -1401,18 +1401,15 @@ BossRc500MainWindow::loadPresets()
 {
     _presetLoadMenu->clear();
 
-    for (auto&& filename : std::filesystem::directory_iterator(BossRc500::Resources::Presets().toStdString())) {
-        if (filename.path().extension() == ".json") {
-            QString stem;
-#if WIN32
-            stem = QString::fromWCharArray(filename.path().stem().c_str()); // wchar_t quick fix
-#else
-            stem = filename.path().stem().c_str();
-#endif
-            _presetLoadMenu->addAction(stem,
-                    [this, filename] {
-                        on_ToolMenu_PresetLoad(std::filesystem::absolute(filename));
-                    });
+    for (auto&& file_info : QDir{BossRc500::Resources::Presets()}.entryInfoList(QDir::Files)) {
+        if (file_info.completeSuffix() == "json") {
+
+            auto filename = file_info.absoluteFilePath();
+            std::cout << "Add preset file [" << filename.toStdString() << "]" << std::endl;
+
+            _presetLoadMenu->addAction(file_info.baseName(),
+                    [this, filename] { on_ToolMenu_PresetLoad(filename); });
         }
     }
+
 }

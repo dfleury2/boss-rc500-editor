@@ -8,10 +8,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include <filesystem>
 #include <iostream>
 #include <cmath>
-
 
 // --------------------------------------------------------------------------
 class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
@@ -32,7 +30,7 @@ private:
     void on_ToolMenu_Open();
     void on_ToolMenu_Save(bool askDirname = false);
     void on_ToolMenu_PresetSave();
-    void on_ToolMenu_PresetLoad(const std::filesystem::path& path);
+    void on_ToolMenu_PresetLoad(const QString& filename);
     void on_ToolMenu_Assign();
     void on_ToolMenu_System();
     void on_ToolMenu_Themes(const QString& filename);
