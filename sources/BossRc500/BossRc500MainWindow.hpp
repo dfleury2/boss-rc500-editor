@@ -2,6 +2,7 @@
 
 #include "Designer/ui_Boss-rc500-main.h"
 #include "BossRc500.hpp"
+#include "BossRc500Commands.hpp"
 
 #include <QMainWindow>
 
@@ -11,11 +12,15 @@
 #include <iostream>
 #include <cmath>
 
+
 // --------------------------------------------------------------------------
 class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 {
 public:
     BossRc500MainWindow();
+
+    void load_memory(int memory_index);
+    void set_loading(bool l) { _is_loading = l; }
 
 private:
     void setup();
@@ -44,7 +49,6 @@ private:
     void on_rhythm_play();
     void load_database_mem(const std::string& filename);
     void load_database_sys(const std::string& filename);
-    void load_memory(int memory_index);
 
     // Track 1/2 callbacks
     void on_Level_changed(QSlider* slider);
@@ -88,8 +92,7 @@ private:
     void update_mem_database(int memory_index, const char* root, const char* name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            std::cout << "Memory: " << (memory_index + 1) << ", " << root << "." << name << ": " << value << std::endl;
-            _database_mem["mem"][memory_index][root][name] = static_cast<int>(value);
+            _stack.push(new UpdateRootName(this, _database_mem, memory_index, root, name, static_cast<int>(value)));
         }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
@@ -106,24 +109,23 @@ private:
             is_modified = (default_value != value);
         }
 
-
-        const char* styleSheet = is_modified ? "font-weight: bold;" : "font-weight:normal;";
-//        std::cout << "[" << styleSheet << "]" << std::endl;
-        w->setStyleSheet(styleSheet);
+        set_modified(w, is_modified);
     }
 
     template<typename Widget>
     void update_mem_track_database(int memory_index, int track_index, const char* name, int value, Widget* w)
     {
         if (!_is_loading) {
-            std::cout << "Memory: " << (memory_index + 1) << ", Track: " << (track_index + 1) << ", " << name << ": " << value << std::endl;
-            _database_mem["mem"][memory_index]["TRACK"][track_index][name] = value;
+            _stack.push(new UpdateTrackName(this, _database_mem, memory_index, track_index, name, static_cast<int>(value)));
         }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
 
-        bool is_modified = (value != default_value);
+        set_modified(w, value != default_value);
+    }
 
+    void set_modified(QWidget* w, bool is_modified)
+    {
         QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
         w->setStyleSheet(styleSheet);
     }
@@ -141,4 +143,7 @@ private:
     QActionGroup* _preferences_themes_group{nullptr};
     QActionGroup* _preferences_language_group{nullptr};
 
+    // Undo/Redo
+    QDialog* _stack_dialog;
+    QUndoStack _stack;
 };

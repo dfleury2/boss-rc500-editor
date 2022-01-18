@@ -21,6 +21,8 @@ qt_add_executable(BossRc500
         BossRc500SystemDialog.cpp
         BossRc500MainWindow.hpp
         BossRc500MainWindow.cpp
+        BossRc500Commands.hpp
+        BossRc500Commands.cpp
         ${app_icon_resource_windows}
 )
 

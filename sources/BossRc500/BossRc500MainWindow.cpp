@@ -14,6 +14,7 @@
 #include <QMenu>
 #include <QActionGroup>
 #include <QDirIterator>
+#include <QUndoView>
 
 #include <miniaudio/miniaudio.h>
 
@@ -52,14 +53,14 @@ BossRc500MainWindow::setup()
     setFixedSize(width(), height());
 
     auto fileMenu = new QMenu("File", menuBar());
-    fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New);
-    fileMenu->addAction("Open...",      this, &BossRc500MainWindow::on_ToolMenu_Open);
+    fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New, QKeySequence::New);
+    fileMenu->addAction("Open...",      this, &BossRc500MainWindow::on_ToolMenu_Open, QKeySequence::Open);
     fileMenu->addSeparator();
-    fileMenu->addAction("Save",         this, &BossRc500MainWindow::on_ToolMenu_Save);
-    fileMenu->addAction("Save as...",   this, [this] { on_ToolMenu_Save(true); });
+    fileMenu->addAction("Save",         this, &BossRc500MainWindow::on_ToolMenu_Save, QKeySequence::Save);
+    fileMenu->addAction("Save as...",   [this] { on_ToolMenu_Save(true); }, QKeySequence::SaveAs);
 
     fileMenu->addSeparator();
-    fileMenu->addAction("Save as preset...",   this, [this] { on_ToolMenu_PresetSave(); });
+    fileMenu->addAction("Save as preset...", [this] { on_ToolMenu_PresetSave(); });
 
     _presetLoadMenu = new QMenu("Load Preset", fileMenu);
     loadPresets();
@@ -118,15 +119,41 @@ BossRc500MainWindow::setup()
         fileMenu->addMenu(preferencesMenu);
     }
 #ifndef APPLE
-    // Apple will used application menu to quit
+    // Apple will use application menu to quit
     fileMenu->addSeparator();
-    fileMenu->addAction("Quit",         [] { QApplication::exit(); });
+    fileMenu->addAction("Quit", [] { QApplication::exit(); }, QKeySequence::Quit);
 #endif
     menuBar()->addMenu(fileMenu);
+
+    auto editMenu = new QMenu("Edit", menuBar());
+    editMenu->addAction("Undo", [this] { _stack.undo(); }, QKeySequence::Undo);
+    editMenu->addAction("Redo", [this] { _stack.redo(); }, QKeySequence::Redo);
+    fileMenu->addSeparator();
+    editMenu->addAction("Show/Hide Stack",
+            [this] {
+                if (_stack_dialog->isHidden()) {
+                    _stack_dialog->show();
+                }
+                else {
+                    _stack_dialog->hide();
+                }
+            });
+    menuBar()->addMenu(editMenu);
 
     add_tooltips("");
     add_combo_items();
     add_callbacks();
+
+    {
+        _stack_dialog = new QDialog(this);
+        _stack_dialog->setLayout(new QGridLayout);
+
+        auto view = new QUndoView(_stack_dialog);
+        view->setStack(&_stack);
+        _stack_dialog->layout()->addWidget(view);
+
+        _stack_dialog->setMinimumSize(250, 400);
+    }
 
     // Start with a default MEMORY file
     on_ToolMenu_New();
@@ -500,8 +527,11 @@ BossRc500MainWindow::on_ToolMenu_New()
         load_database_sys(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
         load_database_mem(BossRc500::Resources::Templates().toStdString() + "/MEMORY_DEFAULT.RC0");
 
+        _stack.clear();
+
         cb_Memory->setCurrentIndex(0);
         load_memory(cb_Memory->currentIndex());
+
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -529,6 +559,8 @@ BossRc500MainWindow::on_ToolMenu_Open()
 
             if (auto filename_nem = dirname + "/MEMORY1.RC0"; std::filesystem::exists(filename_nem)) {
                 load_database_mem(filename_nem);
+
+                _stack.clear();
 
                 cb_Memory->setCurrentIndex(0);
                 load_memory(cb_Memory->currentIndex());
