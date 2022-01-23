@@ -25,6 +25,7 @@ private:
 
     void load_system();
 
+    void on_control_pdlctl_help();
     void on_System_CheckBox_changed(QCheckBox* cb, const char* node, const char* name);
     void on_System_ComboBox_changed(QComboBox* cb, const char* node, const char* name);
     void on_System_SpinBox_changed(QSpinBox* cb, const char* node, const char* name);

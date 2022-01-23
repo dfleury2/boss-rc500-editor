@@ -1,5 +1,6 @@
 #include "BossRc500SystemDialog.hpp"
 #include "BossRc500.hpp"
+#include "Designer/ui_Boss-rc500-text.h"
 
 #include <QMessageBox>
 
@@ -137,6 +138,7 @@ BossRc500SystemDialog::add_callbacks()
     // Add callbacks
     QObject::connect(button_Apply, &QPushButton::clicked, this, [this] { apply = true; _parent.close(); });
     QObject::connect(button_Cancel, &QPushButton::clicked, [this] { apply = false; _parent.close(); });
+    QObject::connect(button_pdlctlHelp, &QPushButton::pressed, this, &BossRc500SystemDialog::on_control_pdlctl_help);
 
     auto ConnectComboBox = [this](QComboBox* cb, const char* node, const char* name) {
         QObject::connect(cb, &QComboBox::currentIndexChanged,
@@ -274,6 +276,28 @@ BossRc500SystemDialog::load_system()
         control_Expression->setCurrentIndex(ctl["Exp"].get<int>());
     }
 }
+
+// --------------------------------------------------------------------------
+void
+BossRc500SystemDialog::on_control_pdlctl_help()
+{
+    try {
+        QDialog dialog;
+        Ui::DialogText textDialog;
+        textDialog.setupUi(&dialog);
+
+        BossRc500::Tooltips tooltips;
+        textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
+
+        dialog.setWindowTitle("BOSS RC-500 - Assign Pdl Ctl Help");
+        dialog.setModal(true);
+        dialog.exec();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
 
 // --------------------------------------------------------------------------
 void
