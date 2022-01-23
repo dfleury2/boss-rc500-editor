@@ -22,7 +22,7 @@ public:
 
 private:
     void setup();
-    void add_tooltips(const QString& language);
+    void add_tooltips();
     void add_combo_items();
     void add_callbacks();
 
@@ -138,6 +138,7 @@ private:
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 
     // Preferences
+    QString       _language;
     QActionGroup* _preferences_themes_group{nullptr};
     QActionGroup* _preferences_language_group{nullptr};
 

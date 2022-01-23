@@ -105,13 +105,16 @@ BossRc500MainWindow::setup()
         _preferences_language_group->isExclusive();
 
         auto preferencesMenu = new QMenu("Preferences", fileMenu);
-        auto default_english = preferencesMenu->addAction("Default", [this] { add_tooltips(""); } );
+        auto default_english = preferencesMenu->addAction("Default", [this] { _language = ""; add_tooltips(); } );
         default_english->setCheckable(true);
         default_english->setChecked(true);
         _preferences_language_group->addAction(default_english);
 
         for (auto&& l : BossRc500::Resources::Languages()) {
-            auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] { add_tooltips(code); } );
+            auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] {
+                _language = code;
+                add_tooltips();
+            } );
             lang->setCheckable(true);
             _preferences_language_group->addAction(lang);
         }
@@ -140,7 +143,7 @@ BossRc500MainWindow::setup()
             });
     menuBar()->addMenu(editMenu);
 
-    add_tooltips("");
+    add_tooltips();
     add_combo_items();
     add_callbacks();
 
@@ -161,12 +164,12 @@ BossRc500MainWindow::setup()
 
 // --------------------------------------------------------------------------
 void
-BossRc500MainWindow::add_tooltips(const QString& language)
+BossRc500MainWindow::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
     try {
-        BossRc500::Tooltips tooltips(language);
+        BossRc500::Tooltips tooltips(_language);
 
         track1_Reverse->setToolTip(tooltips.track_Reverse());
         track1_LoopFx->setToolTip(tooltips.track_LoopFx());
@@ -678,7 +681,8 @@ BossRc500MainWindow::on_ToolMenu_Assign()
                 _database_mem,
                 cb_Memory->currentIndex(),
                 beat,
-                loopFx_type);
+                loopFx_type,
+                _language);
         dialog.setWindowTitle("BOSS RC-500 - Assign");
         dialog.setModal(true);
         dialog.exec();
@@ -697,7 +701,7 @@ BossRc500MainWindow::on_ToolMenu_System()
 {
     try {
         QDialog dialog;
-        BossRc500SystemDialog systemDialog(dialog, _database_sys);
+        BossRc500SystemDialog systemDialog(dialog, _database_sys, _language);
         dialog.setWindowTitle("BOSS RC-500 - System");
         dialog.setModal(true);
         dialog.exec();

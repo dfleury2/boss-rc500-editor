@@ -879,6 +879,17 @@ QString Tooltips::assign_TargetMinMax() { return load_tooltip(BossRc500::Resourc
 QString Tooltips::control_PdlCtl() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_pdlctl.yaml"); }
 QString Tooltips::control_Exp() { return load_tooltip(BossRc500::Resources::Tooltips() + "/control_exp.yaml"); }
 
+QString Tooltips::general_DisplayContrast() { return load_tooltip(BossRc500::Resources::Tooltips() + "/general_displaycontrast.yaml"); }
+QString Tooltips::general_DisplayMode() { return load_tooltip(BossRc500::Resources::Tooltips() + "/general_displaymode.yaml"); }
+QString Tooltips::general_UndoRedo() { return load_tooltip(BossRc500::Resources::Tooltips() + "/general_undoredo.yaml"); }
+
+QString Tooltips::pref_PedalPref() { return load_tooltip(BossRc500::Resources::Tooltips() + "/pref_pedalpref.yaml"); }
+QString Tooltips::pref_CtlPref() { return load_tooltip(BossRc500::Resources::Tooltips() + "/pref_ctlpref.yaml"); }
+QString Tooltips::pref_ExpPref() { return load_tooltip(BossRc500::Resources::Tooltips() + "/pref_exppref.yaml"); }
+QString Tooltips::extent_Extent() { return load_tooltip(BossRc500::Resources::Tooltips() + "/extent_extent.yaml"); }
+QString Tooltips::extent_ExtentMin() { return load_tooltip(BossRc500::Resources::Tooltips() + "/extent_extentmin.yaml"); }
+QString Tooltips::extent_ExtentMax() { return load_tooltip(BossRc500::Resources::Tooltips() + "/extent_extentmax.yaml"); }
+
 // --------------------------------------------------------------------------
 QString
 Tooltips::load_tooltip(const QString& filename)

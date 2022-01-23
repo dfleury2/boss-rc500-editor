@@ -11,7 +11,8 @@
 class BossRc500SystemDialog : public Ui_BossRc500SystemDialog, public QObject
 {
 public:
-    explicit BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& database);
+    explicit BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& database,
+            const QString& language);
 
     bool apply = false;
     nlohmann::json  database;
@@ -55,6 +56,7 @@ private:
 
 private:
     QDialog&        _parent;
+    QString         _language;
     QFont           _font_bold; // different from default
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 };

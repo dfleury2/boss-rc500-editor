@@ -4,8 +4,9 @@
 #include <QMessageBox>
 
 // --------------------------------------------------------------------------
-BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& db) :
-        _parent(dialog), database(db)
+BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& db,
+        const QString& language) :
+        _parent(dialog), database(db), _language(language)
 {
     setup();
 }
@@ -45,13 +46,31 @@ BossRc500SystemDialog::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-//    assign1_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign2_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign4_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign5_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign6_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign7_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
-//    assign8_TargetMax->setToolTip(QCoreApplication::translate("BossRc500Dialog", "<html><head/><body><p><img src=\"./resources/tooltips/assign_targetminmax.png\"/></p></body></html>", nullptr));
+    BossRc500::Tooltips tooltips(_language);
+
+    general_DisplayContrast->setToolTip(tooltips.general_DisplayContrast());
+    general_DisplayMode->setToolTip(tooltips.general_DisplayMode());
+    general_UndoRedo->setToolTip(tooltips.general_UndoRedo());
+
+    pref_Pedal1Pref->setToolTip(tooltips.pref_PedalPref());
+    pref_Pedal2Pref->setToolTip(tooltips.pref_PedalPref());
+    pref_Pedal3Pref->setToolTip(tooltips.pref_PedalPref());
+    pref_Ctl1Pref->setToolTip(tooltips.pref_CtlPref());
+    pref_Ctl2Pref->setToolTip(tooltips.pref_CtlPref());
+    pref_ExpPref->setToolTip(tooltips.pref_ExpPref());
+
+    extent_Extent->setToolTip(tooltips.extent_Extent());
+    extent_Extent1Min->setToolTip(tooltips.extent_ExtentMin());
+    extent_Extent1Max->setToolTip(tooltips.extent_ExtentMax());
+    extent_Extent2Min->setToolTip(tooltips.extent_ExtentMin());
+    extent_Extent2Max->setToolTip(tooltips.extent_ExtentMax());
+    extent_Extent3Min->setToolTip(tooltips.extent_ExtentMin());
+    extent_Extent3Max->setToolTip(tooltips.extent_ExtentMax());
+    extent_Extent4Min->setToolTip(tooltips.extent_ExtentMin());
+    extent_Extent4Max->setToolTip(tooltips.extent_ExtentMax());
+    extent_Extent5Min->setToolTip(tooltips.extent_ExtentMin());
+    extent_Extent5Max->setToolTip(tooltips.extent_ExtentMax());
+
 #endif // QT_CONFIG(tooltip)
 }
 

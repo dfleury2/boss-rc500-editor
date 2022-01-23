@@ -279,6 +279,17 @@ public:
     QString control_PdlCtl();
     QString control_Exp();
 
+    // System
+    QString general_DisplayContrast();
+    QString general_DisplayMode();
+    QString general_UndoRedo();
+    QString pref_PedalPref();
+    QString pref_CtlPref();
+    QString pref_ExpPref();
+    QString extent_Extent();
+    QString extent_ExtentMin();
+    QString extent_ExtentMax();
+
 private:
     QString load_tooltip(const QString& filename);
 

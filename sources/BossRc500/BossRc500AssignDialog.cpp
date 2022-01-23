@@ -12,9 +12,10 @@ BossRc500AssignDialog::BossRc500AssignDialog(QDialog& dialog,
         nlohmann::json db,
         int mem_index,
         const BossRc500::Beat& beat,
-        int loopFxType) :
+        int loopFxType,
+        const QString& language) :
         _parent(dialog), database(std::move(db)), _memory_index(mem_index),
-        _beat(beat), _loopfxType(loopFxType)
+        _beat(beat), _loopfxType(loopFxType), _language(language)
 {
     setup();
 }
@@ -72,7 +73,7 @@ BossRc500AssignDialog::add_tooltips()
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
-    BossRc500::Tooltips tooltips;
+    BossRc500::Tooltips tooltips{_language};
 
     for (auto assign : _assigns) assign->setToolTip(tooltips.assign_Assign());
     for (auto source : _sources) source->setToolTip(tooltips.assign_Source());

@@ -16,7 +16,8 @@ public:
                                    nlohmann::json database,
                                    int mem_index,
                                    const BossRc500::Beat& beat,
-                                   int loopfxType);
+                                   int loopfxType,
+                                   const QString& language);
 
     bool apply = false;
     nlohmann::json  database;
@@ -66,6 +67,7 @@ private:
     int             _memory_index{0};
     BossRc500::Beat _beat;
     int             _loopfxType{0};
+    QString         _language;
 
     std::vector<QCheckBox*> _assigns;
     std::vector<QComboBox*> _sources;
