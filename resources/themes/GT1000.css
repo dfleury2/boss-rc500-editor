@@ -1,0 +1,35 @@
+QWidget {
+    font-size: 14px;
+}
+
+QMainWindow, QDialog {
+    background-image: url("resources/themes/gt1000.png");
+}
+
+QGroupBox {
+    font-weight: bold;
+    color: white;
+}
+
+QComboBox, QSpinBox, QDoubleSpinBox {
+    background: #171b3e;
+    color: #b4dcfc;
+    /* border: 1px solid #2c2c50; */
+}
+
+/*QComboBox QAbstractItemView {*/
+/*    background: red;*/
+/*    font-size: 14px;*/
+/*    alternate-background-color: orange;*/
+/*    border-color: white;*/
+/*}*/
+
+QLabel {
+    color: white;
+    text-transform: uppercase;
+}
+
+QCheckBox {
+    color: white;
+    /*background: #171b3e;*/
+}
