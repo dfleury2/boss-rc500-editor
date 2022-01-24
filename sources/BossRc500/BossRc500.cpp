@@ -155,8 +155,6 @@ Configuration::Configuration(const QString& filename)
 
                     if (!kv.second.IsNull()) {
                         auto v = kv.second.as<std::string>();
-                        std::cout << k << ": " << v << std::endl;
-
                         if (k == "Foreground") defaultValue_foreground = v.c_str();
                         else if (k == "Background") defaultValue_background = v.c_str();
                     }
