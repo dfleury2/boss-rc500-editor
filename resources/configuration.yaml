@@ -1,3 +1,7 @@
 Languages:
   - French: fr
   - Spanish: es
+
+DefaultValue:
+  - Foreground: "#00548F"
+  - Background: "#CCCCCC"

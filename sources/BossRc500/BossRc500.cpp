@@ -27,14 +27,18 @@ GetStandardItem(QComboBox* cb, int index)
 void
 SetItemAsDefault(QStandardItem* item, QComboBox* cb)
 {
-    QFont font{cb->font()};
-    font.setBold(true);
-    font.setPixelSize(16);
-    item->setFont(font);
+//    QFont font{cb->font()};
+//    font.setBold(true);
+//    font.setPixelSize(12);
+//    item->setFont(font);
 
-    item->setForeground(QBrush(QColor("#00548f")));
-    item->setBackground(QBrush(QColor("#CCCCCC")));
+    if (!BossRc500::Configuration::Instance().defaultValue_foreground.isEmpty())
+        item->setForeground(QBrush(QColor(BossRc500::Configuration::Instance().defaultValue_foreground)));
+
+    if (!BossRc500::Configuration::Instance().defaultValue_background.isEmpty())
+        item->setBackground(QBrush(QColor(BossRc500::Configuration::Instance().defaultValue_background)));
 }
+
 
 // --------------------------------------------------------------------------
 void
@@ -42,7 +46,7 @@ SetItemAsNormal(QStandardItem* item, QComboBox* cb)
 {
     QFont font{cb->font()};
     font.setBold(false);
-    font.setPixelSize(16);
+    //font.setPixelSize(16);
     item->setFont(font);
 }
 
@@ -122,18 +126,40 @@ Resources::ResourcePath()
 }
 
 // --------------------------------------------------------------------------
-std::vector<std::pair<QString,QString>>
-Resources::Languages()
+Configuration&
+Configuration::Instance()
 {
-    std::vector<std::pair<QString,QString>> languages;
+    static Configuration _config(BossRc500::Resources::ResourcePath() + "/configuration.yaml");
 
+    return _config;
+}
+
+// --------------------------------------------------------------------------
+Configuration::Configuration(const QString& filename)
+{
     try {
-        YAML::Node yaml = YAML::LoadFile((BossRc500::Resources::ResourcePath() + "/configuration.yaml").toStdString());
+        YAML::Node yaml = YAML::LoadFile(filename.toStdString());
         if (yaml["Languages"] && yaml["Languages"].IsSequence()) {
             for (auto&& lang : yaml["Languages"]) {
                 for (auto&& kv : lang) {
                     languages.emplace_back(kv.first.as<std::string>().c_str(),
-                                    kv.second.as<std::string>().c_str());
+                            kv.second.as<std::string>().c_str());
+                }
+            }
+        }
+
+        if (yaml["DefaultValue"] && yaml["DefaultValue"].IsSequence()) {
+            for (auto&& value : yaml["DefaultValue"]) {
+                for (auto&& kv : value) {
+                    auto k = kv.first.as<std::string>();
+
+                    if (!kv.second.IsNull()) {
+                        auto v = kv.second.as<std::string>();
+                        std::cout << k << ": " << v << std::endl;
+
+                        if (k == "Foreground") defaultValue_foreground = v.c_str();
+                        else if (k == "Background") defaultValue_background = v.c_str();
+                    }
                 }
             }
         }
@@ -141,8 +167,6 @@ Resources::Languages()
     catch (const std::exception& ex) {
         std::cout << ex.what() << std::endl;
     }
-
-    return languages;
 }
 
 // --------------------------------------------------------------------------

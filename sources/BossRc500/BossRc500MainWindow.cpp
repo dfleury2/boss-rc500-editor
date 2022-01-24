@@ -110,7 +110,7 @@ BossRc500MainWindow::setup()
         default_english->setChecked(true);
         _preferences_language_group->addAction(default_english);
 
-        for (auto&& l : BossRc500::Resources::Languages()) {
+        for (auto&& l : BossRc500::Configuration::Instance().languages) {
             auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] {
                 _language = code;
                 add_tooltips();

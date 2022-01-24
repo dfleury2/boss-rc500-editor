@@ -7,6 +7,12 @@ QMainWindow, QDialog {
     background: #aa312d;
 }
 
+/*
+QComboBox {
+    font-size: 18px;
+}
+*/
+
 QGroupBox {
     border: 1px solid white;
 }

@@ -17,7 +17,8 @@ namespace BossRc500 {
 extern const char* StyleSheet;
 
 // --------------------------------------------------------------------------
-struct Resources {
+struct Resources
+{
     static QString ResourcePath();
 
     static QString DrumKits() { return ResourcePath() + "/drumkits"; }
@@ -27,9 +28,22 @@ struct Resources {
     static QString Templates() { return ResourcePath() + "/templates"; }
     static QString Themes() { return ResourcePath() + "/themes"; }
     static QString Tooltips() { return ResourcePath() + "/tooltips"; }
-
-    static std::vector<std::pair<QString, QString>> Languages();
 };
+
+// --------------------------------------------------------------------------
+struct Configuration
+{
+    static Configuration& Instance();
+
+    std::vector<std::pair<QString, QString>> languages;
+
+    QString defaultValue_foreground;
+    QString defaultValue_background;
+
+private:
+    Configuration(const QString& filename);
+};
+
 
 inline nlohmann::json  DatabaseMemDefault;
 inline nlohmann::json  DatabaseSysDefault;
