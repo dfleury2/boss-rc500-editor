@@ -46,7 +46,7 @@ SetItemAsNormal(QStandardItem* item, QComboBox* cb)
 {
     QFont font{cb->font()};
     font.setBold(false);
-    //font.setPixelSize(16);
+    font.setPixelSize(16);
     item->setFont(font);
 }
 
