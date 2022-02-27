@@ -96,6 +96,9 @@ BossRc500AdvancedCopyDialog::on_copy()
             if (copy_Control->isChecked()) {
                 mem["CTL"] = slot["CTL"];
             }
+            if (copy_Assign->isChecked()) {
+                mem["ASSIGN"] = slot["ASSIGN"];
+            }
 
             // Master is split between Record and Play
             auto master_copy = [&](std::initializer_list<const char*> names) {

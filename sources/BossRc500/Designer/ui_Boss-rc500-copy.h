@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'Boss-rc500-copyHbpMcJ.ui'
+** Form generated from reading UI file 'Boss-rc500-copyhaDKLl.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef BOSS_2D_RC500_2D_COPYHBPMCJ_H
-#define BOSS_2D_RC500_2D_COPYHBPMCJ_H
+#ifndef BOSS_2D_RC500_2D_COPYHADKLL_H
+#define BOSS_2D_RC500_2D_COPYHADKLL_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -31,6 +31,7 @@ public:
     QCheckBox *copy_Play;
     QCheckBox *copy_LoopFx;
     QCheckBox *copy_Control;
+    QCheckBox *copy_Assign;
     QPushButton *button_Copy;
     QPushButton *button_Close;
     QLabel *label_To;
@@ -42,10 +43,10 @@ public:
     {
         if (BossRc500CopyDialog->objectName().isEmpty())
             BossRc500CopyDialog->setObjectName(QString::fromUtf8("BossRc500CopyDialog"));
-        BossRc500CopyDialog->resize(222, 295);
+        BossRc500CopyDialog->resize(222, 340);
         gp_Select = new QGroupBox(BossRc500CopyDialog);
         gp_Select->setObjectName(QString::fromUtf8("gp_Select"));
-        gp_Select->setGeometry(QRect(30, 40, 161, 211));
+        gp_Select->setGeometry(QRect(30, 40, 161, 241));
         copy_Track1 = new QCheckBox(gp_Select);
         copy_Track1->setObjectName(QString::fromUtf8("copy_Track1"));
         copy_Track1->setGeometry(QRect(10, 30, 131, 23));
@@ -74,12 +75,16 @@ public:
         copy_Control->setObjectName(QString::fromUtf8("copy_Control"));
         copy_Control->setGeometry(QRect(10, 180, 131, 23));
         copy_Control->setLayoutDirection(Qt::RightToLeft);
+        copy_Assign = new QCheckBox(gp_Select);
+        copy_Assign->setObjectName(QString::fromUtf8("copy_Assign"));
+        copy_Assign->setGeometry(QRect(10, 210, 131, 23));
+        copy_Assign->setLayoutDirection(Qt::RightToLeft);
         button_Copy = new QPushButton(BossRc500CopyDialog);
         button_Copy->setObjectName(QString::fromUtf8("button_Copy"));
-        button_Copy->setGeometry(QRect(140, 260, 71, 24));
+        button_Copy->setGeometry(QRect(140, 300, 71, 24));
         button_Close = new QPushButton(BossRc500CopyDialog);
         button_Close->setObjectName(QString::fromUtf8("button_Close"));
-        button_Close->setGeometry(QRect(10, 260, 71, 24));
+        button_Close->setGeometry(QRect(10, 300, 71, 24));
         label_To = new QLabel(BossRc500CopyDialog);
         label_To->setObjectName(QString::fromUtf8("label_To"));
         label_To->setGeometry(QRect(120, 10, 21, 21));
@@ -111,6 +116,7 @@ public:
         copy_Play->setText(QCoreApplication::translate("BossRc500CopyDialog", "Play", nullptr));
         copy_LoopFx->setText(QCoreApplication::translate("BossRc500CopyDialog", "Loop Fx", nullptr));
         copy_Control->setText(QCoreApplication::translate("BossRc500CopyDialog", "Control", nullptr));
+        copy_Assign->setText(QCoreApplication::translate("BossRc500CopyDialog", "Assign", nullptr));
         button_Copy->setText(QCoreApplication::translate("BossRc500CopyDialog", "Copy", nullptr));
         button_Close->setText(QCoreApplication::translate("BossRc500CopyDialog", "Close", nullptr));
         label_To->setText(QCoreApplication::translate("BossRc500CopyDialog", "To", nullptr));
@@ -125,4 +131,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // BOSS_2D_RC500_2D_COPYHBPMCJ_H
+#endif // BOSS_2D_RC500_2D_COPYHADKLL_H

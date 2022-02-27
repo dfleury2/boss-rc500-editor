@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>222</width>
-    <height>295</height>
+    <height>340</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>30</x>
      <y>40</y>
      <width>161</width>
-     <height>211</height>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -137,12 +137,28 @@
      <string>Control</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="copy_Assign">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>210</y>
+      <width>131</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Assign</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="button_Copy">
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>260</y>
+     <y>300</y>
      <width>71</width>
      <height>24</height>
     </rect>
@@ -155,7 +171,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>260</y>
+     <y>300</y>
      <width>71</width>
      <height>24</height>
     </rect>
