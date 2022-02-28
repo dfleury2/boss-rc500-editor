@@ -782,6 +782,8 @@ BossRc500MainWindow::on_advanced_copy()
     try {
         QDialog dialog;
         BossRc500AdvancedCopyDialog copyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
+        copyDialog.cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
+        copyDialog.cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
 
         dialog.setWindowTitle("BOSS RC-500 - Memory Copy");
         dialog.setModal(true);
