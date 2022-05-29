@@ -184,28 +184,13 @@ ReadSystemDatabase(const std::string& filename)
 // --------------------------------------------------------------------------
 void
 WriteDatabase(const nlohmann::json& database, const std::string& filename,
-        const std::string template_name)
+        const std::string& template_name)
 {
-    // Load Inja template for MEMORY file, and render it with database
+    // Load Inja template for file, and render it with database
     inja::Environment env;
     inja::Template tpl = env.parse_file(template_name);
 
     // Write the output
     std::ofstream file(filename);
     file << env.render(tpl, database);
-}
-
-
-// --------------------------------------------------------------------------
-void
-WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename)
-{
-    WriteDatabase(database, filename, "./resources/templates/MEMORY.txt");
-}
-
-// --------------------------------------------------------------------------
-void
-WriteSystemDatabase(const nlohmann::json& database, const std::string& filename)
-{
-    WriteDatabase(database, filename, "./resources/templates/SYSTEM.txt");
 }

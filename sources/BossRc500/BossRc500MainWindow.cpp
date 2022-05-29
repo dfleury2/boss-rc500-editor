@@ -1419,3 +1419,21 @@ BossRc500MainWindow::loadPresets()
     }
 
 }
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainWindow::WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename)
+{
+    auto model = (BossRc500::Resources::Templates() + "/MEMORY.txt").toStdString();
+    std::cout << "Using " << model << " as template file for MEMORY" << std::endl;
+    WriteDatabase(database, filename, model);
+}
+
+// --------------------------------------------------------------------------
+void
+BossRc500MainWindow::WriteSystemDatabase(const nlohmann::json& database, const std::string& filename)
+{
+    auto model = (BossRc500::Resources::Templates() + "/SYSTEM.txt").toStdString();
+    std::cout << "Using " << model << " as template file for SYSTEM" << std::endl;
+    WriteDatabase(database, filename, model);
+}

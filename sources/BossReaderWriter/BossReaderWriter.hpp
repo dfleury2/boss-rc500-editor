@@ -14,8 +14,5 @@ ReadSystemDatabase(const std::string& filename);
 
 // --------------------------------------------------------------------------
 void
-WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename);
-
-// --------------------------------------------------------------------------
-void
-WriteSystemDatabase(const nlohmann::json& database, const std::string& filename);
+WriteDatabase(const nlohmann::json& database, const std::string& filename,
+        const std::string& template_name);

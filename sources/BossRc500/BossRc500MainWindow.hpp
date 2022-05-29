@@ -128,6 +128,12 @@ private:
         w->setStyleSheet(styleSheet);
     }
 
+    static void
+    WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename);
+
+    static void
+    WriteSystemDatabase(const nlohmann::json& database, const std::string& filename);
+
 private:
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;
