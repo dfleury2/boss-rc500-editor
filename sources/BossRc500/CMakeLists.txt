@@ -36,6 +36,13 @@ target_link_libraries(BossRc500
         pantor::inja
 )
 
+if(WIN32)
+target_link_libraries(BossRc500
+    PUBLIC
+        DWrite.lib
+)
+endif()
+
 install(TARGETS BossRc500
         RUNTIME DESTINATION .
 )
