@@ -31,6 +31,13 @@ make
 Personal note: Remove os.version from settings and user default-gcc10 as profile
 `CC=gcc-10 CXX=g++-10 conan install .. -pr default-gcc10 -r conan-center`
 
+Use specific conan repo,
+
+export CONAN_USER_HOME=${HOME}/conan-gcc10
+
+with simpler profiles
+
+
 ### Windows
 
 You need to launch a Developper command prompt to have your compiler environment accessible by CMake and Conan.
