@@ -32,15 +32,14 @@ add_subdirectory(sources/miniaudio)
 add_subdirectory(sources/BossRc500)
 
 # Installation steps for Resources
-install(DIRECTORY resources/drumkits  DESTINATION resources)
+#install(DIRECTORY resources/drumkits  DESTINATION resources)
 install(DIRECTORY resources/images  DESTINATION resources)
 install(DIRECTORY resources/themes  DESTINATION resources)
 install(DIRECTORY resources/templates  DESTINATION resources)
 install(DIRECTORY resources/tooltips  DESTINATION resources)
 install(DIRECTORY resources/presets  DESTINATION resources)
 install(DIRECTORY resources/fonts  DESTINATION resources)
-install(DIRECTORY doc  DESTINATION .)
-
+install(FILES resources/configuration.yaml  DESTINATION resources)
 
 # Packaging
 set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
