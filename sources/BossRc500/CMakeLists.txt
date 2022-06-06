@@ -40,6 +40,8 @@ if(WIN32)
 target_link_libraries(BossRc500
     PUBLIC
         DWrite.lib
+        Shcore.lib
+        D3d9.lib
 )
 endif()
 
