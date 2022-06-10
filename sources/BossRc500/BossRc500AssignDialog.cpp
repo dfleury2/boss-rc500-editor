@@ -186,7 +186,7 @@ BossRc500AssignDialog::on_target_help()
         BossRc500::Tooltips tooltips;
         textDialog.textEdit->setHtml(tooltips.assign_Target());
 
-        dialog.setWindowTitle("BOSS RC-500 - Assign Target Help");
+        dialog.setWindowTitle("RC-500 LOOP STATION - Assign Target Help");
         dialog.setModal(true);
         dialog.exec();
     }

@@ -683,7 +683,7 @@ BossRc500MainWindow::on_ToolMenu_Assign()
                 beat,
                 loopFx_type,
                 _language);
-        dialog.setWindowTitle("BOSS RC-500 - Assign");
+        dialog.setWindowTitle("RC-500 LOOP STATION - Assign");
         dialog.setModal(true);
         dialog.exec();
         if (assignDialog.apply) {
@@ -702,7 +702,7 @@ BossRc500MainWindow::on_ToolMenu_System()
     try {
         QDialog dialog;
         BossRc500SystemDialog systemDialog(dialog, _database_sys, _language);
-        dialog.setWindowTitle("BOSS RC-500 - System");
+        dialog.setWindowTitle("RC-500 LOOP STATION - System");
         dialog.setModal(true);
         dialog.exec();
         if (systemDialog.apply) {
@@ -785,7 +785,7 @@ BossRc500MainWindow::on_advanced_copy()
         copyDialog.cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
         copyDialog.cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
 
-        dialog.setWindowTitle("BOSS RC-500 - Memory Copy");
+        dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
         dialog.setModal(true);
         dialog.exec();
     }
@@ -840,7 +840,7 @@ BossRc500MainWindow::on_control_pdlctl_help()
         BossRc500::Tooltips tooltips;
         textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
 
-        dialog.setWindowTitle("BOSS RC-500 - Assign Pdl Ctl Help");
+        dialog.setWindowTitle("RC-500 LOOP STATION - Assign Pdl Ctl Help");
         dialog.setModal(true);
         dialog.exec();
     }
@@ -1397,7 +1397,7 @@ BossRc500MainWindow::setDirname(const std::string& dirname)
 {
     _dirname = dirname;
 
-    std::string title = "BOSS RC-500 - " + (_dirname.empty() ? "[Untitled]" : _dirname);
+    std::string title = "RC-500 LOOP STATION - " + (_dirname.empty() ? "[Untitled]" : _dirname);
     setWindowTitle(title.c_str());
 }
 

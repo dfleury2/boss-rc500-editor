@@ -289,7 +289,7 @@ BossRc500SystemDialog::on_control_pdlctl_help()
         BossRc500::Tooltips tooltips;
         textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
 
-        dialog.setWindowTitle("BOSS RC-500 - Assign Pdl Ctl Help");
+        dialog.setWindowTitle("RC-500 LOOP STATION - Assign Pdl Ctl Help");
         dialog.setModal(true);
         dialog.exec();
     }
