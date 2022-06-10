@@ -160,6 +160,9 @@ BossRc500MainWindow::setup()
 
     // Start with a default MEMORY file
     on_ToolMenu_New();
+
+    // No more drumkits...
+    button_rhythm_Play->hide();
 }
 
 // --------------------------------------------------------------------------
