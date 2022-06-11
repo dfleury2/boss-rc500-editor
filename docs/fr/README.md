@@ -12,7 +12,7 @@ using it on your configuration files, make a backup.
 ## Download
 
 You can find pre-built binaries for Windows 8.1 and 10, Linux and
-MacOs Catalina [here](../downloads/).
+MacOs Catalina [here](http://simplecpp.free.fr/boss-rc500/downloads/).
 
 I am currently using this tool under Linux Debian (bullseye).
 
