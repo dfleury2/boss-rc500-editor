@@ -5,31 +5,30 @@
 Ce logiciel permet de créer, d'éditer et de sauver un fichier de configuration
 pour le looper Boss RC-500.
 
-WARNING: This is an alpha-stage tool, under development, with no link
-to Boss/Roland enterprise, and with probably a lot of issues. So, before
-using it on your configuration files, make a backup.
+ATTENTION: Ce logiciel est en phase de test, en cours de développement, qui n'a aucun 
+lien avec la société Boss/Roland, et contient probablement énormement de bogues. Donc,
+avant de l'utiliser, n'oubliez pas de faire une copie de sauvegarde de vos fichiers.
 
-## Download
+## Téléchargement
 
-You can find pre-built binaries for Windows 8.1 and 10, Linux and
-MacOs Catalina [here](http://simplecpp.free.fr/boss-rc500/downloads/).
+Vous pouvez trouver les binaires pré-compilés pour Windows 8.1 et 10, Linux et
+MacOs Catalina [ici](http://simplecpp.free.fr/boss-rc500/downloads/).
 
-I am currently using this tool under Linux Debian (bullseye).
+Actuellement, j'utilise le logiciel sous Linux Debian Bullseye.
 
+## Utilisation de base
 
-## Basic Usage
-
-When the tool starts, it loads a default configuration file, 
-MEMORY_DEFAULT.RC0, in the resource directory.
-So you can start creating a configuration file without your RC-500 
-connected to your PC.
+Quand le logiciel démarre, il charge le fichier de configuration par défaut, 
+`MEMORY_DEFAULT.RC0` présent dans le répertoire des ressources.
+Ainsi, vous pouvez directement créer votre fichier de configuration sans avoir à brancher
+le RC-500 à votre PC.
 
 If your looper is connected, you can directly open the MEMORY1.RC0 file
 from the connected disk, in ROLAND/DATA directory.
 
 The window title will show you the filename you are currently editing.
 
-## Main Menu
+## Menu Principal
 
 ![Main Menu](../images/menu.png)
 
@@ -52,7 +51,7 @@ For a new database, you will be prompted for a directory name on your
 disk (or directly in your looper).
 
 All files needed by the Boss RC500 looper will we writtent to disk
-MEMORO1.RC0, MEMORY2.RC0, SYSTEM1.RC0 and  SYSTEM2.RC0.
+`MEMORO1.RC0`, `MEMORY2.RC0`, `SYSTEM1.RC0` et `SYSTEM2.RC0`.
 
 It allows the looper to take in account the new files else it tries
 to load one that contains the checksum (no computed by the tool)
