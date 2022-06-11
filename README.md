@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="GUI Screenshot" src="https://github.com/dfleury2/boss-rc500-editor/raw/master/doc/screenshot.png" height="500" />
+  <img alt="GUI Screenshot" src="https://github.com/dfleury2/boss-rc500-editor/raw/master/docs/images/screenshot.png" height="500" />
 </div>
 <br>
 
