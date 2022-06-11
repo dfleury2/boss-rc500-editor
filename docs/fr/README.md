@@ -1,6 +1,5 @@
 # RC-500 Loop Station Editor
 
-![Main Screen](../images/screenshot.png)
 
 Ce logiciel permet de créer, d'éditer et de sauver un fichier de configuration
 pour le looper Boss RC-500.
