@@ -11,6 +11,11 @@ Using Inja, RapidXml and Nlohmann Json under Conan.
 
 These are some prototypes to learn new things (Inja and Qt), and see what can I use later.
 
+## User Manual
+
+If you just want to use it without dive into the glory details, you can go the
+documentation directly [here](https://dfleury2.github.io/boss-rc500-editor/#/).
+
 
 ## Compilation
 
