@@ -40,7 +40,7 @@ with simpler profiles
 
 ### Windows
 
-You need to launch a Developper command prompt to have your compiler environment accessible by CMake and Conan.
+You need to launch a Developer command prompt to have your compiler environment accessible by CMake and Conan.
 
 ```
 git clone https://github.com/dfleury2/boss-rc500-editor.git
@@ -51,7 +51,7 @@ conan install ..
 cmake ..
 cmake --build . --config Release
 cd ..
-.\build\sources\BossRc500\Release\BossRc500.exe
+.\build\bin\BossRc500.exe
 ```
 
 or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
