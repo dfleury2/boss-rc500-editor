@@ -23,10 +23,10 @@ Quand le logiciel démarre, il charge le fichier de configuration par défaut,
 Ainsi, vous pouvez directement créer votre fichier de configuration sans avoir à brancher
 le RC-500 à votre PC.
 
-If your looper is connected, you can directly open the MEMORY1.RC0 file
-from the connected disk, in ROLAND/DATA directory.
+Si votre looper est connecté, vous pouvez directement ouvrir le répertoire `ROLAND/DATA`, 
+celui contenant le fichier `MEMORY1.RC0` notamment.
 
-The window title will show you the filename you are currently editing.
+Le titre de la fenètre affiche le nom du répertoire qui est actuellement ouvert.
 
 ## Menu Principal
 
@@ -34,27 +34,27 @@ The window title will show you the filename you are currently editing.
 
 ### New
 
-Create a new database by reading the default ones provided in
-resources/templates/MEMORY_DEFAULT.RC0 and resources/templates/SYSTEM_DEFAULT.RC0
-A new database has no name, you will need to provide one when you
-will save it to disk.
+Crée un nouveau fichier de configuration en utilisant celui par défaut founit dans le fichier
+`resources/templates/MEMORY_DEFAULT.RC0` et `resources/templates/SYSTEM_DEFAULT.RC0`.
+Un nouveau fichier n'a pas de répertoire cible par défaut, vous devrez fournir un répertoire
+quand vous allez sauver la nouvelle ocnfiguration.
 
 ### Open
 
-Open an existing directory which contains the memory and system
-files (ROLAND/DATA for example).
+Ouvre un répertoire existant contenant les fichiers de configuration des mémoires et du système
+(`ROLAND/DATA` par example).
 
 ### Save
 
-Save the current databases into files.
-For a new database, you will be prompted for a directory name on your
-disk (or directly in your looper).
+Sauve la configuration courante dans le répertoire cible.
+Pour une nouvelle configuration, il vous sera demandé de choisir un répertoire de sortie
+sur votre disque dur (ou directement votre looper).
 
-All files needed by the Boss RC500 looper will we writtent to disk
+Tous les fichiers nécessaires pour le RC-500 seront alors sauvegardés sur disques
 `MEMORO1.RC0`, `MEMORY2.RC0`, `SYSTEM1.RC0` et `SYSTEM2.RC0`.
 
-It allows the looper to take in account the new files else it tries
-to load one that contains the checksum (no computed by the tool)
+Cela permet au loooper de prendre en compte les modifications sans utiliser les précédents contenant
+la valeur de version qui n'est pas générée ici.
 
 ### Memory
 
