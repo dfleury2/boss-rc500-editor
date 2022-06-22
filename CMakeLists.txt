@@ -42,11 +42,11 @@ install(DIRECTORY resources/fonts  DESTINATION resources)
 install(FILES resources/configuration.yaml  DESTINATION resources)
 
 # Packaging
-set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/doc/BossRC500.png")
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/docs/images/BossRC500.png")
 if(WIN32)
     set(CPACK_GENERATOR ZIP)
 elseif(APPLE)
-    set(CPACK_GENERATOR DLG)
+    set(CPACK_GENERATOR DragNDrop)
 else()
     set(CPACK_GENERATOR TBZ2)
 endif()
