@@ -16,6 +16,8 @@ MacOs Catalina [here](http://simplecpp.free.fr/boss-rc500/downloads/).
 
 I am currently using this tool under Linux Debian (bullseye).
 
+For MacOs users with M1 processor, you will need something called Rosetta to run the 
+Catalina binary, else you will need to compile the program by yourself.
 
 ## Basic Usage
 
