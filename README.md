@@ -7,9 +7,6 @@
 # Boss RC-500 Tools
 Boss rc-500 tool to play with the XML configuration... until Boss make our life easier
 
-Using Inja, RapidXml and Nlohmann Json under Conan.
-
-These are some prototypes to learn new things (Inja and Qt), and see what can I use later.
 
 ## User Manual
 
