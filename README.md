@@ -28,7 +28,7 @@ and a compiler for your system (gcc, ...)
 git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
 mkdir build && cd build
-conan install ..
+conan install .. -b missing
 cmake ..
 make
 ```
@@ -52,7 +52,7 @@ git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
 md build
 cd build
-conan install ..
+conan install .. -b missing
 cmake ..
 cmake --build . --config Release
 cd ..
