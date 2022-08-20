@@ -49,7 +49,7 @@ git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
 md build
 cd build
-conan install .. -b missing
+conan install .. -pr:b vs2019 -pr vs2019 -b missing
 cmake ..
 cmake --build . --config Release
 cd ..
