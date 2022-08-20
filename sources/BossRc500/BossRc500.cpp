@@ -538,7 +538,7 @@ void
 RhythmKit(QComboBox* cb)
 {
     AddItemsToComboBox(cb, {"Studio", "Live", "Light", "Heavy", "Rock", "Metal", "Jazz",
-                            "Brush", "Cajon", "Drum & Bass", "Dance", "Techno", "Dance Beats",
+                            "Brush", "Cajon", "Drum & Bass", "R & B", "Dance", "Techno", "Dance Beats",
                             "HipHop", "808+909"});
 }
 
