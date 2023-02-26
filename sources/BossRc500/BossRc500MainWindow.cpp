@@ -53,11 +53,11 @@ BossRc500MainWindow::setup()
     setFixedSize(width(), height());
 
     auto fileMenu = new QMenu("File", menuBar());
-    fileMenu->addAction("New",          this, &BossRc500MainWindow::on_ToolMenu_New, QKeySequence::New);
-    fileMenu->addAction("Open...",      this, &BossRc500MainWindow::on_ToolMenu_Open, QKeySequence::Open);
+    fileMenu->addAction("New", QKeySequence::New,          this, &BossRc500MainWindow::on_ToolMenu_New);
+    fileMenu->addAction("Open...", QKeySequence::Open,     this, &BossRc500MainWindow::on_ToolMenu_Open);
     fileMenu->addSeparator();
-    fileMenu->addAction("Save",         this, &BossRc500MainWindow::on_ToolMenu_Save, QKeySequence::Save);
-    fileMenu->addAction("Save as...",   [this] { on_ToolMenu_Save(true); }, QKeySequence::SaveAs);
+    fileMenu->addAction("Save", QKeySequence::Save,        this, &BossRc500MainWindow::on_ToolMenu_Save);
+    fileMenu->addAction("Save as...", QKeySequence::SaveAs, [this] { on_ToolMenu_Save(true); });
 
     fileMenu->addSeparator();
     fileMenu->addAction("Save as preset...", [this] { on_ToolMenu_PresetSave(); });
@@ -124,13 +124,13 @@ BossRc500MainWindow::setup()
 #ifndef APPLE
     // Apple will use application menu to quit
     fileMenu->addSeparator();
-    fileMenu->addAction("Quit", [] { QApplication::exit(); }, QKeySequence::Quit);
+    fileMenu->addAction("Quit", QKeySequence::Quit, [] { QApplication::exit(); });
 #endif
     menuBar()->addMenu(fileMenu);
 
     auto editMenu = new QMenu("Edit", menuBar());
-    editMenu->addAction("Undo", [this] { _stack.undo(); }, QKeySequence::Undo);
-    editMenu->addAction("Redo", [this] { _stack.redo(); }, QKeySequence::Redo);
+    editMenu->addAction("Undo", QKeySequence::Undo, [this] { _stack.undo(); });
+    editMenu->addAction("Redo", QKeySequence::Redo, [this] { _stack.redo(); });
     fileMenu->addSeparator();
     editMenu->addAction("Show/Hide Stack",
             [this] {

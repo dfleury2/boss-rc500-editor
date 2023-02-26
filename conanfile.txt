@@ -1,7 +1,7 @@
 [requires]
-inja/3.3.0
+inja/3.4.0
 rapidxml/1.13
-qt/6.3.0
+qt/6.4.2
 yaml-cpp/0.7.0
 
 [generators]
