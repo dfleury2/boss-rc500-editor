@@ -7,10 +7,6 @@ project(Boss-Rc500-Editor VERSION 0.0.10)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
 if(NOT WIN32)
     add_definitions(-DLINUX)
 endif()
@@ -21,11 +17,11 @@ if(APPLE)
 endif()
 
 
-find_package(inja REQUIRED)
-find_package(nlohmann_json REQUIRED)
-find_package(rapidxml REQUIRED)
-find_package(Qt6 REQUIRED)
-find_package(yaml-cpp REQUIRED)
+find_package(inja CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(rapidxml CONFIG REQUIRED)
+find_package(Qt6 CONFIG REQUIRED)
+find_package(yaml-cpp CONFIG REQUIRED)
 
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)
