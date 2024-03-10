@@ -5,12 +5,12 @@ endif ()
 
 set(app_icon_resource_windows "${PROJECT_SOURCE_DIR}/resources/images/BossRc500.rc")
 
-qt_add_executable(BossRc500
-        Designer/ui_Boss-rc500-main.h
-        Designer/ui_Boss-rc500-assign.h
-        Designer/ui_Boss-rc500-system.h
-        Designer/ui_Boss-rc500-text.h
-        Designer/ui_Boss-rc500-copy.h
+add_executable(BossRc500
+        Designer/Boss-rc500-assign.ui
+        Designer/Boss-rc500-copy.ui
+        Designer/Boss-rc500-main.ui
+        Designer/Boss-rc500-system.ui
+        Designer/Boss-rc500-text.ui
         main.cpp
         BossRc500.hpp
         BossRc500.cpp
