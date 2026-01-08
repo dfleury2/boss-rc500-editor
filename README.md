@@ -16,7 +16,7 @@ documentation directly [here](https://dfleury2.github.io/boss-rc500-editor/#/).
 
 ## Compilation
 
-You need to install : CMake (https://cmake.org/) + Conan (https://conan.io/)
+You need to install : CMake (https://cmake.org/) + Conan v2 (https://conan.io/)
 and a compiler for your system (gcc, ...)
 
 ### Linux
@@ -25,8 +25,8 @@ and a compiler for your system (gcc, ...)
 git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
 mkdir build && cd build
-conan install .. -pr:b default -pr default -b missing
-cmake ..
+conan install .. -pr:b default -pr:h default -b missing -of .
+cmake .. --preset conan-release
 make
 ```
 

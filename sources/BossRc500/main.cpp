@@ -49,7 +49,9 @@ main(int argc, char* argv[])
 
         // Stylesheet
         QFile defaultStyleSheet{BossRc500::Resources::Themes() + "/Default.css"};
-        defaultStyleSheet.open(QFile::ReadOnly | QFile::Text);
+        if (!defaultStyleSheet.open(QFile::ReadOnly | QFile::Text)) {
+            std::cerr << "Failed to open default stylesheet:" << defaultStyleSheet.fileName().toStdString()<< std::endl;
+        }
         qApp->setStyleSheet(QTextStream(&defaultStyleSheet).readAll());
 
         // Read default database files

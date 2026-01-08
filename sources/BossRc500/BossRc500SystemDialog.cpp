@@ -145,7 +145,7 @@ BossRc500SystemDialog::add_callbacks()
                 this, [this, cb, node, name] { on_System_ComboBox_changed(cb, node, name); });
     };
     auto ConnectCheckBox = [this](QCheckBox* cb, const char* node, const char* name) {
-        QObject::connect(cb, &QCheckBox::stateChanged,
+        QObject::connect(cb, &QCheckBox::checkStateChanged,
                 this, [this, cb, node, name] { on_System_CheckBox_changed(cb, node, name); });
     };
     auto ConnectSpinBox = [this](QSpinBox* cb, const char* node, const char* name) {

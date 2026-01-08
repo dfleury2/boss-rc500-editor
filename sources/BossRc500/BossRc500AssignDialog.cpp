@@ -117,7 +117,7 @@ BossRc500AssignDialog::add_callbacks()
     auto ConnectCheckBox_Assign = [&](const std::vector<QCheckBox*>& cbs, const char* name) {
         int index = 0;
         for (auto cb : cbs) {
-            QObject::connect(cb, &QCheckBox::stateChanged,
+            QObject::connect(cb, &QCheckBox::checkStateChanged,
                     this, [this, cb, index, name] {
                         on_Assign_CheckBox_changed(cb, index, name);
                     });

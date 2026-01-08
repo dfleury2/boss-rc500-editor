@@ -348,14 +348,14 @@ BossRc500MainWindow::add_callbacks()
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
     QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
 
-    QObject::connect(track1_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track1_Reverse); });
-    QObject::connect(track2_Reverse, &QCheckBox::stateChanged, this, [this] { on_Reverse_changed(track2_Reverse); });
+    QObject::connect(track1_Reverse, &QCheckBox::checkStateChanged, this, [this] { on_Reverse_changed(track1_Reverse); });
+    QObject::connect(track2_Reverse, &QCheckBox::checkStateChanged, this, [this] { on_Reverse_changed(track2_Reverse); });
 
-    QObject::connect(track1_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track1_LoopFx); });
-    QObject::connect(track2_LoopFx, &QCheckBox::stateChanged, this, [this] { on_LoopFx_changed(track2_LoopFx); });
+    QObject::connect(track1_LoopFx, &QCheckBox::checkStateChanged, this, [this] { on_LoopFx_changed(track1_LoopFx); });
+    QObject::connect(track2_LoopFx, &QCheckBox::checkStateChanged, this, [this] { on_LoopFx_changed(track2_LoopFx); });
 
-    QObject::connect(track1_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
-    QObject::connect(track2_OneShot, &QCheckBox::stateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
+    QObject::connect(track1_OneShot, &QCheckBox::checkStateChanged, this, [this] { on_OneShot_changed(track1_OneShot); });
+    QObject::connect(track2_OneShot, &QCheckBox::checkStateChanged, this, [this] { on_OneShot_changed(track2_OneShot); });
 
     QObject::connect(track1_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track1_Pan); });
     QObject::connect(track2_Pan, &QComboBox::currentIndexChanged, this, [this] { on_Pan_changed(track2_Pan); });
@@ -369,11 +369,11 @@ BossRc500MainWindow::add_callbacks()
     QObject::connect(track1_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track1_Measure); });
     QObject::connect(track2_Measure, &QComboBox::currentIndexChanged, this, [this] { on_Measure_changed(track2_Measure); });
 
-    QObject::connect(track1_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
-    QObject::connect(track2_LoopSync, &QCheckBox::stateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
+    QObject::connect(track1_LoopSync, &QCheckBox::checkStateChanged, this, [this] { on_LoopSync_changed(track1_LoopSync); });
+    QObject::connect(track2_LoopSync, &QCheckBox::checkStateChanged, this, [this] { on_LoopSync_changed(track2_LoopSync); });
 
-    QObject::connect(track1_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
-    QObject::connect(track2_TempoSync, &QCheckBox::stateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
+    QObject::connect(track1_TempoSync, &QCheckBox::checkStateChanged, this, [this] { on_TempoSync_changed(track1_TempoSync); });
+    QObject::connect(track2_TempoSync, &QCheckBox::checkStateChanged, this, [this] { on_TempoSync_changed(track2_TempoSync); });
 
     QObject::connect(track1_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track1_Input); });
     QObject::connect(track2_Input, &QComboBox::currentIndexChanged, this, [this] { on_Input_changed(track2_Input); });
@@ -391,7 +391,7 @@ BossRc500MainWindow::add_callbacks()
     QObject::connect(record_Quantize, &QComboBox::currentIndexChanged,
             this, [this] { on_Master_ComboBox_changed(record_Quantize, "RecQuantize"); });
 
-    QObject::connect(record_AutoRecord, &QCheckBox::stateChanged, this,
+    QObject::connect(record_AutoRecord, &QCheckBox::checkStateChanged, this,
             [this] { on_Master_CheckBox_changed(record_AutoRecord, "AutoRec"); });
 
     QObject::connect(record_AutoRecordSensitivity, &QSpinBox::valueChanged,
@@ -426,7 +426,7 @@ BossRc500MainWindow::add_callbacks()
             this, [this] { on_Master_ComboBox_changed(play_TrackChain, "TrackChain"); });
 
     // LoopFX callbacks
-    QObject::connect(loopFx_Sw, &QCheckBox::stateChanged, this,
+    QObject::connect(loopFx_Sw, &QCheckBox::checkStateChanged, this,
             [this] { on_LoopFx_CheckBox_changed(loopFx_Sw, "Sw"); });
 
     QObject::connect(loopFx_Type, &QComboBox::currentIndexChanged,
@@ -486,16 +486,16 @@ BossRc500MainWindow::add_callbacks()
     QObject::connect(rhythm_PlayCount, &QComboBox::currentIndexChanged,
             this, [this] { on_Rhythm_ComboBox_changed(rhythm_PlayCount, "PlayCount"); });
 
-    QObject::connect(rhythm_Fill, &QCheckBox::stateChanged, this,
+    QObject::connect(rhythm_Fill, &QCheckBox::checkStateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Fill, "Fill"); });
 
-    QObject::connect(rhythm_Part1, &QCheckBox::stateChanged, this,
+    QObject::connect(rhythm_Part1, &QCheckBox::checkStateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Part1, "Part1"); });
-    QObject::connect(rhythm_Part2, &QCheckBox::stateChanged, this,
+    QObject::connect(rhythm_Part2, &QCheckBox::checkStateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Part2, "Part2"); });
-    QObject::connect(rhythm_Part3, &QCheckBox::stateChanged, this,
+    QObject::connect(rhythm_Part3, &QCheckBox::checkStateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Part3, "Part3"); });
-    QObject::connect(rhythm_Part4, &QCheckBox::stateChanged, this,
+    QObject::connect(rhythm_Part4, &QCheckBox::checkStateChanged, this,
             [this] { on_Rhythm_CheckBox_changed(rhythm_Part4, "Part4"); });
 
     QObject::connect(rhythm_ToneLow, &QComboBox::currentIndexChanged,
@@ -726,7 +726,9 @@ BossRc500MainWindow::on_ToolMenu_Themes(const QString& filename)
 {
     try {
         QFile file{filename};
-        file.open(QFile::ReadOnly | QFile::Text);
+        if (!file.open(QFile::ReadOnly | QFile::Text)) {
+            std::cerr << "Failed to open theme file: " << filename.toStdString() << std::endl;
+        }
         qApp->setStyleSheet(QTextStream(&file).readAll());
     }
     catch (const std::exception& ex) {
