@@ -24,21 +24,10 @@ and a compiler for your system (gcc, ...)
 ```
 git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
-mkdir build && cd build
-conan install .. -pr:b default -pr:h default -b missing -of .
-cmake .. --preset conan-release
-make
+conan install . -pr:b gcc-13 -pr:h gcc-13 -b missing -of cmake-build-release
+cmake . --preset conan-release
+cmake --build . --preset conan-release
 ```
-
-Personal note: Remove os.version from settings and user default-gcc10 as profile
-`CC=gcc-10 CXX=g++-10 conan install .. -pr default-gcc10 -r conan-center`
-
-Use specific conan repo,
-
-export CONAN_USER_HOME=${HOME}/conan-gcc10
-
-with simpler profiles
-
 
 ### Windows
 
