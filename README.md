@@ -38,11 +38,11 @@ git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
 md build
 cd build
-conan install .. -pr:b vs2019 -pr vs2019 -b missing
-cmake ..
-cmake --build . --config Release
+conan install .. -pr:b vs2022 -pr:h vs2022-debug -b missing -of .
+cmake .. --preset conan-default
+cmake --build . --config Debug
 cd ..
-.\build\bin\BossRc500.exe
+.\build\bin\Debug\BossRc500.exe
 ```
 
 or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
