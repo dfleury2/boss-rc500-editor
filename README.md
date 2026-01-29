@@ -36,13 +36,12 @@ You need to launch a Developer command prompt to have your compiler environment 
 ```
 git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
-md build
-cd build
-conan install .. -pr:b vs2022 -pr:h vs2022-debug -b missing -of .
+conan install . -pr:b vs2022 -pr:h vs2022 -b missing
+:: debug only: conan install . -pr:b vs2022 -pr:h vs2022-debug -b missing 
 cmake .. --preset conan-default
 cmake --build . --config Debug
 cd ..
-.\build\bin\Debug\BossRc500.exe
+.\cmake-build-debug\bin\Debug\BossRc500.exe
 ```
 
 or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
