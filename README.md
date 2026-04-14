@@ -36,12 +36,15 @@ You need to launch a Developer command prompt to have your compiler environment 
 ```
 git clone https://github.com/dfleury2/boss-rc500-editor.git
 cd boss-rc500-editor
-conan install . -pr:b vs2022 -pr:h vs2022 -b missing
-:: debug only: conan install . -pr:b vs2022 -pr:h vs2022-debug -b missing 
-cmake .. --preset conan-default
-cmake --build . --config Debug
-cd ..
-.\cmake-build-debug\bin\Debug\BossRc500.exe
+conan install . -pr vs2022 -b missing
+:: debug only: conan install . -pr vs2022-debug -b missing 
+cmake --preset conan-default
+cmake --build build --config Release
+:: debug only: cmake --build build --config Debug
+
+.\build\bin\Release\BossRc500.exe
+:: debug only: .\build\bin\Debug\BossRc500.exe
+
 ```
 
 or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
@@ -49,6 +52,10 @@ I do not use Visual Studio anymore, but to run the program, you must change the 
 else the program could not find the images and others files needed.
 
 If you use CLion, after the conan install command, you can open the project root directory in it.
+
+/!\ For CLion, need to change CMake from bundle to CMake 3.31.
+Project not yet compatible with cmake 4.x (or Conan ?)
+
 
 ## Tips
 
