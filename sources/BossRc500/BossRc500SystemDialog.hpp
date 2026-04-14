@@ -4,8 +4,7 @@
 #include "BossRc500.hpp"
 
 #include <nlohmann/json.hpp>
-
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 // --------------------------------------------------------------------------
 class BossRc500SystemDialog : public Ui_BossRc500SystemDialog, public QObject
@@ -34,7 +33,7 @@ private:
     void update_sys_database(const char* root, const char* name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            std::cout << "System: " << root << "." << name << ": " << value << std::endl;
+            spdlog::info("System: {}.{}: {}", root, name, value);
             database["sys"][root][name] = static_cast<int>(value);
         }
 

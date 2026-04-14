@@ -74,7 +74,7 @@ BossRc500MainWindow::setup()
 
     {
         _preferences_themes_group = new QActionGroup(this);
-        _preferences_themes_group->isExclusive();
+        _preferences_themes_group->setExclusive(true);
 
         // Add the default theme (Default.css)
         auto themesMenu = new QMenu("Themes", fileMenu);
@@ -85,11 +85,11 @@ BossRc500MainWindow::setup()
         _preferences_themes_group->addAction(default_themes);
 
         for (auto&& file_info : QDir{BossRc500::Resources::Themes()}.entryInfoList(QDir::Files)) {
-            std::cout << "Loading theme file [" << file_info.absoluteFilePath().toStdString() << "]" << std::endl;
+            spdlog::info("Loading theme file [{}]", file_info.absoluteFilePath().toStdString());
 
             if (file_info.completeSuffix() == "css" && file_info.baseName() != "Default") {
                 auto filename = file_info.absoluteFilePath();
-                std::cout << "Add theme file [" << filename.toStdString() << "]" << std::endl;
+                spdlog::info("Add theme file [{}]", filename.toStdString());
 
                 auto theme = themesMenu->addAction(file_info.baseName(), [this, filename] { on_ToolMenu_Themes(filename); });
                 theme->setCheckable(true);
@@ -102,7 +102,7 @@ BossRc500MainWindow::setup()
 
     {
         _preferences_language_group = new QActionGroup(this);
-        _preferences_language_group->isExclusive();
+        _preferences_language_group->setExclusive(true);
 
         auto preferencesMenu = new QMenu("Preferences", fileMenu);
         auto default_english = preferencesMenu->addAction("Default", [this] { _language = ""; add_tooltips(); } );
@@ -906,7 +906,7 @@ BossRc500MainWindow::on_rhythm_play()
     ma_decoder decoder;
     ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder);
     if (result != MA_SUCCESS) {
-        std::cout << "Failed to open file: " << drumkit_filename << std::endl;
+        spdlog::error("Failed to open file: {}", drumkit_filename);
         return;
     }
 
@@ -925,13 +925,13 @@ BossRc500MainWindow::on_rhythm_play()
 
     ma_device device;
     if (ma_device_init(nullptr, &deviceConfig, &device) != MA_SUCCESS) {
-        std::cout << "Failed to open playback device." << std::endl;
+        spdlog::error("Failed to open playback device.");
         ma_decoder_uninit(&decoder);
         return;
     }
 
     if (ma_device_start(&device) != MA_SUCCESS) {
-        std::cout << "Failed to start playback device." << std::endl;
+        spdlog::error("Failed to start playback device.");
         ma_device_uninit(&device);
         ma_decoder_uninit(&decoder);
         return;
@@ -1049,7 +1049,7 @@ BossRc500MainWindow::load_memory(int memory_index)
         auto shift = loopfx["ShiftShift"].get<int>();
         auto found_Shift = loopFx_Shift->findData(shift);
         loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
-        //std::cout << "Found shift value: " << shift << " at index: " << found_Shift << std::endl;
+        //spdlog::info("Found shift value: {} at index: ", shift, found_Shift);
 
         loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
     }
@@ -1057,7 +1057,7 @@ BossRc500MainWindow::load_memory(int memory_index)
     // RHYTHM
     {
         auto& rhythm = _database_mem["mem"][memory_index]["RHYTHM"];
-        //std::cout << rhythm.dump(2) << std::endl;
+        //spdlog::info("{}", rhythm.dump(2));
 
         rhythm_Level->setValue(rhythm["Level"].get<int>());
         rhythm_Reverb->setValue(rhythm["Reverb"].get<int>());
@@ -1164,9 +1164,7 @@ BossRc500MainWindow::on_Measure_changed(QComboBox* cb)
     int memory_index = cb_Memory->currentIndex();
     int track_index = (cb == track1_Measure ? 0 : 1);
     int value = cb->currentIndex();
-    std::cout << "Memory: " << (memory_index + 1)
-              << ", Track: " << (track_index + 1 )
-              << ", Measure: " << value << std::endl;
+    spdlog::info("Memory: {}, Track: {}, Measure: ", (memory_index + 1), (track_index + 1 ), value);
 
     int measMod = 0, measLen = 0, measBtLp = 0;
     if (value == 0) { // AUTO
@@ -1360,13 +1358,13 @@ BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
         auto beat = cb->currentData().value<QPoint>();
 
         // On beat change, we need to recompute the available values for Scat, Rep and Shift
-        std::cout << "Beat signature: " << beat.x() << "/" << beat.y() << std::endl;
+        spdlog::info("Beat signature: {}/{}", beat.x(), beat.y());
         BossRc500::ScatLen_EnableItems(loopFx_ScatLen, beat);
         BossRc500::ReptLen_EnableItems(loopFx_ReptLen, beat);
         BossRc500::ShiftLen_EnableItems(loopFx_Shift, beat);
 
         auto& rhythm = _database_mem["mem"][cb_Memory->currentIndex()]["RHYTHM"];
-        auto pattern = rhythm["Pattern"].get<int>();
+        const auto pattern = rhythm["Pattern"].get<int>();
 
         BossRc500::RhythmPatternWithBeat(rhythm_Pattern, beat, pattern);
     }
@@ -1402,7 +1400,7 @@ BossRc500MainWindow::setDirname(const std::string& dirname)
 {
     _dirname = dirname;
 
-    std::string title = "RC-500 LOOP STATION - " + (_dirname.empty() ? "[Untitled]" : _dirname);
+    const std::string title = "RC-500 LOOP STATION - " + (_dirname.empty() ? "[Untitled]" : _dirname);
     setWindowTitle(title.c_str());
 }
 
@@ -1416,7 +1414,7 @@ BossRc500MainWindow::loadPresets()
         if (file_info.completeSuffix() == "json") {
 
             auto filename = file_info.absoluteFilePath();
-            std::cout << "Add preset file [" << filename.toStdString() << "]" << std::endl;
+            spdlog::info("Add preset file [{}]", filename.toStdString());
 
             _presetLoadMenu->addAction(file_info.baseName(),
                     [this, filename] { on_ToolMenu_PresetLoad(filename); });
@@ -1430,7 +1428,7 @@ void
 BossRc500MainWindow::WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename)
 {
     auto model = (BossRc500::Resources::Templates() + "/MEMORY.txt").toStdString();
-    std::cout << "Using " << model << " as template file for MEMORY" << std::endl;
+    spdlog::info("Using {} as template file for MEMORY", model);
     WriteDatabase(database, filename, model);
 }
 
@@ -1439,6 +1437,6 @@ void
 BossRc500MainWindow::WriteSystemDatabase(const nlohmann::json& database, const std::string& filename)
 {
     auto model = (BossRc500::Resources::Templates() + "/SYSTEM.txt").toStdString();
-    std::cout << "Using " << model << " as template file for SYSTEM" << std::endl;
+    spdlog::info("Using {} as template file for SYSTEM", model);
     WriteDatabase(database, filename, model);
 }

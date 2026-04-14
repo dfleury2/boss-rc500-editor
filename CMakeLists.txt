@@ -1,11 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
-
 project(Boss-Rc500-Editor VERSION 0.0.10)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 if(NOT WIN32)
     add_definitions(-DLINUX)
@@ -16,12 +13,13 @@ if(APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "-framework IOSurface -framework CoreVideo -framework Carbon -framework Metal -framework QuartzCore")
 endif()
 
-
 find_package(inja CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(rapidxml CONFIG REQUIRED)
 find_package(Qt6 CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)

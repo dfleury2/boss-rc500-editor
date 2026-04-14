@@ -2,8 +2,9 @@
 
 #include "BossRc500MainWindow.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <sstream>
-#include <iostream>
 
 // --------------------------------------------------------------------------
 UpdateRootName::UpdateRootName(BossRc500MainWindow* win, nlohmann::json& database,
@@ -60,7 +61,7 @@ UpdateTrackName::UpdateTrackName(BossRc500MainWindow* win, nlohmann::json& datab
 void
 UpdateTrackName::redo()
 {
-    std::cout << "Memory: " << (_index + 1) << ", Track" << (_track + 1) << "." << _name << ": " << _value << std::endl;
+    spdlog::info("Memory: {}, Track{}.{} : {}", (_index + 1), (_track + 1), _name, _value);
 
     auto& mem = _database["mem"][_index]["TRACK"][_track][_name];
     _old_value = mem.get<int>();
@@ -76,7 +77,7 @@ UpdateTrackName::redo()
 void
 UpdateTrackName::undo()
 {
-    std::cout << "Memory: " << (_index + 1) << ", Track" << (_track + 1) << "." << _name << ": " << _old_value << std::endl;
+    spdlog::info("Memory: {}, Track{}.{} : {}", (_index + 1), (_track + 1), _name, _old_value);
 
     _database["mem"][_index]["TRACK"][_track][_name] = _old_value;
 

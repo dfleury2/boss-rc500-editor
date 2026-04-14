@@ -8,7 +8,7 @@
 #include <QStyleFactory>
 #include <QDirIterator>
 
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 #ifdef APPLE
 Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
@@ -24,13 +24,10 @@ LoadFonts(const QString& font_dir)
 {
     auto dir_it = QDirIterator(BossRc500::Resources::Fonts());
     while (dir_it.hasNext()) {
-        auto filename = dir_it.next();
-        if (filename.endsWith(".ttf")) {
-            std::cout << "Loading font file [" << filename.toStdString() << "]" << std::endl;
-            int font_id = QFontDatabase::addApplicationFont(filename);
-            if (font_id != -1) {
-                std::cout << "[" << QFontDatabase::applicationFontFamilies(font_id).at(0).toStdString()
-                          << "] font family loaded" << std::endl;
+        if (auto filename = dir_it.next(); filename.endsWith(".ttf")) {
+            spdlog::info("Loading font file [{}]", filename.toStdString());
+            if (const int font_id = QFontDatabase::addApplicationFont(filename); font_id != -1) {
+                spdlog::info("[] font family loaded", QFontDatabase::applicationFontFamilies(font_id).at(0).toStdString());
             }
         }
     }
@@ -43,14 +40,14 @@ main(int argc, char* argv[])
     try {
         QApplication app(argc, argv);
         QApplication::setStyle(QStyleFactory::create("Fusion"));
-        std::cout << "Resource Path [" << BossRc500::Resources::ResourcePath().toStdString() << "]" << std::endl;
+        spdlog::info("Resource Path [{}]", BossRc500::Resources::ResourcePath().toStdString());
 
         LoadFonts(BossRc500::Resources::Fonts());
 
         // Stylesheet
         QFile defaultStyleSheet{BossRc500::Resources::Themes() + "/Default.css"};
         if (!defaultStyleSheet.open(QFile::ReadOnly | QFile::Text)) {
-            std::cerr << "Failed to open default stylesheet:" << defaultStyleSheet.fileName().toStdString()<< std::endl;
+            spdlog::error("Failed to open default stylesheet: {}", defaultStyleSheet.fileName().toStdString());
         }
         qApp->setStyleSheet(QTextStream(&defaultStyleSheet).readAll());
 
@@ -65,6 +62,6 @@ main(int argc, char* argv[])
         return QCoreApplication::exec();
     }
     catch (const std::exception& ex) {
-        std::cout << ex.what() << std::endl;
+        spdlog::error("Exception: {}", ex.what());
     }
 }

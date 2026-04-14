@@ -43,6 +43,8 @@ target_link_libraries(BossRc500
         nlohmann_json::nlohmann_json
         yaml-cpp
         pantor::inja
+        fmt::fmt
+        spdlog::spdlog
 )
 
 if(WIN32)

@@ -4,9 +4,9 @@
 #include "BossRc500.hpp"
 
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 #include <vector>
-#include <iostream>
 
 // --------------------------------------------------------------------------
 class BossRc500AssignDialog : public Ui_BossRc500AssignDialog, public QObject
@@ -41,7 +41,7 @@ private:
     void update_mem_database(int index, const char* name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            std::cout << "Assign: " << name << ": " << value << std::endl;
+            spdlog::info("Assign: {} : {}", name, value);
             database["mem"][_memory_index]["ASSIGN"][index][name] = static_cast<int>(value);
         }
 

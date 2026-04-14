@@ -6,8 +6,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <nlohmann/json.hpp>
-
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace {
 // --------------------------------------------------------------------------
@@ -115,9 +114,9 @@ Resources::ResourcePath()
     if (!dir.exists()) {
         dir = QDir::currentPath() + "/resources";
         if (!dir.exists()) {
-            std::cout << "No resources directory here: " << std::endl;
-            std::cout << "Application path: " << (QCoreApplication::applicationDirPath() + "/resources").toStdString() << std::endl;
-            std::cout << "working dir path: " << (QDir::currentPath() + "/resources").toStdString() << std::endl;
+            spdlog::info("No resources directory here: ");
+            spdlog::info("Application path: {}", (QCoreApplication::applicationDirPath() + "/resources").toStdString());
+            spdlog::info("working dir path: {}", (QDir::currentPath() + "/resources").toStdString());
             throw std::runtime_error("Resources directory not found");
         }
     }
@@ -163,7 +162,7 @@ Configuration::Configuration(const QString& filename)
         }
     }
     catch (const std::exception& ex) {
-        std::cout << ex.what() << std::endl;
+        spdlog::error("Exception: {}", ex.what());
     }
 }
 
@@ -977,7 +976,7 @@ Tooltips::load_tooltip(const QString& filename)
         tooltip = _env.render(_tpl, json).c_str();
     }
     catch (const std::exception& ex) {
-        std::cout << ex.what() << std::endl;
+        spdlog::error("Exception: {}", ex.what());
     }
 
     return tooltip;
