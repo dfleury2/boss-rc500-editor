@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1172</width>
-    <height>504</height>
+    <height>469</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1178,32 +1178,6 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="button_Apply">
-   <property name="geometry">
-    <rect>
-     <x>1090</x>
-     <y>470</y>
-     <width>71</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Apply</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="button_Cancel">
-   <property name="geometry">
-    <rect>
-     <x>1010</x>
-     <y>470</y>
-     <width>71</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </widget>
  </widget>
  <layoutdefault spacing="5" margin="8"/>
  <tabstops>
@@ -1239,8 +1213,6 @@
   <tabstop>assign8_Source</tabstop>
   <tabstop>assign8_SourceMode</tabstop>
   <tabstop>assign8_Target</tabstop>
-  <tabstop>button_Cancel</tabstop>
-  <tabstop>button_Apply</tabstop>
  </tabstops>
  <resources/>
  <connections/>

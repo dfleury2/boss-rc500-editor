@@ -2,7 +2,7 @@
 
 #include <QMessageBox>
 
-#include <iostream>
+#include <fmt/format.h>
 
 // --------------------------------------------------------------------------
 BossRc500AdvancedCopyDialog::BossRc500AdvancedCopyDialog(QDialog& dialog,
@@ -56,18 +56,18 @@ void
 BossRc500AdvancedCopyDialog::on_copy()
 {
     try {
-        int copy_from_slot = cb_CopyFrom->currentIndex();
-        int copy_to_slot = cb_CopyTo->currentIndex();
+        const int copy_from_slot = cb_CopyFrom->currentIndex();
+        const int copy_to_slot = cb_CopyTo->currentIndex();
 
         if (copy_from_slot > copy_to_slot) {
             throw std::runtime_error("Copy From slot must be less than copy to slot");
         }
 
-        if (auto response = QMessageBox::question(nullptr,
+        if (const auto response = QMessageBox::question(nullptr,
                     "Copy memories ?",
-                    QString::fromStdString("Do you want to copy memory slot " + std::to_string(_memory_index + 1) +
-                            "\ninto slots from " + std::to_string(copy_from_slot + 1) + " to " +
-                            std::to_string(copy_to_slot + 1))); response != QMessageBox::Yes) {
+                    fmt::format("Do you want to copy memory slot {}\ninto slots from {} to {}",
+                        _memory_index + 1, copy_from_slot + 1, copy_to_slot + 1).c_str());
+                        response != QMessageBox::Yes) {
             throw std::runtime_error("Operation canceled");
         }
 

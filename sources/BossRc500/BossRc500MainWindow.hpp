@@ -3,6 +3,7 @@
 #include "Designer/ui_Boss-rc500-main.h"
 #include "BossRc500.hpp"
 #include "BossRc500Commands.hpp"
+#include "BossRc500AssignDialog.hpp"
 
 #include <QMainWindow>
 
@@ -31,7 +32,6 @@ private:
     void on_ToolMenu_Save(bool askDirname = false);
     void on_ToolMenu_PresetSave();
     void on_ToolMenu_PresetLoad(const QString& filename);
-    void on_ToolMenu_Assign();
     void on_ToolMenu_System();
     void on_ToolMenu_Themes(const QString& filename);
 
@@ -114,7 +114,7 @@ private:
     void update_mem_track_database(int memory_index, int track_index, const char* name, int value, Widget* w)
     {
         if (!_is_loading) {
-            _stack.push(new UpdateTrackName(this, _database_mem, memory_index, track_index, name, static_cast<int>(value)));
+            _stack.push(new UpdateTrackName(this, _database_mem, memory_index, track_index, name, value));
         }
 
         auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
@@ -148,7 +148,11 @@ private:
     QActionGroup* _preferences_themes_group{nullptr};
     QActionGroup* _preferences_language_group{nullptr};
 
+    // Assign
+    QDialog* _assign_dialog{nullptr};
+    BossRc500AssignDialog* _boss_assign_dialog{nullptr};
+
     // Undo/Redo
-    QDialog* _stack_dialog;
+    QDialog* _stack_dialog{nullptr};
     QUndoStack _stack;
 };

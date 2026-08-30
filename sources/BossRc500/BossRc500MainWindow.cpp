@@ -1,9 +1,9 @@
 #include "BossRc500MainWindow.hpp"
-#include "BossRc500AssignDialog.hpp"
 #include "BossRc500SystemDialog.hpp"
 #include "BossRc500AdvancedCopyDialog.hpp"
 #include "BossRc500.hpp"
 #include "Designer/ui_Boss-rc500-text.h"
+#include <BossRc500/config.h>
 
 #include <BossReaderWriter/BossReaderWriter.hpp>
 
@@ -13,7 +13,6 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QActionGroup>
-#include <QDirIterator>
 #include <QUndoView>
 
 #include <miniaudio/miniaudio.h>
@@ -27,8 +26,7 @@ namespace {
 void
 data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCount)
 {
-    ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
-    if (pDecoder) {
+    if (auto* pDecoder = static_cast<ma_decoder*>(pDevice->pUserData)) {
 
         // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
         ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
@@ -38,7 +36,7 @@ data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCou
 }
 
 // --------------------------------------------------------------------------
-BossRc500MainWindow::BossRc500MainWindow()
+BossRc500MainWindow::BossRc500MainWindow() : Ui_MainWindow()
 {
     setup();
 }
@@ -48,6 +46,8 @@ void
 BossRc500MainWindow::setup()
 {
     setupUi(this);
+
+    label_Version->setText(PROJECT_VERSION);
 
     // Add some tweaks...
     setFixedSize(width(), height());
@@ -67,7 +67,14 @@ BossRc500MainWindow::setup()
     fileMenu->addMenu(_presetLoadMenu);
 
     fileMenu->addSeparator();
-    fileMenu->addAction("Assign...",   this, &BossRc500MainWindow::on_ToolMenu_Assign);
+    fileMenu->addAction("Show/Hide Assign",               [this] {
+                if (_assign_dialog->isHidden()) {
+                    _assign_dialog->show();
+                }
+                else {
+                    _assign_dialog->hide();
+                }
+            });
     fileMenu->addSeparator();
     fileMenu->addAction("System...",   this, &BossRc500MainWindow::on_ToolMenu_System);
     fileMenu->addSeparator();
@@ -147,7 +154,13 @@ BossRc500MainWindow::setup()
     add_combo_items();
     add_callbacks();
 
-    {
+    {   // Assign
+        _assign_dialog = new QDialog(this);
+        _boss_assign_dialog = new BossRc500AssignDialog(*_assign_dialog);
+        _assign_dialog->setWindowTitle("RC-500 LOOP STATION - Assign");
+    }
+
+    {   // Undo/Redo
         _stack_dialog = new QDialog(this);
         _stack_dialog->setLayout(new QGridLayout);
 
@@ -538,6 +551,10 @@ BossRc500MainWindow::on_ToolMenu_New()
         cb_Memory->setCurrentIndex(0);
         load_memory(cb_Memory->currentIndex());
 
+        const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        const auto loopFx_type = loopFx_Type->currentIndex();
+
+        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -570,6 +587,11 @@ BossRc500MainWindow::on_ToolMenu_Open()
 
                 cb_Memory->setCurrentIndex(0);
                 load_memory(cb_Memory->currentIndex());
+
+                const auto beat = rhythm_Beat->currentData().value<QPoint>();
+                const auto loopFx_type = loopFx_Type->currentIndex();
+
+                _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
             }
         }
     }
@@ -663,39 +685,17 @@ BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
             index += " - " + found_name->get<std::string>();
         }
         cb_Memory->setItemText(memory_index, index.c_str());
+
+        const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        const auto loopFx_type = loopFx_Type->currentIndex();
+
+        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
 
     _is_loading = false;
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500MainWindow::on_ToolMenu_Assign()
-{
-    try {
-        auto beat = rhythm_Beat->currentData().value<QPoint>();
-        auto loopFx_type = loopFx_Type->currentIndex();
-
-        QDialog dialog;
-        BossRc500AssignDialog assignDialog(dialog,
-                _database_mem,
-                cb_Memory->currentIndex(),
-                beat,
-                loopFx_type,
-                _language);
-        dialog.setWindowTitle("RC-500 LOOP STATION - Assign");
-        dialog.setModal(true);
-        dialog.exec();
-        if (assignDialog.apply) {
-            _database_mem = std::move(assignDialog.database);
-        }
-    }
-    catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-    }
 }
 
 // --------------------------------------------------------------------------
@@ -712,6 +712,11 @@ BossRc500MainWindow::on_ToolMenu_System()
             _database_sys = std::move(systemDialog.database);
 
             load_memory(cb_Memory->currentIndex());
+
+            const auto beat = rhythm_Beat->currentData().value<QPoint>();
+            const auto loopFx_type = loopFx_Type->currentIndex();
+
+            _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
         }
 
     }
@@ -749,11 +754,10 @@ BossRc500MainWindow::on_copy()
             throw std::runtime_error("Copy From slot must be less than copy to slot");
         }
 
-        if (auto response = QMessageBox::question(nullptr,
+        if (const auto response = QMessageBox::question(nullptr,
                 "Copy memories ?",
-                QString::fromStdString("Do you want to copy memory slot " + std::to_string(memory_slot) +
-                "\ninto slots from " + std::to_string(copy_from_slot) + " to " +
-                std::to_string(copy_to_slot))); response != QMessageBox::Yes) {
+                fmt::format("Do you want to copy memory slot {}\ninto slots from {} to {}",
+                    memory_slot, copy_from_slot, copy_to_slot).c_str()); response != QMessageBox::Yes) {
             throw std::runtime_error("Operation canceled");
         }
 
@@ -785,13 +789,14 @@ void
 BossRc500MainWindow::on_advanced_copy()
 {
     try {
-        QDialog dialog;
-        BossRc500AdvancedCopyDialog copyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
-        copyDialog.cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
-        copyDialog.cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
-
+        QDialog dialog(this);
         dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
-        dialog.setModal(true);
+
+        const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
+        copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
+        copyDialog->cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
+
+        //dialog.setModal(true);
         dialog.exec();
     }
     catch (const std::exception& ex) {
@@ -814,9 +819,7 @@ void BossRc500MainWindow::on_edit()
 
             // Update NAME.C01 to NAME.C12
             for (int i = 0; i < 12; ++i) {
-                std::string cxx = "C";
-                cxx += (i + 1 < 10 ? "0" : "") + std::to_string(i + 1);
-
+                auto cxx = fmt::format("C{:02}", i + 1);
                 int value = (i < text.size() ? text[i] : 32);
                 _database_mem["mem"][memory_index]["NAME"][cxx] = (value >= 32 && value <= 127 ? value : '_');
             }
@@ -882,6 +885,11 @@ BossRc500MainWindow::on_memory_changed()
 
     try {
         load_memory(cb_Memory->currentIndex());
+
+        const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        const auto loopFx_type = loopFx_Type->currentIndex();
+
+        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -899,7 +907,7 @@ BossRc500MainWindow::on_rhythm_play()
     drumkit_filename += rhythm_Variation->currentText().toStdString() + "_";
 
     auto beat = rhythm_Beat->currentText().toStdString();
-    beat.erase(std::remove(begin(beat), end(beat), '/'), end(beat));
+    std::erase(beat, '/');
 
     drumkit_filename += beat + ".wav";
 
@@ -1355,7 +1363,7 @@ BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
     update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, cb->currentIndex(), cb);
 
     if (cb == rhythm_Beat) {
-        auto beat = cb->currentData().value<QPoint>();
+        const auto beat = cb->currentData().value<QPoint>();
 
         // On beat change, we need to recompute the available values for Scat, Rep and Shift
         spdlog::info("Beat signature: {}/{}", beat.x(), beat.y());

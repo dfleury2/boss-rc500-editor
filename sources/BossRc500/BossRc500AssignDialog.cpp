@@ -8,14 +8,8 @@
 #include <iostream>
 
 // --------------------------------------------------------------------------
-BossRc500AssignDialog::BossRc500AssignDialog(QDialog& dialog,
-        nlohmann::json db,
-        int mem_index,
-        const BossRc500::Beat& beat,
-        int loopFxType,
-        const QString& language) :
-        _parent(dialog), database(std::move(db)), _memory_index(mem_index),
-        _beat(beat), _loopfxType(loopFxType), _language(language)
+BossRc500AssignDialog::BossRc500AssignDialog(QDialog& dialog) :
+        _parent(dialog)
 {
     setup();
 }
@@ -54,11 +48,8 @@ BossRc500AssignDialog::setup()
 
 
     try {
-        add_tooltips();
         add_combo_items();
         add_callbacks();
-
-        load_assign();
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -108,13 +99,10 @@ void
 BossRc500AssignDialog::add_callbacks()
 {
     // Add callbacks
-    QObject::connect(button_Apply, &QPushButton::clicked, this, [this] { apply = true; _parent.close(); });
-    QObject::connect(button_Cancel, &QPushButton::clicked, [this] { apply = false; _parent.close(); });
-
     QObject::connect(button_targetHelp, &QPushButton::pressed, this, &BossRc500AssignDialog::on_target_help);
 
     // Control callbacks
-    auto ConnectCheckBox_Assign = [&](const std::vector<QCheckBox*>& cbs, const char* name) {
+    auto ConnectCheckBox_Assign = [&](const std::array<QCheckBox*, 8>& cbs, const char* name) {
         int index = 0;
         for (auto cb : cbs) {
             QObject::connect(cb, &QCheckBox::checkStateChanged,
@@ -128,7 +116,7 @@ BossRc500AssignDialog::add_callbacks()
     // Assign1-8 Sw
     ConnectCheckBox_Assign(_assigns, "Sw");
 
-    auto ConnectComboBox = [&](const std::vector<QComboBox*>& cbs, const char* name) {
+    auto ConnectComboBox = [&](const std::array<QComboBox*, 8>& cbs, const char* name) {
         int index = 0;
         for (auto cb : cbs) {
             QObject::connect(cb, &QComboBox::currentIndexChanged,
@@ -155,10 +143,21 @@ BossRc500AssignDialog::add_callbacks()
 
 // --------------------------------------------------------------------------
 void
-BossRc500AssignDialog::load_assign()
+BossRc500AssignDialog::load_assign(nlohmann::json* database,
+                                   int mem_index,
+                                   const BossRc500::Beat& beat,
+                                   int loopFxType, const QString& language)
 {
+    _database = database;
+    _memory_index = mem_index;
+    _beat = beat;
+    _loopFxType = loopFxType;
+    _language = language;
+
+    add_tooltips();
+
     auto load = [this](int index) {
-        auto& assign = database["mem"][_memory_index]["ASSIGN"][index];
+        auto& assign = (*_database)["mem"][_memory_index]["ASSIGN"][index];
         _assigns[index]->setChecked(assign["Sw"].get<int>());
         _sources[index]->setCurrentIndex(assign["Source"].get<int>());
         _sourceModes[index]->setCurrentIndex(assign["SourceMode"].get<int>());
@@ -169,7 +168,7 @@ BossRc500AssignDialog::load_assign()
         on_Assign_Target_ComboBox_changed(_targets[index], index, "Target");
     };
 
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < ASSIGN_SIZE; ++i) {
         load(i);
     }
 }
@@ -199,13 +198,18 @@ BossRc500AssignDialog::on_target_help()
 void
 BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int index, const char* name)
 {
+    auto& assign = (*_database)["mem"][_memory_index]["ASSIGN"][index];
+    const auto target_min = assign["TargetMin"].get<int>();
+    const auto target_max = assign["TargetMax"].get<int>();
+
+
     on_Assign_ComboBox_changed(cb, index, name);
 
     auto target_index = cb->currentIndex();
 
     // Change available items for the current target
-    auto targetMin = _targetMins[index];
-    auto targetMax = _targetMaxs[index];
+    const auto targetMin = _targetMins[index];
+    const auto targetMax = _targetMaxs[index];
 
     targetMin->clear();
     targetMax->clear();
@@ -238,10 +242,14 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
             break;
         }
         case 6: // T1 LEVEL1
+        case 7: // T1 LEVEL2
         case 21: // T2 LEVEL1
+        case 22: // T2 LEVEL2
         case 37: // CUR LEVEL1
         case 74: // RHYTHM LEV1
+        case 75: // RHYTHM LEV2
         case 94: // MEMORY LEV1
+        case 95: // MEMORY LEV1
         {
             BossRc500::LevelMinMax(targetMin, targetMax);
             break;
@@ -348,7 +356,7 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
         }
         case 70: // FX CONTROL
         {
-            BossRc500::AssignFxControlMinMax(targetMin, targetMax, _beat, _loopfxType);
+            BossRc500::AssignFxControlMinMax(targetMin, targetMax, _beat, _loopFxType);
             break;
         }
         case 76: // REVERB
@@ -411,6 +419,16 @@ BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int inde
             }
             break;
         }
+    }
+
+    // Put back old values
+    if (target_min < targetMin->count())
+    {
+        targetMin->setCurrentIndex(std::max(0, target_min));
+    }
+    if (target_max < targetMax->count())
+    {
+        targetMax->setCurrentIndex(std::max(0, target_max));
     }
 }
 

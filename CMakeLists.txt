@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(Boss-Rc500-Editor VERSION 0.0.10)
+project(Boss-Rc500-Editor VERSION 0.0.11)
 
 set(CMAKE_CXX_STANDARD 20)
 

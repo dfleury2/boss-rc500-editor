@@ -3,3 +3,4 @@ build
 .idea
 .DS_Store
 CMakeUserPresets.json
+config.h

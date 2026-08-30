@@ -59,3 +59,5 @@ endif()
 install(TARGETS BossRc500
     RUNTIME DESTINATION .
 )
+
+configure_file("./config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/config.h")
