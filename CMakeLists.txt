@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 4.0)
+
+cmake_policy(SET CMP0111 OLD)
 
 project(Boss-Rc500-Editor VERSION 0.0.11)
 
