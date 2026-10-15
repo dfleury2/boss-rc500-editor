@@ -179,6 +179,13 @@ BossRc500MainWindow::setup()
 }
 
 // --------------------------------------------------------------------------
+void BossRc500MainWindow::setLogo(const char* boss_version)
+{
+    const auto logo = fmt::format(R"(<html><head/><body><p><span style=" font-size:26pt; font-weight:600; font-style:italic; vertical-align:super;">LOOP STATION</span><span style=" font-size:28pt; font-weight:600; font-style:italic;">RC-{} </span></p></body></html>)", boss_version);
+    label_Logo->setText(logo.c_str());
+}
+
+// --------------------------------------------------------------------------
 void
 BossRc500MainWindow::add_tooltips()
 {

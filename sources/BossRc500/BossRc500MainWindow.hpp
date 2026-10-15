@@ -23,6 +23,9 @@ public:
 
 private:
     void setup();
+
+    void setLogo(const char* boss_version = "500");
+
     void add_tooltips();
     void add_combo_items();
     void add_callbacks();
