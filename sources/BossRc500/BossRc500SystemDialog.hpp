@@ -51,12 +51,13 @@ private:
             is_modified = (default_value != value);
         }
 
-        w->setFont(is_modified ? _font_bold : _parent.font());
+        QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
+        w->setStyleSheet(styleSheet);
     }
 
 private:
     QDialog&        _parent;
     QString         _language;
-    QFont           _font_bold; // different from default
+
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 };

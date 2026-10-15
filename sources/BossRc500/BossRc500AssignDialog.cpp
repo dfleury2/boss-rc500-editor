@@ -23,9 +23,6 @@ BossRc500AssignDialog::setup()
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
 
-    _font_bold = _parent.font();
-    _font_bold.setWeight(QFont::Weight::Bold);
-
     _assigns = { assign1_Assign, assign2_Assign, assign3_Assign, assign4_Assign,
             assign5_Assign, assign6_Assign, assign7_Assign, assign8_Assign };
 

@@ -47,6 +47,7 @@ BossRc500MainWindow::setup()
 {
     setupUi(this);
 
+    setLogo("500");
     label_Version->setText(PROJECT_VERSION);
 
     // Add some tweaks...

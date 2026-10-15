@@ -21,9 +21,6 @@ BossRc500SystemDialog::setup()
     // Add some tweaks...
     _parent.setFixedSize(_parent.width(), _parent.height());
 
-    _font_bold = _parent.font();
-    _font_bold.setWeight(QFont::Weight::Bold);
-
     _is_loading = true;
 
     try {

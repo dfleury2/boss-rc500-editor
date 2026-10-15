@@ -72,6 +72,5 @@ private:
     std::array<QComboBox*,ASSIGN_SIZE> _targetMins;
     std::array<QComboBox*,ASSIGN_SIZE> _targetMaxs;
 
-    QFont           _font_bold; // different from default
     bool _is_loading = false; // Allow detecting on new/load on callback calls
 };
