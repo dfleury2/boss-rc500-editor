@@ -1888,9 +1888,9 @@
    <widget class="QLabel" name="label_Logo">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>785</x>
       <y>10</y>
-      <width>361</width>
+      <width>326</width>
       <height>41</height>
      </rect>
     </property>
@@ -1901,7 +1901,7 @@
      <enum>Qt::RichText</enum>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
    <widget class="QPushButton" name="button_AdvancedCopy">
@@ -1920,7 +1920,7 @@
    <widget class="QLabel" name="label_Version">
     <property name="geometry">
      <rect>
-      <x>845</x>
+      <x>835</x>
       <y>40</y>
       <width>101</width>
       <height>16</height>
