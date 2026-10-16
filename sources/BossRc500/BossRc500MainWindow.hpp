@@ -48,8 +48,8 @@ private:
     void on_memory_next();
     void on_memory_changed();
     void on_rhythm_play();
-    void load_database_mem(const std::string& filename);
-    void load_database_sys(const std::string& filename);
+    void load_database_mem(const std::string& filename, const std::string& backup = "");
+    void load_database_sys(const std::string& filename, const std::string& backup = "");
 
     // Track 1/2 callbacks
     void on_Level_changed(QSlider* slider);
@@ -127,21 +127,30 @@ private:
 
     void set_modified(QWidget* w, bool is_modified)
     {
-        QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
+        const QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
         w->setStyleSheet(styleSheet);
     }
 
     static void
-    WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename);
+    WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename, int counter);
 
     static void
-    WriteSystemDatabase(const nlohmann::json& database, const std::string& filename);
+    WriteSystemDatabase(const nlohmann::json& database, const std::string& filename, int counter);
+
+    [[nodiscard]] bool isBossRc5Mode() const { return (_database_sys.value("name", "NOT SET") == "RC-5"); }
+    [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
+
+    static std::pair<std::string, int> GetOldestFile(const std::string& file1, const std::string& file2);
 
 private:
     nlohmann::json  _database_mem;
     nlohmann::json  _database_sys;
 
     std::string     _dirname;
+    std::string     _filename_sys;
+    int             _counter_sys_next{};
+    std::string     _filename_mem;
+    int             _counter_mem_next{};
 
     QMenu* _presetLoadMenu = nullptr;
     bool _is_loading = false; // Allow detecting on new/load on callback calls

@@ -1,13 +1,38 @@
 #include "BossReaderWriter.hpp"
 
-#include <rapidxml/rapidxml_utils.hpp>
 #include <inja/inja.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
 
 #include <fstream>
 
+namespace {
 // --------------------------------------------------------------------------
-void
-ReadXml(rapidxml::xml_document<>& doc, std::string& buffer, const std::string& filename)
+void writeLE32(uint8_t* p, uint32_t v)
+{
+    p[0] = static_cast<uint8_t>(v);
+    p[1] = static_cast<uint8_t>(v >> 8);
+    p[2] = static_cast<uint8_t>(v >> 16);
+    p[3] = static_cast<uint8_t>(v >> 24);
+}
+
+// --------------------------------------------------------------------------
+// Remplace les 4 derniers octets du fichier par la valeur LE32.
+// --------------------------------------------------------------------------
+void writeVersion(const std::string& path, const uint32_t version)
+{
+    std::ofstream f(path, std::ios::binary | std::ios::ate);
+    if (!f)
+        throw std::runtime_error("Unable to open the file: " + path);
+
+    uint8_t b[4] = {};
+    writeLE32(b, version);
+    f.write(reinterpret_cast<const char*>(b), 4);
+}
+
+}   // namespace
+
+// --------------------------------------------------------------------------
+void ReadXml(rapidxml::xml_document<>& doc, std::string& buffer, const std::string& filename)
 {
     std::ifstream file(filename);
 
@@ -21,8 +46,7 @@ ReadXml(rapidxml::xml_document<>& doc, std::string& buffer, const std::string& f
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ExtractFlatXmlStruct(rapidxml::xml_node<>* node)
+nlohmann::json ExtractFlatXmlStruct(rapidxml::xml_node<>* node)
 {
     nlohmann::json flatJson;
 
@@ -34,8 +58,7 @@ ExtractFlatXmlStruct(rapidxml::xml_node<>* node)
 }
 
 // --------------------------------------------------------------------------
-void
-AppendStruct(nlohmann::json& json, rapidxml::xml_node<>* node, const char* name)
+void AppendStruct(nlohmann::json& json, rapidxml::xml_node<>* node, const char* name)
 {
     if (!node) {
         throw std::runtime_error("Missing expected node: " + std::string(name));
@@ -47,8 +70,7 @@ AppendStruct(nlohmann::json& json, rapidxml::xml_node<>* node, const char* name)
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ExtractMemory(rapidxml::xml_node<>* node)
+nlohmann::json ExtractMemory(rapidxml::xml_node<>* node)
 {
     nlohmann::json memory;
 
@@ -86,14 +108,14 @@ ExtractMemory(rapidxml::xml_node<>* node)
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ExtractMemoryDatabase(rapidxml::xml_document<>& doc)
+nlohmann::json ExtractMemoryDatabase(rapidxml::xml_document<>& doc)
 {
     nlohmann::json database;
 
     // Reading the database
     auto root = doc.first_node("database");
-    if (!root) throw std::runtime_error("No root tag database found");
+    if (!root)
+        throw std::runtime_error("No root tag database found");
 
     database["name"] = root->first_attribute("name")->value();
     database["revision"] = root->first_attribute("revision")->value();
@@ -106,17 +128,18 @@ ExtractMemoryDatabase(rapidxml::xml_document<>& doc)
         current_memory["id"] = mem_index;
 
         std::string name;
-        if (auto mem_name = mem->first_attribute("name"); mem_name) { // Use if name from mem attribute if available (extension)
+        if (auto mem_name = mem->first_attribute("name"); mem_name) {   // Use if name from mem attribute if available (extension)
             name = mem_name->value();
         }
-        else { // Use the NAME tags C01...C12 to create a name
+        else {   // Use the NAME tags C01...C12 to create a name
             for (int i = 1; i <= 12; ++i) {
                 std::string cxx = "C";
                 cxx += (i < 10 ? "0" : "") + std::to_string(i);
 
                 auto value = current_memory["NAME"][cxx].get<int>();
                 name += char(value >= 32 && value <= 127 ? value : '_');
-                while (!name.empty() && (*name.rbegin()) == ' ') name.erase(name.size() - 1); // Ugly trim right
+                while (!name.empty() && (*name.rbegin()) == ' ')
+                    name.erase(name.size() - 1);   // Ugly trim right
             }
         }
         current_memory["name"] = name;
@@ -130,14 +153,14 @@ ExtractMemoryDatabase(rapidxml::xml_document<>& doc)
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ExtractSystemDatabase(rapidxml::xml_document<>& doc)
+nlohmann::json ExtractSystemDatabase(rapidxml::xml_document<>& doc)
 {
     nlohmann::json database;
 
     // Reading the database
     auto root = doc.first_node("database");
-    if (!root) throw std::runtime_error("No root tag database found");
+    if (!root)
+        throw std::runtime_error("No root tag database found");
 
     database["name"] = root->first_attribute("name")->value();
     database["revision"] = root->first_attribute("revision")->value();
@@ -158,8 +181,7 @@ ExtractSystemDatabase(rapidxml::xml_document<>& doc)
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ReadMemoryDatabase(const std::string& filename)
+nlohmann::json ReadMemoryDatabase(const std::string& filename)
 {
     // Read Xml File to a database
     std::string buffer;
@@ -170,8 +192,7 @@ ReadMemoryDatabase(const std::string& filename)
 }
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ReadSystemDatabase(const std::string& filename)
+nlohmann::json ReadSystemDatabase(const std::string& filename)
 {
     // Read Xml File to a database
     std::string buffer;
@@ -182,15 +203,17 @@ ReadSystemDatabase(const std::string& filename)
 }
 
 // --------------------------------------------------------------------------
-void
-WriteDatabase(const nlohmann::json& database, const std::string& filename,
-        const std::string& template_name)
+void WriteDatabase(const nlohmann::json& database, const std::string& filename, const std::string& template_name, const int counter)
 {
     // Load Inja template for file, and render it with database
     inja::Environment env;
     inja::Template tpl = env.parse_file(template_name);
 
     // Write the output
-    std::ofstream file(filename);
-    file << env.render(tpl, database);
+    {
+        std::ofstream file(filename);
+        file << env.render(tpl, database);
+    }
+
+    writeVersion(filename, counter);
 }

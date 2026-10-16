@@ -5,14 +5,10 @@
 #include <string>
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ReadMemoryDatabase(const std::string& filename);
+nlohmann::json ReadMemoryDatabase(const std::string& filename);
 
 // --------------------------------------------------------------------------
-nlohmann::json
-ReadSystemDatabase(const std::string& filename);
+nlohmann::json ReadSystemDatabase(const std::string& filename);
 
 // --------------------------------------------------------------------------
-void
-WriteDatabase(const nlohmann::json& database, const std::string& filename,
-        const std::string& template_name);
+void WriteDatabase(const nlohmann::json& database, const std::string& filename, const std::string& template_name, int counter);
