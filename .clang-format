@@ -1,0 +1,24 @@
+---
+# BasedOnStyle:  LLVM
+# When a parameter was modified from LLVM based-style, the original one is put in comment
+# on the same line on the right
+BasedOnStyle: LLVM
+Language: Cpp
+AlignEscapedNewlines: Left                                  # AlignEscapedNewlines: Right
+AllowAllParametersOfDeclarationOnNextLine: false            # AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortFunctionsOnASingleLine: InlineOnly
+AlwaysBreakTemplateDeclarations: Yes                        # AlwaysBreakTemplateDeclarations: MultiLine
+BreakBeforeBraces: Custom                                   # BreakBeforeBraces: Attach
+BreakBeforeTernaryOperators: false                          # BreakBeforeTernaryOperators: true
+ColumnLimit: 140                                            # ColumnLimit: 80
+IndentCaseLabels: true                                      # IndentCaseLabels: false
+IndentWidth: 4                                              # IndentWidth:     2
+IndentWrappedFunctionNames: true                            # IndentWrappedFunctionNames: false
+PointerAlignment: Left                                      # PointerAlignment: Right
+SpacesBeforeTrailingComments: 3                             # SpacesBeforeTrailingComments: 1
+BraceWrapping:
+  AfterClass: true
+  AfterStruct: true
+  AfterFunction: true
+  BeforeCatch: true
+  BeforeElse: true
