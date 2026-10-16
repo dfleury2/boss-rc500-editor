@@ -20,7 +20,7 @@ void writeLE32(uint8_t* p, uint32_t v)
 // --------------------------------------------------------------------------
 void writeVersion(const std::string& path, const uint32_t version)
 {
-    std::ofstream f(path, std::ios::binary | std::ios::ate);
+    std::ofstream f(path, std::ios::binary | std::ios::app);
     if (!f)
         throw std::runtime_error("Unable to open the file: " + path);
 

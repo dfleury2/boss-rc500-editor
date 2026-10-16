@@ -35,7 +35,6 @@ void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 fra
 uint32_t readLE32(const uint8_t* p)
 {
     return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
-    // return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
 }
 
 // --------------------------------------------------------------------------
@@ -588,6 +587,8 @@ void BossRc500MainWindow::on_ToolMenu_Open()
             // We must read the newest files
             std::tie(_filename_sys, _counter_sys_next) = GetOldestFile(dirname + "/SYSTEM1.RC0", dirname + "/SYSTEM2.RC0");
             std::tie(_filename_mem, _counter_mem_next) = GetOldestFile(dirname + "/MEMORY1.RC0", dirname + "/MEMORY2.RC0");
+            spdlog::info("SYSTEM: {} - {}", _counter_sys_next, _filename_sys);
+            spdlog::info("MEMORY: {} - {}", _counter_mem_next, _filename_mem);
 
             load_database_sys(_filename_sys);
             load_database_mem(_filename_mem);
@@ -601,9 +602,6 @@ void BossRc500MainWindow::on_ToolMenu_Open()
             const auto loopFx_type = loopFx_Type->currentIndex();
 
             _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
-
-            auto msg = fmt::format("Les fichiers:\n - {}\n - {}", _filename_sys, _filename_mem);
-            QMessageBox(QMessageBox::Information, "File loading success", msg.c_str()).exec();
         }
     }
     catch (const std::exception& ex) {
