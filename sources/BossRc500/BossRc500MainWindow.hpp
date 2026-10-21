@@ -5,12 +5,11 @@
 #include "BossRc500Commands.hpp"
 #include "BossRc500AssignDialog.hpp"
 
+#include <BossReaderWriter/BossRC.hpp>
+
 #include <QMainWindow>
 
 #include <nlohmann/json.hpp>
-
-#include <iostream>
-#include <cmath>
 
 // --------------------------------------------------------------------------
 class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
@@ -48,8 +47,8 @@ private:
     void on_memory_next();
     void on_memory_changed();
     void on_rhythm_play();
-    void load_database_mem(const std::string& filename, const std::string& backup = "");
-    void load_database_sys(const std::string& filename, const std::string& backup = "");
+    void load_database_mem(const std::string& filename);
+    void load_database_sys(const std::string& filename);
 
     // Track 1/2 callbacks
     void on_Level_changed(QSlider* slider);
@@ -93,10 +92,10 @@ private:
     void update_mem_database(int memory_index, const char* root, const char* name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            _stack.push(new UpdateRootName(this, _database_mem, memory_index, root, name, static_cast<int>(value)));
+            // TODO _stack.push(new UpdateRootName(this, _database_memory, memory_index, root, name, static_cast<int>(value)));
         }
 
-        auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
+        auto default_value = 0; // TODO BossRc500::DatabaseMemDefault["mem"][memory_index][root][name].get<int>();
 
         bool is_modified = false;
 
@@ -117,10 +116,10 @@ private:
     void update_mem_track_database(int memory_index, int track_index, const char* name, int value, Widget* w)
     {
         if (!_is_loading) {
-            _stack.push(new UpdateTrackName(this, _database_mem, memory_index, track_index, name, value));
+            // TODO _stack.push(new UpdateTrackName(this, _database_memory, memory_index, track_index, name, value));
         }
 
-        auto default_value = BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
+        auto default_value = 0; // TODO BossRc500::DatabaseMemDefault["mem"][memory_index]["TRACK"][track_index][name].get<int>();
 
         set_modified(w, value != default_value);
     }
@@ -137,14 +136,14 @@ private:
     static void
     WriteSystemDatabase(const nlohmann::json& database, const std::string& filename, int counter);
 
-    [[nodiscard]] bool isBossRc5Mode() const { return (_database_sys.value("name", "NOT SET") == "RC-5"); }
+    [[nodiscard]] bool isBossRc5Mode() const { return (_database_system.database_name == "RC-5"); }
     [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
 
     static std::pair<std::string, int> GetOldestFile(const std::string& file1, const std::string& file2);
 
 private:
-    nlohmann::json  _database_mem;
-    nlohmann::json  _database_sys;
+    BossRC::SystemFile  _database_system;
+    BossRC::MemoryFile  _database_memory;
 
     std::string     _dirname;
     std::string     _filename_sys;

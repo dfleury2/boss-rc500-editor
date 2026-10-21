@@ -555,8 +555,8 @@ void BossRc500MainWindow::on_ToolMenu_New()
         setDirname("");
         _filename_mem = _filename_sys = "";
 
-        load_database_sys(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
-        load_database_mem(BossRc500::Resources::Templates().toStdString() + "/MEMORY_DEFAULT.RC0");
+        _database_system = {};
+        _database_memory = {};
 
         _stack.clear();
 
@@ -566,7 +566,7 @@ void BossRc500MainWindow::on_ToolMenu_New()
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
 
-        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        // TODO _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -601,7 +601,7 @@ void BossRc500MainWindow::on_ToolMenu_Open()
             const auto beat = rhythm_Beat->currentData().value<QPoint>();
             const auto loopFx_type = loopFx_Type->currentIndex();
 
-            _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+            // TODO _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
         }
     }
     catch (const std::exception& ex) {
@@ -636,8 +636,8 @@ void BossRc500MainWindow::on_ToolMenu_Save(const bool askDirname)
         auto filename_system = (_filename_sys.find("SYSTEM1.RC0") != std::string::npos ? "SYSTEM2.RC0" : "SYSTEM1.RC0");
         auto filename_memory = (_filename_mem.find("MEMORY1.RC0") != std::string::npos ? "MEMORY2.RC0" : "MEMORY1.RC0");
 
-        WriteSystemDatabase(_database_sys, _dirname + "/" + filename_system, _counter_sys_next);
-        WriteMemoryDatabase(_database_mem, _dirname + "/" + filename_memory, _counter_mem_next);
+        // TODO WriteSystemDatabase(_database_sys, _dirname + "/" + filename_system, _counter_sys_next);
+        // TODO WriteMemoryDatabase(_database_mem, _dirname + "/" + filename_memory, _counter_mem_next);
 
         QMessageBox(QMessageBox::Information, "Information",
                     fmt::format("{} and {} files have been written.", filename_system, filename_memory).c_str())
@@ -653,7 +653,7 @@ void BossRc500MainWindow::on_ToolMenu_PresetSave()
 {
     try {
         const auto memory_index = cb_Memory->currentIndex();
-        const auto current_name = _database_mem["mem"][memory_index]["name"].get<std::string>();
+        const auto current_name = _database_memory.memories[memory_index].name.name;
 
         if (const auto filename =
                 QFileDialog::getSaveFileName(this, "Save a preset to file",
@@ -665,8 +665,8 @@ void BossRc500MainWindow::on_ToolMenu_PresetSave()
             if (!path.has_extension())
                 path.replace_extension(".json");
 
-            std::ofstream file(path);
-            file << _database_mem["mem"][memory_index].dump(2) << std::endl;
+            // TODO std::ofstream file(path);
+            // file << _database_mem["mem"][memory_index].dump(2) << std::endl;
 
             loadPresets();
         }
@@ -682,23 +682,24 @@ void BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
     _is_loading = true;
 
     try {
-        std::ifstream file(filename.toStdString());
-
-        auto memory_index = cb_Memory->currentIndex();
-        file >> _database_mem["mem"][memory_index];
-        load_memory(cb_Memory->currentIndex());
-
-        // To be refactored... (duplicate code)
-        auto index = std::to_string(memory_index + 1);
-        if (auto found_name = _database_mem["mem"][memory_index].find("name"); found_name != _database_mem["mem"][memory_index].end()) {
-            index += " - " + found_name->get<std::string>();
-        }
-        cb_Memory->setItemText(memory_index, index.c_str());
-
-        const auto beat = rhythm_Beat->currentData().value<QPoint>();
-        const auto loopFx_type = loopFx_Type->currentIndex();
-
-        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        // TODO
+        // std::ifstream file(filename.toStdString());
+        //
+        // auto memory_index = cb_Memory->currentIndex();
+        // file >> _database_mem["mem"][memory_index];
+        // load_memory(cb_Memory->currentIndex());
+        //
+        // // To be refactored... (duplicate code)
+        // auto index = std::to_string(memory_index + 1);
+        // if (auto found_name = _database_mem["mem"][memory_index].find("name"); found_name != _database_mem["mem"][memory_index].end()) {
+        //     index += " - " + found_name->get<std::string>();
+        // }
+        // cb_Memory->setItemText(memory_index, index.c_str());
+        //
+        // const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        // const auto loopFx_type = loopFx_Type->currentIndex();
+        //
+        // _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -712,19 +713,19 @@ void BossRc500MainWindow::on_ToolMenu_System()
 {
     try {
         QDialog dialog;
-        BossRc500SystemDialog systemDialog(dialog, _database_sys, _language);
+        BossRc500SystemDialog systemDialog(dialog, _database_system, _language);
         dialog.setWindowTitle("RC-500 LOOP STATION - System");
         dialog.setModal(true);
         dialog.exec();
         if (systemDialog.apply) {
-            _database_sys = std::move(systemDialog.database);
+            _database_system = std::move(systemDialog.database);
 
             load_memory(cb_Memory->currentIndex());
 
             const auto beat = rhythm_Beat->currentData().value<QPoint>();
             const auto loopFx_type = loopFx_Type->currentIndex();
 
-            _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+            _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
         }
     }
     catch (const std::exception& ex) {
@@ -768,10 +769,10 @@ void BossRc500MainWindow::on_copy()
         }
 
         // Update database and write it to disk
-        const auto& slot = _database_mem["mem"][memory_slot - 1];
+        const auto& slot = _database_memory.memories[memory_slot - 1];
 
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
-            auto& mem = _database_mem["mem"][i - 1];
+            auto& mem = _database_memory.memories[i - 1];
 
             // Save values to be restored after the copy
             auto backup = mem;
@@ -780,9 +781,7 @@ void BossRc500MainWindow::on_copy()
             mem = slot;
 
             // Restore some values from the original
-            mem["id"] = backup["id"];
-            mem["NAME"] = backup["NAME"];
-            mem["name"] = backup["name"];
+            mem.name = backup.name;
         }
     }
     catch (const std::exception& ex) {
@@ -794,15 +793,15 @@ void BossRc500MainWindow::on_copy()
 void BossRc500MainWindow::on_advanced_copy()
 {
     try {
-        QDialog dialog(this);
-        dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
-
-        const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
-        copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
-        copyDialog->cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
-
-        // dialog.setModal(true);
-        dialog.exec();
+        // TODO QDialog dialog(this);
+        // dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
+        //
+        // const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
+        // copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
+        // copyDialog->cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
+        //
+        // // dialog.setModal(true);
+        // dialog.exec();
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -815,26 +814,26 @@ void BossRc500MainWindow::on_edit()
     try {
         int memory_index = cb_Memory->currentIndex();
 
-        bool ok = false;
-        auto text = QInputDialog::getText(nullptr, "Memory Name", "Memory Name", QLineEdit::Normal,
-                                          _database_mem["mem"][memory_index]["name"].get<std::string>().c_str(), &ok)
-                        .toStdString();
-        if (ok) {
-            _database_mem["mem"][memory_index]["name"] = text;
-
-            // Update NAME.C01 to NAME.C12
-            for (int i = 0; i < 12; ++i) {
-                auto cxx = fmt::format("C{:02}", i + 1);
-                int value = (i < text.size() ? text[i] : 32);
-                _database_mem["mem"][memory_index]["NAME"][cxx] = (value >= 32 && value <= 127 ? value : '_');
-            }
-
-            auto name = std::to_string(memory_index + 1);
-            if (!text.empty()) {
-                name += " - " + text;
-            }
-            cb_Memory->setItemText(memory_index, name.c_str());
-        }
+        // TODO bool ok = false;
+        // auto text = QInputDialog::getText(nullptr, "Memory Name", "Memory Name", QLineEdit::Normal,
+        //                                   _database_mem["mem"][memory_index]["name"].get<std::string>().c_str(), &ok)
+        //                 .toStdString();
+        // if (ok) {
+        //     _database_mem["mem"][memory_index]["name"] = text;
+        //
+        //     // Update NAME.C01 to NAME.C12
+        //     for (int i = 0; i < 12; ++i) {
+        //         auto cxx = fmt::format("C{:02}", i + 1);
+        //         int value = (i < text.size() ? text[i] : 32);
+        //         _database_mem["mem"][memory_index]["NAME"][cxx] = (value >= 32 && value <= 127 ? value : '_');
+        //     }
+        //
+        //     auto name = std::to_string(memory_index + 1);
+        //     if (!text.empty()) {
+        //         name += " - " + text;
+        //     }
+        //     cb_Memory->setItemText(memory_index, name.c_str());
+        // }
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -889,7 +888,7 @@ void BossRc500MainWindow::on_memory_changed()
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
 
-        _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        // TODO _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -951,24 +950,20 @@ void BossRc500MainWindow::on_rhythm_play()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::load_database_mem(const std::string& filename, const std::string& backup)
+void BossRc500MainWindow::load_database_mem(const std::string& filename)
 {
-    _database_mem = ReadMemoryDatabase(filename);
+    _database_memory = BossRC::MemoryFile::load(filename);
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
-        auto index = std::to_string(i);
-        if (auto found_name = _database_mem["mem"][i - 1].find("name"); found_name != _database_mem["mem"][i - 1].end()) {
-            index += " - " + found_name->get<std::string>();
-        }
-        cb_Memory->setItemText(i - 1, index.c_str());
+        cb_Memory->setItemText(i - 1, fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i)).c_str());
     }
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::load_database_sys(const std::string& filename, const std::string& backup)
+void BossRc500MainWindow::load_database_sys(const std::string& filename)
 {
-    _database_sys = ReadSystemDatabase(filename);
+    _database_system = BossRC::SystemFile::load(filename);
 }
 
 // --------------------------------------------------------------------------
@@ -976,143 +971,143 @@ void BossRc500MainWindow::load_memory(int memory_index)
 {
     {
         // TRACK 1
-        auto& track1 = _database_mem["mem"][memory_index]["TRACK"][0];
+        const auto& track1 = _database_memory.memories[memory_index].tracks[0];
 
-        track1_Reverse->setChecked(track1["Rev"].get<int>());
-        track1_Level->setValue(track1["PlyLvl"].get<int>());
-        track1_Pan->setCurrentIndex(track1["Pan"].get<int>());
-        track1_OneShot->setChecked(track1["One"].get<int>());
-        track1_LoopFx->setChecked(track1["LoopFx"].get<int>());
-        track1_Start->setCurrentIndex(track1["StrtMod"].get<int>());
-        track1_Stop->setCurrentIndex(track1["StpMod"].get<int>());
-        track1_Measure->setCurrentIndex(track1["Measure"].get<int>());
-        track1_LoopSync->setChecked(track1["LoopSync"].get<int>());
-        track1_TempoSync->setChecked(track1["TempoSync"].get<int>());
-        track1_Input->setCurrentIndex(track1["Input"].get<int>());
-        track1_Output->setCurrentIndex(track1["Output"].get<int>());
+        track1_Reverse->setChecked(track1.Rev);
+        track1_Level->setValue(track1.PlyLvl);
+        track1_Pan->setCurrentIndex(track1.Pan);
+        track1_OneShot->setChecked(track1.One);
+        track1_LoopFx->setChecked(track1.LoopFx);
+        track1_Start->setCurrentIndex(track1.StrtMod);
+        track1_Stop->setCurrentIndex(track1.StpMod);
+        track1_Measure->setCurrentIndex(track1.Measure);
+        track1_LoopSync->setChecked(track1.LoopSync);
+        track1_TempoSync->setChecked(track1.TempoSync);
+        track1_Input->setCurrentIndex(track1.Input);
+        track1_Output->setCurrentIndex(track1.Output);
     }
 
     {
         // TRACK 2
-        auto& track2 = _database_mem["mem"][memory_index]["TRACK"][1];
+        const auto& track2 = _database_memory.memories[memory_index].tracks[1];
 
-        track2_Reverse->setChecked(track2["Rev"].get<int>());
-        track2_Level->setValue(track2["PlyLvl"].get<int>());
-        track2_Pan->setCurrentIndex(track2["Pan"].get<int>());
-        track2_OneShot->setChecked(track2["One"].get<int>());
-        track2_LoopFx->setChecked(track2["LoopFx"].get<int>());
-        track2_Start->setCurrentIndex(track2["StrtMod"].get<int>());
-        track2_Stop->setCurrentIndex(track2["StpMod"].get<int>());
-        track2_Measure->setCurrentIndex(track2["Measure"].get<int>());
-        track2_LoopSync->setChecked(track2["LoopSync"].get<int>());
-        track2_TempoSync->setChecked(track2["TempoSync"].get<int>());
-        track2_Input->setCurrentIndex(track2["Input"].get<int>());
-        track2_Output->setCurrentIndex(track2["Output"].get<int>());
+        track2_Reverse->setChecked(track2.Rev);
+        track2_Level->setValue(track2.PlyLvl);
+        track2_Pan->setCurrentIndex(track2.Pan);
+        track2_OneShot->setChecked(track2.One);
+        track2_LoopFx->setChecked(track2.LoopFx);
+        track2_Start->setCurrentIndex(track2.StrtMod);
+        track2_Stop->setCurrentIndex(track2.StpMod);
+        track2_Measure->setCurrentIndex(track2.Measure);
+        track2_LoopSync->setChecked(track2.LoopSync);
+        track2_TempoSync->setChecked(track2.TempoSync);
+        track2_Input->setCurrentIndex(track2.Input);
+        track2_Output->setCurrentIndex(track2.Output);
     }
 
     // MASTER (REC/PLAY)
     {
-        auto& master = _database_mem["mem"][memory_index]["MASTER"];
-        record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
+        const auto& master = _database_memory.memories[memory_index].master;
+        record_DubMode->setCurrentIndex(master.DubMode);
 
         // RECORD
-        record_DubMode->setCurrentIndex(master["DubMode"].get<int>());
-        record_RecordAction->setCurrentIndex(master["RecAction"].get<int>());
+        record_DubMode->setCurrentIndex(master.DubMode);
+        record_RecordAction->setCurrentIndex(master.RecAction);
 
-        int recQuantize = master["RecQuantize"].get<int>();
+        int recQuantize = master.RecQuantize;
         if (recQuantize == 2)
             recQuantize = 1;
         record_Quantize->setCurrentIndex(recQuantize);
 
-        record_AutoRecord->setChecked(master["AutoRec"].get<int>());
-        record_AutoRecordSensitivity->setValue(master["AutoRecSens"].get<int>());
-        record_AutoRecordSource->setCurrentIndex(master["AutoRecSrc"].get<int>());
-        record_LoopLength->setCurrentIndex(master["LpLen"].get<int>());
+        record_AutoRecord->setChecked(master.AutoRec);
+        record_AutoRecordSensitivity->setValue(master.AutoRecSens);
+        record_AutoRecordSource->setCurrentIndex(master.AutoRecSrc);
+        record_LoopLength->setCurrentIndex(master.LpLen);
 
         // PLAY
-        play_Tempo->setValue(master["Tempo"].get<int>() / 10.0);
-        play_PlayMode->setCurrentIndex(master["PlayMode"].get<int>());
-        play_SingleChange->setCurrentIndex(master["SinglPlayeChange"].get<int>());
-        play_Level->setValue(master["Level"].get<int>());
-        play_FadeTime->setCurrentIndex(master["FadeTime"].get<int>());
-        play_AllStart->setCurrentIndex(master["AllStart"].get<int>());
-        play_TrackChain->setCurrentIndex(master["TrackChain"].get<int>());
+        play_Tempo->setValue(master.Tempo / 10.0);
+        play_PlayMode->setCurrentIndex(master.PlayMode);
+        play_SingleChange->setCurrentIndex(master.SinglPlayeChange);
+        play_Level->setValue(master.Level);
+        play_FadeTime->setCurrentIndex(master.FadeTime);
+        play_AllStart->setCurrentIndex(master.AllStart);
+        play_TrackChain->setCurrentIndex(master.TrackChain);
     }
 
     // LOOPFX
     {
-        auto& loopfx = _database_mem["mem"][memory_index]["LOOPFX"];
-        loopFx_Sw->setChecked(loopfx["Sw"].get<int>());
-        loopFx_Type->setCurrentIndex(loopfx["FxType"].get<int>());
+        const auto& loopfx = _database_memory.memories[memory_index].loopFx;
+        loopFx_Sw->setChecked(loopfx.Sw);
+        loopFx_Type->setCurrentIndex(loopfx.FxType);
 
         // These one are reverted from 8 to 1
-        auto scatter = loopfx["ScatterLength"].get<int>();
+        auto scatter = loopfx.ScatterLength;
         loopFx_ScatLen->setCurrentIndex(scatter ? 9 - scatter : 0);
 
-        auto repeat = loopfx["RepeatLength"].get<int>();
+        auto repeat = loopfx.RepeatLength;
         loopFx_ReptLen->setCurrentIndex(repeat ? 9 - repeat : 0);
 
         // Index 1 is not available (0, 2, 3, 4, ....)
-        auto shift = loopfx["ShiftShift"].get<int>();
+        auto shift = loopfx.ShiftShift;
         auto found_Shift = loopFx_Shift->findData(shift);
         loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
         // spdlog::info("Found shift value: {} at index: ", shift, found_Shift);
 
-        loopFx_Flick->setValue(loopfx["VinylFlickFlick"].get<int>());
+        loopFx_Flick->setValue(loopfx.VinylFlickFlick);
     }
 
     // RHYTHM
     {
-        auto& rhythm = _database_mem["mem"][memory_index]["RHYTHM"];
+        const auto& rhythm = _database_memory.memories[memory_index].rhythm;
         // spdlog::info("{}", rhythm.dump(2));
 
-        rhythm_Level->setValue(rhythm["Level"].get<int>());
-        rhythm_Reverb->setValue(rhythm["Reverb"].get<int>());
+        rhythm_Level->setValue(rhythm.Level);
+        rhythm_Reverb->setValue(rhythm.Reverb);
 
         // Beat before Pattern to drive Pattern combobox items
-        rhythm_Beat->setCurrentIndex(rhythm["Beat"].get<int>());
+        rhythm_Beat->setCurrentIndex(rhythm.Beat);
 
-        rhythm_Pattern->setCurrentIndex(rhythm["Pattern"].get<int>());
-        rhythm_Variation->setCurrentIndex(rhythm["Variation"].get<int>());
-        rhythm_VarChange->setCurrentIndex(rhythm["VariationChange"].get<int>());
-        rhythm_Kit->setCurrentIndex(rhythm["Kit"].get<int>());
-        rhythm_Start->setCurrentIndex(rhythm["Start"].get<int>());
-        rhythm_Stop->setCurrentIndex(rhythm["Stop"].get<int>());
-        rhythm_RecCount->setCurrentIndex(rhythm["RecCount"].get<int>());
-        rhythm_PlayCount->setCurrentIndex(rhythm["PlayCount"].get<int>());
-        rhythm_Fill->setChecked(rhythm["Fill"].get<int>());
-        rhythm_Part1->setChecked(rhythm["Part1"].get<int>());
-        rhythm_Part2->setChecked(rhythm["Part2"].get<int>());
-        rhythm_Part3->setChecked(rhythm["Part3"].get<int>());
-        rhythm_Part4->setChecked(rhythm["Part4"].get<int>());
-        rhythm_ToneLow->setCurrentIndex(rhythm["ToneLow"].get<int>());
-        rhythm_ToneHigh->setCurrentIndex(rhythm["ToneHigh"].get<int>());
-        rhythm_State->setCurrentIndex(rhythm["State"].get<int>());
+        rhythm_Pattern->setCurrentIndex(rhythm.Pattern);
+        rhythm_Variation->setCurrentIndex(rhythm.Variation);
+        rhythm_VarChange->setCurrentIndex(rhythm.VariationChange);
+        rhythm_Kit->setCurrentIndex(rhythm.Kit);
+        rhythm_Start->setCurrentIndex(rhythm.Start);
+        rhythm_Stop->setCurrentIndex(rhythm.Stop);
+        rhythm_RecCount->setCurrentIndex(rhythm.RecCount);
+        rhythm_PlayCount->setCurrentIndex(rhythm.PlayCount);
+        rhythm_Fill->setChecked(rhythm.Fill);
+        rhythm_Part1->setChecked(rhythm.Part1);
+        rhythm_Part2->setChecked(rhythm.Part2);
+        rhythm_Part3->setChecked(rhythm.Part3);
+        rhythm_Part4->setChecked(rhythm.Part4);
+        rhythm_ToneLow->setCurrentIndex(rhythm.ToneLow);
+        rhythm_ToneHigh->setCurrentIndex(rhythm.ToneHigh);
+        rhythm_State->setCurrentIndex(rhythm.State);
     }
 
     // CONTROL
     // These controls are effective only if the associated PREF is set to MEMORY
     {
-        auto& ctl = _database_mem["mem"][memory_index]["CTL"];
-        auto& pref = _database_sys["sys"]["PREF"];
-        auto& sys_ctl = _database_sys["sys"]["CTL"];
-
-        auto SetControl = [&](QComboBox* cb, const char* pref_name, const char* ctl_name) {
-            cb->setEnabled(pref[pref_name].get<int>() == 0);
-            if (cb->isEnabled()) {
-                cb->setCurrentIndex(ctl[ctl_name].get<int>());
-            }
-            else {
-                cb->setCurrentIndex(sys_ctl[ctl_name].get<int>());
-            }
-        };
-
-        SetControl(control_Pedal1, "Pdl1", "Pedal1");
-        SetControl(control_Pedal2, "Pdl2", "Pedal2");
-        SetControl(control_Pedal3, "Pdl3", "Pedal3");
-        SetControl(control_Control1, "Ctl1", "Ctl1");
-        SetControl(control_Control2, "Ctl2", "Ctl2");
-        SetControl(control_Expression, "Exp", "Exp");
+        // TODO auto& ctl = _database_mem["mem"][memory_index]["CTL"];
+        // auto& pref = _database_sys["sys"]["PREF"];
+        // auto& sys_ctl = _database_sys["sys"]["CTL"];
+        //
+        // auto SetControl = [&](QComboBox* cb, const char* pref_name, const char* ctl_name) {
+        //     cb->setEnabled(pref[pref_name].get<int>() == 0);
+        //     if (cb->isEnabled()) {
+        //         cb->setCurrentIndex(ctl[ctl_name].get<int>());
+        //     }
+        //     else {
+        //         cb->setCurrentIndex(sys_ctl[ctl_name].get<int>());
+        //     }
+        // };
+        //
+        // SetControl(control_Pedal1, "Pdl1", "Pedal1");
+        // SetControl(control_Pedal2, "Pdl2", "Pedal2");
+        // SetControl(control_Pedal3, "Pdl3", "Pedal3");
+        // SetControl(control_Control1, "Ctl1", "Ctl1");
+        // SetControl(control_Control2, "Ctl2", "Ctl2");
+        // SetControl(control_Expression, "Exp", "Exp");
     }
 }
 
@@ -1177,9 +1172,9 @@ void BossRc500MainWindow::on_Measure_changed(QComboBox* cb)
 
     update_mem_track_database(memory_index, (cb->parentWidget() == gp_Track1 ? 0 : 1), "Measure", value, cb);
 
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasMod"] = measMod;
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasLen"] = measLen;
-    _database_mem["mem"][memory_index]["TRACK"][track_index]["MeasBtLp"] = measBtLp;
+    _database_memory.memories[memory_index].tracks[track_index].MeasMod = measMod;
+    _database_memory.memories[memory_index].tracks[track_index].MeasLen = measLen;
+    _database_memory.memories[memory_index].tracks[track_index].MeasBtLp = measBtLp;
 }
 
 // --------------------------------------------------------------------------
@@ -1307,8 +1302,8 @@ void BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* 
         BossRc500::ReptLen_EnableItems(loopFx_ReptLen, beat);
         BossRc500::ShiftLen_EnableItems(loopFx_Shift, beat);
 
-        auto& rhythm = _database_mem["mem"][cb_Memory->currentIndex()]["RHYTHM"];
-        const auto pattern = rhythm["Pattern"].get<int>();
+        const auto& rhythm = _database_memory.memories[cb_Memory->currentIndex()].rhythm;
+        const auto pattern = rhythm.Pattern;
 
         BossRc500::RhythmPatternWithBeat(rhythm_Pattern, beat, pattern);
     }

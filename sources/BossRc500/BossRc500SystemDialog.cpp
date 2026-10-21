@@ -5,16 +5,14 @@
 #include <QMessageBox>
 
 // --------------------------------------------------------------------------
-BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const nlohmann::json& db,
-        const QString& language) :
-        _parent(dialog), database(db), _language(language)
+BossRc500SystemDialog::BossRc500SystemDialog(QDialog& dialog, const BossRC::SystemFile& db, const QString& language)
+    : Ui_BossRc500SystemDialog(), database(db), _parent(dialog), _language(language)
 {
     setup();
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::setup()
+void BossRc500SystemDialog::setup()
 {
     setupUi(&_parent);
 
@@ -28,7 +26,6 @@ BossRc500SystemDialog::setup()
         add_combo_items();
         add_callbacks();
 
-
         load_system();
     }
     catch (const std::exception& ex) {
@@ -39,8 +36,7 @@ BossRc500SystemDialog::setup()
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::add_tooltips()
+void BossRc500SystemDialog::add_tooltips() const
 {
 // Add tooltips
 #if QT_CONFIG(tooltip)
@@ -69,12 +65,11 @@ BossRc500SystemDialog::add_tooltips()
     extent_Extent5Min->setToolTip(tooltips.extent_ExtentMin());
     extent_Extent5Max->setToolTip(tooltips.extent_ExtentMax());
 
-#endif // QT_CONFIG(tooltip)
+#endif   // QT_CONFIG(tooltip)
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::add_combo_items()
+void BossRc500SystemDialog::add_combo_items()
 {
     // General
     BossRc500::DisplayContrast(general_DisplayContrast);
@@ -129,154 +124,155 @@ BossRc500SystemDialog::add_combo_items()
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::add_callbacks()
+void BossRc500SystemDialog::add_callbacks()
 {
     // Add callbacks
-    QObject::connect(button_Apply, &QPushButton::clicked, this, [this] { apply = true; _parent.close(); });
-    QObject::connect(button_Cancel, &QPushButton::clicked, [this] { apply = false; _parent.close(); });
+    QObject::connect(button_Apply, &QPushButton::clicked, this, [this] {
+        apply = true;
+        _parent.close();
+    });
+    QObject::connect(button_Cancel, &QPushButton::clicked, [this] {
+        apply = false;
+        _parent.close();
+    });
     QObject::connect(button_pdlctlHelp, &QPushButton::pressed, this, &BossRc500SystemDialog::on_control_pdlctl_help);
 
-    auto ConnectComboBox = [this](QComboBox* cb, const char* node, const char* name) {
-        QObject::connect(cb, &QComboBox::currentIndexChanged,
-                this, [this, cb, node, name] { on_System_ComboBox_changed(cb, node, name); });
+    auto ConnectComboBox = [this](QComboBox* cb, auto node, auto member) {
+        QObject::connect(cb, &QComboBox::currentIndexChanged, this,
+                         [this, cb, node, member] { on_System_ComboBox_changed(cb, node, member); });
     };
-    auto ConnectCheckBox = [this](QCheckBox* cb, const char* node, const char* name) {
-        QObject::connect(cb, &QCheckBox::checkStateChanged,
-                this, [this, cb, node, name] { on_System_CheckBox_changed(cb, node, name); });
+    auto ConnectCheckBox = [this](QCheckBox* cb, auto node, auto name) {
+        QObject::connect(cb, &QCheckBox::checkStateChanged, this, [this, cb, node, name] { on_System_CheckBox_changed(cb, node, name); });
     };
-    auto ConnectSpinBox = [this](QSpinBox* cb, const char* node, const char* name) {
-        QObject::connect(cb, &QSpinBox::valueChanged,
-                this, [this, cb, node, name] { on_System_SpinBox_changed(cb, node, name); });
+    auto ConnectSpinBox = [this](QSpinBox* cb, auto node, auto name) {
+        QObject::connect(cb, &QSpinBox::valueChanged, this, [this, cb, node, name] { on_System_SpinBox_changed(cb, node, name); });
     };
 
     // SETUP (General + Extent)
-    ConnectComboBox(general_DisplayContrast, "SETUP", "Contrast");
-    ConnectComboBox(general_DisplayMode, "SETUP", "DisplayMode");
-    ConnectComboBox(general_UndoRedo,  "SETUP", "UndoRedo");
-    ConnectComboBox(extent_Extent,     "SETUP", "ExtentCh");
-    ConnectComboBox(extent_Extent1Min, "SETUP", "Extent1Min");
-    ConnectComboBox(extent_Extent1Max, "SETUP", "Extent1Max");
-    ConnectComboBox(extent_Extent2Min, "SETUP", "Extent2Min");
-    ConnectComboBox(extent_Extent2Max, "SETUP", "Extent2Max");
-    ConnectComboBox(extent_Extent3Min, "SETUP", "Extent3Min");
-    ConnectComboBox(extent_Extent3Max, "SETUP", "Extent3Max");
-    ConnectComboBox(extent_Extent4Min, "SETUP", "Extent4Min");
-    ConnectComboBox(extent_Extent4Max, "SETUP", "Extent4Max");
-    ConnectComboBox(extent_Extent5Min, "SETUP", "Extent5Min");
-    ConnectComboBox(extent_Extent5Max,  "SETUP", "Extent5Max");
+    ConnectComboBox(general_DisplayContrast, &BossRC::SystemFile::setup, &BossRC::Setup::Contrast);
+    ConnectComboBox(general_DisplayMode, &BossRC::SystemFile::setup, &BossRC::Setup::DisplayMode);
+    ConnectComboBox(general_UndoRedo, &BossRC::SystemFile::setup, &BossRC::Setup::UndoRedo);
+    ConnectComboBox(extent_Extent, &BossRC::SystemFile::setup, &BossRC::Setup::ExtentCh);
+    ConnectComboBox(extent_Extent1Min, &BossRC::SystemFile::setup, &BossRC::Setup::Extent1Min);
+    ConnectComboBox(extent_Extent1Max, &BossRC::SystemFile::setup, &BossRC::Setup::Extent1Max);
+    ConnectComboBox(extent_Extent2Min, &BossRC::SystemFile::setup, &BossRC::Setup::Extent2Min);
+    ConnectComboBox(extent_Extent2Max, &BossRC::SystemFile::setup, &BossRC::Setup::Extent2Max);
+    ConnectComboBox(extent_Extent3Min, &BossRC::SystemFile::setup, &BossRC::Setup::Extent3Min);
+    ConnectComboBox(extent_Extent3Max, &BossRC::SystemFile::setup, &BossRC::Setup::Extent3Max);
+    ConnectComboBox(extent_Extent4Min, &BossRC::SystemFile::setup, &BossRC::Setup::Extent4Min);
+    ConnectComboBox(extent_Extent4Max, &BossRC::SystemFile::setup, &BossRC::Setup::Extent4Max);
+    ConnectComboBox(extent_Extent5Min, &BossRC::SystemFile::setup, &BossRC::Setup::Extent5Min);
+    ConnectComboBox(extent_Extent5Max, &BossRC::SystemFile::setup, &BossRC::Setup::Extent5Max);
 
     // PREF
-    ConnectComboBox(pref_Pedal1Pref,    "PREF", "Pdl1");
-    ConnectComboBox(pref_Pedal2Pref,    "PREF", "Pdl2");
-    ConnectComboBox(pref_Pedal3Pref,    "PREF", "Pdl3");
-    ConnectComboBox(pref_Ctl1Pref,      "PREF", "Ctl1");
-    ConnectComboBox(pref_Ctl2Pref,      "PREF", "Ctl2");
-    ConnectComboBox(pref_ExpPref,       "PREF", "Exp");
+    ConnectComboBox(pref_Pedal1Pref, &BossRC::SystemFile::pref, &BossRC::Pref::Pdl1);
+    ConnectComboBox(pref_Pedal2Pref, &BossRC::SystemFile::pref, &BossRC::Pref::Pdl2);
+    ConnectComboBox(pref_Pedal3Pref, &BossRC::SystemFile::pref, &BossRC::Pref::Pdl3);
+    ConnectComboBox(pref_Ctl1Pref, &BossRC::SystemFile::pref, &BossRC::Pref::Ctl1);
+    ConnectComboBox(pref_Ctl2Pref, &BossRC::SystemFile::pref, &BossRC::Pref::Ctl2);
+    ConnectComboBox(pref_ExpPref, &BossRC::SystemFile::pref, &BossRC::Pref::Exp);
 
     // MIDI
-    ConnectComboBox(midi_RxCtlChannel,  "MIDI", "RxCtlCh");
-    ConnectCheckBox(midi_Omni,          "MIDI", "Omni");
-    ConnectComboBox(midi_RxNoteCh,      "MIDI", "RxNoteCh");
-    ConnectComboBox(midi_TxChannel,     "MIDI", "TxCh");
-    ConnectComboBox(midi_SyncClock,     "MIDI", "Sync");
-    ConnectCheckBox(midi_ClockOut,      "MIDI", "ClkOut");
-    ConnectComboBox(midi_SyncStart,     "MIDI", "SyncStart");
-    ConnectCheckBox(midi_PcOut,         "MIDI", "PcOut");
-    ConnectComboBox(midi_MidiThru,      "MIDI", "MidiThru");
-    ConnectComboBox(midi_UsbThru,       "MIDI", "UsbThru");
+    ConnectComboBox(midi_RxCtlChannel, &BossRC::SystemFile::midi, &BossRC::Midi::RxCtlCh);
+    ConnectCheckBox(midi_Omni, &BossRC::SystemFile::midi, &BossRC::Midi::Omni);
+    ConnectComboBox(midi_RxNoteCh, &BossRC::SystemFile::midi, &BossRC::Midi::RxNoteCh);
+    ConnectComboBox(midi_TxChannel, &BossRC::SystemFile::midi, &BossRC::Midi::TxCh);
+    ConnectComboBox(midi_SyncClock, &BossRC::SystemFile::midi, &BossRC::Midi::Sync);
+    ConnectCheckBox(midi_ClockOut, &BossRC::SystemFile::midi, &BossRC::Midi::ClkOut);
+    ConnectComboBox(midi_SyncStart, &BossRC::SystemFile::midi, &BossRC::Midi::SyncStart);
+    ConnectCheckBox(midi_PcOut, &BossRC::SystemFile::midi, &BossRC::Midi::PcOut);
+    ConnectComboBox(midi_MidiThru, &BossRC::SystemFile::midi, &BossRC::Midi::MidiThru);
+    ConnectComboBox(midi_UsbThru, &BossRC::SystemFile::midi, &BossRC::Midi::UsbThru);
 
     // INPUT
-    ConnectCheckBox(input_Phantom,      "INPUT", "Phantom");
-    ConnectComboBox(input_MicroIn,      "INPUT", "MicOut");
-    ConnectComboBox(input_InstrumentIn, "INPUT", "InstOut");
-    ConnectComboBox(input_Rhythm,       "INPUT", "RhythmOut");
-    ConnectSpinBox(input_MicroInNs,     "INPUT", "MicNs");
-    ConnectSpinBox(input_InstrInNs,     "INPUT", "InstNs");
-    ConnectComboBox(input_PeakSource,   "INPUT", "Indicator");
+    ConnectCheckBox(input_Phantom, &BossRC::SystemFile::input, &BossRC::Input::Phantom);
+    ConnectComboBox(input_MicroIn, &BossRC::SystemFile::input, &BossRC::Input::MicOut);
+    ConnectComboBox(input_InstrumentIn, &BossRC::SystemFile::input, &BossRC::Input::InstOut);
+    ConnectComboBox(input_Rhythm, &BossRC::SystemFile::input, &BossRC::Input::RhythmOut);
+    ConnectSpinBox(input_MicroInNs, &BossRC::SystemFile::input, &BossRC::Input::MicNs);
+    ConnectSpinBox(input_InstrInNs, &BossRC::SystemFile::input, &BossRC::Input::InstNs);
+    ConnectComboBox(input_PeakSource, &BossRC::SystemFile::input, &BossRC::Input::Indicator);
 
     // CTL
-    ConnectComboBox(control_Pedal1,     "CTL", "Pedal1");
-    ConnectComboBox(control_Pedal2,     "CTL", "Pedal2");
-    ConnectComboBox(control_Pedal3,     "CTL", "Pedal3");
-    ConnectComboBox(control_Control1,   "CTL", "Ctl1");
-    ConnectComboBox(control_Control2,   "CTL", "Ctl2");
-    ConnectComboBox(control_Expression, "CTL", "Exp");
+    ConnectComboBox(control_Pedal1, &BossRC::SystemFile::ctl, &BossRC::Ctl::Pedal1);
+    ConnectComboBox(control_Pedal2, &BossRC::SystemFile::ctl, &BossRC::Ctl::Pedal2);
+    ConnectComboBox(control_Pedal3, &BossRC::SystemFile::ctl, &BossRC::Ctl::Pedal3);
+    ConnectComboBox(control_Control1, &BossRC::SystemFile::ctl, &BossRC::Ctl::Ctl1);
+    ConnectComboBox(control_Control2, &BossRC::SystemFile::ctl, &BossRC::Ctl::Ctl2);
+    ConnectComboBox(control_Expression, &BossRC::SystemFile::ctl, &BossRC::Ctl::Exp);
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::load_system()
+void BossRc500SystemDialog::load_system()
 {
     {
-        auto& setup = database["sys"]["SETUP"];
-        general_DisplayContrast->setCurrentIndex(setup["Contrast"].get<int>());
-        general_DisplayMode->setCurrentIndex(setup["DisplayMode"].get<int>());
-        general_UndoRedo->setCurrentIndex(setup["UndoRedo"].get<int>());
+        const auto& setup = database.setup;
+        general_DisplayContrast->setCurrentIndex(setup.Contrast);
+        general_DisplayMode->setCurrentIndex(setup.DisplayMode);
+        general_UndoRedo->setCurrentIndex(setup.UndoRedo);
 
-        extent_Extent->setCurrentIndex(setup["ExtentCh"].get<int>());
+        extent_Extent->setCurrentIndex(setup.ExtentCh);
 
-        extent_Extent1Min->setCurrentIndex(setup["Extent1Min"].get<int>());
-        extent_Extent1Max->setCurrentIndex(setup["Extent1Max"].get<int>());
-        extent_Extent2Min->setCurrentIndex(setup["Extent2Min"].get<int>());
-        extent_Extent2Max->setCurrentIndex(setup["Extent2Max"].get<int>());
-        extent_Extent3Min->setCurrentIndex(setup["Extent3Min"].get<int>());
-        extent_Extent3Max->setCurrentIndex(setup["Extent3Max"].get<int>());
-        extent_Extent4Min->setCurrentIndex(setup["Extent4Min"].get<int>());
-        extent_Extent4Max->setCurrentIndex(setup["Extent4Max"].get<int>());
-        extent_Extent5Min->setCurrentIndex(setup["Extent5Min"].get<int>());
-        extent_Extent5Max->setCurrentIndex(setup["Extent5Max"].get<int>());
+        extent_Extent1Min->setCurrentIndex(setup.Extent1Min);
+        extent_Extent1Max->setCurrentIndex(setup.Extent1Max);
+        extent_Extent2Min->setCurrentIndex(setup.Extent2Min);
+        extent_Extent2Max->setCurrentIndex(setup.Extent2Max);
+        extent_Extent3Min->setCurrentIndex(setup.Extent3Min);
+        extent_Extent3Max->setCurrentIndex(setup.Extent3Max);
+        extent_Extent4Min->setCurrentIndex(setup.Extent4Min);
+        extent_Extent4Max->setCurrentIndex(setup.Extent4Max);
+        extent_Extent5Min->setCurrentIndex(setup.Extent5Min);
+        extent_Extent5Max->setCurrentIndex(setup.Extent5Max);
     }
 
     {
-        auto& pref = database["sys"]["PREF"];
-        pref_Pedal1Pref->setCurrentIndex(pref["Pdl1"].get<int>());
-        pref_Pedal2Pref->setCurrentIndex(pref["Pdl2"].get<int>());
-        pref_Pedal3Pref->setCurrentIndex(pref["Pdl3"].get<int>());
-        pref_Ctl1Pref->setCurrentIndex(pref["Ctl1"].get<int>());
-        pref_Ctl2Pref->setCurrentIndex(pref["Ctl2"].get<int>());
-        pref_ExpPref->setCurrentIndex(pref["Exp"].get<int>());
+        const auto& pref = database.pref;
+        pref_Pedal1Pref->setCurrentIndex(pref.Pdl1);
+        pref_Pedal2Pref->setCurrentIndex(pref.Pdl2);
+        pref_Pedal3Pref->setCurrentIndex(pref.Pdl3);
+        pref_Ctl1Pref->setCurrentIndex(pref.Ctl1);
+        pref_Ctl2Pref->setCurrentIndex(pref.Ctl2);
+        pref_ExpPref->setCurrentIndex(pref.Exp);
     }
 
     {
-        auto& midi = database["sys"]["MIDI"];
-        midi_RxCtlChannel->setCurrentIndex(midi["RxCtlCh"].get<int>());
-        midi_Omni->setChecked(midi["Omni"].get<int>());
-        midi_RxNoteCh->setCurrentIndex(midi["RxNoteCh"].get<int>());
-        midi_TxChannel->setCurrentIndex(midi["TxCh"].get<int>());
-        midi_SyncClock->setCurrentIndex(midi["Sync"].get<int>());
-        midi_ClockOut->setChecked(midi["ClkOut"].get<int>());
-        midi_SyncStart->setCurrentIndex(midi["SyncStart"].get<int>());
-        midi_PcOut->setChecked(midi["PcOut"].get<int>());
-        midi_MidiThru->setCurrentIndex(midi["MidiThru"].get<int>());
-        midi_UsbThru->setCurrentIndex(midi["UsbThru"].get<int>());
+        const auto& midi = database.midi;
+        midi_RxCtlChannel->setCurrentIndex(midi.RxCtlCh);
+        midi_Omni->setChecked(midi.Omni);
+        midi_RxNoteCh->setCurrentIndex(midi.RxNoteCh);
+        midi_TxChannel->setCurrentIndex(midi.TxCh);
+        midi_SyncClock->setCurrentIndex(midi.Sync);
+        midi_ClockOut->setChecked(midi.ClkOut);
+        midi_SyncStart->setCurrentIndex(midi.SyncStart);
+        midi_PcOut->setChecked(midi.PcOut);
+        midi_MidiThru->setCurrentIndex(midi.MidiThru);
+        midi_UsbThru->setCurrentIndex(midi.UsbThru);
     }
 
     {
-        auto& input = database["sys"]["INPUT"];
-        input_Phantom->setChecked(input["Phantom"].get<int>());
-        input_MicroIn->setCurrentIndex(input["MicOut"].get<int>());
-        input_InstrumentIn->setCurrentIndex(input["InstOut"].get<int>());
-        input_Rhythm->setCurrentIndex(input["RhythmOut"].get<int>());
-        input_MicroInNs->setValue(input["MicNs"].get<int>());
-        input_InstrInNs->setValue(input["InstNs"].get<int>());
-        input_PeakSource->setCurrentIndex(input["Indicator"].get<int>());
+        const auto& input = database.input;
+        input_Phantom->setChecked(input.Phantom);
+        input_MicroIn->setCurrentIndex(input.MicOut);
+        input_InstrumentIn->setCurrentIndex(input.InstOut);
+        input_Rhythm->setCurrentIndex(input.RhythmOut);
+        input_MicroInNs->setValue(input.MicNs);
+        input_InstrInNs->setValue(input.InstNs);
+        input_PeakSource->setCurrentIndex(input.Indicator);
     }
 
     {
-        auto& ctl = database["sys"]["CTL"];
-        control_Pedal1->setCurrentIndex(ctl["Pedal1"].get<int>());
-        control_Pedal2->setCurrentIndex(ctl["Pedal2"].get<int>());
-        control_Pedal3->setCurrentIndex(ctl["Pedal3"].get<int>());
-        control_Control1->setCurrentIndex(ctl["Ctl1"].get<int>());
-        control_Control2->setCurrentIndex(ctl["Ctl2"].get<int>());
-        control_Expression->setCurrentIndex(ctl["Exp"].get<int>());
+        auto& ctl = database.ctl;
+        control_Pedal1->setCurrentIndex(ctl.Pedal1);
+        control_Pedal2->setCurrentIndex(ctl.Pedal2);
+        control_Pedal3->setCurrentIndex(ctl.Pedal3);
+        control_Control1->setCurrentIndex(ctl.Ctl1);
+        control_Control2->setCurrentIndex(ctl.Ctl2);
+        control_Expression->setCurrentIndex(ctl.Exp);
     }
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::on_control_pdlctl_help()
+void BossRc500SystemDialog::on_control_pdlctl_help()
 {
     try {
         QDialog dialog;
@@ -293,26 +289,4 @@ BossRc500SystemDialog::on_control_pdlctl_help()
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
     }
-}
-
-
-// --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::on_System_CheckBox_changed(QCheckBox* cb, const char* node, const char* name)
-{
-    update_sys_database(node, name, cb->isChecked(), cb);
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::on_System_ComboBox_changed(QComboBox *cb, const char* node, const char* name)
-{
-    update_sys_database(node, name, cb->currentIndex(), cb);
-}
-
-// --------------------------------------------------------------------------
-void
-BossRc500SystemDialog::on_System_SpinBox_changed(QSpinBox *cb, const char* node, const char* name)
-{
-    update_sys_database(node, name, cb->value(), cb);
 }

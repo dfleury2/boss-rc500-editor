@@ -3,10 +3,9 @@
 #include "Designer/ui_Boss-rc500-assign.h"
 #include "BossRc500.hpp"
 
-#include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
+#include <BossReaderWriter/BossRC.hpp>
 
-#include <vector>
+#include <spdlog/spdlog.h>
 
 // --------------------------------------------------------------------------
 class BossRc500AssignDialog : public Ui_BossRc500AssignDialog, public QObject
@@ -14,7 +13,7 @@ class BossRc500AssignDialog : public Ui_BossRc500AssignDialog, public QObject
 public:
     explicit BossRc500AssignDialog(QDialog& dialog);
 
-    void load_assign(nlohmann::json* database, int mem_index, const BossRc500::Beat& beat, int loopFxType, const QString& language);
+    void load_assign(BossRC::MemoryFile* database, int mem_index, const BossRc500::Beat& beat, int loopFxType, const QString& language);
 
 private:
     void setup();
@@ -26,18 +25,18 @@ private:
 
     void on_Assign_Target_ComboBox_changed(QComboBox* cb, int index, const char* name);
 
-    void on_Assign_CheckBox_changed(QCheckBox* cb, int index, const char* name);
+    void on_Assign_CheckBox_changed(QCheckBox* cb, int index, auto name);
     void on_Assign_ComboBox_changed(QComboBox* cb, int index, const char* name);
 
     template<typename Widget, typename Value>
-    void update_mem_database(int index, const char* name, Value value, Widget* w)
+    void update_mem_database(const int index, Value* member_name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            spdlog::info("Slot:{} - Assign: {} : {}", _memory_index, name, value);
-            (*_database)["mem"][_memory_index]["ASSIGN"][index][name] = static_cast<int>(value);
+            spdlog::info("Slot:{} - Assign: {} : {}", _memory_index, member_name, value);
+            _database->memories[_memory_index].assigns[index].*member_name = value;
         }
 
-        auto default_value = BossRc500::DatabaseMemDefault["mem"][_memory_index]["ASSIGN"][index][name].get<int>();
+        auto default_value = BossRc500::DatabaseMemDefault.memories[_memory_index].assigns[index].*member_name;
 
         bool is_modified = false;
 
@@ -58,7 +57,7 @@ private:
 private:
     QDialog&        _parent;
 
-    nlohmann::json* _database{nullptr};
+    BossRC::MemoryFile* _database{nullptr};
     int             _memory_index{0};
     BossRc500::Beat _beat;
     int             _loopFxType{0};

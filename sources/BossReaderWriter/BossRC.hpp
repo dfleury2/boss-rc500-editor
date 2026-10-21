@@ -82,7 +82,7 @@ struct Pref
 // ---------------------------------------------------------------------------
 struct SystemFile
 {
-    std::string database_name = "RC-500"; // or RC-5
+    std::string database_name = "RC-500";   // or RC-5
     int database_revision = 0;
     int database_counter{};
 
@@ -108,7 +108,7 @@ struct Name
     std::string name;
 
     [[nodiscard]] std::string to_string(int idx) const;
-    [[nodiscard]] std::array<int, 12>  to_CXX() const;
+    [[nodiscard]] std::array<int, 12> to_CXX() const;
     static Name From_CXX(const std::array<int, 12>& s);
 };
 
@@ -226,7 +226,7 @@ struct Memory
 // ---------------------------------------------------------------------------
 struct MemoryFile
 {
-    std::string database_name = "RC-500"; // or RC-5
+    std::string database_name = "RC-500";   // or RC-5
     int database_revision = 0;
     int database_counter{};
 
@@ -236,4 +236,4 @@ struct MemoryFile
     void save(const std::filesystem::path& p) const;
 };
 
-}   // namespace BossRc500
+}   // namespace BossRC

@@ -52,8 +52,8 @@ main(int argc, char* argv[])
         qApp->setStyleSheet(QTextStream(&defaultStyleSheet).readAll());
 
         // Read default database files
-        BossRc500::DatabaseSysDefault = ReadSystemDatabase(BossRc500::Resources::Templates().toStdString() + "/SYSTEM_DEFAULT.RC0");
-        BossRc500::DatabaseMemDefault = ReadMemoryDatabase(BossRc500::Resources::Templates().toStdString() + "/MEMORY_DEFAULT.RC0");
+        BossRc500::DatabaseSysDefault = {};
+        BossRc500::DatabaseMemDefault = {};
 
         // Show the main window
         BossRc500MainWindow bossUi;

@@ -1,15 +1,14 @@
 #pragma once
 
+#include <BossReaderWriter/BossRC.hpp>
+
 #include <QComboBox>
 #include <QPoint>
 #include <QDir>
 
-#include <nlohmann/json.hpp>
 #include <inja/inja.hpp>
 
-#include <string>
 #include <vector>
-#include <initializer_list>
 #include <functional>
 #include <utility>
 
@@ -41,12 +40,12 @@ struct Configuration
     QString defaultValue_background;
 
 private:
-    Configuration(const QString& filename);
+    explicit Configuration(const QString& filename);
 };
 
 
-inline nlohmann::json  DatabaseMemDefault;
-inline nlohmann::json  DatabaseSysDefault;
+inline BossRC::MemoryFile DatabaseMemDefault;
+inline BossRC::SystemFile DatabaseSysDefault;
 
 // --------------------------------------------------------------------------
 using Beat = QPoint;
