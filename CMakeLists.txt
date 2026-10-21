@@ -22,6 +22,7 @@ find_package(Qt6 CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(pugixml CONFIG REQUIRED)
 
 add_subdirectory(sources/BossReaderWriter)
 add_subdirectory(sources/miniaudio)

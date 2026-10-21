@@ -1,6 +1,8 @@
 add_library(BossReaderWriter
         BossReaderWriter.hpp
         BossReaderWriter.cpp
+        BossRC.hpp
+        BossRC.cpp
 )
 
 add_library(BossReaderWriter::BossReaderWriter ALIAS BossReaderWriter)
@@ -20,6 +22,21 @@ target_link_libraries(BossReaderWriter
     PUBLIC
         nlohmann_json::nlohmann_json
     PRIVATE
+        pugixml::pugixml
         rapidxml::rapidxml
         pantor::inja
+        fmt::fmt
+)
+
+
+add_executable(reader_writer reader_writer.cpp)
+
+target_link_libraries(reader_writer
+    PUBLIC
+        BossReaderWriter::BossReaderWriter
+)
+
+set_target_properties(reader_writer
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
