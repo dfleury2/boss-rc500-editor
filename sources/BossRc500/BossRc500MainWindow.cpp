@@ -5,8 +5,6 @@
 #include "Designer/ui_Boss-rc500-text.h"
 #include <BossRc500/config.h>
 
-#include <BossReaderWriter/BossReaderWriter.hpp>
-
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -31,30 +29,6 @@ void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 fra
     }
 }
 
-// --------------------------------------------------------------------------
-uint32_t readLE32(const uint8_t* p)
-{
-    return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
-}
-
-// --------------------------------------------------------------------------
-// Lit l'entier LE32 situé aux 4 derniers octets du fichier.
-// --------------------------------------------------------------------------
-uint32_t readVersion(const std::string& path)
-{
-    std::ifstream f(path, std::ios::binary);
-    if (!f)
-        throw std::runtime_error("Unable to open the file: " + path);
-
-    f.seekg(-4, std::ios::end);
-    if (!f)
-        throw std::runtime_error("Unable to go to the end of the file");
-
-    uint8_t b[4];
-    if (!f.read(reinterpret_cast<char*>(b), 4))
-        throw std::runtime_error("Unable to read the last 4 bytes");
-    return readLE32(b);
-}
 }   // namespace
 
 // --------------------------------------------------------------------------
@@ -450,7 +424,8 @@ void BossRc500MainWindow::add_callbacks()
                      [this] { on_Master_ComboBox_changed(record_LoopLength, &BossRC::Master::LpLen); });
 
     // Master Play callbacks
-    QObject::connect(play_Tempo, &QDoubleSpinBox::valueChanged, this, [this] { on_Master_DoubleSpinBox_changed(play_Tempo, &BossRC::Master::Tempo, 10); });
+    QObject::connect(play_Tempo, &QDoubleSpinBox::valueChanged, this,
+                     [this] { on_Master_DoubleSpinBox_changed(play_Tempo, &BossRC::Master::Tempo, 10); });
 
     QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged, this,
                      [this] { on_Master_ComboBox_changed(play_PlayMode, &BossRC::Master::PlayMode); });
@@ -597,13 +572,20 @@ void BossRc500MainWindow::on_ToolMenu_Open()
             setDirname(dirname);
 
             // We must read the newest files
-            std::tie(_filename_sys, _counter_sys_next) = GetOldestFile(dirname + "/SYSTEM1.RC0", dirname + "/SYSTEM2.RC0");
-            std::tie(_filename_mem, _counter_mem_next) = GetOldestFile(dirname + "/MEMORY1.RC0", dirname + "/MEMORY2.RC0");
-            spdlog::info("SYSTEM: {} - {}", _counter_sys_next, _filename_sys);
-            spdlog::info("MEMORY: {} - {}", _counter_mem_next, _filename_mem);
+            _filename_sys = GetOldestFile(dirname + "/SYSTEM1.RC0", dirname + "/SYSTEM2.RC0");
+            _filename_mem = GetOldestFile(dirname + "/MEMORY1.RC0", dirname + "/MEMORY2.RC0");
 
             load_database_sys(_filename_sys);
             load_database_mem(_filename_mem);
+            spdlog::info("SYSTEM: {} - {}", _database_system.database_counter, _filename_sys);
+            spdlog::info("MEMORY: {} - {}", _database_memory.database_counter, _filename_mem);
+
+            // Move to next version
+            _filename_sys = (_filename_sys.find("SYSTEM1.RC0") != std::string::npos ? "SYSTEM2.RC0" : "SYSTEM1.RC0");
+            _filename_mem = (_filename_mem.find("MEMORY1.RC0") != std::string::npos ? "MEMORY2.RC0" : "MEMORY1.RC0");
+
+            _database_system.database_counter += 2;
+            _database_memory.database_counter += 2;
 
             _stack.clear();
 
@@ -645,14 +627,11 @@ void BossRc500MainWindow::on_ToolMenu_Save(const bool askDirname)
             throw std::runtime_error("Operation canceled");
         }
 
-        auto filename_system = (_filename_sys.find("SYSTEM1.RC0") != std::string::npos ? "SYSTEM2.RC0" : "SYSTEM1.RC0");
-        auto filename_memory = (_filename_mem.find("MEMORY1.RC0") != std::string::npos ? "MEMORY2.RC0" : "MEMORY1.RC0");
-
-        // TODO WriteSystemDatabase(_database_sys, _dirname + "/" + filename_system, _counter_sys_next);
-        // TODO WriteMemoryDatabase(_database_mem, _dirname + "/" + filename_memory, _counter_mem_next);
+        _database_system.save(_dirname + "/" + _filename_sys);
+        _database_memory.save(_dirname + "/" + _filename_mem);
 
         QMessageBox(QMessageBox::Information, "Information",
-                    fmt::format("{} and {} files have been written.", filename_system, filename_memory).c_str())
+                    fmt::format("{} and {} files have been written.", _filename_sys, _filename_mem).c_str())
             .exec();
     }
     catch (const std::exception& ex) {
@@ -677,14 +656,14 @@ void BossRc500MainWindow::on_ToolMenu_PresetSave()
             if (!path.has_extension())
                 path.replace_extension(".json");
 
-            // TODO std::ofstream file(path);
-            // file << _database_mem["mem"][memory_index].dump(2) << std::endl;
+            std::ofstream file(path);
+            file << nlohmann::ordered_json(_database_memory.memories[memory_index]).dump(2) << std::endl;
 
             loadPresets();
         }
     }
     catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        QMessageBox(QMessageBox::Warning, "Error on preset save", ex.what()).exec();
     }
 }
 
@@ -694,27 +673,26 @@ void BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
     _is_loading = true;
 
     try {
-        // TODO
-        // std::ifstream file(filename.toStdString());
-        //
-        // auto memory_index = cb_Memory->currentIndex();
-        // file >> _database_mem["mem"][memory_index];
-        // load_memory(cb_Memory->currentIndex());
-        //
-        // // To be refactored... (duplicate code)
-        // auto index = std::to_string(memory_index + 1);
-        // if (auto found_name = _database_mem["mem"][memory_index].find("name"); found_name != _database_mem["mem"][memory_index].end()) {
-        //     index += " - " + found_name->get<std::string>();
-        // }
-        // cb_Memory->setItemText(memory_index, index.c_str());
-        //
-        // const auto beat = rhythm_Beat->currentData().value<QPoint>();
-        // const auto loopFx_type = loopFx_Type->currentIndex();
-        //
-        // _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        std::ifstream file(filename.toStdString());
+
+        nlohmann::json json;
+        auto memory_index = cb_Memory->currentIndex();
+        file >> json;
+        _database_memory.memories[memory_index] = json;
+
+        load_memory(cb_Memory->currentIndex());
+
+        // To be refactored... (duplicate code)
+        const auto str = fmt::format("{} - {}", memory_index + 1, _database_memory.memories[memory_index].name.to_string(memory_index));
+        cb_Memory->setItemText(memory_index, str.c_str());
+
+        const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        const auto loopFx_type = loopFx_Type->currentIndex();
+
+        _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        QMessageBox(QMessageBox::Warning, "Error on preset load", ex.what()).exec();
     }
 
     _is_loading = false;
@@ -805,15 +783,15 @@ void BossRc500MainWindow::on_copy()
 void BossRc500MainWindow::on_advanced_copy()
 {
     try {
-        // TODO QDialog dialog(this);
-        // dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
-        //
-        // const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_mem, cb_Memory->currentIndex()};
-        // copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
-        // copyDialog->cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
-        //
-        // // dialog.setModal(true);
-        // dialog.exec();
+        QDialog dialog(this);
+        dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
+
+        const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_memory, cb_Memory->currentIndex()};
+        copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
+        copyDialog->cb_CopyTo->setCurrentIndex(cb_CopyTo->currentIndex());
+
+        // dialog.setModal(true);
+        dialog.exec();
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -824,28 +802,18 @@ void BossRc500MainWindow::on_advanced_copy()
 void BossRc500MainWindow::on_edit()
 {
     try {
-        int memory_index = cb_Memory->currentIndex();
+        const int memory_index = cb_Memory->currentIndex();
 
-        // TODO bool ok = false;
-        // auto text = QInputDialog::getText(nullptr, "Memory Name", "Memory Name", QLineEdit::Normal,
-        //                                   _database_mem["mem"][memory_index]["name"].get<std::string>().c_str(), &ok)
-        //                 .toStdString();
-        // if (ok) {
-        //     _database_mem["mem"][memory_index]["name"] = text;
-        //
-        //     // Update NAME.C01 to NAME.C12
-        //     for (int i = 0; i < 12; ++i) {
-        //         auto cxx = fmt::format("C{:02}", i + 1);
-        //         int value = (i < text.size() ? text[i] : 32);
-        //         _database_mem["mem"][memory_index]["NAME"][cxx] = (value >= 32 && value <= 127 ? value : '_');
-        //     }
-        //
-        //     auto name = std::to_string(memory_index + 1);
-        //     if (!text.empty()) {
-        //         name += " - " + text;
-        //     }
-        //     cb_Memory->setItemText(memory_index, name.c_str());
-        // }
+        bool ok = false;
+        auto text = QInputDialog::getText(nullptr, "Memory Name", "Memory Name", QLineEdit::Normal,
+                                          _database_memory.memories[memory_index].name.to_string(memory_index).c_str(), &ok)
+                        .toStdString();
+        if (ok) {
+            _database_memory.memories[memory_index].name.name = text;
+
+            const auto name = fmt::format("{} - {}", memory_index + 1, text);
+            cb_Memory->setItemText(memory_index, name.c_str());
+        }
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -868,7 +836,7 @@ void BossRc500MainWindow::on_control_pdlctl_help()
         dialog.exec();
     }
     catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        QMessageBox(QMessageBox::Warning, "Error on PdlCtl help", ex.what()).exec();
     }
 }
 
@@ -1278,10 +1246,11 @@ void BossRc500MainWindow::on_LoopFx_FxType_changed()
     on_LoopFx_ComboBox_changed(loopFx_Type, &BossRC::LoopFxCfg::FxType);
 
     // Discard some combobox
-    loopFx_ScatLen->setEnabled(BossRc500::IsScatter(loopFx_Type->currentIndex()));
-    loopFx_ReptLen->setEnabled(BossRc500::IsRepeat(loopFx_Type->currentIndex()));
-    loopFx_Shift->setEnabled(BossRc500::IsShift(loopFx_Type->currentIndex()));
-    loopFx_Flick->setEnabled(BossRc500::IsVinyl(loopFx_Type->currentIndex()));
+    const auto loopFxType_index = loopFx_Type->currentIndex();
+    loopFx_ScatLen->setEnabled(BossRc500::IsScatter(loopFxType_index));
+    loopFx_ReptLen->setEnabled(BossRc500::IsRepeat(loopFxType_index));
+    loopFx_Shift->setEnabled(BossRc500::IsShift(loopFxType_index));
+    loopFx_Flick->setEnabled(BossRc500::IsVinyl(loopFxType_index));
 }
 
 // --------------------------------------------------------------------------
@@ -1378,13 +1347,13 @@ void BossRc500MainWindow::loadPresets()
 // ---------------------------------------------------------------------------------------------------
 // Check the version of the file (last 4bytes) and return the newest one, with the next counter to use
 // ---------------------------------------------------------------------------------------------------
-std::pair<std::string, int> BossRc500MainWindow::GetOldestFile(const std::string& file1, const std::string& file2)
+std::string BossRc500MainWindow::GetOldestFile(const std::string& file1, const std::string& file2)
 {
     if (!std::filesystem::exists(file1) || !std::filesystem::exists(file2)) {
         throw std::runtime_error("Data directory must contains two RC0 files : " + file1 + " and " + file2 + ".");
     }
-    const auto counter1 = readVersion(file1);
-    const auto counter2 = readVersion(file2);
+    const auto counter1 = BossRC::readVersion(file1);
+    const auto counter2 = BossRC::readVersion(file2);
 
-    return {counter1 > counter2 ? file1 : file2, std::max(counter1, counter2) + 1};
+    return counter1 > counter2 ? file1 : file2;
 }

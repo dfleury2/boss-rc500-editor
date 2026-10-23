@@ -1,7 +1,5 @@
 #include "BossRc500MainWindow.hpp"
 
-#include <BossReaderWriter/BossReaderWriter.hpp>
-
 #include <QApplication>
 #include <QtPlugin>
 #include <QFontDatabase>

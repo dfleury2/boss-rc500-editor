@@ -145,16 +145,16 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
         set_modified(w, value != default_value);
     }
 
-    void set_modified(QWidget* w, const bool is_modified)
+    static void set_modified(QWidget* w, const bool is_modified)
     {
-        const QString styleSheet = QString("font-weight: ") + (is_modified ? "bold" : "normal") + ";";
-        w->setStyleSheet(styleSheet);
+        const auto styleSheet = fmt::format("font-weight: {};", (is_modified ? "bold" : "normal"));
+        w->setStyleSheet(styleSheet.c_str());
     }
 
     [[nodiscard]] bool isBossRc5Mode() const { return (_database_system.database_name == "RC-5"); }
     [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
 
-    static std::pair<std::string, int> GetOldestFile(const std::string& file1, const std::string& file2);
+    static std::string GetOldestFile(const std::string& file1, const std::string& file2);
 
   private:
     BossRC::SystemFile _database_system;
@@ -162,9 +162,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
     std::string _dirname;
     std::string _filename_sys;
-    int _counter_sys_next{};
     std::string _filename_mem;
-    int _counter_mem_next{};
 
     QMenu* _presetLoadMenu = nullptr;
     bool _is_loading = false;   // Allow detecting on new/load on callback calls

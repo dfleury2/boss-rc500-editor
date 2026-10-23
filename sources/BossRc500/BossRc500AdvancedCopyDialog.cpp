@@ -5,17 +5,14 @@
 #include <fmt/format.h>
 
 // --------------------------------------------------------------------------
-BossRc500AdvancedCopyDialog::BossRc500AdvancedCopyDialog(QDialog& dialog,
-        nlohmann::json& db,
-        int mem_index) :
-        _parent(dialog), _database(db), _memory_index(mem_index)
+BossRc500AdvancedCopyDialog::BossRc500AdvancedCopyDialog(QDialog& dialog, BossRC::MemoryFile& database, const int mem_index)
+    : _parent(dialog), _memory_index(mem_index), _database(database)
 {
     setup();
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500AdvancedCopyDialog::setup()
+void BossRc500AdvancedCopyDialog::setup()
 {
     setupUi(&_parent);
 
@@ -32,8 +29,7 @@ BossRc500AdvancedCopyDialog::setup()
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500AdvancedCopyDialog::add_combo_items()
+void BossRc500AdvancedCopyDialog::add_combo_items() const
 {
     // MEMORY
     for (int i = 1; i <= 99; ++i) {
@@ -43,8 +39,7 @@ BossRc500AdvancedCopyDialog::add_combo_items()
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500AdvancedCopyDialog::add_callbacks()
+void BossRc500AdvancedCopyDialog::add_callbacks()
 {
     // Add callbacks
     QObject::connect(button_Copy, &QPushButton::pressed, this, &BossRc500AdvancedCopyDialog::on_copy);
@@ -52,8 +47,7 @@ BossRc500AdvancedCopyDialog::add_callbacks()
 }
 
 // --------------------------------------------------------------------------
-void
-BossRc500AdvancedCopyDialog::on_copy()
+void BossRc500AdvancedCopyDialog::on_copy()
 {
     try {
         const int copy_from_slot = cb_CopyFrom->currentIndex();
@@ -63,68 +57,73 @@ BossRc500AdvancedCopyDialog::on_copy()
             throw std::runtime_error("Copy From slot must be less than copy to slot");
         }
 
-        if (const auto response = QMessageBox::question(nullptr,
-                    "Copy memories ?",
-                    fmt::format("Do you want to copy memory slot {}\ninto slots from {} to {}",
-                        _memory_index + 1, copy_from_slot + 1, copy_to_slot + 1).c_str());
-                        response != QMessageBox::Yes) {
+        if (const auto response = QMessageBox::question(nullptr, "Copy memories ?",
+                                                        fmt::format("Do you want to copy memory slot {}\ninto slots from {} to {}",
+                                                                    _memory_index + 1, copy_from_slot + 1, copy_to_slot + 1)
+                                                            .c_str());
+            response != QMessageBox::Yes) {
             throw std::runtime_error("Operation canceled");
         }
 
-        // Update database and write it to disk
-        const auto& slot = _database["mem"][_memory_index];
+        // Update database
+        const auto& slot = _database.memories[_memory_index];
 
         for (int i = copy_from_slot; i <= copy_to_slot; ++i) {
-            auto& mem = _database["mem"][i];
+            auto& mem = _database.memories[i];
 
             // Save values to be restored after the copy
-            auto backup = mem;
+            const auto backup = mem;
 
             // Copy some values
             if (copy_Track1->isChecked()) {
-                mem["TRACK"][0] = slot["TRACK"][0];
+                mem.tracks[0] = slot.tracks[0];
             }
             if (copy_Track2->isChecked()) {
-                mem["TRACK"][1] = slot["TRACK"][1];
+                mem.tracks[1] = slot.tracks[1];
             }
             if (copy_Rhythm->isChecked()) {
-                mem["RHYTHM"] = slot["RHYTHM"];
+                mem.rhythm = slot.rhythm;
             }
             if (copy_LoopFx->isChecked()) {
-                mem["LOOPFX"] = slot["LOOPFX"];
+                mem.loopFx = slot.loopFx;
             }
             if (copy_Control->isChecked()) {
-                mem["CTL"] = slot["CTL"];
+                mem.ctl = slot.ctl;
             }
             if (copy_Assign->isChecked()) {
-                mem["ASSIGN"] = slot["ASSIGN"];
+                mem.assigns = slot.assigns;
             }
 
             // Master is split between Record and Play
-            auto master_copy = [&](std::initializer_list<const char*> names) {
-                for (auto&& name : names) {
-                    mem["MASTER"][name] = slot["MASTER"][name];
-                }
-            };
+            auto master_copy = [&](auto name) { mem.master.*name = slot.master.*name; };
             if (copy_Record->isChecked()) {
-                master_copy({"DubMode", "RecAction", "RecQuantize", "AutoRec",
-                             "AutoRecSens", "AutoRecSrc", "LpLen"}); // LpMod ???
+                master_copy(&BossRC::Master::DubMode);
+                master_copy(&BossRC::Master::RecAction);
+                master_copy(&BossRC::Master::RecQuantize);
+                master_copy(&BossRC::Master::AutoRec);
+                master_copy(&BossRC::Master::AutoRecSens);
+                master_copy(&BossRC::Master::AutoRecSrc);
+                master_copy(&BossRC::Master::LpLen);
+                // LpMod ???
             }
             if (copy_Play->isChecked()) {
-                master_copy({"Tempo", "PlayMode", "SinglPlayeChange", "Level",
-                             "FadeTime", "AllStart", "TrackChain"});
+                master_copy(&BossRC::Master::Tempo);
+                master_copy(&BossRC::Master::PlayMode);
+                master_copy(&BossRC::Master::SinglPlayeChange);
+                master_copy(&BossRC::Master::Level);
+                master_copy(&BossRC::Master::FadeTime);
+                master_copy(&BossRC::Master::AllStart);
+                master_copy(&BossRC::Master::TrackChain);
             }
             // Sync, TrkMode, CurrentTrack, AllTrackSel are missing somewhere...
 
             // Restore some values from the original
-            mem["id"] = backup["id"];
-            mem["NAME"] = backup["NAME"];
-            mem["name"] = backup["name"];
+            mem.name = backup.name;
         }
 
         _parent.close();
     }
     catch (const std::exception& ex) {
-        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+        QMessageBox(QMessageBox::Warning, "Error on copy", ex.what()).exec();
     }
 }

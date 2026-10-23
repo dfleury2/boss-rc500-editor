@@ -1,6 +1,4 @@
 add_library(BossReaderWriter
-        BossReaderWriter.hpp
-        BossReaderWriter.cpp
         BossRC.hpp
         BossRC.cpp
 )
@@ -23,8 +21,6 @@ target_link_libraries(BossReaderWriter
         nlohmann_json::nlohmann_json
     PRIVATE
         pugixml::pugixml
-        rapidxml::rapidxml
-        pantor::inja
         fmt::fmt
 )
 

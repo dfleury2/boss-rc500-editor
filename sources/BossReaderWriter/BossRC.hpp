@@ -1,5 +1,7 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include <array>
 #include <filesystem>
 #include <string>
@@ -26,6 +28,10 @@ struct Setup
     int Extent4Max = 98;
     int Extent5Min = 0;
     int Extent5Max = 98;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Setup, MemoryNumber, DisplayMode, Contrast, UndoRedo, ExtentCh, Extent1Min, Extent1Max,
+                                                Extent2Min, Extent2Max, Extent3Min, Extent3Max, Extent4Min, Extent4Max, Extent5Min,
+                                                Extent5Max);
 };
 
 // ---------------------------------------------------------------------------
@@ -41,6 +47,8 @@ struct Midi
     int PcOut = 1;
     int MidiThru = 0;
     int UsbThru = 0;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Midi, RxCtlCh, Omni, RxNoteCh, TxCh, Sync, ClkOut, SyncStart, PcOut, MidiThru, UsbThru);
 };
 
 // ---------------------------------------------------------------------------
@@ -53,6 +61,8 @@ struct Input
     int MicNs = 50;
     int InstNs = 50;
     int Indicator = 0;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Input, Phantom, MicOut, InstOut, RhythmOut, MicNs, InstNs, Indicator);
 };
 
 // ---------------------------------------------------------------------------
@@ -66,6 +76,8 @@ struct Ctl
     int Ctl1 = 44;
     int Ctl2 = 53;
     int Exp = 13;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Ctl, Pedal1, Pedal2, Pedal3, Ctl1, Ctl2, Exp);
 };
 
 // ---------------------------------------------------------------------------
@@ -77,6 +89,8 @@ struct Pref
     int Ctl1 = 1;
     int Ctl2 = 1;
     int Exp = 1;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Pref, Pdl1, Pdl2, Pdl3, Ctl1, Ctl2, Exp);
 };
 
 // ---------------------------------------------------------------------------
@@ -84,7 +98,7 @@ struct SystemFile
 {
     std::string database_name = "RC-500";   // or RC-5
     int database_revision = 0;
-    int database_counter{};
+    uint32_t database_counter{};
 
     Setup setup;
     Midi midi;
@@ -94,6 +108,8 @@ struct SystemFile
 
     static SystemFile load(const std::filesystem::path& p);
     void save(const std::filesystem::path& p) const;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(SystemFile, database_name, database_revision, database_counter, setup, midi, input, ctl, pref);
 };
 
 // ---------------------------------------------------------------------------
@@ -110,6 +126,8 @@ struct Name
     [[nodiscard]] std::string to_string(int idx) const;
     [[nodiscard]] std::array<int, 12> to_CXX() const;
     static Name From_CXX(const std::array<int, 12>& s);
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Name, name);
 };
 
 // ---------------------------------------------------------------------------
@@ -133,6 +151,9 @@ struct Track
     int RecTmp = 1200;
     int WavStat = 0;
     int WavLen = 0;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Track, Rev, PlyLvl, Pan, One, LoopFx, StrtMod, StpMod, Measure, LoopSync, TempoSync, Input,
+                                                Output, MeasMod, MeasLen, MeasBtLp, RecTmp, WavStat, WavLen);
 };
 
 // ---------------------------------------------------------------------------
@@ -157,6 +178,12 @@ struct Master
     int LpLen = 0;
     int TrkMod = 1;
     int Sync = 0;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Master, Tempo, DubMode, RecAction, RecQuantize, AutoRec, AutoRecSens, AutoRecSrc, PlayMode,
+                                                SinglPlayeChange, FadeTime, AllStart, TrackChain, CurrentTrack, AllTrackSel, Level, LpMod,
+                                                LpLen, TrkMod, Sync
+
+    );
 };
 
 // ---------------------------------------------------------------------------
@@ -168,6 +195,8 @@ struct LoopFxCfg
     int ShiftShift = 3;
     int ScatterLength = 2;
     int VinylFlickFlick = 50;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(LoopFxCfg, Sw, FxType, RepeatLength, ShiftShift, ScatterLength, VinylFlickFlick);
 };
 
 // ---------------------------------------------------------------------------
@@ -192,6 +221,11 @@ struct Rhythm
     int ToneLow = 10;
     int ToneHigh = 10;
     int State = 0;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Rhythm, Level, Reverb, Pattern, Variation, VariationChange, Kit, Beat, Fill, Part1, Part2,
+                                                Part3, Part4, RecCount, PlayCount, Start, Stop, ToneLow, ToneHigh, State
+
+    );
 };
 
 // ---------------------------------------------------------------------------
@@ -203,6 +237,8 @@ struct Assign
     int Target = 0;
     int TargetMin = 0;
     int TargetMax = 1;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Assign, Sw, Source, SourceMode, Target, TargetMin, TargetMax);
 };
 
 // ---------------------------------------------------------------------------
@@ -217,6 +253,8 @@ struct Memory
     Ctl ctl;
 
     std::array<Assign, 8> assigns;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Memory, name, tracks, master, loopFx, rhythm, ctl, assigns);
 };
 
 // ---------------------------------------------------------------------------
@@ -228,12 +266,18 @@ struct MemoryFile
 {
     std::string database_name = "RC-500";   // or RC-5
     int database_revision = 0;
-    int database_counter{};
+    uint32_t database_counter{};
 
     std::array<Memory, 99> memories;
 
     static MemoryFile load(const std::filesystem::path& p);
     void save(const std::filesystem::path& p) const;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(MemoryFile, database_name, database_revision, database_counter, memories);
 };
+
+// ---------------------------------------------------------------------------
+uint32_t readVersion(const std::string& path);
+void writeVersion(const std::string& path, uint32_t version);
 
 }   // namespace BossRC
