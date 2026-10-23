@@ -23,10 +23,10 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
   private:
     void setup();
 
-    void setLogo(const char* boss_version = "500");
+    void setLogo(const char* boss_version = "500") const;
 
-    void add_tooltips();
-    void add_combo_items();
+    void add_tooltips() const;
+    void add_combo_items() const;
     void add_callbacks();
 
     void on_ToolMenu_New();

@@ -48,7 +48,7 @@ void BossRc500MainWindow::setup()
     // Add some tweaks...
     setFixedSize(width(), height());
 
-    auto fileMenu = new QMenu("File", menuBar());
+    const auto fileMenu = new QMenu("File", menuBar());
     fileMenu->addAction("New", QKeySequence::New, this, &BossRc500MainWindow::on_ToolMenu_New);
     fileMenu->addAction("Open...", QKeySequence::Open, this, &BossRc500MainWindow::on_ToolMenu_Open);
     fileMenu->addSeparator();
@@ -80,9 +80,9 @@ void BossRc500MainWindow::setup()
         _preferences_themes_group->setExclusive(true);
 
         // Add the default theme (Default.css)
-        auto themesMenu = new QMenu("Themes", fileMenu);
+        const auto themesMenu = new QMenu("Themes", fileMenu);
 
-        auto default_themes =
+        const auto default_themes =
             themesMenu->addAction("Default", [this] { on_ToolMenu_Themes(BossRc500::Resources::Themes() + "/Default.css"); });
         default_themes->setCheckable(true);
         default_themes->setChecked(true);
@@ -108,8 +108,8 @@ void BossRc500MainWindow::setup()
         _preferences_language_group = new QActionGroup(this);
         _preferences_language_group->setExclusive(true);
 
-        auto preferencesMenu = new QMenu("Preferences", fileMenu);
-        auto default_english = preferencesMenu->addAction("Default", [this] {
+        const auto preferencesMenu = new QMenu("Preferences", fileMenu);
+        const auto default_english = preferencesMenu->addAction("Default", [this] {
             _language = "";
             add_tooltips();
         });
@@ -135,7 +135,7 @@ void BossRc500MainWindow::setup()
 #endif
     menuBar()->addMenu(fileMenu);
 
-    auto editMenu = new QMenu("Edit", menuBar());
+    const auto editMenu = new QMenu("Edit", menuBar());
     editMenu->addAction("Undo", QKeySequence::Undo, [this] { _stack.undo(); });
     editMenu->addAction("Redo", QKeySequence::Redo, [this] { _stack.redo(); });
     fileMenu->addSeparator();
@@ -180,7 +180,7 @@ void BossRc500MainWindow::setup()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::setLogo(const char* boss_version)
+void BossRc500MainWindow::setLogo(const char* boss_version) const
 {
     const auto logo = fmt::format(
         R"(<html><head/><body><p><span style=" font-size:26pt; font-weight:600; font-style:italic; vertical-align:super;">LOOP STATION</span><span style=" font-size:28pt; font-weight:600; font-style:italic;">RC-{} </span></p></body></html>)",
@@ -189,7 +189,7 @@ void BossRc500MainWindow::setLogo(const char* boss_version)
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::add_tooltips()
+void BossRc500MainWindow::add_tooltips() const
 {
     // Add tooltips
 #if QT_CONFIG(tooltip)
@@ -273,11 +273,11 @@ void BossRc500MainWindow::add_tooltips()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::add_combo_items()
+void BossRc500MainWindow::add_combo_items() const
 {
     // MEMORY
     for (int i = 1; i <= 99; ++i) {
-        cb_Memory->addItem(std::to_string(i).c_str());
+        cb_Memory->addItem(fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i-1)).c_str());
         cb_CopyFrom->addItem(std::to_string(i).c_str());
         cb_CopyTo->addItem(std::to_string(i).c_str());
     }
@@ -676,7 +676,7 @@ void BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
         std::ifstream file(filename.toStdString());
 
         nlohmann::json json;
-        auto memory_index = cb_Memory->currentIndex();
+        const auto memory_index = cb_Memory->currentIndex();
         file >> json;
         _database_memory.memories[memory_index] = json;
 
@@ -1066,23 +1066,23 @@ void BossRc500MainWindow::load_memory(const int memory_index)
     // CONTROL
     // These controls are effective only if the associated PREF is set to MEMORY
     {
-        auto& ctl = _database_memory.memories[memory_index].ctl;
-        auto& pref = _database_system.pref;
+        auto& mem_ctl = _database_memory.memories[memory_index].ctl;
+        auto& sys_pref = _database_system.pref;
         auto& sys_ctl = _database_system.ctl;
 
         auto SetControl = [&](QComboBox* cb, auto pref_name, auto ctl_name) {
-            cb->setEnabled(pref.*pref_name == 0);
-            if (cb->isEnabled()) {
-                cb->setCurrentIndex(ctl.*ctl_name);
-            }
-            else {
-                cb->setCurrentIndex(sys_ctl.*ctl_name);
-            }
+            auto sys_pref_value = sys_pref.*pref_name;
+            auto sys_ctl_value = sys_ctl.*ctl_name;
+
+            auto mem_ctl_value = mem_ctl.*ctl_name;
+
+            cb->setEnabled(sys_pref_value == 0);
+            cb->setCurrentIndex(cb->isEnabled() ? mem_ctl_value : sys_ctl_value);
         };
 
         SetControl(control_Pedal1, &BossRC::Pref::Pdl1, &BossRC::Ctl::Pedal1);
-        SetControl(control_Pedal1, &BossRC::Pref::Pdl2, &BossRC::Ctl::Pedal2);
-        SetControl(control_Pedal1, &BossRC::Pref::Pdl3, &BossRC::Ctl::Pedal3);
+        SetControl(control_Pedal2, &BossRC::Pref::Pdl2, &BossRC::Ctl::Pedal2);
+        SetControl(control_Pedal3, &BossRC::Pref::Pdl3, &BossRC::Ctl::Pedal3);
         SetControl(control_Control1, &BossRC::Pref::Ctl1, &BossRC::Ctl::Ctl1);
         SetControl(control_Control2, &BossRC::Pref::Ctl2, &BossRC::Ctl::Ctl2);
         SetControl(control_Expression, &BossRC::Pref::Exp, &BossRC::Ctl::Exp);
