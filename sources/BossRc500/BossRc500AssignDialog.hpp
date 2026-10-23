@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Designer/ui_Boss-rc500-assign.h"
 #include "BossRc500.hpp"
+#include "Designer/ui_Boss-rc500-assign.h"
 
 #include <BossReaderWriter/BossRC.hpp>
 
@@ -10,12 +10,12 @@
 // --------------------------------------------------------------------------
 class BossRc500AssignDialog : public Ui_BossRc500AssignDialog, public QObject
 {
-public:
+  public:
     explicit BossRc500AssignDialog(QDialog& dialog);
 
     void load_assign(BossRC::MemoryFile* database, int mem_index, const BossRc500::Beat& beat, int loopFxType, const QString& language);
 
-private:
+  private:
     void setup();
     void add_tooltips();
     void add_combo_items();
@@ -37,7 +37,7 @@ private:
         update_mem_database(index, member, cb->currentIndex(), cb);
     }
 
-    template<typename Widget, typename Member, typename Value>
+    template <typename Widget, typename Member, typename Value>
     void update_mem_database(const int index, Member member_name, Value value, Widget* w)
     {
         if (!_is_loading) {
@@ -49,10 +49,10 @@ private:
 
         bool is_modified = false;
 
-        if constexpr(std::is_floating_point_v<Value>) {
+        if constexpr (std::is_floating_point_v<Value>) {
             is_modified = (std::abs(value - default_value) > 0.05);
         }
-        else if constexpr(std::is_same_v<Value, bool>) {
+        else if constexpr (std::is_same_v<Value, bool>) {
             is_modified = (static_cast<int>(value) != default_value);
         }
         else {
@@ -63,22 +63,22 @@ private:
         w->setStyleSheet(styleSheet);
     }
 
-private:
-    QDialog&        _parent;
+  private:
+    QDialog& _parent;
 
     BossRC::MemoryFile* _database{nullptr};
-    int             _memory_index{0};
+    int _memory_index{0};
     BossRc500::Beat _beat;
-    int             _loopFxType{0};
-    QString         _language;
+    int _loopFxType{0};
+    QString _language;
 
     static constexpr int ASSIGN_SIZE = 8;
-    std::array<QCheckBox*,ASSIGN_SIZE> _assigns;
-    std::array<QComboBox*,ASSIGN_SIZE> _sources;
-    std::array<QComboBox*,ASSIGN_SIZE> _sourceModes;
-    std::array<QComboBox*,ASSIGN_SIZE> _targets;
-    std::array<QComboBox*,ASSIGN_SIZE> _targetMins;
-    std::array<QComboBox*,ASSIGN_SIZE> _targetMaxs;
+    std::array<QCheckBox*, ASSIGN_SIZE> _assigns;
+    std::array<QComboBox*, ASSIGN_SIZE> _sources;
+    std::array<QComboBox*, ASSIGN_SIZE> _sourceModes;
+    std::array<QComboBox*, ASSIGN_SIZE> _targets;
+    std::array<QComboBox*, ASSIGN_SIZE> _targetMins;
+    std::array<QComboBox*, ASSIGN_SIZE> _targetMaxs;
 
-    bool _is_loading = false; // Allow detecting on new/load on callback calls
+    bool _is_loading = false;   // Allow detecting on new/load on callback calls
 };

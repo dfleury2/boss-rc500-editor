@@ -120,7 +120,7 @@ void BossRc500AssignDialog::add_callbacks()
     };
 
     // Assign1-8
-    ConnectComboBox(_sources,  &BossRC::Assign::Source);
+    ConnectComboBox(_sources, &BossRC::Assign::Source);
     ConnectComboBox(_sourceModes, &BossRC::Assign::SourceMode);
 
     // Targets

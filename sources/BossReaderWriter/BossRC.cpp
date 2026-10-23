@@ -3,17 +3,17 @@
 #include <fmt/format.h>
 #include <pugixml.hpp>
 
+#include <fstream>
 #include <stdexcept>
 #include <string_view>
-#include <fstream>
 
 namespace {
 // --------------------------------------------------------------------------
 uint32_t readLE32(const uint8_t* p)
 {
-    return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
+    return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8) | (static_cast<uint32_t>(p[2]) << 16) |
+           (static_cast<uint32_t>(p[3]) << 24);
 }
-
 
 // --------------------------------------------------------------------------
 void writeLE32(uint8_t* p, uint32_t v)
@@ -588,6 +588,7 @@ MemoryFile MemoryFile::load(const std::filesystem::path& p)
         const auto database = doc.child("database");
         memory_file.database_name = database.attribute("name").value();
         memory_file.database_revision = database.attribute("revision").as_int();
+        memory_file.database_counter = readVersion(p.string());
     }
 
     int idx = 0;

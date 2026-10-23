@@ -109,7 +109,8 @@ struct SystemFile
     static SystemFile load(const std::filesystem::path& p);
     void save(const std::filesystem::path& p) const;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(SystemFile, database_name, database_revision, database_counter, setup, midi, input, ctl, pref);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(SystemFile, database_name, database_revision, database_counter, setup, midi, input, ctl,
+                                                pref);
 };
 
 // ---------------------------------------------------------------------------

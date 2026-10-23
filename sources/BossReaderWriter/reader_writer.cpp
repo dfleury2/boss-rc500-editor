@@ -12,6 +12,5 @@ int main(int argc, char** argv)
         const auto memory_file = BossRC::MemoryFile::load(argv[2]);
 
         memory_file.save(std::string(argv[2]) + ".xml");
-
     }
 }

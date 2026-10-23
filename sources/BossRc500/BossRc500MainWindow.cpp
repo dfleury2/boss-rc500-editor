@@ -277,7 +277,7 @@ void BossRc500MainWindow::add_combo_items() const
 {
     // MEMORY
     for (int i = 1; i <= 99; ++i) {
-        cb_Memory->addItem(fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i-1)).c_str());
+        cb_Memory->addItem(fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i - 1)).c_str());
         cb_CopyFrom->addItem(std::to_string(i).c_str());
         cb_CopyTo->addItem(std::to_string(i).c_str());
     }

@@ -31,12 +31,12 @@ add_executable(BossRc500
 )
 
 set_target_properties(BossRc500
-    PROPERTIES
+        PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 target_link_libraries(BossRc500
-    PUBLIC
+        PUBLIC
         qt::qt
         BossReaderWriter::BossReaderWriter
         nlohmann_json::nlohmann_json
@@ -46,17 +46,17 @@ target_link_libraries(BossRc500
         spdlog::spdlog
 )
 
-if(WIN32)
-target_link_libraries(BossRc500
-    PUBLIC
-        DWrite.lib
-        Shcore.lib
-        D3d9.lib
-)
-endif()
+if (WIN32)
+    target_link_libraries(BossRc500
+            PUBLIC
+            DWrite.lib
+            Shcore.lib
+            D3d9.lib
+    )
+endif ()
 
 install(TARGETS BossRc500
-    RUNTIME DESTINATION .
+        RUNTIME DESTINATION .
 )
 
 configure_file("./config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/config.h")
