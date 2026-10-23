@@ -98,11 +98,11 @@ void BossRc500AssignDialog::add_callbacks()
     QObject::connect(button_targetHelp, &QPushButton::pressed, this, &BossRc500AssignDialog::on_target_help);
 
     // Control callbacks
-    auto ConnectCheckBox_Assign = [&](const std::array<QCheckBox*, 8>& cbs, auto name) {
+    auto ConnectCheckBox_Assign = [&](const std::array<QCheckBox*, 8>& cbs, auto member) {
         int index = 0;
         for (auto cb : cbs) {
             QObject::connect(cb, &QCheckBox::checkStateChanged, this,
-                             [this, cb, index, name] { on_Assign_CheckBox_changed(cb, index, name); });
+                             [this, cb, index, member] { on_Assign_CheckBox_changed(cb, index, member); });
             ++index;
         }
     };
@@ -110,28 +110,23 @@ void BossRc500AssignDialog::add_callbacks()
     // Assign1-8 Sw
     ConnectCheckBox_Assign(_assigns, &BossRC::Assign::Sw);
 
-    auto ConnectComboBox = [&](const std::array<QComboBox*, 8>& cbs, const char* name) {
+    auto ConnectComboBox = [&](const std::array<QComboBox*, 8>& cbs, auto member) {
         int index = 0;
         for (auto cb : cbs) {
             QObject::connect(cb, &QComboBox::currentIndexChanged, this,
-                             [this, cb, index, name] { on_Assign_ComboBox_changed(cb, index, name); });
+                             [this, cb, index, member] { on_Assign_ComboBox_changed(cb, index, member); });
             ++index;
         }
     };
 
     // Assign1-8
-    ConnectComboBox(_sources, "Source");
-    ConnectComboBox(_sourceModes, "SourceMode");
+    ConnectComboBox(_sources,  &BossRC::Assign::Source);
+    ConnectComboBox(_sourceModes, &BossRC::Assign::SourceMode);
 
-    int index = 0;
-    for (auto target : _targets) {
-        QObject::connect(target, &QComboBox::currentIndexChanged, this,
-                         [this, target, index] { on_Assign_Target_ComboBox_changed(target, index, "Target"); });
-        ++index;
-    }
-
-    ConnectComboBox(_targetMins, "TargetMin");
-    ConnectComboBox(_targetMaxs, "TargetMax");
+    // Targets
+    ConnectComboBox(_targets, &BossRC::Assign::Target);
+    ConnectComboBox(_targetMins, &BossRC::Assign::TargetMin);
+    ConnectComboBox(_targetMaxs, &BossRC::Assign::TargetMax);
 }
 
 // --------------------------------------------------------------------------
@@ -155,7 +150,7 @@ void BossRc500AssignDialog::load_assign(BossRC::MemoryFile* database, const int 
         _targetMins[index]->setCurrentIndex(assign.TargetMin);
         _targetMaxs[index]->setCurrentIndex(assign.TargetMax);
 
-        on_Assign_Target_ComboBox_changed(_targets[index], index, "Target");
+        on_Assign_Target_ComboBox_changed(_targets[index], index);
     };
 
     for (int i = 0; i < ASSIGN_SIZE; ++i) {
@@ -184,15 +179,15 @@ void BossRc500AssignDialog::on_target_help()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int index, const char* name)
+void BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, const int index)
 {
     auto& assign = _database->memories[_memory_index].assigns[index];
     const auto target_min = assign.TargetMin;
     const auto target_max = assign.TargetMax;
 
-    on_Assign_ComboBox_changed(cb, index, name);
+    on_Assign_ComboBox_changed(cb, index, &BossRC::Assign::Target);
 
-    auto target_index = cb->currentIndex();
+    const auto target_index = cb->currentIndex();
 
     // Change available items for the current target
     const auto targetMin = _targetMins[index];
@@ -415,16 +410,4 @@ void BossRc500AssignDialog::on_Assign_Target_ComboBox_changed(QComboBox* cb, int
     if (target_max < targetMax->count()) {
         targetMax->setCurrentIndex(std::max(0, target_max));
     }
-}
-
-// --------------------------------------------------------------------------
-void BossRc500AssignDialog::on_Assign_CheckBox_changed(QCheckBox* cb, int index, auto name)
-{
-    // TODO update_mem_database(index, name, cb->isChecked(), cb);
-}
-
-// --------------------------------------------------------------------------
-void BossRc500AssignDialog::on_Assign_ComboBox_changed(QComboBox* cb, int index, const char* name)
-{
-    // TODO update_mem_database(index, name, cb->currentIndex(), cb);
 }

@@ -26,32 +26,32 @@ class BossRc500SystemDialog : public Ui_BossRc500SystemDialog, public QObject
     void on_control_pdlctl_help();
 
     template <typename Node, typename Member>
-    void on_System_ComboBox_changed(QComboBox* cb, Node node, Member name)
+    void on_System_ComboBox_changed(QComboBox* cb, Node node, Member member)
     {
-        update_sys_database(node, name, cb->currentIndex(), cb);
+        update_sys_database(node, member, cb->currentIndex(), cb);
     }
 
     template <typename Node, typename Member>
-    void on_System_CheckBox_changed(QCheckBox* cb, Node node, Member name)
+    void on_System_CheckBox_changed(QCheckBox* cb, Node node, Member member)
     {
-        update_sys_database(node, name, cb->isChecked(), cb);
+        update_sys_database(node, member, cb->isChecked(), cb);
     }
 
     template <typename Node, typename Member>
-    void on_System_SpinBox_changed(QSpinBox* cb, Node node, Member name)
+    void on_System_SpinBox_changed(QSpinBox* cb, Node node, Member member)
     {
-        update_sys_database(node, name, cb->value(), cb);
+        update_sys_database(node, member, cb->value(), cb);
     }
 
     template <typename Widget, typename Node, typename Member, typename Value>
-    void update_sys_database(Node root, Member member_name, Value value, Widget* w)
+    void update_sys_database(Node root, Member member, Value value, Widget* w)
     {
         if (!_is_loading) {
             // spdlog::info("System: {}.{}: {}", root, member_name, value);
-            database.*root.*member_name = value;
+            database.*root.*member = value;
         }
 
-        auto default_value = BossRc500::DatabaseSysDefault.*root.*member_name;
+        auto default_value = BossRc500::DatabaseSysDefault.*root.*member;
 
         bool is_modified = false;
 

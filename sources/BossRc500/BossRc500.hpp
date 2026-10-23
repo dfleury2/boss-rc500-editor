@@ -24,7 +24,6 @@ struct Resources
     static QString Fonts() { return ResourcePath() + "/fonts"; }
     static QString Images()  { return ResourcePath() + "/images"; }
     static QString Presets() { return ResourcePath() + "/presets"; }
-    static QString Templates() { return ResourcePath() + "/templates"; }
     static QString Themes() { return ResourcePath() + "/themes"; }
     static QString Tooltips() { return ResourcePath() + "/tooltips"; }
 };

@@ -23,16 +23,25 @@ private:
 
     void on_target_help();
 
-    void on_Assign_Target_ComboBox_changed(QComboBox* cb, int index, const char* name);
+    void on_Assign_Target_ComboBox_changed(QComboBox* cb, int index);
 
-    void on_Assign_CheckBox_changed(QCheckBox* cb, int index, auto name);
-    void on_Assign_ComboBox_changed(QComboBox* cb, int index, const char* name);
+    template <typename Member>
+    void on_Assign_CheckBox_changed(QCheckBox* cb, const int index, Member member)
+    {
+        update_mem_database(index, member, cb->isChecked(), cb);
+    }
 
-    template<typename Widget, typename Value>
-    void update_mem_database(const int index, Value* member_name, Value value, Widget* w)
+    template <typename Member>
+    void on_Assign_ComboBox_changed(QComboBox* cb, const int index, Member member)
+    {
+        update_mem_database(index, member, cb->currentIndex(), cb);
+    }
+
+    template<typename Widget, typename Member, typename Value>
+    void update_mem_database(const int index, Member member_name, Value value, Widget* w)
     {
         if (!_is_loading) {
-            spdlog::info("Slot:{} - Assign: {} : {}", _memory_index, member_name, value);
+            // spdlog::info("Slot:{} - Assign: {} : {}", _memory_index, member_name, value);
             _database->memories[_memory_index].assigns[index].*member_name = value;
         }
 
@@ -44,7 +53,7 @@ private:
             is_modified = (std::abs(value - default_value) > 0.05);
         }
         else if constexpr(std::is_same_v<Value, bool>) {
-            is_modified = (int(value) != default_value);
+            is_modified = (static_cast<int>(value) != default_value);
         }
         else {
             is_modified = (default_value != value);

@@ -191,7 +191,7 @@ void BossRc500MainWindow::setup()
         _stack_dialog = new QDialog(this);
         _stack_dialog->setLayout(new QGridLayout);
 
-        auto view = new QUndoView(_stack_dialog);
+        const auto view = new QUndoView(_stack_dialog);
         view->setStack(&_stack);
         _stack_dialog->layout()->addWidget(view);
 
@@ -201,7 +201,7 @@ void BossRc500MainWindow::setup()
     // Start with a default MEMORY file
     on_ToolMenu_New();
 
-    // No more drumkits...
+    // No more drum kits...
     button_rhythm_Play->hide();
 }
 
@@ -429,121 +429,133 @@ void BossRc500MainWindow::add_callbacks()
 
     // Master Record callbacks
     QObject::connect(record_DubMode, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(record_DubMode, "DubMode"); });
+                     [this] { on_Master_ComboBox_changed(record_DubMode, &BossRC::Master::DubMode); });
 
     QObject::connect(record_RecordAction, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(record_RecordAction, "RecAction"); });
+                     [this] { on_Master_ComboBox_changed(record_RecordAction, &BossRC::Master::RecAction); });
 
     QObject::connect(record_Quantize, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(record_Quantize, "RecQuantize"); });
+                     [this] { on_Master_ComboBox_changed(record_Quantize, &BossRC::Master::RecQuantize); });
 
     QObject::connect(record_AutoRecord, &QCheckBox::checkStateChanged, this,
-                     [this] { on_Master_CheckBox_changed(record_AutoRecord, "AutoRec"); });
+                     [this] { on_Master_CheckBox_changed(record_AutoRecord, &BossRC::Master::AutoRec); });
 
     QObject::connect(record_AutoRecordSensitivity, &QSpinBox::valueChanged, this,
-                     [this] { on_Master_SpinBox_changed(record_AutoRecordSensitivity, "AutoRecSens"); });
+                     [this] { on_Master_SpinBox_changed(record_AutoRecordSensitivity, &BossRC::Master::AutoRecSens); });
 
     QObject::connect(record_AutoRecordSource, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(record_AutoRecordSource, "AutoRecSrc"); });
+                     [this] { on_Master_ComboBox_changed(record_AutoRecordSource, &BossRC::Master::AutoRecSrc); });
 
     QObject::connect(record_LoopLength, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(record_LoopLength, "LpLen"); });
+                     [this] { on_Master_ComboBox_changed(record_LoopLength, &BossRC::Master::LpLen); });
 
     // Master Play callbacks
-    QObject::connect(play_Tempo, &QDoubleSpinBox::valueChanged, this, [this] { on_Master_DoubleSpinBox_changed(play_Tempo, "Tempo", 10); });
+    QObject::connect(play_Tempo, &QDoubleSpinBox::valueChanged, this, [this] { on_Master_DoubleSpinBox_changed(play_Tempo, &BossRC::Master::Tempo, 10); });
 
     QObject::connect(play_PlayMode, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(play_PlayMode, "PlayMode"); });
+                     [this] { on_Master_ComboBox_changed(play_PlayMode, &BossRC::Master::PlayMode); });
 
     QObject::connect(play_SingleChange, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(play_SingleChange, "SinglPlayeChange"); });
+                     [this] { on_Master_ComboBox_changed(play_SingleChange, &BossRC::Master::SinglPlayeChange); });
 
-    QObject::connect(play_Level, &QSpinBox::valueChanged, this, [this] { on_Master_SpinBox_changed(play_Level, "Level"); });
+    QObject::connect(play_Level, &QSpinBox::valueChanged, this, [this] { on_Master_SpinBox_changed(play_Level, &BossRC::Master::Level); });
 
     QObject::connect(play_FadeTime, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(play_FadeTime, "FadeTime"); });
+                     [this] { on_Master_ComboBox_changed(play_FadeTime, &BossRC::Master::FadeTime); });
 
     QObject::connect(play_AllStart, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(play_AllStart, "AllStart"); });
+                     [this] { on_Master_ComboBox_changed(play_AllStart, &BossRC::Master::AllStart); });
 
     QObject::connect(play_TrackChain, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Master_ComboBox_changed(play_TrackChain, "TrackChain"); });
+                     [this] { on_Master_ComboBox_changed(play_TrackChain, &BossRC::Master::TrackChain); });
 
     // LoopFX callbacks
-    QObject::connect(loopFx_Sw, &QCheckBox::checkStateChanged, this, [this] { on_LoopFx_CheckBox_changed(loopFx_Sw, "Sw"); });
+    QObject::connect(loopFx_Sw, &QCheckBox::checkStateChanged, this,
+                     [this] { on_LoopFx_CheckBox_changed(loopFx_Sw, &BossRC::LoopFxCfg::Sw); });
 
     QObject::connect(loopFx_Type, &QComboBox::currentIndexChanged, this, [this] { on_LoopFx_FxType_changed(); });
 
     QObject::connect(loopFx_ScatLen, &QComboBox::currentIndexChanged, this,
-                     [this] { on_LoopFx_ComboBox_changed(loopFx_ScatLen, "ScatterLength"); });
+                     [this] { on_LoopFx_ComboBox_changed(loopFx_ScatLen, &BossRC::LoopFxCfg::ScatterLength); });
 
     QObject::connect(loopFx_ReptLen, &QComboBox::currentIndexChanged, this,
-                     [this] { on_LoopFx_ComboBox_changed(loopFx_ReptLen, "RepeatLength"); });
+                     [this] { on_LoopFx_ComboBox_changed(loopFx_ReptLen, &BossRC::LoopFxCfg::RepeatLength); });
 
     QObject::connect(loopFx_Shift, &QComboBox::currentIndexChanged, this,
-                     [this] { on_LoopFx_ComboBox_changed(loopFx_Shift, "ShiftShift"); });
+                     [this] { on_LoopFx_ComboBox_changed(loopFx_Shift, &BossRC::LoopFxCfg::ShiftShift); });
 
-    QObject::connect(loopFx_Flick, &QSpinBox::valueChanged, this, [this] { on_LoopFx_SpinBox_changed(loopFx_Flick, "VinylFlickFlick"); });
+    QObject::connect(loopFx_Flick, &QSpinBox::valueChanged, this,
+                     [this] { on_LoopFx_SpinBox_changed(loopFx_Flick, &BossRC::LoopFxCfg::VinylFlickFlick); });
 
     // Rhythm callback
     QObject::connect(rhythm_Level, &QSlider::valueChanged, this, [this] {
-        on_Rhythm_Slider_changed(rhythm_Level, "Level");
+        on_Rhythm_Slider_changed(rhythm_Level, &BossRC::Rhythm::Level);
         label_rhythm_LevelValue->setText(std::to_string(rhythm_Level->value()).c_str());
     });
 
     QObject::connect(rhythm_Reverb, &QSlider::valueChanged, this, [this] {
-        on_Rhythm_Slider_changed(rhythm_Reverb, "Reverb");
+        on_Rhythm_Slider_changed(rhythm_Reverb, &BossRC::Rhythm::Reverb);
         label_rhythm_ReverbValue->setText(std::to_string(rhythm_Reverb->value()).c_str());
     });
 
     QObject::connect(rhythm_Pattern, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_Pattern, "Pattern"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Pattern, &BossRC::Rhythm::Pattern); });
 
     QObject::connect(rhythm_Variation, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_Variation, "Variation"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Variation, &BossRC::Rhythm::Variation); });
 
     QObject::connect(rhythm_VarChange, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_VarChange, "VariationChange"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_VarChange, &BossRC::Rhythm::VariationChange); });
 
-    QObject::connect(rhythm_Kit, &QComboBox::currentIndexChanged, this, [this] { on_Rhythm_ComboBox_changed(rhythm_Kit, "Kit"); });
+    QObject::connect(rhythm_Kit, &QComboBox::currentIndexChanged, this,
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Kit, &BossRC::Rhythm::Kit); });
 
-    QObject::connect(rhythm_Beat, &QComboBox::currentIndexChanged, this, [this] { on_Rhythm_ComboBox_changed(rhythm_Beat, "Beat"); });
+    QObject::connect(rhythm_Beat, &QComboBox::currentIndexChanged, this,
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Beat, &BossRC::Rhythm::Beat); });
 
-    QObject::connect(rhythm_Start, &QComboBox::currentIndexChanged, this, [this] { on_Rhythm_ComboBox_changed(rhythm_Start, "Start"); });
+    QObject::connect(rhythm_Start, &QComboBox::currentIndexChanged, this,
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Start, &BossRC::Rhythm::Start); });
 
-    QObject::connect(rhythm_Stop, &QComboBox::currentIndexChanged, this, [this] { on_Rhythm_ComboBox_changed(rhythm_Stop, "Stop"); });
+    QObject::connect(rhythm_Stop, &QComboBox::currentIndexChanged, this,
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_Stop, &BossRC::Rhythm::Stop); });
 
     QObject::connect(rhythm_RecCount, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_RecCount, "RecCount"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_RecCount, &BossRC::Rhythm::RecCount); });
 
     QObject::connect(rhythm_PlayCount, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_PlayCount, "PlayCount"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_PlayCount, &BossRC::Rhythm::PlayCount); });
 
-    QObject::connect(rhythm_Fill, &QCheckBox::checkStateChanged, this, [this] { on_Rhythm_CheckBox_changed(rhythm_Fill, "Fill"); });
+    QObject::connect(rhythm_Fill, &QCheckBox::checkStateChanged, this,
+                     [this] { on_Rhythm_CheckBox_changed(rhythm_Fill, &BossRC::Rhythm::Fill); });
 
-    QObject::connect(rhythm_Part1, &QCheckBox::checkStateChanged, this, [this] { on_Rhythm_CheckBox_changed(rhythm_Part1, "Part1"); });
-    QObject::connect(rhythm_Part2, &QCheckBox::checkStateChanged, this, [this] { on_Rhythm_CheckBox_changed(rhythm_Part2, "Part2"); });
-    QObject::connect(rhythm_Part3, &QCheckBox::checkStateChanged, this, [this] { on_Rhythm_CheckBox_changed(rhythm_Part3, "Part3"); });
-    QObject::connect(rhythm_Part4, &QCheckBox::checkStateChanged, this, [this] { on_Rhythm_CheckBox_changed(rhythm_Part4, "Part4"); });
+    QObject::connect(rhythm_Part1, &QCheckBox::checkStateChanged, this,
+                     [this] { on_Rhythm_CheckBox_changed(rhythm_Part1, &BossRC::Rhythm::Part1); });
+    QObject::connect(rhythm_Part2, &QCheckBox::checkStateChanged, this,
+                     [this] { on_Rhythm_CheckBox_changed(rhythm_Part2, &BossRC::Rhythm::Part2); });
+    QObject::connect(rhythm_Part3, &QCheckBox::checkStateChanged, this,
+                     [this] { on_Rhythm_CheckBox_changed(rhythm_Part3, &BossRC::Rhythm::Part3); });
+    QObject::connect(rhythm_Part4, &QCheckBox::checkStateChanged, this,
+                     [this] { on_Rhythm_CheckBox_changed(rhythm_Part4, &BossRC::Rhythm::Part4); });
 
     QObject::connect(rhythm_ToneLow, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_ToneLow, "ToneLow"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_ToneLow, &BossRC::Rhythm::ToneLow); });
     QObject::connect(rhythm_ToneHigh, &QComboBox::currentIndexChanged, this,
-                     [this] { on_Rhythm_ComboBox_changed(rhythm_ToneHigh, "ToneHigh"); });
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_ToneHigh, &BossRC::Rhythm::ToneHigh); });
 
-    QObject::connect(rhythm_State, &QComboBox::currentIndexChanged, this, [this] { on_Rhythm_ComboBox_changed(rhythm_State, "State"); });
+    QObject::connect(rhythm_State, &QComboBox::currentIndexChanged, this,
+                     [this] { on_Rhythm_ComboBox_changed(rhythm_State, &BossRC::Rhythm::State); });
 
     // Control callbacks
-    auto ConnectComboBox_Control = [&](QComboBox* cb, const char* name) {
-        QObject::connect(cb, &QComboBox::currentIndexChanged, this, [this, cb, name] { on_Control_ComboBox_changed(cb, name); });
+    auto ConnectComboBox_Control = [&](QComboBox* cb, auto member) {
+        QObject::connect(cb, &QComboBox::currentIndexChanged, this, [this, cb, member] { on_Control_ComboBox_changed(cb, member); });
     };
 
-    ConnectComboBox_Control(control_Pedal1, "Pedal1");
-    ConnectComboBox_Control(control_Pedal2, "Pedal2");
-    ConnectComboBox_Control(control_Pedal3, "Pedal3");
-    ConnectComboBox_Control(control_Control1, "Ctl1");
-    ConnectComboBox_Control(control_Control2, "Ctl2");
-    ConnectComboBox_Control(control_Expression, "Exp");
+    ConnectComboBox_Control(control_Pedal1, &BossRC::Ctl::Pedal1);
+    ConnectComboBox_Control(control_Pedal2, &BossRC::Ctl::Pedal2);
+    ConnectComboBox_Control(control_Pedal3, &BossRC::Ctl::Pedal3);
+    ConnectComboBox_Control(control_Control1, &BossRC::Ctl::Ctl1);
+    ConnectComboBox_Control(control_Control2, &BossRC::Ctl::Ctl2);
+    ConnectComboBox_Control(control_Expression, &BossRC::Ctl::Exp);
 }
 
 // --------------------------------------------------------------------------
@@ -566,7 +578,7 @@ void BossRc500MainWindow::on_ToolMenu_New()
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
 
-        // TODO _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -601,7 +613,7 @@ void BossRc500MainWindow::on_ToolMenu_Open()
             const auto beat = rhythm_Beat->currentData().value<QPoint>();
             const auto loopFx_type = loopFx_Type->currentIndex();
 
-            // TODO _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+            _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
         }
     }
     catch (const std::exception& ex) {
@@ -775,7 +787,7 @@ void BossRc500MainWindow::on_copy()
             auto& mem = _database_memory.memories[i - 1];
 
             // Save values to be restored after the copy
-            auto backup = mem;
+            const auto backup = mem;
 
             // Copy all the values
             mem = slot;
@@ -861,7 +873,7 @@ void BossRc500MainWindow::on_control_pdlctl_help()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_memory_previous()
+void BossRc500MainWindow::on_memory_previous() const
 {
     if (const int memory_index = cb_Memory->currentIndex(); memory_index > 0) {
         cb_Memory->setCurrentIndex(memory_index - 1);
@@ -869,10 +881,9 @@ void BossRc500MainWindow::on_memory_previous()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_memory_next()
+void BossRc500MainWindow::on_memory_next() const
 {
-    int memory_index = cb_Memory->currentIndex();
-    if (memory_index < 98) {
+    if (const int memory_index = cb_Memory->currentIndex(); memory_index < 98) {
         cb_Memory->setCurrentIndex(memory_index + 1);
     }
 }
@@ -888,7 +899,7 @@ void BossRc500MainWindow::on_memory_changed()
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
 
-        // TODO _boss_assign_dialog->load_assign(&_database_mem, cb_Memory->currentIndex(), beat, loopFx_type, _language);
+        _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -910,8 +921,7 @@ void BossRc500MainWindow::on_rhythm_play()
     drumkit_filename += beat + ".wav";
 
     ma_decoder decoder;
-    ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder);
-    if (result != MA_SUCCESS) {
+    if (const ma_result result = ma_decoder_init_file(drumkit_filename.c_str(), nullptr, &decoder); result != MA_SUCCESS) {
         spdlog::error("Failed to open file: {}", drumkit_filename);
         return;
     }
@@ -967,7 +977,7 @@ void BossRc500MainWindow::load_database_sys(const std::string& filename)
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::load_memory(int memory_index)
+void BossRc500MainWindow::load_memory(const int memory_index)
 {
     {
         // TRACK 1
@@ -1041,15 +1051,15 @@ void BossRc500MainWindow::load_memory(int memory_index)
         loopFx_Type->setCurrentIndex(loopfx.FxType);
 
         // These one are reverted from 8 to 1
-        auto scatter = loopfx.ScatterLength;
+        const auto scatter = loopfx.ScatterLength;
         loopFx_ScatLen->setCurrentIndex(scatter ? 9 - scatter : 0);
 
-        auto repeat = loopfx.RepeatLength;
+        const auto repeat = loopfx.RepeatLength;
         loopFx_ReptLen->setCurrentIndex(repeat ? 9 - repeat : 0);
 
         // Index 1 is not available (0, 2, 3, 4, ....)
-        auto shift = loopfx.ShiftShift;
-        auto found_Shift = loopFx_Shift->findData(shift);
+        const auto shift = loopfx.ShiftShift;
+        const auto found_Shift = loopFx_Shift->findData(shift);
         loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
         // spdlog::info("Found shift value: {} at index: ", shift, found_Shift);
 
@@ -1088,35 +1098,35 @@ void BossRc500MainWindow::load_memory(int memory_index)
     // CONTROL
     // These controls are effective only if the associated PREF is set to MEMORY
     {
-        // TODO auto& ctl = _database_mem["mem"][memory_index]["CTL"];
-        // auto& pref = _database_sys["sys"]["PREF"];
-        // auto& sys_ctl = _database_sys["sys"]["CTL"];
-        //
-        // auto SetControl = [&](QComboBox* cb, const char* pref_name, const char* ctl_name) {
-        //     cb->setEnabled(pref[pref_name].get<int>() == 0);
-        //     if (cb->isEnabled()) {
-        //         cb->setCurrentIndex(ctl[ctl_name].get<int>());
-        //     }
-        //     else {
-        //         cb->setCurrentIndex(sys_ctl[ctl_name].get<int>());
-        //     }
-        // };
-        //
-        // SetControl(control_Pedal1, "Pdl1", "Pedal1");
-        // SetControl(control_Pedal2, "Pdl2", "Pedal2");
-        // SetControl(control_Pedal3, "Pdl3", "Pedal3");
-        // SetControl(control_Control1, "Ctl1", "Ctl1");
-        // SetControl(control_Control2, "Ctl2", "Ctl2");
-        // SetControl(control_Expression, "Exp", "Exp");
+        auto& ctl = _database_memory.memories[memory_index].ctl;
+        auto& pref = _database_system.pref;
+        auto& sys_ctl = _database_system.ctl;
+
+        auto SetControl = [&](QComboBox* cb, auto pref_name, auto ctl_name) {
+            cb->setEnabled(pref.*pref_name == 0);
+            if (cb->isEnabled()) {
+                cb->setCurrentIndex(ctl.*ctl_name);
+            }
+            else {
+                cb->setCurrentIndex(sys_ctl.*ctl_name);
+            }
+        };
+
+        SetControl(control_Pedal1, &BossRC::Pref::Pdl1, &BossRC::Ctl::Pedal1);
+        SetControl(control_Pedal1, &BossRC::Pref::Pdl2, &BossRC::Ctl::Pedal2);
+        SetControl(control_Pedal1, &BossRC::Pref::Pdl3, &BossRC::Ctl::Pedal3);
+        SetControl(control_Control1, &BossRC::Pref::Ctl1, &BossRC::Ctl::Ctl1);
+        SetControl(control_Control2, &BossRC::Pref::Ctl2, &BossRC::Ctl::Ctl2);
+        SetControl(control_Expression, &BossRC::Pref::Exp, &BossRC::Ctl::Exp);
     }
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Level_changed(QSlider* slider)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (slider->parentWidget() == gp_Track1 ? 0 : 1), "PlyLvl", slider->value(), slider);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(slider), &BossRC::Track::PlyLvl, slider->value(), slider);
 
-    auto value_str = std::to_string(slider->value());
+    const auto value_str = std::to_string(slider->value());
 
     (slider == track1_Level ? label_track1_PlyLevel : label_track2_PlyLevel)->setText(value_str.c_str());
 }
@@ -1124,26 +1134,26 @@ void BossRc500MainWindow::on_Level_changed(QSlider* slider)
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Pan_changed(QComboBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "Pan", cb->currentIndex(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::Pan, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Start_changed(QComboBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "StrtMod", cb->currentIndex(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::StrtMod, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Stop_changed(QComboBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "StpMod", cb->currentIndex(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::StpMod, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Measure_changed(QComboBox* cb)
 {
-    int memory_index = cb_Memory->currentIndex();
-    int track_index = (cb == track1_Measure ? 0 : 1);
+    const int memory_index = cb_Memory->currentIndex();
+    const int track_index = getTrackId(cb);
     int value = cb->currentIndex();
     spdlog::info("Memory: {}, Track: {}, Measure: ", (memory_index + 1), (track_index + 1), value);
 
@@ -1170,7 +1180,7 @@ void BossRc500MainWindow::on_Measure_changed(QComboBox* cb)
         measBtLp = 0;
     }
 
-    update_mem_track_database(memory_index, (cb->parentWidget() == gp_Track1 ? 0 : 1), "Measure", value, cb);
+    update_mem_track_database2(memory_index, getTrackId(cb), &BossRC::Track::Measure, value, cb);
 
     _database_memory.memories[memory_index].tracks[track_index].MeasMod = measMod;
     _database_memory.memories[memory_index].tracks[track_index].MeasLen = measLen;
@@ -1180,47 +1190,48 @@ void BossRc500MainWindow::on_Measure_changed(QComboBox* cb)
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Reverse_changed(QCheckBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "Rev", cb->isChecked(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::Rev, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_LoopFx_changed(QCheckBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "LoopFx", cb->isChecked(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::LoopFx, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_OneShot_changed(QCheckBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "One", cb->isChecked(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::One, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_LoopSync_changed(QCheckBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "LoopSync", cb->isChecked(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::LoopSync, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_TempoSync_changed(QCheckBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "TempoSync", cb->isChecked(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::TempoSync, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Input_changed(QComboBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "Input", cb->currentIndex(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::Input, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_Output_changed(QComboBox* cb)
 {
-    update_mem_track_database(cb_Memory->currentIndex(), (cb->parentWidget() == gp_Track1 ? 0 : 1), "Output", cb->currentIndex(), cb);
+    update_mem_track_database2(cb_Memory->currentIndex(), getTrackId(cb), &BossRC::Track::Output, cb->currentIndex(), cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Master_ComboBox_changed(QComboBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Master_ComboBox_changed(QComboBox* cb, Member member)
 {
     // Some ugly ack for Quantize
     // NOTE: may be a usage for userData and QVariant here, but too long to refactor
@@ -1233,35 +1244,38 @@ void BossRc500MainWindow::on_Master_ComboBox_changed(QComboBox* cb, const char* 
         }
     }
 
-    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, value, cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::master, member, value, cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Master_CheckBox_changed(QCheckBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Master_CheckBox_changed(QCheckBox* cb, Member member)
 {
-    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, cb->isChecked(), cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::master, member, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Master_SpinBox_changed(QSpinBox* sb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Master_SpinBox_changed(QSpinBox* sb, Member member)
 {
-    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, sb->value(), sb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::master, member, sb->value(), sb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, const char* name, int factor)
+template <typename Member>
+void BossRc500MainWindow::on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, Member member, int factor)
 {
     auto value = sb->value();
     if (sb == play_Tempo)
         value *= 10;
 
-    update_mem_database(cb_Memory->currentIndex(), "MASTER", name, value, sb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::master, member, value, sb);
 }
 
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::on_LoopFx_FxType_changed()
 {
-    on_LoopFx_ComboBox_changed(loopFx_Type, "FxType");
+    on_LoopFx_ComboBox_changed(loopFx_Type, &BossRC::LoopFxCfg::FxType);
 
     // Discard some combobox
     loopFx_ScatLen->setEnabled(BossRc500::IsScatter(loopFx_Type->currentIndex()));
@@ -1271,27 +1285,31 @@ void BossRc500MainWindow::on_LoopFx_FxType_changed()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_LoopFx_ComboBox_changed(QComboBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_LoopFx_ComboBox_changed(QComboBox* cb, Member member)
 {
-    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name, cb->currentData().value<int>(), cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::loopFx, member, cb->currentData().value<int>(), cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_LoopFx_CheckBox_changed(QCheckBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_LoopFx_CheckBox_changed(QCheckBox* cb, Member member)
 {
-    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name, cb->isChecked(), cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::loopFx, member, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_LoopFx_SpinBox_changed(QSpinBox* sb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_LoopFx_SpinBox_changed(QSpinBox* sb, Member member)
 {
-    update_mem_database(cb_Memory->currentIndex(), "LOOPFX", name, sb->value(), sb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::loopFx, member, sb->value(), sb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, Member name)
 {
-    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, cb->currentIndex(), cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::rhythm, name, cb->currentIndex(), cb);
 
     if (cb == rhythm_Beat) {
         const auto beat = cb->currentData().value<QPoint>();
@@ -1310,23 +1328,26 @@ void BossRc500MainWindow::on_Rhythm_ComboBox_changed(QComboBox* cb, const char* 
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Rhythm_CheckBox_changed(QCheckBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Rhythm_CheckBox_changed(QCheckBox* cb, Member name)
 {
-    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, cb->isChecked(), cb);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::rhythm, name, cb->isChecked(), cb);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Rhythm_Slider_changed(QSlider* s, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Rhythm_Slider_changed(QSlider* s, Member name)
 {
-    update_mem_database(cb_Memory->currentIndex(), "RHYTHM", name, s->value(), s);
+    update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::rhythm, name, s->value(), s);
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::on_Control_ComboBox_changed(QComboBox* cb, const char* name)
+template <typename Member>
+void BossRc500MainWindow::on_Control_ComboBox_changed(QComboBox* cb, Member member)
 {
     // Change the database only if cb is enabled // MEMORY mode in sys.PREF
     if (cb->isEnabled()) {
-        update_mem_database(cb_Memory->currentIndex(), "CTL", name, cb->currentIndex(), cb);
+        update_mem_database(cb_Memory->currentIndex(), &BossRC::Memory::ctl, member, cb->currentIndex(), cb);
     }
 }
 
@@ -1352,22 +1373,6 @@ void BossRc500MainWindow::loadPresets()
             _presetLoadMenu->addAction(file_info.baseName(), [this, filename] { on_ToolMenu_PresetLoad(filename); });
         }
     }
-}
-
-// --------------------------------------------------------------------------
-void BossRc500MainWindow::WriteMemoryDatabase(const nlohmann::json& database, const std::string& filename, const int counter)
-{
-    auto model = (BossRc500::Resources::Templates() + "/MEMORY.txt").toStdString();
-    spdlog::info("Using {} as template file for MEMORY", model);
-    WriteDatabase(database, filename, model, counter);
-}
-
-// --------------------------------------------------------------------------
-void BossRc500MainWindow::WriteSystemDatabase(const nlohmann::json& database, const std::string& filename, const int counter)
-{
-    auto model = (BossRc500::Resources::Templates() + "/SYSTEM.txt").toStdString();
-    spdlog::info("Using {} as template file for SYSTEM", model);
-    WriteDatabase(database, filename, model, counter);
 }
 
 // ---------------------------------------------------------------------------------------------------
