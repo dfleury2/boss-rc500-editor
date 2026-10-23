@@ -39,7 +39,6 @@ target_link_libraries(BossRc500
     PUBLIC
         qt::qt
         BossReaderWriter::BossReaderWriter
-        miniaudio::miniaudio
         nlohmann_json::nlohmann_json
         yaml-cpp
         pantor::inja

@@ -25,7 +25,6 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(pugixml CONFIG REQUIRED)
 
 add_subdirectory(sources/BossReaderWriter)
-add_subdirectory(sources/miniaudio)
 add_subdirectory(sources/BossRc500)
 
 # Installation steps for Resources
