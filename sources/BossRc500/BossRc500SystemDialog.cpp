@@ -261,7 +261,7 @@ void BossRc500SystemDialog::load_system()
     }
 
     {
-        auto& ctl = database.ctl;
+        const auto& ctl = database.ctl;
         control_Pedal1->setCurrentIndex(ctl.Pedal1);
         control_Pedal2->setCurrentIndex(ctl.Pedal2);
         control_Pedal3->setCurrentIndex(ctl.Pedal3);
@@ -269,6 +269,53 @@ void BossRc500SystemDialog::load_system()
         control_Control2->setCurrentIndex(ctl.Ctl2);
         control_Expression->setCurrentIndex(ctl.Exp);
     }
+
+    const std::initializer_list<QWidget*> widgets = {
+        label_extent_Extent,
+        extent_Extent,
+
+        label_extent_Extent2,
+        extent_Extent2Min,
+        extent_Extent2Max,
+
+        label_extent_Extent3,
+        extent_Extent3Min,
+        extent_Extent3Max,
+
+        label_extent_Extent4,
+        extent_Extent4Min,
+        extent_Extent4Max,
+
+        label_extent_Extent5,
+        extent_Extent5Min,
+        extent_Extent5Max,
+
+        label_control_Pedal2,
+        control_Pedal2,
+        label_control_Pedal3,
+        control_Pedal3,
+
+        label_control_Expression,
+        control_Expression,
+
+        gp_Input,
+        gp_Preference,
+    };
+
+    const auto Apply = [mode_rc500 = database.isBossRc500Mode()](const std::initializer_list<QWidget*> widgets) {
+        for (const auto w : widgets) {
+            if (mode_rc500) {
+                w->show();
+                w->setDisabled(false);
+            }
+            else {
+                w->hide();
+                w->setDisabled(true);
+            }
+        }
+    };
+
+    Apply(widgets);
 }
 
 // --------------------------------------------------------------------------
@@ -282,7 +329,7 @@ void BossRc500SystemDialog::on_control_pdlctl_help()
         BossRc500::Tooltips tooltips;
         textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
 
-        dialog.setWindowTitle("RC-500 LOOP STATION - Assign Pdl Ctl Help");
+        dialog.setWindowTitle("BOSS RC LOOP STATION - Assign Pdl Ctl Help");
         dialog.setModal(true);
         dialog.exec();
     }

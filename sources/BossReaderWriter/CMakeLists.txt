@@ -1,4 +1,6 @@
 add_library(BossReaderWriter
+        BossRcReaderWriter.hpp
+        BossRcReaderWriter.cpp
         BossRC.hpp
         BossRC.cpp
 )

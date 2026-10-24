@@ -5,6 +5,8 @@
 #include "Designer/ui_Boss-rc500-text.h"
 #include <BossRc500/config.h>
 
+#include <BossReaderWriter/BossRcReaderWriter.hpp>
+
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -42,7 +44,7 @@ void BossRc500MainWindow::setup()
 {
     setupUi(this);
 
-    setLogo("500");
+    setLogo(_database_system.database_name);
     label_Version->setText(PROJECT_VERSION);
 
     // Add some tweaks...
@@ -157,7 +159,7 @@ void BossRc500MainWindow::setup()
         // Assign
         _assign_dialog = new QDialog(this);
         _boss_assign_dialog = new BossRc500AssignDialog(*_assign_dialog);
-        _assign_dialog->setWindowTitle("RC-500 LOOP STATION - Assign");
+        _assign_dialog->setWindowTitle("BOSS RC LOOP STATION - Assign");
     }
 
     {
@@ -180,10 +182,10 @@ void BossRc500MainWindow::setup()
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::setLogo(const char* boss_version) const
+void BossRc500MainWindow::setLogo(const std::string& boss_version) const
 {
     const auto logo = fmt::format(
-        R"(<html><head/><body><p><span style=" font-size:26pt; font-weight:600; font-style:italic; vertical-align:super;">LOOP STATION</span><span style=" font-size:28pt; font-weight:600; font-style:italic;">RC-{} </span></p></body></html>)",
+        R"(<html><head/><body><p><span style=" font-size:26pt; font-weight:600; font-style:italic; vertical-align:super;">LOOP STATION</span><span style=" font-size:28pt; font-weight:600; font-style:italic;">{} </span></p></body></html>)",
         boss_version);
     label_Logo->setText(logo.c_str());
 }
@@ -627,8 +629,8 @@ void BossRc500MainWindow::on_ToolMenu_Save(const bool askDirname)
             throw std::runtime_error("Operation canceled");
         }
 
-        _database_system.save(_dirname + "/" + _filename_sys);
-        _database_memory.save(_dirname + "/" + _filename_mem);
+        BossRC::BossRcReaderWriter::Save(_database_system, _dirname + "/" + _filename_sys);
+        BossRC::BossRcReaderWriter::Save(_database_memory, _dirname + "/" + _filename_mem);
 
         QMessageBox(QMessageBox::Information, "Information",
                     fmt::format("{} and {} files have been written.", _filename_sys, _filename_mem).c_str())
@@ -704,7 +706,7 @@ void BossRc500MainWindow::on_ToolMenu_System()
     try {
         QDialog dialog;
         BossRc500SystemDialog systemDialog(dialog, _database_system, _language);
-        dialog.setWindowTitle("RC-500 LOOP STATION - System");
+        dialog.setWindowTitle("BOSS RC LOOP STATION - System");
         dialog.setModal(true);
         dialog.exec();
         if (systemDialog.apply) {
@@ -784,7 +786,7 @@ void BossRc500MainWindow::on_advanced_copy()
 {
     try {
         QDialog dialog(this);
-        dialog.setWindowTitle("RC-500 LOOP STATION - Memory Copy");
+        dialog.setWindowTitle("BOSS RC LOOP STATION - Memory Copy");
 
         const auto* copyDialog = new BossRc500AdvancedCopyDialog{dialog, _database_memory, cb_Memory->currentIndex()};
         copyDialog->cb_CopyFrom->setCurrentIndex(cb_CopyFrom->currentIndex());
@@ -831,7 +833,7 @@ void BossRc500MainWindow::on_control_pdlctl_help()
         BossRc500::Tooltips tooltips;
         textDialog.textEdit->setHtml(tooltips.control_PdlCtl());
 
-        dialog.setWindowTitle("RC-500 LOOP STATION - Assign Pdl Ctl Help");
+        dialog.setWindowTitle("BOSS RC LOOP STATION - Assign Pdl Ctl Help");
         dialog.setModal(true);
         dialog.exec();
     }
@@ -930,7 +932,7 @@ void BossRc500MainWindow::on_rhythm_play()
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::load_database_mem(const std::string& filename)
 {
-    _database_memory = BossRC::MemoryFile::load(filename);
+    _database_memory = BossRC::BossRcReaderWriter::LoadMemoryFile(filename);
 
     // Add name to memory index
     for (int i = 1; i <= 99; ++i) {
@@ -941,7 +943,7 @@ void BossRc500MainWindow::load_database_mem(const std::string& filename)
 // --------------------------------------------------------------------------
 void BossRc500MainWindow::load_database_sys(const std::string& filename)
 {
-    _database_system = BossRC::SystemFile::load(filename);
+    _database_system = BossRC::BossRcReaderWriter::LoadSystemFile(filename);
 }
 
 // --------------------------------------------------------------------------
@@ -1087,6 +1089,53 @@ void BossRc500MainWindow::load_memory(const int memory_index)
         SetControl(control_Control2, &BossRC::Pref::Ctl2, &BossRC::Ctl::Ctl2);
         SetControl(control_Expression, &BossRC::Pref::Exp, &BossRC::Ctl::Exp);
     }
+
+    // Enable/disable widget depending on Boss RC mode
+    setLogo(_database_system.database_name);
+
+    std::initializer_list<QWidget*> widgets = {
+        track1_LoopFx,
+        track1_LoopSync,
+        track1_TempoSync,
+        track1_Input,
+        label_track1_Input,
+        track1_Output,
+        label_track1_Output,
+
+        gp_Track2,
+
+        record_Quantize,
+        label_record_Quantize,
+        record_AutoRecordSensitivity,
+        label_record_AutoRecordSensitivity,
+        record_AutoRecordSource,
+        label_record_AutoRecordSource,
+
+        play_SingleChange,
+        label_play_SingleChange,
+        play_AllStart,
+        label_play_AllStart,
+        play_TrackChain,
+        label_play_TrackChain,
+        // CurrentTrack, AllTrackSel ?
+
+        gb_LoopFx,
+    };
+
+    const auto Apply = [mode_rc500 = _database_system.isBossRc500Mode()](const std::initializer_list<QWidget*> widgets) {
+        for (const auto w : widgets) {
+            if (mode_rc500) {
+                w->show();
+                w->setDisabled(false);
+            }
+            else {
+                w->hide();
+                w->setDisabled(true);
+            }
+        }
+    };
+
+    Apply(widgets);
 }
 
 // --------------------------------------------------------------------------
@@ -1325,7 +1374,7 @@ void BossRc500MainWindow::setDirname(const std::string& dirname)
 {
     _dirname = dirname;
 
-    const std::string title = "RC-500 LOOP STATION - " + (_dirname.empty() ? "[Untitled]" : _dirname);
+    const std::string title = "BOSS RC LOOP STATION - " + (_dirname.empty() ? "[Untitled]" : _dirname);
     setWindowTitle(title.c_str());
 }
 

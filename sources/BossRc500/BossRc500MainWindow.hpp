@@ -23,7 +23,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
   private:
     void setup();
 
-    void setLogo(const char* boss_version = "500") const;
+    void setLogo(const std::string& boss_version = "RC-500") const;
 
     void add_tooltips() const;
     void add_combo_items() const;
@@ -150,9 +150,6 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
         const auto styleSheet = fmt::format("font-weight: {};", (is_modified ? "bold" : "normal"));
         w->setStyleSheet(styleSheet.c_str());
     }
-
-    [[nodiscard]] bool isBossRc5Mode() const { return (_database_system.database_name == "RC-5"); }
-    [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
 
     static std::string GetOldestFile(const std::string& file1, const std::string& file2);
 

@@ -8,6 +8,9 @@
 
 namespace BossRC {
 
+inline static std::string BossRC500 = "RC-500";
+inline static std::string BossRC5 = "RC-5";
+
 // ---------------------------------------------------------------------------
 // SYSTEM
 // ---------------------------------------------------------------------------
@@ -76,8 +79,9 @@ struct Ctl
     int Ctl1 = 44;
     int Ctl2 = 53;
     int Exp = 13;
+    std::array<int, 8> Cc = {};
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Ctl, Pedal1, Pedal2, Pedal3, Ctl1, Ctl2, Exp);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(Ctl, Pedal1, Pedal2, Pedal3, Ctl1, Ctl2, Exp, Cc);
 };
 
 // ---------------------------------------------------------------------------
@@ -106,8 +110,8 @@ struct SystemFile
     Ctl ctl;
     Pref pref;
 
-    static SystemFile load(const std::filesystem::path& p);
-    void save(const std::filesystem::path& p) const;
+    [[nodiscard]] bool isBossRc5Mode() const { return (database_name == BossRC5); }
+    [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(SystemFile, database_name, database_revision, database_counter, setup, midi, input, ctl,
                                                 pref);
@@ -265,14 +269,14 @@ struct Memory
 // ---------------------------------------------------------------------------
 struct MemoryFile
 {
-    std::string database_name = "RC-500";   // or RC-5
+    std::string database_name = BossRC500;
     int database_revision = 0;
     uint32_t database_counter{};
 
     std::array<Memory, 99> memories;
 
-    static MemoryFile load(const std::filesystem::path& p);
-    void save(const std::filesystem::path& p) const;
+    [[nodiscard]] bool isBossRc5Mode() const { return (database_name == BossRC5); }
+    [[nodiscard]] bool isBossRc500Mode() const { return !isBossRc5Mode(); }
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(MemoryFile, database_name, database_revision, database_counter, memories);
 };
