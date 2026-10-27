@@ -1,4 +1,5 @@
 add_library(BossReaderWriter
+        BossRcConnect.hpp
         BossRcReaderWriter.hpp
         BossRcReaderWriter.cpp
         BossRC.hpp
@@ -32,6 +33,8 @@ add_executable(reader_writer reader_writer.cpp)
 target_link_libraries(reader_writer
         PUBLIC
         BossReaderWriter::BossReaderWriter
+        PRIVATE
+        fmt::fmt
 )
 
 set_target_properties(reader_writer
