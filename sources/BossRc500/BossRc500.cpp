@@ -10,9 +10,9 @@
 
 namespace {
 // --------------------------------------------------------------------------
-QStandardItem* GetStandardItem(QComboBox* cb, int index)
+QStandardItem* GetStandardItem(const QComboBox* cb, const int index)
 {
-    auto* model = qobject_cast<QStandardItemModel*>(cb->model());
+    const auto* model = qobject_cast<QStandardItemModel*>(cb->model());
     if (!model)
         throw std::runtime_error("No QStandardItemModel found...");
 
@@ -39,7 +39,7 @@ void SetItemAsDefault(QStandardItem* item, QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
-void SetItemAsNormal(QStandardItem* item, QComboBox* cb)
+void SetItemAsNormal(QStandardItem* item, const QComboBox* cb)
 {
     QFont font{cb->font()};
     font.setBold(false);
@@ -48,7 +48,7 @@ void SetItemAsNormal(QStandardItem* item, QComboBox* cb)
 }
 
 // --------------------------------------------------------------------------
-void SetItemAsDefault(QComboBox* cb, int index)
+void SetItemAsDefault(QComboBox* cb, const int index)
 {
     for (int i = 0; i < cb->count(); ++i) {
         const auto item = GetStandardItem(cb, i);
@@ -74,13 +74,13 @@ void AddItemsToComboBox(QComboBox* cb, const std::vector<std::string>& items, in
 }
 
 // --------------------------------------------------------------------------
-void SetComboBoxItemEnabled(QComboBox* comboBox, int index, bool enabled)
+void SetComboBoxItemEnabled(const QComboBox* comboBox, int index, bool enabled)
 {
     GetStandardItem(comboBox, index)->setEnabled(enabled);
 }
 
 // --------------------------------------------------------------------------
-bool IsComboBoxItemEnabled(QComboBox* comboBox, int index)
+bool IsComboBoxItemEnabled(const QComboBox* comboBox, int index)
 {
     return GetStandardItem(comboBox, index)->isEnabled();
 }
@@ -159,7 +159,7 @@ Configuration::Configuration(const QString& filename)
 }
 
 // --------------------------------------------------------------------------
-void SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct)
+void SetMinMax(QComboBox* min, QComboBox* max, const std::function<void(QComboBox*)>& fct)
 {
     fct(min);
     fct(max);
@@ -514,25 +514,6 @@ void RhythmPatternWithBeat(QComboBox* cb, const Beat& beat, int index)
             }
             cb->setCurrentIndex(found);
         }
-    }
-}
-
-// --------------------------------------------------------------------------
-void Pattern_EnableItems(QComboBox* cb, const Beat& beat)
-{
-    auto current_index = cb->currentIndex();
-
-    SetComboBoxItemEnabled(cb, 0, true);                                                                 // THRU - Always active
-    SetComboBoxItemEnabled(cb, 1, true);                                                                 // Semi-quaver
-    SetComboBoxItemEnabled(cb, 2, true);                                                                 // Quaver
-    SetComboBoxItemEnabled(cb, 3, beat.y() == 4 || beat.x() == 8 || beat.x() == 10 || beat.x() == 14);   // Quarter Note
-    SetComboBoxItemEnabled(cb, 4, beat.y() == 8 && beat.x() % 3 == 0);                                   // Quarter Note Dotted
-    SetComboBoxItemEnabled(cb, 5, beat.x() == 2 || beat.x() == beat.y());                                // Half Note
-    SetComboBoxItemEnabled(cb, 6, beat.x() == 3 || beat.x() == 6 || beat.x() == 12);                     // Half Note Dotted
-    SetComboBoxItemEnabled(cb, 7, beat.x() == beat.y());                                                 // Whole Note
-
-    if (!IsComboBoxItemEnabled(cb, current_index)) {
-        cb->setCurrentIndex(2);   // Quaver as default
     }
 }
 

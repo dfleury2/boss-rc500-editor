@@ -51,7 +51,7 @@ using Beat = QPoint;
 // --------------------------------------------------------------------------
 // Set a Min/Max combo and set current max to the last item
 // --------------------------------------------------------------------------
-void SetMinMax(QComboBox* min, QComboBox* max, std::function<void(QComboBox*)> fct);
+void SetMinMax(QComboBox* min, QComboBox* max, const std::function<void(QComboBox*)>& fct);
 
 void IntegerRange(QComboBox* cb, int min, int max);                           // min, max included
 void DoubleRange(QComboBox* cb, double min, double max, double step = 0.1);   // min, max included
