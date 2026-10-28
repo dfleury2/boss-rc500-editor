@@ -74,53 +74,60 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
     // Master Record/Play callbacks
     template <typename Member>
-    void on_Master_ComboBox_changed(QComboBox* cb, Member member);
+    void on_Master_ComboBox_changed(QComboBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_Master_CheckBox_changed(QCheckBox* cb, Member member);
+    void on_Master_CheckBox_changed(QCheckBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_Master_SpinBox_changed(QSpinBox* sb, Member member);
+    void on_Master_SpinBox_changed(QSpinBox* sb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, Member member, int factor);
+    void on_Master_DoubleSpinBox_changed(QDoubleSpinBox* sb, Member member, int factor, const std::string& name);
 
     // LoopFx
     void on_LoopFx_FxType_changed();
 
     template <typename Member>
-    void on_LoopFx_ComboBox_changed(QComboBox* cb, Member member);
+    void on_LoopFx_ComboBox_changed(QComboBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_LoopFx_CheckBox_changed(QCheckBox* cb, Member member);
+    void on_LoopFx_CheckBox_changed(QCheckBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_LoopFx_SpinBox_changed(QSpinBox* sb, Member member);
+    void on_LoopFx_SpinBox_changed(QSpinBox* sb, Member member, const std::string& name);
 
     // Rhythm
     template <typename Member>
-    void on_Rhythm_ComboBox_changed(QComboBox* cb, Member name);
+    void on_Rhythm_ComboBox_changed(QComboBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_Rhythm_CheckBox_changed(QCheckBox* cb, Member name);
+    void on_Rhythm_CheckBox_changed(QCheckBox* cb, Member member, const std::string& name);
 
     template <typename Member>
-    void on_Rhythm_Slider_changed(QSlider* s, Member name);
+    void on_Rhythm_Slider_changed(QSlider* s, Member member, const std::string& name);
 
     // Control
     template <typename Member>
-    void on_Control_ComboBox_changed(QComboBox* cb, Member member);
+    void on_Control_ComboBox_changed(QComboBox* cb, Member member, const std::string& name);
 
     void setDirname(const std::string& dirname);
     void loadPresets();
 
   private:
     template <typename Widget, typename Node, typename Member, typename Value>
-    void update_mem_database(const int memory_index, Node node, Member member, Value value, Widget* w)
+    void updateMemoryDatabase(const std::string& name, const int memory_index, Node node, Member member, Value value, Widget* w)
     {
         if (!_is_loading) {
-            // TODO _stack.push(new UpdateRootName(this, _database_memory, memory_index, root, name, static_cast<int>(value)));
-            _database_memory.memories[memory_index].*node.*member = value;
+            const auto old_value = _database_memory.memories[memory_index].*node.*member;
+
+            _stack.push(new UpdateRootName(
+                name, this, memory_index,
+                [&](int v) {
+                    // Update the value
+                    _database_memory.memories[memory_index].*node.*member = v;
+                },
+                value, old_value));
         }
 
         const auto default_value = BossRc500::DatabaseMemDefault.memories[memory_index].*node.*member;
@@ -141,11 +148,19 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     }
 
     template <typename Widget, typename Member>
-    void update_mem_track_database2(const int memory_index, const int track_index, Member member, const int value, Widget* w)
+    void updateMemoryTrackDatabase(const std::string& name, const int memory_index, const int track_index, Member member, const int value,
+                                   Widget* w)
     {
         if (!_is_loading) {
-            // TODO _stack.push(new UpdateTrackName(this, _database_memory, memory_index, track_index, name, value));
-            _database_memory.memories[memory_index].tracks[track_index].*member = value;
+            const auto old_value = _database_memory.memories[memory_index].tracks[track_index].*member;
+
+            _stack.push(new UpdateTrackName(
+                name, this, memory_index, track_index,
+                [&](int v) {
+                    // Update the value
+                    _database_memory.memories[memory_index].tracks[track_index].*member = v;
+                },
+                value, old_value));
         }
 
         const auto default_value = BossRc500::DatabaseMemDefault.memories[memory_index].tracks[track_index].*member;
