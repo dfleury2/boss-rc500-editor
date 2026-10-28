@@ -123,7 +123,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
             _stack.push(new UpdateRootName(
                 name, this, memory_index,
-                [&](int v) {
+                [this, memory_index, node, member](int v) {
                     // Update the value
                     _database_memory.memories[memory_index].*node.*member = v;
                 },
@@ -156,7 +156,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
             _stack.push(new UpdateTrackName(
                 name, this, memory_index, track_index,
-                [&](int v) {
+                [this, memory_index, track_index, member](int v) {
                     // Update the value
                     _database_memory.memories[memory_index].tracks[track_index].*member = v;
                 },
@@ -178,6 +178,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
   private:
     BossRC::Connection _connection;
+    bool _is_boss_connected{false};
 
     BossRC::SystemFile _database_system;
     BossRC::MemoryFile _database_memory;

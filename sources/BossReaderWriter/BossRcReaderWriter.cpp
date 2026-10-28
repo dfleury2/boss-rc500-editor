@@ -695,7 +695,7 @@ MemoryFile BossRcReaderWriter::LoadMemoryFile(const std::filesystem::path& p)
     for (const auto mem_xpath : doc.select_nodes("database/mem")) {
         const auto mem_node = mem_xpath.node();
 
-        auto& memory = memory_file.memories[idx];
+        auto& memory = memory_file.memories.at(idx);
 
         if (memory_file.isBossRc500Mode()) {
             memory.name = BossRc500::ReadName(mem_node);

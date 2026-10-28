@@ -549,7 +549,8 @@ void BossRc500MainWindow::on_ToolMenu_New()
 
     try {
         setDirname("");
-        _filename_mem = _filename_sys = "";
+        _filename_sys = "SYSTEM1.RC0";
+        _filename_mem = "MEMORY1.RC0";
 
         _database_system = {};
         _database_memory = {};
@@ -594,6 +595,8 @@ void BossRc500MainWindow::on_ToolMenu_Connect()
         }
 
         open_directory(drive + "ROLAND\\DATA");
+
+        _is_boss_connected = true;
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -604,9 +607,15 @@ void BossRc500MainWindow::on_ToolMenu_Connect()
 void BossRc500MainWindow::on_ToolMenu_Disconnect()
 {
     try {
+        if (!_is_boss_connected) {
+            throw std::runtime_error("Boss RC is not connected");
+        }
+
         BossRC::Connection::unmountVolume(_dirname);
 
         _connection.leaveEditMode();
+
+        _is_boss_connected = false;
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -989,8 +998,8 @@ void BossRc500MainWindow::load_database_mem(const std::string& filename)
     _database_memory = BossRC::BossRcReaderWriter::LoadMemoryFile(filename);
 
     // Add name to memory index
-    for (int i = 1; i <= 99; ++i) {
-        cb_Memory->setItemText(i - 1, fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i)).c_str());
+    for (int i = 0; i < 99; ++i) {
+        cb_Memory->setItemText(i, fmt::format("{} - {}", i + 1, _database_memory.memories[i].name.to_string(i)).c_str());
     }
 }
 

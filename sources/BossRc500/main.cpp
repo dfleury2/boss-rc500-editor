@@ -1,10 +1,10 @@
 #include "BossRc500MainWindow.hpp"
 
 #include <QApplication>
-#include <QtPlugin>
+#include <QDirIterator>
 #include <QFontDatabase>
 #include <QStyleFactory>
-#include <QDirIterator>
+#include <QtPlugin>
 
 #include <spdlog/spdlog.h>
 
@@ -17,23 +17,21 @@ Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 #endif
 
 // --------------------------------------------------------------------------
-void
-LoadFonts(const QString& font_dir)
+void LoadFonts(const QString& font_dir)
 {
     auto dir_it = QDirIterator(BossRc500::Resources::Fonts());
     while (dir_it.hasNext()) {
         if (auto filename = dir_it.next(); filename.endsWith(".ttf")) {
             spdlog::info("Loading font file [{}]", filename.toStdString());
             if (const int font_id = QFontDatabase::addApplicationFont(filename); font_id != -1) {
-                spdlog::info("[] font family loaded", QFontDatabase::applicationFontFamilies(font_id).at(0).toStdString());
+                spdlog::info("[{}] font family loaded", QFontDatabase::applicationFontFamilies(font_id).at(0).toStdString());
             }
         }
     }
 }
 
 // --------------------------------------------------------------------------
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     try {
         QApplication app(argc, argv);
@@ -61,5 +59,6 @@ main(int argc, char* argv[])
     }
     catch (const std::exception& ex) {
         spdlog::error("Exception: {}", ex.what());
+        return EXIT_FAILURE;
     }
 }

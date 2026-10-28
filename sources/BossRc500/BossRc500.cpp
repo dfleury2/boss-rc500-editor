@@ -51,7 +51,7 @@ void SetItemAsNormal(QStandardItem* item, QComboBox* cb)
 void SetItemAsDefault(QComboBox* cb, int index)
 {
     for (int i = 0; i < cb->count(); ++i) {
-        auto item = GetStandardItem(cb, i);
+        const auto item = GetStandardItem(cb, i);
         if (i == index) {
             SetItemAsDefault(item, cb);
         }
