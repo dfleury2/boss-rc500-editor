@@ -5,6 +5,7 @@
 #include "Designer/ui_Boss-rc500-text.h"
 #include <BossRc500/config.h>
 
+#include <BossReaderWriter/BossRcConnect.hpp>
 #include <BossReaderWriter/BossRcReaderWriter.hpp>
 
 #include <QActionGroup>
@@ -52,6 +53,8 @@ void BossRc500MainWindow::setup()
 
     const auto fileMenu = new QMenu("File", menuBar());
     fileMenu->addAction("New", QKeySequence::New, this, &BossRc500MainWindow::on_ToolMenu_New);
+    fileMenu->addAction("Connect...", this, &BossRc500MainWindow::on_ToolMenu_Connect);
+    fileMenu->addAction("Disconnect", this, &BossRc500MainWindow::on_ToolMenu_Disconnect);
     fileMenu->addAction("Open...", QKeySequence::Open, this, &BossRc500MainWindow::on_ToolMenu_Open);
     fileMenu->addSeparator();
     fileMenu->addAction("Save", QKeySequence::Save, this, &BossRc500MainWindow::on_ToolMenu_Save);
@@ -565,44 +568,86 @@ void BossRc500MainWindow::on_ToolMenu_New()
 }
 
 // --------------------------------------------------------------------------
+void BossRc500MainWindow::on_ToolMenu_Connect()
+{
+    try {
+        if (!_connection.open()) {
+            throw std::runtime_error("Connection to Boss RC failed");
+        }
+
+        if (!_connection.enterEditMode()) {
+            throw std::runtime_error("Entering edit mode failed");
+        }
+
+        std::string drive;
+        if (!BossRC::Connection::waitForVolume(drive)) {
+            throw std::runtime_error("USB disk not found");
+        }
+
+        open_directory(drive + "ROLAND\\DATA");
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void BossRc500MainWindow::on_ToolMenu_Disconnect()
+{
+    try {
+        BossRC::Connection::unmountVolume(_dirname);
+
+        _connection.leaveEditMode();
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
 void BossRc500MainWindow::on_ToolMenu_Open()
+{
+    if (const auto dirname = QFileDialog::getExistingDirectory(this, tr("Open a DATA directory"), "").toStdString(); !dirname.empty()) {
+        open_directory(dirname);
+    }
+}
+
+// --------------------------------------------------------------------------
+void BossRc500MainWindow::open_directory(const std::string& dirname)
 {
     _is_loading = true;
 
     try {
-        if (const auto dirname = QFileDialog::getExistingDirectory(this, tr("Open a DATA directory"), "").toStdString(); !dirname.empty()) {
-            setDirname(dirname);
+        setDirname(dirname);
 
-            // We must read the newest files
-            _filename_sys = GetOldestFile(dirname + "/SYSTEM1.RC0", dirname + "/SYSTEM2.RC0");
-            _filename_mem = GetOldestFile(dirname + "/MEMORY1.RC0", dirname + "/MEMORY2.RC0");
+        // We must read the newest files
+        _filename_sys = GetOldestFile(dirname + "/SYSTEM1.RC0", dirname + "/SYSTEM2.RC0");
+        _filename_mem = GetOldestFile(dirname + "/MEMORY1.RC0", dirname + "/MEMORY2.RC0");
 
-            load_database_sys(_filename_sys);
-            load_database_mem(_filename_mem);
-            spdlog::info("SYSTEM: {} - {}", _database_system.database_counter, _filename_sys);
-            spdlog::info("MEMORY: {} - {}", _database_memory.database_counter, _filename_mem);
+        load_database_sys(_filename_sys);
+        load_database_mem(_filename_mem);
+        spdlog::info("SYSTEM: {} - {}", _database_system.database_counter, _filename_sys);
+        spdlog::info("MEMORY: {} - {}", _database_memory.database_counter, _filename_mem);
 
-            // Move to next version
-            _filename_sys = (_filename_sys.find("SYSTEM1.RC0") != std::string::npos ? "SYSTEM2.RC0" : "SYSTEM1.RC0");
-            _filename_mem = (_filename_mem.find("MEMORY1.RC0") != std::string::npos ? "MEMORY2.RC0" : "MEMORY1.RC0");
+        // Move to next version
+        _filename_sys = (_filename_sys.find("SYSTEM1.RC0") != std::string::npos ? "SYSTEM2.RC0" : "SYSTEM1.RC0");
+        _filename_mem = (_filename_mem.find("MEMORY1.RC0") != std::string::npos ? "MEMORY2.RC0" : "MEMORY1.RC0");
 
-            _database_system.database_counter += 2;
-            _database_memory.database_counter += 2;
+        _database_system.database_counter += 2;
+        _database_memory.database_counter += 2;
 
-            _stack.clear();
+        _stack.clear();
 
-            cb_Memory->setCurrentIndex(0);
-            load_memory(cb_Memory->currentIndex());
+        cb_Memory->setCurrentIndex(0);
+        load_memory(cb_Memory->currentIndex());
 
-            const auto beat = rhythm_Beat->currentData().value<QPoint>();
-            const auto loopFx_type = loopFx_Type->currentIndex();
+        const auto beat = rhythm_Beat->currentData().value<QPoint>();
+        const auto loopFx_type = loopFx_Type->currentIndex();
 
-            _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
-        }
+        _boss_assign_dialog->load_assign(&_database_memory, cb_Memory->currentIndex(), beat, loopFx_type, _language);
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
-        setDirname("");
     }
 
     _is_loading = false;

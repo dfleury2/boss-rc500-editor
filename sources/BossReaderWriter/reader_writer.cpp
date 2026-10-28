@@ -28,12 +28,12 @@ int main(int argc, char** argv)
         BossRC::BossRcReaderWriter::Save(memory_file, std::string(argv[2]) + ".xml");
     }
 
-    dump("edit ON   ", rc500::edit_mode_on());
-    dump("edit OFF  ", rc500::edit_mode_off());
-    dump("edit query", rc500::edit_mode_query());
+    dump("edit ON   ", BossRC::edit_mode_on());
+    dump("edit OFF  ", BossRC::edit_mode_off());
+    dump("edit query", BossRC::edit_mode_query());
 
 #ifdef _WIN32
-    rc500::Connection c;
+    BossRC::Connection c;
     if (!c.open()) {
         fmt::println("RC-500 introuvable (port MIDI BOSS_RC-500)");
         return 1;
@@ -43,7 +43,7 @@ int main(int argc, char** argv)
         return 2;
     }
     std::string drive;
-    if (!rc500::Connection::waitForVolume(drive)) {
+    if (!BossRC::Connection::waitForVolume(drive)) {
         fmt::println("volume USB non apparu");
         return 3;
     }
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     std::getchar();
 
     fmt::println("Unmount volume");
-    rc500::Connection::unmountVolume(drive);
+    BossRC::Connection::unmountVolume(drive);
 
     fmt::println("Leave edit mode");
     c.leaveEditMode();

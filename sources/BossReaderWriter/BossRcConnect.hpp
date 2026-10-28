@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace rc500 {
+namespace BossRC {
 
 constexpr uint8_t kDeviceId = 0x10;
 constexpr uint8_t kModelId[4] = {0x00, 0x00, 0x00, 0x77};   // RC-500 (RC-5 = 0x76)
@@ -112,7 +112,7 @@ inline EditMode parse_edit_mode(const std::vector<uint8_t>& msg)
     return EditMode::Unknown;
 }
 
-}   // namespace rc500
+}   // namespace BossRC
 
 // ---------------------------------------------------------------------------
 #ifdef _WIN32
@@ -128,7 +128,7 @@ inline EditMode parse_edit_mode(const std::vector<uint8_t>& msg)
 
 #pragma comment(lib, "winmm.lib")
 
-namespace rc500 {
+namespace BossRC {
 
 // ---------------------------------------------------------------------------
 class Connection
@@ -350,7 +350,7 @@ class Connection
     }
 };
 
-}   // namespace rc500
+}   // namespace BossRC
 #elif defined(__linux__)
 // ---------------------------------------------------------------------------
 // Linux : ALSA rawmidi (link: -lasound) + udev/udisks pour le volume USB.

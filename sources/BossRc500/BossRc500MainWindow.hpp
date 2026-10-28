@@ -6,6 +6,7 @@
 #include "Designer/ui_Boss-rc500-main.h"
 
 #include <BossReaderWriter/BossRC.hpp>
+#include <BossReaderWriter/BossRcConnect.hpp>
 
 #include <QMainWindow>
 
@@ -30,7 +31,12 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     void add_callbacks();
 
     void on_ToolMenu_New();
+    void on_ToolMenu_Connect();
+    void on_ToolMenu_Disconnect();
     void on_ToolMenu_Open();
+
+    void open_directory(const std::string& dirname);
+
     void on_ToolMenu_Save(bool askDirname = false);
     void on_ToolMenu_PresetSave();
     void on_ToolMenu_PresetLoad(const QString& filename);
@@ -114,6 +120,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     {
         if (!_is_loading) {
             // TODO _stack.push(new UpdateRootName(this, _database_memory, memory_index, root, name, static_cast<int>(value)));
+            _database_memory.memories[memory_index].*node.*member = value;
         }
 
         const auto default_value = BossRc500::DatabaseMemDefault.memories[memory_index].*node.*member;
@@ -138,6 +145,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     {
         if (!_is_loading) {
             // TODO _stack.push(new UpdateTrackName(this, _database_memory, memory_index, track_index, name, value));
+            _database_memory.memories[memory_index].tracks[track_index].*member = value;
         }
 
         const auto default_value = BossRc500::DatabaseMemDefault.memories[memory_index].tracks[track_index].*member;
@@ -154,6 +162,8 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     static std::string GetOldestFile(const std::string& file1, const std::string& file2);
 
   private:
+    BossRC::Connection _connection;
+
     BossRC::SystemFile _database_system;
     BossRC::MemoryFile _database_memory;
 
