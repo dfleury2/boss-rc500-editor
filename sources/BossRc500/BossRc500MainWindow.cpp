@@ -123,7 +123,7 @@ void BossRc500MainWindow::setup()
         _preferences_language_group->addAction(default_english);
 
         for (auto&& l : BossRc500::Configuration::Instance().languages) {
-            auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] {
+            const auto lang = preferencesMenu->addAction(l.first, [this, code = l.second] {
                 _language = code;
                 add_tooltips();
             });
@@ -551,6 +551,11 @@ void BossRc500MainWindow::on_ToolMenu_New()
         _database_memory = {};
 
         _stack.clear();
+
+        // Add name to memory index
+        for (int i = 1; i <= 99; ++i) {
+            cb_Memory->setItemText(i - 1, fmt::format("{} - {}", i, _database_memory.memories[i - 1].name.to_string(i - 1)).c_str());
+        }
 
         cb_Memory->setCurrentIndex(0);
         load_memory(cb_Memory->currentIndex());
