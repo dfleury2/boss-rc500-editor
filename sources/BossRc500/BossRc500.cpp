@@ -281,7 +281,7 @@ void RecSource(QComboBox* cb)
 void LoopLength(QComboBox* cb)
 {
     cb->addItem("AUTO");
-    for (int i = 1; i <= 32; ++i) {
+    for (int i = 1; i <= 25362; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
 
@@ -308,7 +308,7 @@ void FadeTime(QComboBox* cb)
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver");
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note");
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/half note.png"), "Half Note");
-    for (int i = 1; i <= 32; ++i) {
+    for (int i = 1; i <= 64; ++i) {
         cb->addItem(std::to_string(i).c_str());
     }
 
