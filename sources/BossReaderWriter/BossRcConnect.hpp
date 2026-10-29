@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <iterator>
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace BossRC {
 
@@ -287,6 +289,23 @@ class Connection
         std::wstring n = name, k(kMidiPortName, kMidiPortName + strlen(kMidiPortName));
         return n.find(k) != std::wstring::npos;
     }
+    void closeHandle()
+    {
+        if (!handle_)
+            return;
+        if (claimed_)
+            libusb_release_interface(handle_, interface_);
+        claimed_ = false;
+        if (detachedKernelDriver_)
+            libusb_attach_kernel_driver(handle_, interface_);
+        detachedKernelDriver_ = false;
+        libusb_close(handle_);
+        handle_ = nullptr;
+        interface_ = -1;
+        altSetting_ = -1;
+        epIn_ = epOut_ = 0;
+    }
+
     static int elapsed(std::chrono::steady_clock::time_point t0)
     {
         return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t0).count());
@@ -352,131 +371,237 @@ class Connection
 
 }   // namespace BossRC
 #elif defined(__linux__)
-// ---------------------------------------------------------------------------
-// Linux : ALSA rawmidi (link: -lasound) + udev/udisks pour le volume USB.
-// Droits : accès à /dev/snd/midiC*D* (groupe "audio"), montage via udisksctl
-// (sans root) ou volume déjà monté automatiquement par le bureau.
-#include <alsa/asoundlib.h>
+// Linux : MIDI USB direct via libusb (aucune dépendance ALSA/PipeWire).
+// Compilation : $(pkg-config --cflags --libs libusb-1.0)
+// Attention : l'interface MIDI USB est détachée temporairement du pilote noyau
+// pendant la connexion, ce qui peut rendre le MIDI indisponible aux autres applis.
+#include <libusb-1.0/libusb.h>
 #include <chrono>
 #include <climits>
+#include <cctype>
 #include <cstdio>
 #include <cstdlib>
+#include <deque>
 #include <fstream>
-#include <sstream>
 #include <thread>
 #include <unistd.h>
 
-namespace rc500 {
+namespace BossRC {
 
-// ---------------------------------------------------------------------------
 struct Volume
 {
-    std::string device;       // ex. /dev/sdb1
-    std::string mountpoint;   // vide si présent mais non monté
+    std::string device;
+    std::string mountpoint;
 };
 
-// ---------------------------------------------------------------------------
 class Connection
 {
   public:
     ~Connection() { close(); }
+    Connection() = default;
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
 
-    // Cherche une carte ALSA dont le nom contient "RC-500" et ouvre son 1er port rawmidi.
+    // Cherche le BOSS RC-500 par ses descripteurs USB, puis l'interface USB MIDI
+    // Streaming (classe 1, sous-classe 3) et ses endpoints bulk IN/OUT.
     bool open()
     {
         close();
-        for (int card = -1; snd_card_next(&card) >= 0 && card >= 0;) {
-            char* name = nullptr;
-            if (snd_card_get_name(card, &name) < 0 || !name)
-                continue;
-            std::string n = name;
-            free(name);
-            if (n.find("RC-500") == std::string::npos)
+        int rc = libusb_init(&ctx_);
+        if (rc < 0) {
+            ctx_ = nullptr;
+            return false;
+        }
+
+        libusb_device** list = nullptr;
+        const ssize_t count = libusb_get_device_list(ctx_, &list);
+        if (count < 0) {
+            close();
+            return false;
+        }
+
+        bool found = false;
+        for (ssize_t i = 0; i < count && !found; ++i) {
+            libusb_device* dev = list[i];
+            libusb_device_descriptor dd{};
+            if (libusb_get_device_descriptor(dev, &dd) != 0)
                 continue;
 
-            snd_ctl_t* ctl = nullptr;
-            char hw[32];
-            snprintf(hw, sizeof hw, "hw:%d", card);
-            if (snd_ctl_open(&ctl, hw, 0) < 0)
+            libusb_device_handle* candidate = nullptr;
+            int rc = libusb_open(dev, &candidate);
+
+            if (rc != LIBUSB_SUCCESS) {
+                fprintf(stderr,
+                        "libusb_open a échoué : %s (%d)\n",
+                        libusb_error_name(rc), rc);
+
+                fprintf(stderr, "Bus=%03u, périphérique=%03u\n",
+                        libusb_get_bus_number(dev),
+                        libusb_get_device_address(dev));
+
                 continue;
-            int dev = -1;
-            bool ok = false;
-            while (snd_ctl_rawmidi_next_device(ctl, &dev) >= 0 && dev >= 0) {
-                char port[48];
-                snprintf(port, sizeof port, "hw:%d,%d", card, dev);
-                if (snd_rawmidi_open(&in_, &out_, port, SND_RAWMIDI_NONBLOCK) >= 0) {
-                    ok = true;
-                    break;
-                }
-                in_ = nullptr;
-                out_ = nullptr;
             }
-            snd_ctl_close(ctl);
-            if (ok)
-                return true;
+
+            if (candidate == nullptr) {
+                fprintf(stderr,
+                        "libusb_open a réussi mais le handle est nul !\n");
+                continue;
+            }
+
+            const std::string product = getString(candidate, dd.iProduct);
+            const std::string manufacturer = getString(candidate, dd.iManufacturer);
+            if (!isTargetDevice(product, manufacturer)) {
+                libusb_close(candidate);
+                continue;
+            }
+
+            libusb_config_descriptor* config = nullptr;
+            int cr = libusb_get_active_config_descriptor(dev, &config);
+            if (cr != 0) {
+                // Certains périphériques n'ont pas encore de configuration active.
+                if (libusb_get_config_descriptor(dev, 0, &config) != 0 || !config) {
+                    libusb_close(candidate);
+                    continue;
+                }
+            }
+
+            int iface = -1, alt = -1;
+            uint8_t epIn = 0, epOut = 0;
+            for (uint8_t j = 0; j < config->bNumInterfaces && iface < 0; ++j) {
+                const libusb_interface& in = config->interface[j];
+                for (int a = 0; a < in.num_altsetting && iface < 0; ++a) {
+                    const libusb_interface_descriptor& id = in.altsetting[a];
+                    if (id.bInterfaceClass != LIBUSB_CLASS_AUDIO || id.bInterfaceSubClass != 3)
+                        continue; // USB MIDIStreaming
+                    uint8_t inEp = 0, outEp = 0;
+                    for (uint8_t e = 0; e < id.bNumEndpoints; ++e) {
+                        const libusb_endpoint_descriptor& ed = id.endpoint[e];
+                        if ((ed.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK) != LIBUSB_TRANSFER_TYPE_BULK)
+                            continue;
+                        if ((ed.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK) == LIBUSB_ENDPOINT_IN)
+                            inEp = ed.bEndpointAddress;
+                        else
+                            outEp = ed.bEndpointAddress;
+                    }
+                    if (inEp && outEp) {
+                        iface = id.bInterfaceNumber;
+                        alt = id.bAlternateSetting;
+                        epIn = inEp;
+                        epOut = outEp;
+                    }
+                }
+            }
+            libusb_free_config_descriptor(config);
+
+            if (iface < 0) {
+                libusb_close(candidate);
+                continue;
+            }
+
+            handle_ = candidate;
+            interface_ = iface;
+            altSetting_ = alt;
+            epIn_ = epIn;
+            epOut_ = epOut;
+
+            // Le pilote snd-usb-audio peut déjà posséder cette interface.
+            // Détacher uniquement l'interface MIDI, pas l'interface stockage.
+            const int active = libusb_kernel_driver_active(handle_, interface_);
+            if (active == 1) {
+                if (libusb_detach_kernel_driver(handle_, interface_) != 0) {
+                    closeHandle();
+                    continue;
+                }
+                detachedKernelDriver_ = true;
+            }
+
+            rc = libusb_claim_interface(handle_, interface_);
+            if (rc != 0) {
+                closeHandle();
+                continue;
+            }
+            claimed_ = true;
+            if (altSetting_ != 0 && libusb_set_interface_alt_setting(handle_, interface_, altSetting_) != 0) {
+                closeHandle();
+                continue;
+            }
+            found = true;
         }
-        return false;
+
+        libusb_free_device_list(list, 1);
+        if (!found) {
+            close();
+            return false;
+        }
+        usbRxBytes_.clear();
+        sysexAssembly_.clear();
+        completedSysex_.clear();
+        return true;
     }
 
     void close()
     {
-        if (in_) {
-            snd_rawmidi_close(in_);
-            in_ = nullptr;
+        closeHandle();
+        if (ctx_) {
+            libusb_exit(ctx_);
+            ctx_ = nullptr;
         }
-        if (out_) {
-            snd_rawmidi_close(out_);
-            out_ = nullptr;
-        }
-        rx_.clear();
+        interface_ = -1;
+        altSetting_ = -1;
+        epIn_ = epOut_ = 0;
+        usbRxBytes_.clear();
+        sysexAssembly_.clear();
+        completedSysex_.clear();
     }
 
+    // Encode un SysEx MIDI 1.0 en paquets USB-MIDI Event de 4 octets.
     bool send(const std::vector<uint8_t>& msg)
     {
-        if (!out_)
+        if (!handle_ || !claimed_ || msg.size() < 2 || msg.front() != 0xF0 || msg.back() != 0xF7)
             return false;
-        size_t done = 0;
-        auto t0 = std::chrono::steady_clock::now();
-        while (done < msg.size()) {
-            ssize_t w = snd_rawmidi_write(out_, msg.data() + done, msg.size() - done);
-            if (w > 0)
-                done += (size_t)w;
-            else if (w == -EAGAIN || w == 0)
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
-            else
-                return false;
-            if (elapsed(t0) > 1000)
-                return false;
+
+        std::vector<uint8_t> packets;
+        packets.reserve(((msg.size() + 2) / 3) * 4);
+        size_t pos = 0;
+        while (pos < msg.size()) {
+            const size_t remain = msg.size() - pos;
+            const size_t n = remain > 3 ? 3 : remain;
+            uint8_t cin = 0x04; // SysEx start/continue, 3 octets
+            if (remain <= 3)
+                cin = static_cast<uint8_t>(0x04 + n); // 1=>5, 2=>6, 3=>7 (end)
+            packets.push_back(cin); // câble USB MIDI 0, CIN dans les 4 bits bas
+            for (size_t j = 0; j < 3; ++j)
+                packets.push_back(j < n ? msg[pos + j] : 0);
+            pos += n;
         }
-        snd_rawmidi_drain(out_);
-        return true;
+
+        int transferred = 0;
+        const int rc = libusb_bulk_transfer(handle_, epOut_, packets.data(),
+                                            static_cast<int>(packets.size()), &transferred, 1500);
+        return rc == 0 && transferred == static_cast<int>(packets.size());
     }
 
     EditMode queryEditMode(int timeoutMs = 500)
     {
-        if (!in_)
+        if (!handle_ || !send(edit_mode_query()))
             return EditMode::Unknown;
-        flushInput();
-        if (!send(edit_mode_query()))
-            return EditMode::Unknown;
-        auto t0 = std::chrono::steady_clock::now();
+        const auto t0 = std::chrono::steady_clock::now();
         while (elapsed(t0) < timeoutMs) {
             std::vector<uint8_t> m;
-            while (nextSysex(m)) {
-                EditMode e = parse_edit_mode(m);
+            if (nextSysex(m, 25)) {
+                const EditMode e = parse_edit_mode(m);
                 if (e != EditMode::Unknown)
                     return e;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
         }
         return EditMode::Unknown;
     }
 
     bool enterEditMode(int timeoutMs = 10000)
     {
-        auto t0 = std::chrono::steady_clock::now();
+        const auto t0 = std::chrono::steady_clock::now();
         while (elapsed(t0) < timeoutMs) {
-            EditMode m = queryEditMode();
+            const EditMode m = queryEditMode();
             if (m == EditMode::On)
                 return true;
             if (m != EditMode::Busy)
@@ -488,25 +613,23 @@ class Connection
 
     bool leaveEditMode() { return send(edit_mode_off()); }
 
-    // Volume USB : /dev/disk/by-label/BOSS\x20RC-500 (udev), puis /proc/mounts.
     static bool findVolume(Volume& v)
     {
         char real[PATH_MAX];
-        if (!realpath("/dev/disk/by-label/BOSS\\x20RC-500", real))
+        if (!realpath("/dev/disk/by-label/BOSS RC-500", real) &&
+            !realpath("/dev/disk/by-label/BOSS\\x20RC-500", real))
             return false;
         v.device = real;
         v.mountpoint = mountpointOf(v.device);
         return true;
     }
 
-    // Attend l'apparition du volume, le monte via udisks si besoin.
     static bool waitForVolume(Volume& v, int timeoutMs = 15000, bool autoMount = true)
     {
-        auto t0 = std::chrono::steady_clock::now();
+        const auto t0 = std::chrono::steady_clock::now();
         while (elapsed(t0) < timeoutMs) {
             if (findVolume(v)) {
                 if (v.mountpoint.empty() && autoMount) {
-                    // laisse une chance à l'automount du bureau avant de monter soi-même
                     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                     v.mountpoint = mountpointOf(v.device);
                     if (v.mountpoint.empty() && runUdisks("mount", v.device))
@@ -520,24 +643,62 @@ class Connection
         return false;
     }
 
-    // À faire AVANT leaveEditMode().
     static bool unmountVolume(const Volume& v)
     {
-        sync();
+        if (v.device.empty())
+            return false;
+        ::sync();
         return runUdisks("unmount", v.device);
     }
 
   private:
+    void closeHandle()
+    {
+        if (!handle_)
+            return;
+        if (claimed_)
+            libusb_release_interface(handle_, interface_);
+        claimed_ = false;
+        if (detachedKernelDriver_)
+            libusb_attach_kernel_driver(handle_, interface_);
+        detachedKernelDriver_ = false;
+        libusb_close(handle_);
+        handle_ = nullptr;
+        interface_ = -1;
+        altSetting_ = -1;
+        epIn_ = epOut_ = 0;
+    }
+
     static int elapsed(std::chrono::steady_clock::time_point t0)
     {
-        return (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t0).count();
+        return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+    }
+
+    static std::string getString(libusb_device_handle* h, uint8_t index)
+    {
+        if (!h || index == 0)
+            return {};
+        unsigned char buf[256]{};
+        const int n = libusb_get_string_descriptor_ascii(h, index, buf, sizeof(buf));
+        return n > 0 ? std::string(reinterpret_cast<char*>(buf), static_cast<size_t>(n)) : std::string{};
+    }
+
+    static bool isTargetDevice(const std::string& product, const std::string& manufacturer)
+    {
+        // Les descripteurs Roland affichent généralement « RC-500 » et « BOSS ».
+        // Ne pas utiliser uniquement le VID/PID : cela varie selon les révisions.
+        return product.find("RC-500") != std::string::npos &&
+               (manufacturer.empty() || manufacturer.find("BOSS") != std::string::npos ||
+                manufacturer.find("Roland") != std::string::npos || manufacturer.find("ROLAND") != std::string::npos);
     }
 
     static bool runUdisks(const char* verb, const std::string& dev)
     {
-        if (dev.rfind("/dev/", 0) != 0 || dev.find_first_of("'\"\\$` ;&|\n") != std::string::npos)
+        if (dev.rfind("/dev/", 0) != 0 ||
+            dev.find_first_of("'\"\\$` ;&|\n") != std::string::npos)
             return false;
-        std::string cmd = std::string("udisksctl ") + verb + " -b " + dev + " >/dev/null 2>&1";
+        const std::string cmd = std::string("udisksctl ") + verb + " -b " + dev + " >/dev/null 2>&1";
         return std::system(cmd.c_str()) == 0;
     }
 
@@ -548,54 +709,91 @@ class Connection
         while (f >> d >> mp && std::getline(f, rest)) {
             if (d != dev)
                 continue;
-            std::string out;   // décode les échappements octaux (\040 = espace)
+            std::string out;
             for (size_t i = 0; i < mp.size(); ++i) {
-                if (mp[i] == '\\' && i + 3 < mp.size() + 0 && isdigit((unsigned char)mp[i + 1])) {
-                    out += (char)std::stoi(mp.substr(i + 1, 3), nullptr, 8);
+                if (mp[i] == '\\' && i + 3 < mp.size() &&
+                    std::isdigit(static_cast<unsigned char>(mp[i + 1])) &&
+                    std::isdigit(static_cast<unsigned char>(mp[i + 2])) &&
+                    std::isdigit(static_cast<unsigned char>(mp[i + 3]))) {
+                    out += static_cast<char>(std::stoi(mp.substr(i + 1, 3), nullptr, 8));
                     i += 3;
-                }
-                else
+                } else {
                     out += mp[i];
+                }
             }
             return out;
         }
         return {};
     }
 
-    void flushInput()
+    // Lit une transaction USB MIDI, découpe les paquets de 4 octets et
+    // reconstitue les SysEx à partir des CIN 4/5/6/7.
+    bool nextSysex(std::vector<uint8_t>& out, unsigned timeoutMs)
     {
-        uint8_t b[256];
-        while (in_ && snd_rawmidi_read(in_, b, sizeof b) > 0) {
+        if (!completedSysex_.empty()) {
+            out = std::move(completedSysex_.front());
+            completedSysex_.pop_front();
+            return true;
         }
-        rx_.clear();
-    }
+        if (!handle_ || !claimed_)
+            return false;
 
-    // Lit les octets disponibles et extrait un message SysEx complet F0..F7.
-    bool nextSysex(std::vector<uint8_t>& out)
-    {
-        uint8_t b[256];
-        ssize_t n;
-        while (in_ && (n = snd_rawmidi_read(in_, b, sizeof b)) > 0)
-            rx_.insert(rx_.end(), b, b + n);
-        auto s = std::find(rx_.begin(), rx_.end(), 0xF0);
-        if (s == rx_.end()) {
-            rx_.clear();
+        unsigned char buf[512];
+        int transferred = 0;
+        const int rc = libusb_bulk_transfer(handle_, epIn_, buf, sizeof(buf), &transferred, timeoutMs);
+        if (rc != 0 && rc != LIBUSB_ERROR_TIMEOUT)
             return false;
+        if (transferred > 0)
+            usbRxBytes_.insert(usbRxBytes_.end(), buf, buf + transferred);
+
+        size_t pos = 0;
+        while (usbRxBytes_.size() - pos >= 4) {
+            const uint8_t cin = usbRxBytes_[pos] & 0x0F;
+            const uint8_t* p = usbRxBytes_.data() + pos + 1;
+            switch (cin) {
+                case 0x04: // SysEx continue : trois octets
+                    if (sysexAssembly_.empty() && p[0] != 0xF0)
+                        break;
+                    sysexAssembly_.insert(sysexAssembly_.end(), p, p + 3);
+                    break;
+                case 0x05: // SysEx terminé, un octet
+                case 0x06: // SysEx terminé, deux octets
+                case 0x07: // SysEx terminé, trois octets
+                    if (sysexAssembly_.empty() && p[0] != 0xF0)
+                        break;
+                    sysexAssembly_.insert(sysexAssembly_.end(), p, p + (cin - 0x04));
+                    if (!sysexAssembly_.empty() && sysexAssembly_.front() == 0xF0 &&
+                        sysexAssembly_.back() == 0xF7)
+                        completedSysex_.push_back(std::move(sysexAssembly_));
+                    sysexAssembly_.clear();
+                    break;
+                default:
+                    break; // ignorer les autres messages MIDI
+            }
+            pos += 4;
         }
-        auto e = std::find(s, rx_.end(), 0xF7);
-        if (e == rx_.end()) {
-            rx_.erase(rx_.begin(), s);
+        if (pos)
+            usbRxBytes_.erase(usbRxBytes_.begin(), usbRxBytes_.begin() + static_cast<std::ptrdiff_t>(pos));
+
+        if (completedSysex_.empty())
             return false;
-        }
-        out.assign(s, e + 1);
-        rx_.erase(rx_.begin(), e + 1);
+        out = std::move(completedSysex_.front());
+        completedSysex_.pop_front();
         return true;
     }
 
-    snd_rawmidi_t* in_ = nullptr;
-    snd_rawmidi_t* out_ = nullptr;
-    std::vector<uint8_t> rx_;
+    libusb_context* ctx_ = nullptr;
+    libusb_device_handle* handle_ = nullptr;
+    int interface_ = -1;
+    int altSetting_ = -1;
+    uint8_t epIn_ = 0;
+    uint8_t epOut_ = 0;
+    bool claimed_ = false;
+    bool detachedKernelDriver_ = false;
+    std::vector<uint8_t> usbRxBytes_;
+    std::vector<uint8_t> sysexAssembly_;
+    std::deque<std::vector<uint8_t>> completedSysex_;
 };
 
-}   // namespace rc500
-#endif   // _WIN32 / __linux__
+} // namespace BossRC
+#endif // _WIN32 / __linux__

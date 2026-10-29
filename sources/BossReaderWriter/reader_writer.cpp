@@ -16,6 +16,7 @@ static void dump(const char* t, const std::vector<uint8_t>& v)
 // --------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
+#if 0
     if (argc > 1) {
         const auto system_file = BossRC::BossRcReaderWriter::LoadSystemFile(argv[1]);
 
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
 
         BossRC::BossRcReaderWriter::Save(memory_file, std::string(argv[2]) + ".xml");
     }
-
+#endif
     dump("edit ON   ", BossRC::edit_mode_on());
     dump("edit OFF  ", BossRC::edit_mode_off());
     dump("edit query", BossRC::edit_mode_query());
@@ -59,4 +60,34 @@ int main(int argc, char** argv)
 
     fmt::println("Done");
 #endif
+
+#ifdef LINUX
+    BossRC::Connection c;
+    if (!c.open()) {
+        fmt::println("RC-500 introuvable (port MIDI BOSS_RC-500)");
+        return 1;
+    }
+    if (!c.enterEditMode()) {
+        fmt::println("edit mode non confirmé");
+        return 2;
+    }
+
+    BossRC::Volume drive;
+    if (!BossRC::Connection::waitForVolume(drive)) {
+        fmt::println("volume USB non apparu");
+        return 3;
+    }
+    fmt::println("Connecté : {} - {}", drive.device, drive.mountpoint);
+    fmt::println("Entrée pour déconnecter...");
+    std::getchar();
+
+    fmt::println("Unmount volume");
+    BossRC::Connection::unmountVolume(drive);
+
+    fmt::println("Leave edit mode");
+    c.leaveEditMode();
+
+    fmt::println("Done");
+#endif
+
 }

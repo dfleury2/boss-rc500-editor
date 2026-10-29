@@ -589,12 +589,21 @@ void BossRc500MainWindow::on_ToolMenu_Connect()
             throw std::runtime_error("Entering edit mode failed");
         }
 
+#ifdef LINUX
+        BossRC::Volume drive;
+        if (!BossRC::Connection::waitForVolume(drive)) {
+            throw std::runtime_error("USB disk not found");
+        }
+
+        open_directory(drive.mountpoint + "/ROLAND/DATA");
+#else
         std::string drive;
         if (!BossRC::Connection::waitForVolume(drive)) {
             throw std::runtime_error("USB disk not found");
         }
 
         open_directory(drive + "ROLAND\\DATA");
+#endif
 
         _is_boss_connected = true;
     }
@@ -611,7 +620,11 @@ void BossRc500MainWindow::on_ToolMenu_Disconnect()
             throw std::runtime_error("Boss RC is not connected");
         }
 
+#ifdef LINUX
+        // TODO BossRC::Connection::unmountVolume(_dirname.mountpoint);
+#else
         BossRC::Connection::unmountVolume(_dirname);
+#endif
 
         _connection.leaveEditMode();
 

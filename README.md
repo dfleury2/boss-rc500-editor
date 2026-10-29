@@ -69,3 +69,16 @@ you can set ICU_DATA to the location of icu dat file.
 ```
 export ICU_DATA=~/.conan/data/icu/69.1/_/_/package/3d01f378bd85430e39906eeeaec39c5b63de106c/res/icudt69l.dat
 ```
+
+### Udev rules
+
+Add a UDEV rules : 
+
+    sudo nano /etc/udev/rules.d/70-boss-rc500.rules
+
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0582", ATTR{idProduct}=="0252", MODE="0660", TAG+="uaccess"
+
+Reload the rules
+
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger

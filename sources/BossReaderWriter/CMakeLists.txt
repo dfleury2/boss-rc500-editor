@@ -37,6 +37,14 @@ target_link_libraries(reader_writer
         fmt::fmt
 )
 
+if (LINUX)
+    target_link_libraries(BossReaderWriter
+        PUBLIC
+        libusb::libusb
+    )
+endif ()
+
+
 set_target_properties(reader_writer
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
