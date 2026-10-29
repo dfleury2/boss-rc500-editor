@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <iterator>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace BossRC {
 
@@ -289,22 +289,22 @@ class Connection
         std::wstring n = name, k(kMidiPortName, kMidiPortName + strlen(kMidiPortName));
         return n.find(k) != std::wstring::npos;
     }
-    void closeHandle()
-    {
-        if (!handle_)
-            return;
-        if (claimed_)
-            libusb_release_interface(handle_, interface_);
-        claimed_ = false;
-        if (detachedKernelDriver_)
-            libusb_attach_kernel_driver(handle_, interface_);
-        detachedKernelDriver_ = false;
-        libusb_close(handle_);
-        handle_ = nullptr;
-        interface_ = -1;
-        altSetting_ = -1;
-        epIn_ = epOut_ = 0;
-    }
+    // void closeHandle()
+    // {
+    //     if (!handle_)
+    //         return;
+    //     if (claimed_)
+    //         libusb_release_interface(handle_, interface_);
+    //     claimed_ = false;
+    //     if (detachedKernelDriver_)
+    //         libusb_attach_kernel_driver(handle_, interface_);
+    //     detachedKernelDriver_ = false;
+    //     libusb_close(handle_);
+    //     handle_ = nullptr;
+    //     interface_ = -1;
+    //     altSetting_ = -1;
+    //     epIn_ = epOut_ = 0;
+    // }
 
     static int elapsed(std::chrono::steady_clock::time_point t0)
     {
@@ -375,14 +375,14 @@ class Connection
 // Compilation : $(pkg-config --cflags --libs libusb-1.0)
 // Attention : l'interface MIDI USB est détachée temporairement du pilote noyau
 // pendant la connexion, ce qui peut rendre le MIDI indisponible aux autres applis.
-#include <libusb-1.0/libusb.h>
+#include <cctype>
 #include <chrono>
 #include <climits>
-#include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <deque>
 #include <fstream>
+#include <libusb-1.0/libusb.h>
 #include <thread>
 #include <unistd.h>
 
@@ -431,20 +431,15 @@ class Connection
             int rc = libusb_open(dev, &candidate);
 
             if (rc != LIBUSB_SUCCESS) {
-                fprintf(stderr,
-                        "libusb_open a échoué : %s (%d)\n",
-                        libusb_error_name(rc), rc);
+                fprintf(stderr, "libusb_open a échoué : %s (%d)\n", libusb_error_name(rc), rc);
 
-                fprintf(stderr, "Bus=%03u, périphérique=%03u\n",
-                        libusb_get_bus_number(dev),
-                        libusb_get_device_address(dev));
+                fprintf(stderr, "Bus=%03u, périphérique=%03u\n", libusb_get_bus_number(dev), libusb_get_device_address(dev));
 
                 continue;
             }
 
             if (candidate == nullptr) {
-                fprintf(stderr,
-                        "libusb_open a réussi mais le handle est nul !\n");
+                fprintf(stderr, "libusb_open a réussi mais le handle est nul !\n");
                 continue;
             }
 
@@ -472,7 +467,7 @@ class Connection
                 for (int a = 0; a < in.num_altsetting && iface < 0; ++a) {
                     const libusb_interface_descriptor& id = in.altsetting[a];
                     if (id.bInterfaceClass != LIBUSB_CLASS_AUDIO || id.bInterfaceSubClass != 3)
-                        continue; // USB MIDIStreaming
+                        continue;   // USB MIDIStreaming
                     uint8_t inEp = 0, outEp = 0;
                     for (uint8_t e = 0; e < id.bNumEndpoints; ++e) {
                         const libusb_endpoint_descriptor& ed = id.endpoint[e];
@@ -566,18 +561,17 @@ class Connection
         while (pos < msg.size()) {
             const size_t remain = msg.size() - pos;
             const size_t n = remain > 3 ? 3 : remain;
-            uint8_t cin = 0x04; // SysEx start/continue, 3 octets
+            uint8_t cin = 0x04;   // SysEx start/continue, 3 octets
             if (remain <= 3)
-                cin = static_cast<uint8_t>(0x04 + n); // 1=>5, 2=>6, 3=>7 (end)
-            packets.push_back(cin); // câble USB MIDI 0, CIN dans les 4 bits bas
+                cin = static_cast<uint8_t>(0x04 + n);   // 1=>5, 2=>6, 3=>7 (end)
+            packets.push_back(cin);                     // câble USB MIDI 0, CIN dans les 4 bits bas
             for (size_t j = 0; j < 3; ++j)
                 packets.push_back(j < n ? msg[pos + j] : 0);
             pos += n;
         }
 
         int transferred = 0;
-        const int rc = libusb_bulk_transfer(handle_, epOut_, packets.data(),
-                                            static_cast<int>(packets.size()), &transferred, 1500);
+        const int rc = libusb_bulk_transfer(handle_, epOut_, packets.data(), static_cast<int>(packets.size()), &transferred, 1500);
         return rc == 0 && transferred == static_cast<int>(packets.size());
     }
 
@@ -616,8 +610,7 @@ class Connection
     static bool findVolume(Volume& v)
     {
         char real[PATH_MAX];
-        if (!realpath("/dev/disk/by-label/BOSS RC-500", real) &&
-            !realpath("/dev/disk/by-label/BOSS\\x20RC-500", real))
+        if (!realpath("/dev/disk/by-label/BOSS RC-500", real) && !realpath("/dev/disk/by-label/BOSS\\x20RC-500", real))
             return false;
         v.device = real;
         v.mountpoint = mountpointOf(v.device);
@@ -671,8 +664,7 @@ class Connection
 
     static int elapsed(std::chrono::steady_clock::time_point t0)
     {
-        return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - t0).count());
+        return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t0).count());
     }
 
     static std::string getString(libusb_device_handle* h, uint8_t index)
@@ -695,8 +687,7 @@ class Connection
 
     static bool runUdisks(const char* verb, const std::string& dev)
     {
-        if (dev.rfind("/dev/", 0) != 0 ||
-            dev.find_first_of("'\"\\$` ;&|\n") != std::string::npos)
+        if (dev.rfind("/dev/", 0) != 0 || dev.find_first_of("'\"\\$` ;&|\n") != std::string::npos)
             return false;
         const std::string cmd = std::string("udisksctl ") + verb + " -b " + dev + " >/dev/null 2>&1";
         return std::system(cmd.c_str()) == 0;
@@ -711,13 +702,12 @@ class Connection
                 continue;
             std::string out;
             for (size_t i = 0; i < mp.size(); ++i) {
-                if (mp[i] == '\\' && i + 3 < mp.size() &&
-                    std::isdigit(static_cast<unsigned char>(mp[i + 1])) &&
-                    std::isdigit(static_cast<unsigned char>(mp[i + 2])) &&
-                    std::isdigit(static_cast<unsigned char>(mp[i + 3]))) {
+                if (mp[i] == '\\' && i + 3 < mp.size() && std::isdigit(static_cast<unsigned char>(mp[i + 1])) &&
+                    std::isdigit(static_cast<unsigned char>(mp[i + 2])) && std::isdigit(static_cast<unsigned char>(mp[i + 3]))) {
                     out += static_cast<char>(std::stoi(mp.substr(i + 1, 3), nullptr, 8));
                     i += 3;
-                } else {
+                }
+                else {
                     out += mp[i];
                 }
             }
@@ -751,24 +741,23 @@ class Connection
             const uint8_t cin = usbRxBytes_[pos] & 0x0F;
             const uint8_t* p = usbRxBytes_.data() + pos + 1;
             switch (cin) {
-                case 0x04: // SysEx continue : trois octets
+                case 0x04:   // SysEx continue : trois octets
                     if (sysexAssembly_.empty() && p[0] != 0xF0)
                         break;
                     sysexAssembly_.insert(sysexAssembly_.end(), p, p + 3);
                     break;
-                case 0x05: // SysEx terminé, un octet
-                case 0x06: // SysEx terminé, deux octets
-                case 0x07: // SysEx terminé, trois octets
+                case 0x05:   // SysEx terminé, un octet
+                case 0x06:   // SysEx terminé, deux octets
+                case 0x07:   // SysEx terminé, trois octets
                     if (sysexAssembly_.empty() && p[0] != 0xF0)
                         break;
                     sysexAssembly_.insert(sysexAssembly_.end(), p, p + (cin - 0x04));
-                    if (!sysexAssembly_.empty() && sysexAssembly_.front() == 0xF0 &&
-                        sysexAssembly_.back() == 0xF7)
+                    if (!sysexAssembly_.empty() && sysexAssembly_.front() == 0xF0 && sysexAssembly_.back() == 0xF7)
                         completedSysex_.push_back(std::move(sysexAssembly_));
                     sysexAssembly_.clear();
                     break;
                 default:
-                    break; // ignorer les autres messages MIDI
+                    break;   // ignorer les autres messages MIDI
             }
             pos += 4;
         }
@@ -795,5 +784,5 @@ class Connection
     std::deque<std::vector<uint8_t>> completedSysex_;
 };
 
-} // namespace BossRC
-#endif // _WIN32 / __linux__
+}   // namespace BossRC
+#endif   // _WIN32 / __linux__
