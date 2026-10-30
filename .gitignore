@@ -4,3 +4,4 @@ build
 .DS_Store
 CMakeUserPresets.json
 config.h
+_CPack_Packages

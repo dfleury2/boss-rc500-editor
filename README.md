@@ -3,16 +3,14 @@
 </div>
 <br>
 
-
 # Boss RC-500 Tools
-Boss rc-500 tool to play with the XML configuration... until Boss make our life easier
 
+Boss rc-500 tool to play with the XML configuration... until Boss make our life easier
 
 ## User Manual
 
 If you just want to use it without dive into the glory details, you can go the
 documentation directly [here](https://dfleury2.github.io/boss-rc500-editor/#/).
-
 
 ## Compilation
 
@@ -47,8 +45,10 @@ cmake --build build --config Release
 
 ```
 
-or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will allow you to compiler under VS directly.
-I do not use Visual Studio anymore, but to run the program, you must change the working directory to the project root, where the resources directory is,
+or you can open the solution file under the `build` directory. (rc500-tools.sln). Visual Studio will open, which will
+allow you to compiler under VS directly.
+I do not use Visual Studio anymore, but to run the program, you must change the working directory to the project root,
+where the resources directory is,
 else the program could not find the images and others files needed.
 
 If you use CLion, after the conan install command, you can open the project root directory in it.
@@ -56,6 +56,15 @@ If you use CLion, after the conan install command, you can open the project root
 /!\ For CLion, need to change CMake from bundle to CMake 3.31.
 Project not yet compatible with cmake 4.x (or Conan ?)
 
+## Packaging
+
+Under Windows:
+
+    cpack --config build/CPackConfig.cmake -G ZIP -C Release
+
+or
+
+    cd build && cpack -G ZIP -C Release
 
 ## Tips
 
@@ -63,7 +72,7 @@ Under Linux (Debian), if `Fontconfig error: Cannot load default config file: No 
 
 You can add `export FONTCONFIG_PATH=/etc/fonts` before launching the tools
 
-If `Could not create collator: 4`, 
+If `Could not create collator: 4`,
 you can set ICU_DATA to the location of icu dat file.
 
 ```
@@ -72,7 +81,7 @@ export ICU_DATA=~/.conan/data/icu/69.1/_/_/package/3d01f378bd85430e39906eeeaec39
 
 ### Udev rules
 
-Add a UDEV rules : 
+Add a UDEV rules :
 
     sudo nano /etc/udev/rules.d/70-boss-rc500.rules
 
