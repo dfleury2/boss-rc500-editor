@@ -1,0 +1,21 @@
+Parameter: OMNI
+
+Explanation:
+  Specifies MIDI omni mode.
+
+Explanation.fr:
+  Spécifie le mode MIDI omni.
+
+Details:
+  - Value: OFF
+    Detail:
+      Messages will be received only on the channel specified by the RX CTL CH setting.
+    Detail.fr:
+      Les messages sont reçus uniquement sur le canal spécifié par le réglage RX CTL CH.
+
+  - Value: ON
+    Default: True
+    Detail:
+      Messages are received via all MIDI channels, regardless of the RX CTL CH settings.
+    Detail.fr:
+      Les messages sont reçus sur tous les canaux MIDI, quel que soit le réglage RX CTL CH.

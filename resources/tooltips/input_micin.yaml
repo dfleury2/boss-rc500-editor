@@ -1,0 +1,27 @@
+Parameter: MIC IN
+
+Explanation:
+  Specifies the output destination of the audio that is input to the MIC IN jack.
+
+Explanation.fr:
+  Spécifie la destination de sortie du son entrant dans la prise MIC IN.
+
+Details:
+  - Value: OUT-A&B
+    Default: True
+    Detail:
+      Output from both OUTPUT A/MONO and B jacks.
+    Detail.fr:
+      Sortie par les prises OUTPUT A/MONO et B.
+
+  - Value: OUT-A
+    Detail:
+      Output from the OUTPUT A/MONO jack.
+    Detail.fr:
+      Sortie par la prise OUTPUT A/MONO.
+
+  - Value: OFF
+    Detail:
+      No output.
+    Detail.fr:
+      Aucune sortie.

@@ -1,0 +1,11 @@
+Parameter: RX NOTE CH
+
+Explanation:
+  Specifies the receive channel for note messages that play the RC-500’s drum sounds.
+
+Explanation.fr:
+  Spécifie le canal de réception des messages de note qui jouent les sons de batterie du RC-500.
+
+Values: [1, 10, 16]
+Join: "-"
+Default: 1

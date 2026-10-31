@@ -1,0 +1,25 @@
+Parameter: EXP PREF
+
+Explanation:
+  Selects whether an expression pedal connected to the CTL 1, 2/EXP jack perform the functions
+  specified by each memory or the functions specified by the system settings.
+
+Explanation.fr:
+  Sélectionne si une pédale d'expression connectée à la prise CTL 1, 2/EXP exécute les fonctions
+  spécifiées par chaque mémoire ou les fonctions spécifiées par les paramètres système.
+
+Details:
+  - Value: MEMORY
+    Detail:
+      Use the functions that are assigned for each memory.
+    Detail.fr:
+      Utilise les fonctions assignées à chaque mémoire.
+
+  - Value: SYSTEM
+    Default: True
+    Detail:
+      "Use the functions that are assigned for the system.
+      <br>EXP: MEMORY LEV2"
+    Detail.fr:
+      "Utilise les fonctions assignées au système.
+      <br>EXP : MEMORY LEV2"

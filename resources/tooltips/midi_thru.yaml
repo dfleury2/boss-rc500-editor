@@ -1,0 +1,34 @@
+Parameter: MIDI THRU, USB THRU
+
+Explanation:
+  Specifies the connector(s) from which MIDI messages received at the MIDI IN connector or the USB port are output.
+
+Explanation.fr:
+  Spécifie le ou les connecteurs par lesquels sont émis les messages MIDI reçus par le connecteur
+  MIDI IN ou le port USB.
+
+Details:
+  - Value: OFF
+    Default: True
+    Detail:
+      MIDI messages are not output.
+    Detail.fr:
+      Les messages MIDI ne sont pas émis.
+
+  - Value: MIDI OUT
+    Detail:
+      Output from the MIDI OUT connector.
+    Detail.fr:
+      Émission par le connecteur MIDI OUT.
+
+  - Value: USB OUT
+    Detail:
+      Output from the USB port.
+    Detail.fr:
+      Émission par le port USB.
+
+  - Value: USB/MIDI
+    Detail:
+      Output from the USB port and the MIDI OUT connector.
+    Detail.fr:
+      Émission par le port USB et le connecteur MIDI OUT.

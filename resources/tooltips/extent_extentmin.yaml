@@ -1,0 +1,13 @@
+Parameter: EXT1–5 MIN
+
+Explanation:
+  "Specifies the extent in which memories can be switched (lower limit: MIN / upper limit: MAX).
+  <br>This is the lower limit."
+
+Explanation.fr:
+  "Spécifie l'étendue dans laquelle les mémoires peuvent être commutées (limite inférieure : MIN / limite supérieure : MAX).
+  <br>Il s'agit de la limite inférieure."
+
+Values: ["01", "99"]
+Join: "-"
+Default: 0

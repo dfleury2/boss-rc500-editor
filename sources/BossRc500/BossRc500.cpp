@@ -1055,6 +1055,74 @@ QString Tooltips::extent_ExtentMax()
 {
     return load_tooltip(BossRc500::Resources::Tooltips() + "/extent_extentmax.yaml");
 }
+QString Tooltips::input_InstIn()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_instin.yaml");
+}
+QString Tooltips::input_InstInNs()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_instinns.yaml");
+}
+QString Tooltips::input_MicIn()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_micin.yaml");
+}
+QString Tooltips::input_MicInNs()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_micinns.yaml");
+}
+QString Tooltips::input_PeakSrc()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_peaksrc.yaml");
+}
+QString Tooltips::input_Phantom()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_phantom.yaml");
+}
+QString Tooltips::input_Rhythm()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/input_rhythm.yaml");
+}
+QString Tooltips::midi_ClockOut()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_clockout.yaml");
+}
+QString Tooltips::midi_Omni()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_omni.yaml");
+}
+QString Tooltips::midi_PcOut()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_pcout.yaml");
+}
+QString Tooltips::midi_RxCtlCh()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_rxctlch.yaml");
+}
+QString Tooltips::midi_RxNoteCh()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_rxnotech.yaml");
+}
+QString Tooltips::midi_SyncClock()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_syncclock.yaml");
+}
+QString Tooltips::midi_SyncStart()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_syncstart.yaml");
+}
+QString Tooltips::midi_Thru()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_thru.yaml");
+}
+QString Tooltips::midi_UsbThru()
+{
+    return "";   // load_tooltip(BossRc500::Resources::Tooltips() + "/midi_usbthru.yaml");
+}
+QString Tooltips::midi_TxCh()
+{
+    return load_tooltip(BossRc500::Resources::Tooltips() + "/midi_txch.yaml");
+}
 
 // --------------------------------------------------------------------------
 QString Tooltips::load_tooltip(const QString& filename)

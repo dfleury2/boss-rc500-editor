@@ -1,0 +1,41 @@
+Parameter: SYNC CLOCK
+
+Explanation:
+  Specifies the input to which the tempo clock is synchronized.
+
+Explanation.fr:
+  Spécifie l'entrée sur laquelle l'horloge de tempo est synchronisée.
+
+Details:
+  - Value: AUTO
+    Default: True
+    Detail:
+      The RC-500 will normally operate using its internal tempo, but will synchronize the tempo to
+      MIDI clock if MIDI clock data is being input via the MIDI IN connector or the USB port.
+      <br>Choose the “AUTO” setting if using the RC-500 as a remote device.
+      <br>The priority order is MIDI>USB>internal clock.
+    Detail.fr:
+      Le RC-500 fonctionne normalement avec son tempo interne, mais il synchronise le tempo sur
+      l'horloge MIDI si des données d'horloge MIDI sont reçues par le connecteur MIDI IN ou le port USB.
+      <br>Choisissez «AUTO» si vous utilisez le RC-500 comme appareil asservi.
+      <br>L'ordre de priorité est MIDI>USB>horloge interne.
+
+  - Value: INTERNAL
+    Detail:
+      The clock uses the tempo specified by the memory.
+      <br>Choose the “INTERNAL” setting if you don’t want to synchronize the RC-500 to an external device.
+    Detail.fr:
+      L'horloge utilise le tempo spécifié par la mémoire.
+      <br>Choisissez «INTERNAL» si vous ne souhaitez pas synchroniser le RC-500 sur un appareil externe.
+
+  - Value: USB
+    Detail:
+      Synchronize to the tempo from the USB port.
+    Detail.fr:
+      Synchronise sur le tempo reçu par le port USB.
+
+  - Value: MIDI
+    Detail:
+      Synchronize to the tempo from the MIDI IN connector.
+    Detail.fr:
+      Synchronise sur le tempo reçu par le connecteur MIDI IN.

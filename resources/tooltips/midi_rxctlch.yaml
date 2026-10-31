@@ -1,0 +1,12 @@
+Parameter: RX CTL CH
+
+Explanation:
+  Specifies the receive channel for messages (control changes) that switch memories or control the RC-500.
+
+Explanation.fr:
+  Spécifie le canal de réception des messages (control changes) qui commutent les mémoires ou
+  pilotent le RC-500.
+
+Values: [1, 16]
+Join: "-"
+Default: 0

@@ -1,0 +1,13 @@
+Parameter: TX CH
+
+Explanation:
+  Specifies the MIDI transmit channel.
+  <br>If this is “RX CTL,” the channel will be the same as the RX CTL CH.
+
+Explanation.fr:
+  Spécifie le canal d'émission MIDI.
+  <br>Si la valeur est «RX CTL», le canal est le même que RX CTL CH.
+
+Values: ["1-16", "RX CTL"]
+Join: ", "
+Default: 1

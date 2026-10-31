@@ -403,6 +403,25 @@ class Tooltips
     QString extent_ExtentMin();
     QString extent_ExtentMax();
 
+    QString input_InstIn();
+    QString input_InstInNs();
+    QString input_MicIn();
+    QString input_MicInNs();
+    QString input_PeakSrc();
+    QString input_Phantom();
+    QString input_Rhythm();
+
+    QString midi_ClockOut();
+    QString midi_Omni();
+    QString midi_PcOut();
+    QString midi_RxCtlCh();
+    QString midi_RxNoteCh();
+    QString midi_SyncClock();
+    QString midi_SyncStart();
+    QString midi_Thru();
+    QString midi_UsbThru();
+    QString midi_TxCh();
+
   private:
     QString load_tooltip(const QString& filename);
 

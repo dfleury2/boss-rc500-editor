@@ -1,0 +1,33 @@
+Parameter: INST IN
+
+Explanation:
+  Specifies the output destination of the instrumental sound that is input to the INST IN (A/MONO, B) jacks.
+
+Explanation.fr:
+  Spécifie la destination de sortie du son instrumental entrant par les prises INST IN (A/MONO, B).
+
+Details:
+  - Value: OUT-A&B
+    Default: True
+    Detail:
+      Output the INST IN A/MONO jack → OUTPUT A/MONO jack, and the INST IN B jack → OUTPUT B jack.
+    Detail.fr:
+      La prise INST IN A/MONO est envoyée vers la prise OUTPUT A/MONO, et la prise INST IN B vers la prise OUTPUT B.
+
+  - Value: OUT-A
+    Detail:
+      Mix the sound that is input to the INST IN (A/MONO, B) jacks, and output it from the OUTPUT A/MONO jack.
+    Detail.fr:
+      Mélange le son entrant par les prises INST IN (A/MONO, B) et l'envoie vers la prise OUTPUT A/MONO.
+
+  - Value: OUT-B
+    Detail:
+      Mix the sound that is input to the INST IN (A/MONO, B) jacks, and output it from the OUTPUT B jack.
+    Detail.fr:
+      Mélange le son entrant par les prises INST IN (A/MONO, B) et l'envoie vers la prise OUTPUT B.
+
+  - Value: OFF
+    Detail:
+      No output.
+    Detail.fr:
+      Aucune sortie.

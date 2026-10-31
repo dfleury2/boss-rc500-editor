@@ -65,6 +65,25 @@ void BossRc500SystemDialog::add_tooltips() const
     extent_Extent5Min->setToolTip(tooltips.extent_ExtentMin());
     extent_Extent5Max->setToolTip(tooltips.extent_ExtentMax());
 
+    input_InstrumentIn->setToolTip(tooltips.input_InstIn());
+    input_InstrInNs->setToolTip(tooltips.input_InstInNs());
+    input_MicroIn->setToolTip(tooltips.input_MicIn());
+    input_MicroInNs->setToolTip(tooltips.input_MicInNs());
+    input_PeakSource->setToolTip(tooltips.input_PeakSrc());
+    input_Phantom->setToolTip(tooltips.input_Phantom());
+    input_Rhythm->setToolTip(tooltips.input_Rhythm());
+
+    midi_RxCtlChannel->setToolTip(tooltips.midi_RxCtlCh());
+    midi_Omni->setToolTip(tooltips.midi_Omni());
+    midi_RxNoteCh->setToolTip(tooltips.midi_RxNoteCh());
+    midi_TxChannel->setToolTip(tooltips.midi_TxCh());
+    midi_SyncClock->setToolTip(tooltips.midi_SyncClock());
+    midi_ClockOut->setToolTip(tooltips.midi_ClockOut());
+    midi_SyncStart->setToolTip(tooltips.midi_SyncStart());
+    midi_PcOut->setToolTip(tooltips.midi_PcOut());
+    midi_MidiThru->setToolTip(tooltips.midi_Thru());
+    midi_UsbThru->setToolTip(tooltips.midi_UsbThru());
+
 #endif   // QT_CONFIG(tooltip)
 }
 

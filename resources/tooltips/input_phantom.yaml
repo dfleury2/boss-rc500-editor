@@ -1,0 +1,17 @@
+Parameter: PHANTOM
+
+Explanation:
+  Turns phantom power on/off.
+  <br>
+  * Be sure to turn phantom power off when connecting any device other than condenser microphones
+  that require phantom power.
+
+Explanation.fr:
+  Active/désactive l'alimentation fantôme.
+  <br>
+  * Veillez à mettre l'alimentation fantôme hors tension lorsque vous branchez un appareil autre que
+  des microphones à condensateur qui nécessitent une alimentation fantôme.
+
+Values: [OFF, ON]
+Join: ", "
+Default: 0

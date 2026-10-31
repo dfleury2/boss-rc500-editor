@@ -1,0 +1,33 @@
+Parameter: PEAK SRC
+
+Explanation:
+  Specifies the input/output that is shown by the INPUT indicator.
+
+Explanation.fr:
+  Spécifie l'entrée/sortie affichée par le voyant INPUT.
+
+Details:
+  - Value: ALL IN
+    Default: True
+    Detail:
+      All audio input
+    Detail.fr:
+      Toutes les entrées audio
+
+  - Value: MIC IN
+    Detail:
+      Audio input from the MIC IN jack
+    Detail.fr:
+      Entrée audio de la prise MIC IN
+
+  - Value: INST IN
+    Detail:
+      Audio input from the INST IN (A/MONO, B) jacks
+    Detail.fr:
+      Entrée audio des prises INST IN (A/MONO, B)
+
+  - Value: LOOP&RHYTHM
+    Detail:
+      Peak level of the playback sound
+    Detail.fr:
+      Niveau crête du son de lecture

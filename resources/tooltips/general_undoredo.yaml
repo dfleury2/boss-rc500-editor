@@ -1,0 +1,27 @@
+Parameter: UNDO/REDO
+
+Explanation:
+  Specifies the timing at which undo/redo is executed.
+  <br>
+  * This parameter is valid if a function that allows undo/redo by long-pressing the switch is assigned
+  as the PDL1–3 FUNC or CTL1–2 FUNC (p. 7–p. 8) setting.
+
+Explanation.fr:
+  Spécifie le moment où Annuler/Rétablir est exécuté.
+  <br>
+  * Ce paramètre est valide si une fonction permettant d'annuler/rétablir par un appui long sur le
+  commutateur est assignée au réglage PDL1–3 FUNC ou CTL1–2 FUNC (p. 7–p. 8).
+
+Details:
+  - Value: HOLD
+    Default: True
+    Detail:
+      Execute undo/redo while you hold down the switch.
+    Detail.fr:
+      Annuler/Rétablir est exécuté pendant que vous maintenez le commutateur enfoncé.
+
+  - Value: RELEASE
+    Detail:
+      Execute undo/redo the moment you release the switch.
+    Detail.fr:
+      Annuler/Rétablir est exécuté à l'instant où vous relâchez le commutateur.

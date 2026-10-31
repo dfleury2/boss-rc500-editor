@@ -1,0 +1,12 @@
+Parameter: EXTENT
+
+Explanation:
+  Selects the settings (EXT1–5) that specify the extent (upper and lower limits) in which memories can be switched.
+
+Explanation.fr:
+  Sélectionne le réglage (EXT1 à 5) qui spécifie l'étendue (limite inférieure et limite supérieure)
+  dans laquelle les mémoires peuvent être commutées.
+
+Values: [EXT1, EXT5]
+Join: "-"
+Default: 0

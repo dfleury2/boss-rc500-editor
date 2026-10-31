@@ -1,0 +1,41 @@
+Parameter: RHYTHM
+
+Explanation:
+  Specifies the output destination of the rhythm sound.
+
+Explanation.fr:
+  Spécifie la destination de sortie du son du rythme.
+
+Details:
+  - Value: OUT-A&B
+    Default: True
+    Detail:
+      Output from both OUTPUT A/MONO and B jacks.
+    Detail.fr:
+      Sortie par les prises OUTPUT A/MONO et B.
+
+  - Value: OUT-A
+    Detail:
+      Output from the OUTPUT A/MONO jack.
+    Detail.fr:
+      Sortie par la prise OUTPUT A/MONO.
+
+  - Value: OUT-B
+    Detail:
+      Output from the OUTPUT B jack.
+    Detail.fr:
+      Sortie par la prise OUTPUT B.
+
+  - Value: LOOP
+    Detail:
+      With the “LOOP” setting, RC-500 drum sounds played by note messages from an external MIDI device
+      can be output to a track and recorded.
+    Detail.fr:
+      Avec le réglage «LOOP», les sons de batterie du RC-500 joués par des messages de note provenant
+      d'un appareil MIDI externe peuvent être envoyés vers une piste et enregistrés.
+
+  - Value: OFF
+    Detail:
+      No output.
+    Detail.fr:
+      Aucune sortie.

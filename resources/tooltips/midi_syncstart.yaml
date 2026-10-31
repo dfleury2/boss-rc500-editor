@@ -1,0 +1,27 @@
+Parameter: SYNC START
+
+Explanation:
+  Specifies what starts in synchronization when a MIDI start message is received.
+
+Explanation.fr:
+  Spécifie ce qui démarre en synchronisation lorsqu'un message MIDI Start est reçu.
+
+Details:
+  - Value: OFF
+    Detail:
+      Synchronized start does not occur.
+    Detail.fr:
+      Le démarrage synchronisé n'a pas lieu.
+
+  - Value: ALL
+    Default: True
+    Detail:
+      Track + rhythm
+    Detail.fr:
+      Pistes + rythme
+
+  - Value: RHYTHM
+    Detail:
+      Rhythm
+    Detail.fr:
+      Rythme

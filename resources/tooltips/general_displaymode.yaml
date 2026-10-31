@@ -1,0 +1,67 @@
+Parameter: DISP MODE
+
+Explanation:
+  Specifies what is shown in the screen during recording, playback, and overdubbing.
+
+Explanation.fr:
+  Spécifie ce qui s'affiche à l'écran pendant l'enregistrement, la lecture et l'overdubbing.
+
+Details:
+  - Value: STATUS
+    Detail:
+      Show “REC” during recording, “PLAY” during playback, and “DUB” during overdubbing.
+    Detail.fr:
+      Affiche «REC» pendant l'enregistrement, «PLAY» pendant la lecture et «DUB» pendant l'overdubbing.
+
+  - Value: POSITION
+    Detail:
+      Show the progress of recording/playback/overdubbing.
+    Detail.fr:
+      Affiche la progression de l'enregistrement, de la lecture ou de l'overdubbing.
+
+  - Value: 2TRACK POS
+    Detail:
+      "Upper line: POSITION indication for track 1
+      <br>Lower line: POSITION indication for track 2"
+    Detail.fr:
+      "Ligne supérieure : indication POSITION de la piste 1
+      <br>Ligne inférieure : indication POSITION de la piste 2"
+
+  - Value: STATUS+POS
+    Detail:
+      "Upper line: STATUS indication
+      <br>Lower line: POSITION indication"
+    Detail.fr:
+      "Ligne supérieure : indication STATUS
+      <br>Ligne inférieure : indication POSITION"
+
+  - Value: NUMBER+POS
+    Detail:
+      "Upper line: Show the memory number
+      <br>Lower line: POSITION indication"
+    Detail.fr:
+      "Ligne supérieure : affiche le numéro de la mémoire
+      <br>Ligne inférieure : indication POSITION"
+
+  - Value: NAME+POS
+    Detail:
+      "Upper line: Show the memory name
+      <br>Lower line: POSITION indication"
+    Detail.fr:
+      "Ligne supérieure : affiche le nom de la mémoire
+      <br>Ligne inférieure : indication POSITION"
+
+  - Value: BEAT+POS
+    Default: True
+    Detail:
+      "Upper line: Show the time signature of the rhythm
+      <br>Lower line: POSITION indication"
+    Detail.fr:
+      "Ligne supérieure : affiche la signature rythmique du rythme
+      <br>Ligne inférieure : indication POSITION"
+
+  - Value: BEAT
+    Detail:
+      Show the time signature of the rhythm.
+    Detail.fr:
+      Affiche la signature rythmique du rythme.

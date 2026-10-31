@@ -1,0 +1,30 @@
+Parameter: PDL1–3 PREF
+
+Explanation:
+  Selects whether the [REC/PLAY] switch (PDL1), [STOP] switch (PDL2), [TRACK SELECT] switch (PDL3)
+  perform the functions specified by each memory or the functions specified by the system settings.
+
+Explanation.fr:
+  Sélectionne si le commutateur [REC/PLAY] (PDL1), le commutateur [STOP] (PDL2) et le commutateur
+  [TRACK SELECT] (PDL3) exécutent les fonctions spécifiées par chaque mémoire ou les fonctions
+  spécifiées par les paramètres système.
+
+Details:
+  - Value: MEMORY
+    Detail:
+      Use the functions that are assigned for each memory.
+    Detail.fr:
+      Utilise les fonctions assignées à chaque mémoire.
+
+  - Value: SYSTEM
+    Default: True
+    Detail:
+      "Use the functions that are assigned for the system.
+      <br>PDL1: CUR REC/PLY
+      <br>PDL2: CUR P/S(CLR)
+      <br>PDL3: TRK SELECT"
+    Detail.fr:
+      "Utilise les fonctions assignées au système.
+      <br>PDL1 : CUR REC/PLY
+      <br>PDL2 : CUR P/S(CLR)
+      <br>PDL3 : TRK SELECT"
