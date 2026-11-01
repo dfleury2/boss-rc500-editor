@@ -39,13 +39,27 @@ target_link_libraries(reader_writer
 
 if (LINUX)
     target_link_libraries(BossReaderWriter
-        PUBLIC
-        libusb::libusb
+            PUBLIC
+            libusb::libusb
     )
 endif ()
 
 
 set_target_properties(reader_writer
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+
+add_executable(loop_analyzer loop_analyzer.cpp)
+
+target_link_libraries(loop_analyzer
+        PRIVATE
+        fmt::fmt
+        miniaudio::miniaudio
+)
+
+set_target_properties(loop_analyzer
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

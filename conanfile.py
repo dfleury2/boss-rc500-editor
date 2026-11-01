@@ -1,4 +1,3 @@
-
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 
@@ -17,6 +16,7 @@ class BossRcEditorRecipe(ConanFile):
         "fmt/12.1.0",
         "spdlog/1.17.0",
         "nlohmann_json/3.12.0",
+        "miniaudio/0.11.25",
     )
 
     generators = (
@@ -27,7 +27,6 @@ class BossRcEditorRecipe(ConanFile):
     def requirements(self):
         if self.settings.os == "Linux":
             self.requires("libusb/1.0.29")
-
 
     def layout(self):
         cmake_layout(self)
