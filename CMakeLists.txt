@@ -6,6 +6,10 @@ project(Boss-Rc500-Editor VERSION 0.0.11)
 
 set(CMAKE_CXX_STANDARD 20)
 
+if (MSVC)
+    add_compile_options(/utf-8)
+endif ()
+
 if (NOT WIN32)
     add_definitions(-DLINUX)
 endif ()

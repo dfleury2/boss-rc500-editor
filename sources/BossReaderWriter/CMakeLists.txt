@@ -4,6 +4,8 @@ add_library(BossReaderWriter
         BossRcReaderWriter.cpp
         BossRC.hpp
         BossRC.cpp
+        tempo_evaluator.hpp
+        tempo_evaluator.cpp
 )
 
 add_library(BossReaderWriter::BossReaderWriter ALIAS BossReaderWriter)
@@ -22,6 +24,7 @@ target_include_directories(BossReaderWriter
 target_link_libraries(BossReaderWriter
         PUBLIC
         nlohmann_json::nlohmann_json
+        miniaudio::miniaudio
         PRIVATE
         pugixml::pugixml
         fmt::fmt
@@ -55,8 +58,8 @@ add_executable(loop_analyzer loop_analyzer.cpp)
 
 target_link_libraries(loop_analyzer
         PRIVATE
+        BossReaderWriter::BossReaderWriter
         fmt::fmt
-        miniaudio::miniaudio
 )
 
 set_target_properties(loop_analyzer

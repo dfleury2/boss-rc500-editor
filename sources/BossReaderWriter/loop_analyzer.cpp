@@ -1,9 +1,12 @@
-#define MINIAUDIO_IMPLEMENTATION
+#define NOMINMAX
+
+#include "tempo_evaluator.hpp"
+
 #include <miniaudio.h>
 
+#include <fmt/format.h>
+
 #include <algorithm>
-#include <cmath>
-#include <fmt/base.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -155,12 +158,12 @@ std::vector<LoopCandidate> findLoopCandidates(ma_uint64 frames, double sampleRat
 }
 
 // --------------------------------------------------------------------------
-int main(int argc, char* argv[])
+int main(const int argc, char* argv[])
 {
     if (argc < 2) {
         std::cout << "Utilisation : loop_analyzer fichier.wav\n";
 
-        return 1;
+        return EXIT_FAILURE;
     }
 
     ma_uint64 frames = 0;
@@ -168,7 +171,12 @@ int main(int argc, char* argv[])
     ma_uint32 channels = 0;
 
     if (!readWavInfo(argv[1], frames, sampleRate, channels)) {
-        return 1;
+        return EXIT_FAILURE;
+    }
+
+    const auto tempo_estimated = BossRc::TempoEvaluator(argv[1]);
+    if (!tempo_estimated.valid) {
+        std::cerr << "Tempo non détectable (signal trop court ou silencieux)\n";
     }
 
     std::cout << "\n--- INFORMATIONS WAV ---\n";
@@ -176,6 +184,7 @@ int main(int argc, char* argv[])
     std::cout << "Canaux : " << channels << "\n";
     std::cout << "Frames : " << frames << "\n";
     std::cout << "Duree : " << static_cast<double>(frames) / sampleRate << " secondes\n";
+    std::cout << fmt::format("Tempo : {:.1f} BPM (confiance {:.2f})\n", tempo_estimated.bpm, tempo_estimated.confidence);
 
     if (sampleRate != TARGET_SAMPLE_RATE) {
         std::cout << "\nAttention : le fichier n'est pas en 44100 Hz.\n";
