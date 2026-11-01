@@ -658,6 +658,71 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
+    <widget class="QPushButton" name="track1_WavStop">
+     <property name="geometry">
+      <rect>
+       <x>285</x>
+       <y>10</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stop</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track1_WavPlay">
+     <property name="geometry">
+      <rect>
+       <x>235</x>
+       <y>10</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Play</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="track1_Filename">
+     <property name="geometry">
+      <rect>
+       <x>75</x>
+       <y>10</y>
+       <width>156</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Track1 Filename</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track1_WavLoad">
+     <property name="geometry">
+      <rect>
+       <x>235</x>
+       <y>35</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track1_WavErase">
+     <property name="geometry">
+      <rect>
+       <x>285</x>
+       <y>35</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Erase</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_To">
     <property name="geometry">
@@ -1228,6 +1293,71 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track2_WavStop">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>10</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stop</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track2_WavPlay">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>10</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Play</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="track2_Filename">
+     <property name="geometry">
+      <rect>
+       <x>75</x>
+       <y>10</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Track2 Filename</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track2_WavErase">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>35</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Erase</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="track2_WavLoad">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>35</y>
+       <width>46</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load</string>
      </property>
     </widget>
    </widget>
