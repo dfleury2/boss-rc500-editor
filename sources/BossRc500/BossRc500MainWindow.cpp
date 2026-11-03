@@ -16,21 +16,19 @@
 #include <QStyleFactory>
 #include <QUndoView>
 
-// #include <miniaudio/miniaudio.h>
-
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
 
 namespace {
 // --------------------------------------------------------------------------
-// void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCount)
-// {
-//     if (auto* pDecoder = static_cast<ma_decoder*>(pDevice->pUserData)) {
-//         // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
-//         ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
-//     }
-// }
+void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 frameCount)
+{
+    if (auto* pDecoder = static_cast<ma_decoder*>(pDevice->pUserData)) {
+        // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
+        ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
+    }
+}
 
 }   // namespace
 
@@ -370,6 +368,11 @@ void BossRc500MainWindow::add_callbacks()
     QObject::connect(button_pdlctlHelp, &QPushButton::pressed, this, &BossRc500MainWindow::on_control_pdlctl_help);
 
     // Track 1/2 callbacks
+    QObject::connect(track1_WavPlay, &QPushButton::pressed, this, [this] { on_WavPlay(cb_Memory->currentIndex(), 1); });
+    QObject::connect(track2_WavPlay, &QPushButton::pressed, this, [this] { on_WavPlay(cb_Memory->currentIndex(), 2); });
+    QObject::connect(track1_WavStop, &QPushButton::pressed, this, [this] { on_WavStop(); });
+    QObject::connect(track2_WavStop, &QPushButton::pressed, this, [this] { on_WavStop(); });
+
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
     QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
 
@@ -595,6 +598,8 @@ void BossRc500MainWindow::on_ToolMenu_Connect()
             throw std::runtime_error("USB disk not found");
         }
 
+        _is_boss_connected = true;
+
         open_directory(drive.mountpoint + "/ROLAND/DATA");
 #else
         std::string drive;
@@ -602,10 +607,10 @@ void BossRc500MainWindow::on_ToolMenu_Connect()
             throw std::runtime_error("USB disk not found");
         }
 
+        _is_boss_connected = true;
+
         open_directory(drive + "ROLAND\\DATA");
 #endif
-
-        _is_boss_connected = true;
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
@@ -1023,6 +1028,71 @@ void BossRc500MainWindow::load_database_sys(const std::string& filename)
 }
 
 // --------------------------------------------------------------------------
+void BossRc500MainWindow::on_WavPlay(const int memory_index, const int track_id)
+{
+    try {
+        if (const auto filename = getWaveFile(memory_index, track_id); !filename.empty()) {
+
+            spdlog::info("Read {}", filename);
+
+            if (const ma_result result = ma_decoder_init_file(filename.c_str(), nullptr, &_decoder); result != MA_SUCCESS) {
+                throw std::runtime_error(fmt::format("Failed to open file: {}", filename));
+            }
+
+            spdlog::info("Set datasource {}", filename);
+            ma_data_source_set_looping(&_decoder, MA_TRUE);
+
+            ma_device_config deviceConfig = ma_device_config_init(ma_device_type_playback);
+            deviceConfig.playback.format = _decoder.outputFormat;
+            deviceConfig.playback.channels = _decoder.outputChannels;
+            deviceConfig.sampleRate = _decoder.outputSampleRate;
+            deviceConfig.dataCallback = data_callback;
+            deviceConfig.pUserData = &_decoder;
+
+            if (ma_device_is_started(&_device)) {
+                if (ma_device_stop(&_device) != MA_SUCCESS) {
+                    throw std::runtime_error("Failed to start playback device.");
+                }
+            }
+
+            spdlog::info("Init device");
+            if (ma_device_init(nullptr, &deviceConfig, &_device) != MA_SUCCESS) {
+                ma_decoder_uninit(&_decoder);
+                throw std::runtime_error("Failed to open playback device.");
+            }
+
+            spdlog::info("Start device");
+            if (ma_device_start(&_device) != MA_SUCCESS) {
+                ma_device_uninit(&_device);
+                ma_decoder_uninit(&_decoder);
+
+                throw std::runtime_error("Failed to start playback device.");
+            }
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void BossRc500MainWindow::on_WavStop()
+{
+    try {
+        spdlog::info("Stop device");
+
+        if (ma_device_is_started(&_device)) {
+            if (ma_device_stop(&_device) != MA_SUCCESS) {
+                throw std::runtime_error("Failed to start playback device.");
+            }
+        }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
 void BossRc500MainWindow::load_memory(const int memory_index)
 {
     {
@@ -1041,6 +1111,27 @@ void BossRc500MainWindow::load_memory(const int memory_index)
         track1_TempoSync->setChecked(track1.TempoSync);
         track1_Input->setCurrentIndex(track1.Input);
         track1_Output->setCurrentIndex(track1.Output);
+
+        track1_Filename->setText("Not connected");
+        track1_WavPlay->setEnabled(false);
+        track1_WavStop->setEnabled(false);
+        track1_WavLoad->setEnabled(false);
+        track1_WavErase->setEnabled(false);
+
+        if (_is_boss_connected) {
+            track1_WavLoad->setEnabled(true);
+            track1_WavErase->setEnabled(true);
+
+            if (const auto wav_file = getWaveFile(memory_index, 1); !wav_file.empty()) {
+                track1_Filename->setText(std::filesystem::path(wav_file).stem().string().c_str());
+
+                track1_WavPlay->setEnabled(true);
+                track1_WavStop->setEnabled(true);
+            }
+            else {
+                track1_Filename->setText("Empty");
+            }
+        }
     }
 
     {
@@ -1059,6 +1150,25 @@ void BossRc500MainWindow::load_memory(const int memory_index)
         track2_TempoSync->setChecked(track2.TempoSync);
         track2_Input->setCurrentIndex(track2.Input);
         track2_Output->setCurrentIndex(track2.Output);
+
+        track2_Filename->setText("Not connected");
+        track2_WavLoad->setEnabled(false);
+        track2_WavErase->setEnabled(false);
+
+        if (_is_boss_connected) {
+            track2_WavLoad->setEnabled(true);
+            track2_WavErase->setEnabled(true);
+
+            if (const auto wav_file = getWaveFile(memory_index, 2); !wav_file.empty()) {
+                track2_Filename->setText(std::filesystem::path(wav_file).stem().string().c_str());
+
+                track2_WavPlay->setEnabled(true);
+                track2_WavStop->setEnabled(true);
+            }
+            else {
+                track2_Filename->setText("Empty");
+            }
+        }
     }
 
     // MASTER (REC/PLAY)
@@ -1469,9 +1579,10 @@ void BossRc500MainWindow::loadPresets()
     }
 }
 
-// ---------------------------------------------------------------------------------------------------
-// Check the version of the file (last 4bytes) and return the newest one, with the next counter to use
-// ---------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// Check the version of the file (last 4bytes) and return the newest
+// one, with the next counter to use
+// --------------------------------------------------------------------------
 std::string BossRc500MainWindow::GetOldestFile(const std::string& file1, const std::string& file2)
 {
     if (!std::filesystem::exists(file1) || !std::filesystem::exists(file2)) {
@@ -1481,4 +1592,35 @@ std::string BossRc500MainWindow::GetOldestFile(const std::string& file1, const s
     const auto counter2 = BossRC::readVersion(file2);
 
     return counter1 > counter2 ? file1 : file2;
+}
+
+// --------------------------------------------------------------------------
+std::string BossRc500MainWindow::getWaveFile(const int memory_index, const int track_id)
+{
+    static const std::string TAG = "ROLAND/DATA";
+
+    // Windows -> Linux
+    for (char& c : _dirname) {
+        if (c == '\\')
+            c = '/';
+    }
+
+    std::string wav_dir;
+
+    if (const auto found = _dirname.find(TAG); found != std::string::npos) {
+        wav_dir = _dirname;
+        wav_dir.replace(found, TAG.size(), "ROLAND/WAVE");
+        wav_dir = fmt::format("{}/{:03}_{}", wav_dir, memory_index + 1, track_id);
+    }
+
+    if (!wav_dir.empty()) {
+        // Find the first wav file inside the directory
+        for (const auto& dir_entry : std::filesystem::directory_iterator{wav_dir}) {
+            if (const auto extension = dir_entry.path().extension(); extension == ".wav" || extension == ".WAV") {
+                return dir_entry.path().string();
+            }
+        }
+    }
+
+    return "";
 }

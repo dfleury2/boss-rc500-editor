@@ -10,6 +10,7 @@
 
 #include <QMainWindow>
 
+#include <miniaudio.h>
 #include <nlohmann/json.hpp>
 
 // --------------------------------------------------------------------------
@@ -57,6 +58,9 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     void load_database_sys(const std::string& filename);
 
     // Track 1/2 callbacks
+    void on_WavPlay(int memory_index, int track_id);
+    void on_WavStop();
+
     void on_Level_changed(QSlider* slider);
     void on_Pan_changed(QComboBox* cb);
     void on_Start_changed(QComboBox* cb);
@@ -176,6 +180,8 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
 
     static std::string GetOldestFile(const std::string& file1, const std::string& file2);
 
+    std::string getWaveFile(int memory_index, int track_id);
+
   private:
     BossRC::Connection _connection;
     bool _is_boss_connected{false};
@@ -202,4 +208,8 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     // Undo/Redo
     QDialog* _stack_dialog{nullptr};
     QUndoStack _stack;
+
+    // Audio
+    ma_decoder _decoder{};
+    ma_device _device{};
 };
