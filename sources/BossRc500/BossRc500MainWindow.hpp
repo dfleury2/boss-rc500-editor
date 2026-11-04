@@ -60,6 +60,8 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     // Track 1/2 callbacks
     void on_WavPlay(int memory_index, int track_id);
     void on_WavStop();
+    void on_WavLoad(int memory_index, int track_id);
+    void on_WavErase(int memory_index, int track_id);
 
     void on_Level_changed(QSlider* slider);
     void on_Pan_changed(QComboBox* cb);

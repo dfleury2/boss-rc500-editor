@@ -372,6 +372,10 @@ void BossRc500MainWindow::add_callbacks()
     QObject::connect(track2_WavPlay, &QPushButton::pressed, this, [this] { on_WavPlay(cb_Memory->currentIndex(), 2); });
     QObject::connect(track1_WavStop, &QPushButton::pressed, this, [this] { on_WavStop(); });
     QObject::connect(track2_WavStop, &QPushButton::pressed, this, [this] { on_WavStop(); });
+    QObject::connect(track1_WavLoad, &QPushButton::pressed, this, [this] { on_WavLoad(cb_Memory->currentIndex(), 1); });
+    QObject::connect(track2_WavLoad, &QPushButton::pressed, this, [this] { on_WavLoad(cb_Memory->currentIndex(), 2); });
+    QObject::connect(track1_WavErase, &QPushButton::pressed, this, [this] { on_WavErase(cb_Memory->currentIndex(), 1); });
+    QObject::connect(track2_WavErase, &QPushButton::pressed, this, [this] { on_WavErase(cb_Memory->currentIndex(), 2); });
 
     QObject::connect(track1_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track1_Level); });
     QObject::connect(track2_Level, &QSlider::valueChanged, this, [this] { on_Level_changed(track2_Level); });
@@ -1086,6 +1090,26 @@ void BossRc500MainWindow::on_WavStop()
                 throw std::runtime_error("Failed to start playback device.");
             }
         }
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void BossRc500MainWindow::on_WavLoad(int memory_index, int track_id)
+{
+    try {
+    }
+    catch (const std::exception& ex) {
+        QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
+    }
+}
+
+// --------------------------------------------------------------------------
+void BossRc500MainWindow::on_WavErase(int memory_index, int track_id)
+{
+    try {
     }
     catch (const std::exception& ex) {
         QMessageBox(QMessageBox::Warning, "", ex.what()).exec();
