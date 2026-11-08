@@ -136,6 +136,12 @@ namespace BossRC {
 class Connection
 {
   public:
+    Connection() = default;
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
+
+    ~Connection() { close(); }
+
     // Ouvre les ports MIDI in/out dont le nom contient "BOSS_RC-500"
     // (Windows peut préfixer : "MIDIIN2 (BOSS_RC-500)").
     bool open()
@@ -158,6 +164,9 @@ class Connection
                     inHdr_.lpData = (LPSTR)inBuf_;
                     inHdr_.dwBufferLength = sizeof inBuf_;
                     midiInPrepareHeader(in_, &inHdr_, sizeof inHdr_);
+
+                    running_ = true;
+
                     midiInAddBuffer(in_, &inHdr_, sizeof inHdr_);
                     midiInStart(in_);
                     break;
@@ -173,12 +182,15 @@ class Connection
         return true;
     }
 
+    // close()
     void close()
     {
+        running_ = false;   // le callback ne ré-arme plus
         if (in_) {
             midiInStop(in_);
-            midiInReset(in_);
-            midiInUnprepareHeader(in_, &inHdr_, sizeof inHdr_);
+            midiInReset(in_);   // rend le buffer au callback
+            for (int i = 0; i < 100 && midiInUnprepareHeader(in_, &inHdr_, sizeof inHdr_) == MIDIERR_STILLPLAYING; ++i)
+                Sleep(10);   // attendre que le buffer soit rendu
             midiInClose(in_);
             in_ = nullptr;
         }
@@ -199,8 +211,14 @@ class Connection
         if (midiOutPrepareHeader(out_, &h, sizeof h) != MMSYSERR_NOERROR)
             return false;
         bool ok = midiOutLongMsg(out_, &h, sizeof h) == MMSYSERR_NOERROR;
-        while (ok && !(h.dwFlags & MHDR_DONE))
+        auto t0 = std::chrono::steady_clock::now();
+        while (ok && !(h.dwFlags & MHDR_DONE)) {
+            if (elapsed(t0) > 1500) {
+                ok = false;
+                break;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
         midiOutUnprepareHeader(out_, &h, sizeof h);
         return ok;
     }
@@ -289,22 +307,6 @@ class Connection
         std::wstring n = name, k(kMidiPortName, kMidiPortName + strlen(kMidiPortName));
         return n.find(k) != std::wstring::npos;
     }
-    // void closeHandle()
-    // {
-    //     if (!handle_)
-    //         return;
-    //     if (claimed_)
-    //         libusb_release_interface(handle_, interface_);
-    //     claimed_ = false;
-    //     if (detachedKernelDriver_)
-    //         libusb_attach_kernel_driver(handle_, interface_);
-    //     detachedKernelDriver_ = false;
-    //     libusb_close(handle_);
-    //     handle_ = nullptr;
-    //     interface_ = -1;
-    //     altSetting_ = -1;
-    //     epIn_ = epOut_ = 0;
-    // }
 
     static int elapsed(std::chrono::steady_clock::time_point t0)
     {
@@ -325,8 +327,8 @@ class Connection
                 self->cv_.notify_all();
             }
         }
-        if (self->in_)
-            midiInAddBuffer(h, hdr, sizeof *hdr);   // ré-arme le buffer
+        if (self->running_)
+            midiInAddBuffer(h, hdr, sizeof *hdr);
     }
 
     HMIDIOUT out_ = nullptr;
@@ -336,6 +338,7 @@ class Connection
     std::mutex m_;
     std::condition_variable cv_;
     EditMode last_ = EditMode::Unknown;
+    std::atomic<bool> running_{false};
 
     // Fonction utilitaire pour convertir un std::wstring en std::string (UTF-8)
     static std::string WStringToString(const std::wstring& wstr)

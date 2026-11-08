@@ -636,7 +636,7 @@ void BossRc500MainWindow::on_ToolMenu_Disconnect()
 #endif
 
         _connection.leaveEditMode();
-
+        _connection.close();
         _is_boss_connected = false;
     }
     catch (const std::exception& ex) {
