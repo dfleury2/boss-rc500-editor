@@ -399,7 +399,7 @@ void Shift(QComboBox* cb)
 {
     cb->setIconSize(QSize{32, 32});
 
-    cb->addItem("THRU");
+    cb->addItem("THRU", 0);
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/semi-quaver.png"), "Semi-quaver", 2);
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/quaver.png"), "Quaver", 3);
     cb->addItem(QIcon(BossRc500::Resources::Images() + "/quarter note.png"), "Quarter Note", 4);
