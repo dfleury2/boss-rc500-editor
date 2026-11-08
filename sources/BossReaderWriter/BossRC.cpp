@@ -77,15 +77,11 @@ uint32_t readVersion(const std::string& path)
 // --------------------------------------------------------------------------
 // Remplace les 4 derniers octets du fichier par la valeur LE32.
 // --------------------------------------------------------------------------
-void writeVersion(const std::string& path, const uint32_t version)
+void appendVersion(std::string& result, const uint32_t version)
 {
-    std::ofstream f(path, std::ios::binary | std::ios::app);
-    if (!f)
-        throw std::runtime_error("Unable to open the file: " + path);
-
     uint8_t b[4] = {};
     writeLE32(b, version);
-    f.write(reinterpret_cast<const char*>(b), 4);
+    result.append(reinterpret_cast<const char*>(b), 4);
 }
 
 }   // namespace BossRC

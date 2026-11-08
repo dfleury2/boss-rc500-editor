@@ -3,7 +3,6 @@
 #include <nlohmann/json.hpp>
 
 #include <array>
-#include <filesystem>
 #include <string>
 
 namespace BossRC {
@@ -283,6 +282,6 @@ struct MemoryFile
 
 // ---------------------------------------------------------------------------
 uint32_t readVersion(const std::string& path);
-void writeVersion(const std::string& path, uint32_t version);
+void appendVersion(std::string&, uint32_t version);
 
 }   // namespace BossRC

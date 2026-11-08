@@ -3,22 +3,40 @@
 #include <fmt/format.h>
 #include <pugixml.hpp>
 
+#include <fstream>
+
 namespace {
 // --------------------------------------------------------------------------
-uint32_t readLE32(const uint8_t* p)
+struct XmlWriter : pugi::xml_writer
 {
-    return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8) | (static_cast<uint32_t>(p[2]) << 16) |
-           (static_cast<uint32_t>(p[3]) << 24);
-}
+    void write(const void* data, size_t size) override { _result += std::string{static_cast<const char*>(data), size}; }
 
-// --------------------------------------------------------------------------
-void writeLE32(uint8_t* p, uint32_t v)
-{
-    p[0] = static_cast<uint8_t>(v);
-    p[1] = static_cast<uint8_t>(v >> 8);
-    p[2] = static_cast<uint8_t>(v >> 16);
-    p[3] = static_cast<uint8_t>(v >> 24);
-}
+    std::string result()
+    {
+        int j = 0;
+        for (int i = 0; i < _result.size();) {
+            _result[j++] = _result[i];
+            if (_result[i] == '\n') {
+                ++i;
+                if (i < _result.size() && _result[i] == '\t') {
+                    ++i;
+                    if (i < _result.size() && _result[i] == '\t') {
+                        ++i;
+                    }
+                }
+            }
+            else {
+                ++i;
+            }
+        }
+        _result.resize(j);
+
+        return _result;
+    }
+
+  private:
+    std::string _result;
+};
 
 // ---------------------------------------------------------------------------
 int AsInt(const pugi::xml_node& node, const std::string& name)
@@ -751,11 +769,18 @@ void BossRcReaderWriter::Save(const SystemFile& system_file, const std::filesyst
         BossRc5::SaveCtl(sys, system_file.ctl);
     }
 
-    if (!doc.save_file(p.string().c_str(), "\t", pugi::xml_encoding::encoding_utf8)) {
+    XmlWriter writer;
+    doc.save(writer, "\t", pugi::xml_encoding::encoding_utf8);
+
+    auto result = writer.result();
+
+    appendVersion(result, system_file.database_counter);
+
+    std::ofstream stream(p, std::ios::binary);
+    stream << result;
+    if (!stream) {
         throw std::runtime_error("Error during writing " + p.string());
     }
-
-    writeVersion(p.string(), system_file.database_counter);
 }
 
 // --------------------------------------------------------------------------
@@ -797,11 +822,18 @@ void BossRcReaderWriter::Save(const MemoryFile& memory_file, const std::filesyst
         }
     }
 
-    if (!doc.save_file(p.string().c_str(), "\t", pugi::xml_encoding::encoding_utf8)) {
+    XmlWriter writer;
+    doc.save(writer, "\t", pugi::xml_encoding::encoding_utf8);
+
+    auto result = writer.result();
+
+    appendVersion(result, memory_file.database_counter);
+
+    std::ofstream stream(p, std::ios::binary);
+    stream << result;
+    if (!stream) {
         throw std::runtime_error("Error during writing " + p.string());
     }
-
-    writeVersion(p.string(), memory_file.database_counter);
 }
 
 }   // namespace BossRC
