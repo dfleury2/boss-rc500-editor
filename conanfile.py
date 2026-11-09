@@ -11,7 +11,7 @@ class BossRcEditorRecipe(ConanFile):
     requires = (
         "inja/3.5.0",
         "pugixml/1.16",
-        "qt/6.10.1",
+        "qt/6.12.0",
         "yaml-cpp/0.8.0",
         "fmt/12.1.0",
         "spdlog/1.17.0",
