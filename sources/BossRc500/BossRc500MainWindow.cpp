@@ -10,9 +10,11 @@
 
 #include <QActionGroup>
 #include <QFileDialog>
+#include <QHeaderView>
 #include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
+#include <QStandardItem>
 #include <QStyleFactory>
 #include <QUndoView>
 
@@ -28,6 +30,91 @@ void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 fra
         // Reading PCM frames will loop based on what we specified when called ma_data_source_set_looping().
         ma_data_source_read_pcm_frames(pDecoder, pOutput, frameCount, nullptr);
     }
+}
+
+QString typeName(const nlohmann::json& j)
+{
+    using value_t = nlohmann::json::value_t;
+    switch (j.type()) {
+        case value_t::null:
+            return QStringLiteral("null");
+        case value_t::object:
+            return QStringLiteral("object");
+        case value_t::array:
+            return QStringLiteral("array");
+        case value_t::string:
+            return QStringLiteral("string");
+        case value_t::boolean:
+            return QStringLiteral("boolean");
+        case value_t::number_integer:
+        case value_t::number_unsigned:
+            return QStringLiteral("integer");
+        case value_t::number_float:
+            return QStringLiteral("float");
+        case value_t::binary:
+            return QStringLiteral("binary");
+        default:
+            return QStringLiteral("unknown");
+    }
+}
+
+QString valueText(const nlohmann::json& j)
+{
+    if (j.is_object())
+        return QStringLiteral("{%1}").arg(j.size());
+    if (j.is_array())
+        return QStringLiteral("[%1]").arg(j.size());
+    if (j.is_null())
+        return QStringLiteral("null");
+    if (j.is_boolean())
+        return j.get<bool>() ? QStringLiteral("true") : QStringLiteral("false");
+    if (j.is_number_unsigned())
+        return QString::number(j.get<std::uint64_t>());
+    if (j.is_number_integer())
+        return QString::number(j.get<std::int64_t>());
+    if (j.is_number_float())
+        return QString::number(j.get<double>(), 'g', 17);
+    if (j.is_string()) {
+        const auto& s = j.get_ref<const std::string&>();
+        return QString::fromUtf8(s.data(), static_cast<qsizetype>(s.size()));
+    }
+    if (j.is_binary())
+        return QStringLiteral("<%1 octets>").arg(j.get_binary().size());
+    return {};
+}
+
+void addNode(QStandardItem* parent, const QString& key, const nlohmann::json& j)
+{
+    auto* keyItem = new QStandardItem(key);
+    auto* valueItem = new QStandardItem(valueText(j));
+    //    auto* typeItem = new QStandardItem(typeName(j));
+
+    // for (auto* item : {keyItem, valueItem, typeItem})
+    for (auto* item : {keyItem, valueItem})
+        item->setEditable(false);
+
+    // parent->appendRow({keyItem, valueItem, typeItem});
+    parent->appendRow({keyItem, valueItem});
+
+    if (j.is_object()) {
+        for (auto it = j.begin(); it != j.end(); ++it)
+            addNode(keyItem, QString::fromUtf8(it.key().data(), static_cast<qsizetype>(it.key().size())), it.value());
+    }
+    else if (j.is_array()) {
+        qsizetype i = 0;
+        for (const auto& element : j)
+            addNode(keyItem, QStringLiteral("[%1]").arg(i++), element);
+    }
+}
+
+// Construit un modèle (Clé / Valeur / Type) à partir d'un JSON.
+QStandardItemModel* jsonToModel(const nlohmann::json& j, QObject* parent = nullptr)
+{
+    auto* model = new QStandardItemModel(parent);
+    // model->setHorizontalHeaderLabels({QObject::tr("Clé"), QObject::tr("Valeur"), QObject::tr("Type")});
+    model->setHorizontalHeaderLabels({QObject::tr("Clé"), QObject::tr("Valeur")});
+    addNode(model->invisibleRootItem(), QStringLiteral("root"), j);
+    return model;
 }
 
 }   // namespace
@@ -150,6 +237,14 @@ void BossRc500MainWindow::setup()
             _stack_dialog->hide();
         }
     });
+    editMenu->addAction("Show/Hide XML View", [this] {
+        if (_xml_dialog->isHidden()) {
+            _xml_dialog->show();
+        }
+        else {
+            _xml_dialog->hide();
+        }
+    });
     menuBar()->addMenu(editMenu);
 
     add_tooltips();
@@ -173,6 +268,37 @@ void BossRc500MainWindow::setup()
         _stack_dialog->layout()->addWidget(view);
 
         _stack_dialog->setMinimumSize(250, 400);
+    }
+
+    {
+        // XML View
+        _xml_dialog = new QDialog(this);
+        _xml_dialog->setLayout(new QVBoxLayout);
+
+        _xml_view = new QTreeView(_xml_dialog);
+        _xml_dialog->layout()->addWidget(_xml_view);
+
+        const auto refresh = new QPushButton("Refresh", this);
+        _xml_dialog->layout()->addWidget(refresh);
+        QObject::connect(refresh, &QPushButton::clicked, [this] {
+            // Something to do...
+            spdlog::info("Refresh XML ...");
+            const nlohmann::json json = _database_memory;
+
+            QAbstractItemModel* old = _xml_view->model();
+
+            auto* model = jsonToModel(json, _xml_view);
+            _xml_view->setModel(model);
+
+            if (old && old->parent() == _xml_view)
+                old->deleteLater();
+
+            _xml_view->expandToDepth(3);
+            // _xml_view->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+            // _xml_view->header()->setSectionResizeMode(QHeaderView::Interactive);
+        });
+
+        _xml_dialog->setMinimumSize(640, 480);
     }
 
     // Start with a default MEMORY file

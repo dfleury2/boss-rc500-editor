@@ -9,6 +9,7 @@
 #include <BossReaderWriter/BossRcConnect.hpp>
 
 #include <QMainWindow>
+#include <QTreeView>
 
 #include <miniaudio.h>
 #include <nlohmann/json.hpp>
@@ -210,6 +211,10 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
     // Undo/Redo
     QDialog* _stack_dialog{nullptr};
     QUndoStack _stack;
+
+    // XML view
+    QDialog* _xml_dialog{nullptr};
+    QTreeView* _xml_view{nullptr};
 
     // Audio
     ma_decoder _decoder{};
