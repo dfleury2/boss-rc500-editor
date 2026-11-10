@@ -696,7 +696,7 @@ void BossRc500MainWindow::on_ToolMenu_New()
         }
 
         cb_Memory->setCurrentIndex(0);
-        load_memory(cb_Memory->currentIndex());
+        load_window_with_memory(cb_Memory->currentIndex());
 
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
@@ -805,7 +805,7 @@ void BossRc500MainWindow::open_directory(const std::string& dirname)
         _stack.clear();
 
         cb_Memory->setCurrentIndex(0);
-        load_memory(cb_Memory->currentIndex());
+        load_window_with_memory(cb_Memory->currentIndex());
 
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
@@ -893,7 +893,7 @@ void BossRc500MainWindow::on_ToolMenu_PresetLoad(const QString& filename)
         file >> json;
         _database_memory.memories[memory_index] = json;
 
-        load_memory(cb_Memory->currentIndex());
+        load_window_with_memory(cb_Memory->currentIndex());
 
         // To be refactored... (duplicate code)
         const auto str = fmt::format("{} - {}", memory_index + 1, _database_memory.memories[memory_index].name.to_string(memory_index));
@@ -923,7 +923,7 @@ void BossRc500MainWindow::on_ToolMenu_System()
         if (systemDialog.apply) {
             _database_system = std::move(systemDialog.database);
 
-            load_memory(cb_Memory->currentIndex());
+            load_window_with_memory(cb_Memory->currentIndex());
 
             const auto beat = rhythm_Beat->currentData().value<QPoint>();
             const auto loopFx_type = loopFx_Type->currentIndex();
@@ -1075,7 +1075,7 @@ void BossRc500MainWindow::on_memory_changed()
     _is_loading = true;
 
     try {
-        load_memory(cb_Memory->currentIndex());
+        load_window_with_memory(cb_Memory->currentIndex());
 
         const auto beat = rhythm_Beat->currentData().value<QPoint>();
         const auto loopFx_type = loopFx_Type->currentIndex();
@@ -1243,8 +1243,12 @@ void BossRc500MainWindow::on_WavErase(int memory_index, int track_id)
 }
 
 // --------------------------------------------------------------------------
-void BossRc500MainWindow::load_memory(const int memory_index)
+void BossRc500MainWindow::load_window_with_memory(const int memory_index)
 {
+    if (cb_Memory->currentIndex() != memory_index) {
+        return;   // No need to update the main window, this is not the one updated (like in undo/redo)
+    }
+
     {
         // TRACK 1
         const auto& track1 = _database_memory.memories[memory_index].tracks[0];
@@ -1352,24 +1356,24 @@ void BossRc500MainWindow::load_memory(const int memory_index)
 
     // LOOPFX
     {
-        const auto& loopfx = _database_memory.memories[memory_index].loopFx;
-        loopFx_Sw->setChecked(loopfx.Sw);
-        loopFx_Type->setCurrentIndex(loopfx.FxType);
+        const auto& loopFx = _database_memory.memories[memory_index].loopFx;
+        loopFx_Sw->setChecked(loopFx.Sw);
+        loopFx_Type->setCurrentIndex(loopFx.FxType);
 
         // These one are reverted from 8 to 1
-        const auto scatter = loopfx.ScatterLength;
+        const auto scatter = loopFx.ScatterLength;
         loopFx_ScatLen->setCurrentIndex(scatter ? 9 - scatter : 0);
 
-        const auto repeat = loopfx.RepeatLength;
+        const auto repeat = loopFx.RepeatLength;
         loopFx_ReptLen->setCurrentIndex(repeat ? 9 - repeat : 0);
 
         // Index 1 is not available (0, 2, 3, 4, ....)
-        const auto shift = loopfx.ShiftShift;
+        const auto shift = loopFx.ShiftShift;
         const auto found_Shift = loopFx_Shift->findData(shift);
         loopFx_Shift->setCurrentIndex(found_Shift != -1 ? found_Shift : 2);
         // spdlog::info("Found shift value: {} at index: ", shift, found_Shift);
 
-        loopFx_Flick->setValue(loopfx.VinylFlickFlick);
+        loopFx_Flick->setValue(loopFx.VinylFlickFlick);
     }
 
     // RHYTHM

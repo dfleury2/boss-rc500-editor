@@ -20,7 +20,7 @@ class BossRc500MainWindow : public QMainWindow, public Ui_MainWindow
   public:
     BossRc500MainWindow();
 
-    void load_memory(int memory_index);
+    void load_window_with_memory(int memory_index);
     void set_loading(bool l) { _is_loading = l; }
 
   private:

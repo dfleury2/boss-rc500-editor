@@ -22,7 +22,7 @@ void UpdateRootName::updateTo(const int value) const
     _fct(value);
 
     _win->set_loading(true);
-    _win->load_memory(_index);
+    _win->load_window_with_memory(_index);
     _win->set_loading(false);
 }
 // --------------------------------------------------------------------------
@@ -40,6 +40,6 @@ void UpdateTrackName::updateTo(const int value) const
     _fct(value);
 
     _win->set_loading(true);
-    _win->load_memory(_index);
+    _win->load_window_with_memory(_index);
     _win->set_loading(false);
 }
