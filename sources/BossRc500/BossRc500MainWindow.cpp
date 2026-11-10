@@ -15,7 +15,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QStandardItem>
-#include <QStyleFactory>
 #include <QUndoView>
 
 #include <algorithm>
@@ -32,32 +31,7 @@ void data_callback(ma_device* pDevice, void* pOutput, const void*, ma_uint32 fra
     }
 }
 
-QString typeName(const nlohmann::json& j)
-{
-    using value_t = nlohmann::json::value_t;
-    switch (j.type()) {
-        case value_t::null:
-            return QStringLiteral("null");
-        case value_t::object:
-            return QStringLiteral("object");
-        case value_t::array:
-            return QStringLiteral("array");
-        case value_t::string:
-            return QStringLiteral("string");
-        case value_t::boolean:
-            return QStringLiteral("boolean");
-        case value_t::number_integer:
-        case value_t::number_unsigned:
-            return QStringLiteral("integer");
-        case value_t::number_float:
-            return QStringLiteral("float");
-        case value_t::binary:
-            return QStringLiteral("binary");
-        default:
-            return QStringLiteral("unknown");
-    }
-}
-
+// --------------------------------------------------------------------------
 QString valueText(const nlohmann::json& j)
 {
     if (j.is_object())
@@ -83,6 +57,7 @@ QString valueText(const nlohmann::json& j)
     return {};
 }
 
+// --------------------------------------------------------------------------
 void addNode(QStandardItem* parent, const QString& key, const nlohmann::json& j)
 {
     auto* keyItem = new QStandardItem(key);
@@ -107,7 +82,9 @@ void addNode(QStandardItem* parent, const QString& key, const nlohmann::json& j)
     }
 }
 
+// --------------------------------------------------------------------------
 // Construit un modèle (Clé / Valeur / Type) à partir d'un JSON.
+// --------------------------------------------------------------------------
 QStandardItemModel* jsonToModel(const nlohmann::json& j, QObject* parent = nullptr)
 {
     auto* model = new QStandardItemModel(parent);
@@ -758,6 +735,8 @@ void BossRc500MainWindow::on_ToolMenu_Disconnect()
 #ifdef LINUX
         // TODO BossRC::Connection::unmountVolume(_dirname.mountpoint);
 #else
+        on_WavStop();
+
         BossRC::Connection::unmountVolume(_dirname);
 #endif
 
@@ -1165,6 +1144,8 @@ void BossRc500MainWindow::on_WavPlay(const int memory_index, const int track_id)
 
             spdlog::info("Read {}", filename);
 
+            on_WavStop();
+
             if (const ma_result result = ma_decoder_init_file(filename.c_str(), nullptr, &_decoder); result != MA_SUCCESS) {
                 throw std::runtime_error(fmt::format("Failed to open file: {}", filename));
             }
@@ -1178,12 +1159,6 @@ void BossRc500MainWindow::on_WavPlay(const int memory_index, const int track_id)
             deviceConfig.sampleRate = _decoder.outputSampleRate;
             deviceConfig.dataCallback = data_callback;
             deviceConfig.pUserData = &_decoder;
-
-            if (ma_device_is_started(&_device)) {
-                if (ma_device_stop(&_device) != MA_SUCCESS) {
-                    throw std::runtime_error("Failed to start playback device.");
-                }
-            }
 
             spdlog::info("Init device");
             if (ma_device_init(nullptr, &deviceConfig, &_device) != MA_SUCCESS) {
